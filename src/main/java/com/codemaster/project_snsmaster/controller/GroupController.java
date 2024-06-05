@@ -11,7 +11,7 @@ public class GroupController {
     @RequestMapping(value = "/")//첫화면
     public String home() {
 
-        return "home";
+        return null;
     }
 
 }
