@@ -1,0 +1,17 @@
+Spring:
+  application:
+    name: project_SNSMaster
+
+  datasource:
+    url: jdbc:mysql://192.168.0.8:3306/orcl?/useSSL=false&serverTimeZone=UTC
+    username: root
+    password: 1111
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+mybatis:
+  mapper-locations:
+    classpath:/mapper/*Mapper.xml
