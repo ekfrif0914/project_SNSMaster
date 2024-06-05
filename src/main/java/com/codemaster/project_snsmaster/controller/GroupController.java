@@ -12,5 +12,9 @@ public class GroupController {
 
         return null;
     }
+    @RequestMapping(value = "/")//첫화면
+    public String zzzz() {
 
+        return null;
+    }
 }
