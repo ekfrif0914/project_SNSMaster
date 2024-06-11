@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>글 작성</h1>
+    <form action="postInputSave" method="post" enctype="multipart/form-data">
+        <select name="region" id="region">
+            <option value="none">지역선택</option>
+            <option value="서울">서울</option>
+            <option value="수원">수원</option>
+        </select>
+        <select name="category">
+            <option value="자유게시글">자유게시글</option>
+            <option value="여행계획서">여행계획서</option>
+        </select><br>
+        <input name="title" id="title" type="text" placeholder="제목"><br>
+        <textarea name="content" id="content" rows="10" cols="60" placeholder="내용"></textarea><br>
+        <input type="file" name="file"><br>
+        <input type="file" name="file"><br>
+        <input type="submit" value="등록하기" onclick="return chkAvail()">
+    </form>
+</body>
+<!-- 작업 완료 후 스크립트 분리하여 static으로 옮길 것 -->
+<script>
+    function chkAvail(){
+        if(document.querySelector("#region").value=="none"){
+            alert("지역을 선택해주세요");
+            return false;
+        } else if(document.querySelector("#title").value==""){
+            alert("제목을 입력해주세요");
+            return false;
+        } else if(document.querySelector("#content").value==""){
+            alert("내용을 입력해주세요");
+            return false;
+        } else{
+            return true;
+        }
+    }
+</script>
+</html>
