@@ -12,7 +12,6 @@ public class MemberVO {
     private String pw;
     private String region;
     private String name;
-  //  private boolean state;
     private String file_name;
     private String grade;
 

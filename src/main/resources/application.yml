@@ -23,6 +23,11 @@ Spring:
     prefix: classpath:/templates/
     suffix: .html
 
+  servlet:
+    multipart:
+      enabled: true
+      location: D:/tmp
+
 mybatis:
   mapper-locations:
     classpath:/mapper/*Mapper.xml
