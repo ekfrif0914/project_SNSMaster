@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<li ><a th:href= "@{groupinput(gno=${gno})}">등록</a> </li>
+<table>
+    <tbody th:each="post: ${gpList}">
+
+    <tr>
+        <td > <input type="hidden" value= "${post.gno}"> </td>
+        <td>아이디</td>
+        <td th:text = "${post.id}"></td>
+        </tr>
+        <td>제목</td>
+        <td th:text = "${post.g_title}"></td>
+    <tr>
+    <td>내용</td>
+        <td th:text = "${post.g_content}"></td>
+    </tr>
+    <tr>
+        <td>좋아요</td>
+        <td th:text = "${post.g_like}"></td>
+        <td>신고누적수</td>
+        <td th:text = "${post.g_report}"></td>
+        <td> <a th:href="@{modno(g_no=${post.g_no})}" > <button>수정</button> </a></td>
+       <td> <a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}" > <button>삭제</button> </a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

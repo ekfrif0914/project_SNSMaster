@@ -3,8 +3,8 @@ Spring:
     name: project_SNSMaster
 
   datasource:
-    url: jdbc:mysql://192.168.0.8:3306/orcl?/useSSL=false&serverTimeZone=UTC
-    username: root
+    url: jdbc:mysql://192.168.0.8:3306/orcl?useSSL=false&serverTimeZone=UTC
+    username: codeMaster
     password: 1111
     driver-class-name: com.mysql.cj.jdbc.Driver
 

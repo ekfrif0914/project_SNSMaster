@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>등록</h1>
+<form action="groupinputSave" method="post">
+    <input type="hidden" name="gno" th:value="${gno}">
+    제목<input type="text" name="g_title">
+    그룹글 내용 <textarea rows="13" cols="70" name="g_content"></textarea>
+    <input type="submit" value="전송">
+
+</form>
+</body>
+</html>
