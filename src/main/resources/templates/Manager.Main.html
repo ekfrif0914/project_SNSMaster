@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<style>
+    th {
+        background-color: #f2f2f2;
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for table cells */
+    td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for alternate rows */
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    /* Hover effect on rows */
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    /* Style for the comments table within each row */
+    #comments {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        border: 1px solid #ddd;
+    }
+
+    /* Style for the "댓글보기" button */
+    input[type="button"] {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+    input[type="button"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+<body>
+<input type="button" value="공지사항" onclick=location.href="review">
+<table>
+    <thead>
+    <tr>
+        <th class="th">자세히보기</th>
+        <th class="th">회원정지</th>
+        <th class="th">삭제</th>
+        <th class="th">신고누적</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="all:${all}" class="tr">
+        <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
+        <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
+        <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
+        <td th:text="${all.g_report}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
+<script>
+</script>
