@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.codemaster.project_snsmaster.dao.ManagerDAO">
+<mapper namespace="com.codemaster.project_snsmaster.dao.IF_ManagerDAO">
+    <insert id="insert" parameterType="String">
+    insert into notice values(#{memo})
+</insert>
+    <select id="groupPost" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+    select*from groupPost order by g_report desc;
+    </select>
+    <select id="postReport" resultType="com.codemaster.project_snsmaster.vo.PostVO">
+    select*from post order by report desc;
+    </select>
+    <select id="selectpost" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select*from groupPost where g_no=#{g_no}
+    </select>
+    <insert id="stopinsert" parameterType="com.codemaster.project_snsmaster.vo.StopMemberVO">
+        INSERT INTO stopmember (id, s_text, today, finish) VALUES (#{id}, #{s_text},now(), #{finish})
+   </insert>
+    <delete id="delete" parameterType="int">
+    delete from groupPost where g_no=#{g_no}
+    </delete>
 </mapper>
