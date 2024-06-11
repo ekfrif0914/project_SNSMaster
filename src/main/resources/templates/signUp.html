@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+    #chang {
+        width: 700px;
+        height: 680px;
+        border: 2px solid coral;
+        margin-left: 300px;
+        text-align: left;
+        margin-top: 110px;
+
+    }
+
+    #chang h1 {
+        text-align: center;
+    }
+
+    #jb {
+        margin-left: 319px;
+
+    }
+
+    #login {
+        margin-left: 298px;
+        display: inline;
+    }
+
+    #area {
+        display: block;
+        text-align: center;
+    }
+</style>
+<body>
+<div id="chang">
+    <h1>회원가입</h1>
+    <br>
+    <form action="saveSignUp" method="Post">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default">* 아이디(닉네임)</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   name="id" maxlength="10" id="id" onkeyup="idChk()">
+            <button class="btn btn-outline-secondary" type="button" id="overlappedID">중복확인</button>
+        </div>
+
+        <span id="noticeId" style="color: grey">
+        영문 or 한글+숫자(2~10자리)로 작성하세요</span>
+        <br>
+
+
+        <br>
+
+        <div class="input-group mb-3">
+
+            <span class="input-group-text" id="inputGroup-sizing-default1">* 이메일</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" id="emailid" size="20">
+            <span class="input-group-text">@</span>
+            <input type="text" class="form-control" aria-label="Sizing example input" id="domain" size="20">
+
+
+            <select name="domain2" id="domain2" onchange="setDomain(this)">
+                <option value="선택">선택</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+                <option value="직접 입력">직접 입력</option>
+            </select>
+            <input type="button" value="인증하기" id="authentication">
+            <input type="hidden" value="" name="email" id="hid">
+            <input type="hidden" id="confirm" value="">
+            <br>
+        </div>
+        <div id="area"></div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default2">* 비밀번호</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   name="pw1" id="pw1" maxlength="8" onchange="pwChk(), eachChk()" onkeyup="pwChk(), eachChk()">
+
+        </div>
+        <span id="noticePw" style="color: grey">
+
+                영문+숫자+특수문자(!@#$%^&*) (4~8자리)로 작성하세요
+            </span>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default3">* 비밀번호 확인</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   name="pw" id="pw" maxlength="8" onchange="eachChk()" onkeyup="eachChk()">
+
+        </div>
+        <span id="chkPw" style="color: red">
+
+
+            </span>
+        <div class="input-group mb-3">
+            <select class="form-select" name="region" id="region">
+                <option selected>* 지역선택</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="수원특례시">수원특례시</option>
+            </select>
+            <label class="input-group-text" for="region">선택</label>
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="inputGroup-sizing-default4">* 이름</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+                   aria-describedby="inputGroup-sizing-default"
+                   name="name" maxlength="10" id="name">
+        </div>
+        <span id="noticeName" style="color: grey">
+             이름은 최대 10자리까지 작성가능합니다
+            </span>
+        <br>
+        <input class="btn btn-primary" type="button" value="가입" id="jb" onclick="allchk()">
+    </form>
+</div>
+<div id="login">
+    <span style="font-style: italic">이미 계정이 있으신가요? </span>
+    <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
+
+</div>
+</body>
+<script>
+    var isIdChecked = false;
+    var emailChecked = false;
+    var plusrow = false;
+    // function duplicate() {
+    //     var id = $("#id").val();
+    //     isIdChecked = false;
+    //     if (id !== "") {
+    //         $('#olmessage').text("중복 체크를 하세요.");
+    //         $("#olmessage").css("color", "red");
+    //         $("#olmessage").css("font-style", "italic");
+    //     } else {
+    //         $('#olmessage').text("");
+    //
+    //     }
+    //
+    // }//memId값 바뀔 때마다
+
+    // $('#jb').click(function () {
+    //     var id = $("#id").val();
+    //     $("#jb").attr("type", "button");
+    //     if (isIdChecked) {
+    //
+    //         //$("form").submit();
+    //     } else if (id == "") {
+    //         alert("id를 입력하십쇼");
+    //     } else {
+    //         alert("id 중복확인이 필요합니다");
+    //     }
+    // });
+
+
+    function allchk() {
+        var id = $('#id').val()
+        var emailid = $('#emailid').val()
+        var domain = $('#domain').val()
+        var pw = $('#pw').val()
+        var pw1 = $('#pw1').val()
+        var region = $('#region').val()
+        var name = $('#name').val()
+
+        if (id == "" || emailid == "" || domain == "" || pw == "" || pw1 == "" || region == "" || name == "") {
+            alert("공백이 있습니다")
+            return false;
+
+        } else {
+            if (isIdChecked && emailChecked && pwChk() && idChk() && eachChk()) {
+                sum()
+                $("#jb").attr("type", "submit");
+                $("form").submit();
+                // return true;
+            } else if (!emailChecked) {
+                alert("이메일 인증이 필요합니다")
+            } else {
+                console.log(isIdChecked)
+                console.log(1)
+                console.log(emailChecked)
+                console.log(pwChk())
+                console.log(idChk())
+                console.log(eachChk())
+                alert("id 중복확인이 필요합니다")
+                //  return false;
+            }
+
+
+        }
+    }
+
+
+    function setDomain(e) {
+        const text = e.options[e.selectedIndex].text;
+
+        console.log(e.options);
+
+        if (text == "직접 입력") {
+            $('#domain').val("")
+            $('#domain').attr("readonly", false)
+        } else if (text == "선택") {
+            $('#domain').val("")
+            $('#domain').attr("readonly", true)
+        } else {
+            $('#domain').val(text)
+            $('#domain').attr("readonly", true)
+        }
+    }
+
+    function eachChk() {
+        var pw1 = $('#pw1').val()
+        var pw = $('#pw').val()
+        var chkPw = $('#chkPw')
+        if (pw1 != pw) {
+            chkPw.text("비밀번호가 맞지 않습니다")
+            chkPw.css("color", "red")
+            return false;
+        } else if (pw1 == "" || pw == "") {
+            chkPw.text("")
+            return false;
+        } else {
+            chkPw.text("비밀번호 일치")
+            chkPw.css("color", "blue")
+            return true;
+        }
+    }
+
+    function sum() {
+        var emailid = $('#emailid').val()
+        var domain = $('#domain').val()
+        console.log(emailid)
+        console.log(domain)
+        var hiddn = $('#hid')
+        hiddn.val(emailid + "@" + domain)
+        console.log(hiddn.val())
+
+        //   return true;
+    }
+
+    function pwChk() {
+        var pw = $('#pw1').val()
+        var num = pw.search(/[0-9]/g);
+        var eng = pw.search(/[a-z]/ig);
+        var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        var noticePw = $('#noticePw')
+
+        if (pw == "") {
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*) (4~8자리)로 작성하세요")
+            noticePw.css("color", "grey")
+            return false;
+        } else if (pw.length < 4 || pw.length > 8) {
+
+            noticePw.text("4자리 ~ 8자리 이내로 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+        } else if (pw.search(/\s/) != -1) {
+            noticePw.text("비밀번호는 공백 없이 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+        } else if (num < 0 || eng < 0 || spe < 0) {
+            noticePw.text("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+
+        } else {
+            console.log("통과");
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~8자리)")
+            noticePw.css("color", "green")
+            // sum()
+            return true;
+        }
+    }
+
+    function idChk() {
+        isIdChecked = false;
+        console.log("아이디체크 실행")
+        var id = $('#id').val()
+        var num = id.search(/[0-9]/g);
+//        var eng = id.search(/[a-z]/ig);
+//        var kor = id.search(/^[가-힣]+$/);
+        var koreng = id.search(/[가-힣a-zA-Z]/g);
+        var noticeId = $('#noticeId')
+        var spe = id.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+        if (id == "") {
+            noticeId.text("영문 or 한글(자음/모음만 사용불가)+숫자(2~10자리)로 작성하세요");
+            noticeId.css("color", "gray");
+
+            return false;
+        } else if (id.length < 2 || id.length > 10) {
+            noticeId.text("2자리~10자리 이내로 입력해주세요")
+            noticeId.css("color", "red")
+
+            return false;
+        } else if (koreng < 0 || num < 0 || spe > 0) {
+            noticeId.text("영문 또는 한글, 숫자를 포함하세요. 단, 한글 자음/모음만 사용 불가")
+            noticeId.css("color", "red")
+
+            return false;
+        } else {
+            noticeId.text("중복 확인을 진행하세요")
+            noticeId.css("color", "green")
+            return true;
+        }
+
+    }
+
+    $("#overlappedID").click(function () {
+        $('#jb').attr("type", "button");
+        var id = $("#id").val();
+        if (idChk()) {
+            $.ajax({
+                type: "get",
+                async: false,
+                url: "http://localhost:8080/idCheck",
+                data: {id: id},
+                success: function (data) {
+                    if (data == 1) {
+                        $('#noticeId').text("이미 사용중인 ID 입니다.");
+                        $("#noticeId").css("color", "red");
+                        isIdChecked = false;
+                        console.log(isIdChecked)
+                    } else {
+                        $('#noticeId').text("사용 가능한 ID 입니다.");
+                        $("#noticeId").css("color", "blue");
+                        //$("#signup").attr("type", "submit");
+                        isIdChecked = true;
+                        console.log(isIdChecked)
+                    }
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
+                }
+
+            })
+        } else {
+            alert("형식을 지키세요")
+        }
+    });
+
+    $('#authentication').click(function () {
+        // $('#authentication').attr("type", "submit");
+        var emailid = $('#emailid').val()
+        var domain = $('#domain').val()
+        if (emailid != "" && domain != "") {
+            sum()
+            var email = $('#hid').val()
+
+            $.ajax({
+                type: "get",
+                async: false,
+                url: "http://localhost:8080/emailCheck",
+                data: {email: email},
+                success: function (data) {
+                    if (data == 1) {
+
+                        alert("이미 인증된 이메일입니다")
+
+                    } else {
+                        if (!plusrow) {
+                            let area = document.getElementById("area");
+                            let newP = document.createElement('p');
+                            newP.innerHTML =
+                                "<input class='form-control' type='text' placeholder='인증번호를 입력하세요' aria-label='default input example' id='number'> " +
+                                "<input type='button' value='확인' onclick='confirmNumber()'>"
+
+                            area.appendChild(newP);
+                            $.ajax({
+                                type: "get",
+                                async: false,
+                                url: "http://localhost:8080/emailConfirm",
+                                data: {email: email},
+                                success: function (data) {
+                                    $("#confirm").attr("value", data);
+                                    console.log(data)
+                                },
+                                error: function (request, status, error) { // 결과 에러 콜백함수
+                                    console.log(error)
+                                }
+                            })
+                        }
+                        plusrow=true;
+                    }
+                },
+
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
+                }
+
+            })
+        } else {
+            alert("이메일을 입력하세요")
+        }
+    });
+
+    function confirmNumber() {
+
+        var number1 = $("#number").val();
+        var number2 = $("#confirm").val();
+
+        console.log(number1)
+        console.log(number2)
+        if (number1 != "") {
+            if (number1 == number2) {
+                alert("인증되었습니다.");
+                emailChecked = true;
+                $("#number").attr("readonly", true)
+            } else {
+                alert("번호가 다릅니다.");
+            }
+        } else {
+            alert("인증번호를 입력하세요")
+
+        }
+    }
+
+
+</script>
+</html>

@@ -7,6 +7,7 @@ import com.codemaster.project_snsmaster.vo.StopMemberVO;
 import java.util.List;
 
 public interface IF_ManagerDAO {
+
     public void insert(String memo) throws Exception;
 
     public List<GroupPostVO> groupreport() throws Exception;
@@ -18,4 +19,5 @@ public interface IF_ManagerDAO {
     public void stopinsert(StopMemberVO stop) throws Exception;
 
     public void delete(int g_no) throws Exception;
+
 }
