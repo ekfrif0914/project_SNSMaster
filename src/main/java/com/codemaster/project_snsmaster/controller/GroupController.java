@@ -70,6 +70,7 @@ public class GroupController {
         System.out.println(g_no);
         System.out.println(gno);
 
+
         gservice.delete(g_no);
 
         return "redirect:/gpList?gno="+gno;
@@ -109,5 +110,6 @@ public class GroupController {
         gservice.joinsert(gjvo);
         return "groupjoin_test";
     }
+
 
 }
