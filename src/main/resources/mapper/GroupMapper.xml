@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_GroupDAO">
+
+    <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        insert into groupPost values (null,#{gno},'aaa',#{g_title},#{g_content},0,0)
+    </insert>
+    <insert id="mginsert" parameterType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
+    insert into membergroup values (null,'a',#{gname},#{g_region})
+    </insert>
+    <select id="select" resultType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
+        select * from membergroup
+    </select>
+    <insert id="joinsert" parameterType="com.codemaster.project_snsmaster.vo.GroupJoinVO">
+        insert into groupjoin values (#{gno},'a')
+    </insert>
+    <select id="gpselect" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select * from grouppost where gno=#{gno}
+    </select>
+    <delete id="delete" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        delete from grouppost where g_no=#{g_no}
+    </delete>
+
+    <delete id="mdelete" parameterType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
+        delete from membergroup where gno=#{gno}
+    </delete>
+    <select id="selectone" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select * from grouppost where g_no=#{g_no}
+    </select>
+    <update id="modupdate" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        update grouppost set g_title=#{g_title},g_content=#{g_content} where g_no=${g_no}
+    </update>
 </mapper>
