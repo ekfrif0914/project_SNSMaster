@@ -7,19 +7,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GroupController {
 
 
-    @RequestMapping(value = "/")//첫화면
-    public String home() {
 
-        return null;
-    }
-    @RequestMapping(value = "/")//첫화면
-    public String zzzz() {
-
-        return null;
-    }
-    @RequestMapping(value = "/")//첫화면
-    public String aaaa() {
-
-        return null;
-    }
 }

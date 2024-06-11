@@ -1,10 +1,21 @@
 Spring:
   application:
     name: project_SNSMaster
-
+#  mail:
+#    host: smtp.gmail.com # 1
+#    port: 587 # 2
+#    username: ekfrif0914@gmail.com # 3
+#    password: igwznkfykudflsov # 4
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true # 5
+#          timeout: 5000 # 6
+#          starttls:
+#            enable: true #
   datasource:
-    url: jdbc:mysql://192.168.0.8:3306/orcl?/useSSL=false&serverTimeZone=UTC
-    username: root
+    url: jdbc:mysql://192.168.0.8:3306/orcl?useSSL=false&serverTimeZone=UTC
+    username: codeMaster
     password: 1111
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -15,3 +26,4 @@ Spring:
 mybatis:
   mapper-locations:
     classpath:/mapper/*Mapper.xml
+
