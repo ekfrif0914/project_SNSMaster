@@ -24,7 +24,7 @@ public class PostController {
     @Autowired
     FileDataUtil fileDataUtil;
 
-    @GetMapping(value = "/postMain")
+    @GetMapping(value = "/snsMaster")
     public String postMain(Model model) throws Exception {
         model.addAttribute("posts", postService.selectAll());
         return "post_main_test"; // test 끝난 후 변경
@@ -37,7 +37,7 @@ public class PostController {
         model.addAttribute("posts", postService.select(params));
         return "post_main_test"; // test 끝난 후 변경
     }
-    @GetMapping(value = "/postInput")
+    @GetMapping(value = "/myPost")
     public String postInput() {
 
         return "post_inputForm_test"; // test 끝난 후 변경
@@ -52,7 +52,7 @@ public class PostController {
         postService.insertPost(postvo);
         return "redirect:/postMain";
     }
-    @GetMapping(value = "/postMyPage")
+    @GetMapping(value = "/myPage")
     public String postMyPage() {
 
         return "post_myPage_test"; // test 끝난 후 변경

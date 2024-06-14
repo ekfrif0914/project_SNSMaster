@@ -5,6 +5,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 @Repository
 public class AdminDAOImpl implements IF_AdminDAO{
     private static String mapperquery="com.codemaster.project_snsmaster.dao.IF_AdminDAO";
@@ -25,5 +27,10 @@ public class AdminDAOImpl implements IF_AdminDAO{
     @Override
     public int overlappedEmail(String email) throws Exception {
         return sqlSession.selectOne(mapperquery+".overlappedEmail" ,email);
+    }
+
+    @Override
+    public void updateProfile(Map<String,Object> param) throws Exception {
+        sqlSession.update(mapperquery+".updateProfile",param);
     }
 }

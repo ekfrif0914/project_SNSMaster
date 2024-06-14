@@ -9,11 +9,18 @@
 
 
     </select>
-    <select id="idSearch"  resultType="com.codemaster.project_snsmaster.vo.MemberVO">
+    <select id="idSearch" resultType="com.codemaster.project_snsmaster.vo.MemberVO">
         select *
         from member
         where name = #{name}
 
 
     </select>
+    <select id="ifStop" resultType="com.codemaster.project_snsmaster.vo.MemberVO" parameterType="String">
+
+        select *
+        from stopmember
+        where id = #{id}
+    </select>
+
 </mapper>

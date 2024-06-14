@@ -1,6 +1,7 @@
 package com.codemaster.project_snsmaster.dao;
 
 import com.codemaster.project_snsmaster.vo.MemberVO;
+import com.codemaster.project_snsmaster.vo.StopMemberVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,5 +24,15 @@ public class LoginDAOImpl implements IF_LoginDAO{
     @Override
     public List<MemberVO> idSearch(MemberVO vo) throws Exception {
         return sqlSession.selectList(mapperquery+".idSearch",vo);
+    }
+
+    @Override
+    public MemberVO pwSearch(MemberVO vo) throws Exception {
+        return sqlSession.selectOne(mapperquery+".selectOne",vo);
+    }
+
+    @Override
+    public MemberVO ifStop(String id) throws Exception {
+        return sqlSession.selectOne(mapperquery+".ifStop",id);
     }
 }

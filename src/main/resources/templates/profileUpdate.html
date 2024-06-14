@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 변경 페이지</title>
+</head>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<style>
+    #img {
+        margin-left: 380px;
+        margin-top: 90px;
+
+    }
+
+    button {
+
+        background-color: white;
+        color: black;
+        border: none;
+    }
+
+    .hov:hover {
+        background: lightgrey;
+        width: 250px;
+        height: 50px;
+        border-radius: 10px;
+    }
+
+    .go:hover {
+        background: antiquewhite;
+        border-radius: 10px;
+        height: 50px;
+        width: 130px;
+
+    }
+
+    #text {
+
+        margin-left: 400px;
+
+    }
+
+    /*#pass {*/
+    /*    margin-left: 30px;*/
+    /*}*/
+
+    #file {
+        display: none;
+    }
+
+    form {
+        display: inline;
+    }
+</style>
+<body>
+<div id="img">
+    <img src="img/basicprofile.png">
+</div>
+<div id="text">
+    <form action="updateProfile" method="post" encType="multipart/form-data">
+        <input type="hidden" th:value="${nowid}" name="id">
+        <label class="hov" for="file"><h1 class="hov">프로필 사진 등록 </h1></label><input type="file"
+                                                                                    name="file" id="file">
+
+        <input type=submit value="등록">
+    </form>
+    <span id="filename"> </span>
+
+    <button type="button" id="pass" class="go"><h1 style="color: grey">건너 뛰기</h1></button>
+
+</div>
+</body>
+<script>
+
+
+    $('#file').on('change', function () {
+        //fileTarget.display="block";
+        var fileName = $("#file").val();
+        console.log(fileName)
+        $('#filename').text(fileName)
+
+        //document.getElementById('filename').innerHTML=fileName
+
+    });
+
+
+</script>
+</html>

@@ -8,4 +8,5 @@ public interface IF_LoginService {
 
     public MemberVO login(String id) throws Exception;
     public List<MemberVO> idSearch(MemberVO memberVO) throws Exception;
+    public int pwSearch(MemberVO memberVO) throws Exception;
 }

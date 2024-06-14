@@ -49,12 +49,12 @@
             <span class="input-group-text" id="inputGroup-sizing-default">* 아이디(닉네임)</span>
             <input type="text" class="form-control" aria-label="Sizing example input"
                    aria-describedby="inputGroup-sizing-default"
-                   name="id" maxlength="10" id="id" onkeyup="idChk()">
+                   name="id" maxlength="20" id="id" onkeyup="idChk()">
             <button class="btn btn-outline-secondary" type="button" id="overlappedID">중복확인</button>
         </div>
 
         <span id="noticeId" style="color: grey">
-        영문 or 한글+숫자(2~10자리)로 작성하세요</span>
+        영문 or 한글+숫자(2~20자리)로 작성하세요</span>
         <br>
 
 
@@ -85,18 +85,18 @@
             <span class="input-group-text" id="inputGroup-sizing-default2">* 비밀번호</span>
             <input type="text" class="form-control" aria-label="Sizing example input"
                    aria-describedby="inputGroup-sizing-default"
-                   name="pw1" id="pw1" maxlength="8" onchange="pwChk(), eachChk()" onkeyup="pwChk(), eachChk()">
+                   name="pw1" id="pw1" maxlength="10" onchange="pwChk(), eachChk()" onkeyup="pwChk(), eachChk()">
 
         </div>
         <span id="noticePw" style="color: grey">
 
-                영문+숫자+특수문자(!@#$%^&*) (4~8자리)로 작성하세요
+                영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요
             </span>
         <div class="input-group mb-3">
             <span class="input-group-text" id="inputGroup-sizing-default3">* 비밀번호 확인</span>
             <input type="text" class="form-control" aria-label="Sizing example input"
                    aria-describedby="inputGroup-sizing-default"
-                   name="pw" id="pw" maxlength="8" onchange="eachChk()" onkeyup="eachChk()">
+                   name="pw" id="pw" maxlength="10" onchange="eachChk()" onkeyup="eachChk()">
 
         </div>
         <span id="chkPw" style="color: red">
@@ -258,12 +258,12 @@
         var noticePw = $('#noticePw')
 
         if (pw == "") {
-            noticePw.text("영문+숫자+특수문자(!@#$%^&*) (4~8자리)로 작성하세요")
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요")
             noticePw.css("color", "grey")
             return false;
-        } else if (pw.length < 4 || pw.length > 8) {
+        } else if (pw.length < 4 || pw.length > 10) {
 
-            noticePw.text("4자리 ~ 8자리 이내로 입력해주세요.");
+            noticePw.text("4자리 ~ 10자리 이내로 입력해주세요.");
             noticePw.css("color", "red");
             return false;
         } else if (pw.search(/\s/) != -1) {
@@ -277,7 +277,7 @@
 
         } else {
             console.log("통과");
-            noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~8자리)")
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~10자리)")
             noticePw.css("color", "green")
             // sum()
             return true;
@@ -296,12 +296,12 @@
         var spe = id.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
         if (id == "") {
-            noticeId.text("영문 or 한글(자음/모음만 사용불가)+숫자(2~10자리)로 작성하세요");
+            noticeId.text("영문 or 한글(자음/모음만 사용불가)+숫자(2~20자리)로 작성하세요");
             noticeId.css("color", "gray");
 
             return false;
-        } else if (id.length < 2 || id.length > 10) {
-            noticeId.text("2자리~10자리 이내로 입력해주세요")
+        } else if (id.length < 2 || id.length > 20) {
+            noticeId.text("2자리~20자리 이내로 입력해주세요")
             noticeId.css("color", "red")
 
             return false;

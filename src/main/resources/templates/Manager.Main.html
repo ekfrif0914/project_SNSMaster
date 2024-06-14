@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kor">
 <head>
     <meta charset="UTF-8">
     <title></title>
@@ -50,19 +50,29 @@
         border-radius: 3px;
     }
 
-button {
-    padding: 5px 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-}
+    button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
     input[type="button"]:hover {
         background-color: #0056b3;
     }
 </style>
 <body>
+<a href="snsMaster" >snsmaster</a>
+<th:block th:if="${session.managerid!=null}">
+    <span>사용자 아이디:</span> <span th:text="${session.managerid}"></span>
+    <span>사용자 이름:</span> <span th:text="${session.managername}"></span>
+    <span>등급:</span> <span th:text="${session.managergrade}"></span>
+    <span><a href="logoutManager">로그 아웃</a></span>
+
+</th:block>
+
 <input type="button" value="공지사항" onclick=location.href="review">
 <table>
     <thead>
@@ -75,9 +85,15 @@ button {
     </thead>
     <tbody>
     <tr th:each="all:${all}" class="tr">
-        <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
-        <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
-        <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
+        <td><a th:href="@{/look(g_no=${all.g_no})}">
+            <button>신고글보기</button>
+        </a></td>
+        <td><a th:href="@{stop(id=${all.id})}">
+            <button>회원정지</button>
+        </a></td>
+        <td><a th:href="@{delete(g_no=${all.g_no})}">
+            <button>삭제</button>
+        </a></td>
         <td th:text="${all.g_report}"></td>
 
     </tr>
@@ -86,4 +102,12 @@ button {
 </body>
 </html>
 <script>
+
+
+    //self.close(); // 열었던 새창 닫기
+    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
+    opener.document.location.href = '/managerMode';
+    window.close()
+
+
 </script>

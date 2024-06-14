@@ -33,7 +33,7 @@ public class ManagerController {
     public String delete(@RequestParam("g_no") int g_no) throws Exception {
         System.out.println(g_no);
         manager.delete(g_no);
-        return "redirect:manager";
+        return "redirect:managerMode";
     }
 
     @RequestMapping(value= "look", method=RequestMethod.GET)
@@ -44,7 +44,7 @@ public class ManagerController {
         return "look";
     }
 
-    @RequestMapping(value = "/manager", method = RequestMethod.GET)
+    @RequestMapping(value = "/managerMode", method = RequestMethod.GET)
     public String reportsave(Model model) throws Exception {
         List<GroupPostVO> allList = manager.groupreport();
 //        List<PostVO> allList2=manager.postreport();
@@ -64,6 +64,6 @@ public class ManagerController {
     public String stopinput(@ModelAttribute StopMemberVO stop)throws Exception {
         System.out.println(stop.toString());
        manager.stopinsert(stop);
-        return "redirect:manager";
+        return "redirect:managerMode";
     }
 }

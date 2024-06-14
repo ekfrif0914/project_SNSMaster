@@ -60,7 +60,7 @@ public class GroupController {
         return "gpall_test";
     }
 
-    @RequestMapping (value = "/",method = RequestMethod.GET)
+    @RequestMapping (value = "/group",method = RequestMethod.GET)
     public String home(){
         return "grouphome_test";
     }

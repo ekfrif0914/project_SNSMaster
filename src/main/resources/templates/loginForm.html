@@ -9,21 +9,26 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <style>
+    h1 {
+        margin-top: 100px;
+    }
+
     #chang {
         width: 500px;
         height: 500px;
         border: 2px solid skyblue;
-        margin-top: 130px;
-        margin-left: 400px;
+        margin-top: 30px;
+        margin-left: 380px;
         padding-top: 40px;
-        padding-left: 70px;
+        padding-left: 80px;
 
     }
 
     #chang span {
 
-       text-align: center;
+        text-align: center;
         font-size: large;
 
     }
@@ -35,29 +40,90 @@
 
     }
 
-    .btn-warning{
-        margin-left: 49px;
+    .btn-warning {
+        margin-left: 130px;
         margin-top: 15px;
     }
-    .space{
+
+    .space {
 
         margin-left: 15px;
     }
+
+    #lb {
+        margin-left: 85px;
+
+    }
+
+
 </style>
 <body>
+
 <h1 style="text-align: center">로그인</h1>
 <div id="chang">
     <form action="login" method="post">
-    <span>아이디</span>
-    <input class="form-control form-control-lg" type="text" placeholder="아이디를 입력하세요"
-           aria-label=".form-control-lg example" id="id" name="id">
-    <span>비밀번호</span>
-    <input class="form-control form-control-lg" type="text" placeholder="비밀번호를 입력하세요"
-           aria-label=".form-control-lg example" id="pw" name="pw">
-    <a href="findMember" class="space">아이디 찾기/비밀번호 찾기</a>
+        <span>아이디</span>
+        <input class="form-control form-control-lg" type="text" placeholder="아이디를 입력하세요"
+               aria-label=".form-control-lg example" id="id" name="id">
+        <span>비밀번호</span>
+        <input class="form-control form-control-lg" type="text" placeholder="비밀번호를 입력하세요"
+               aria-label=".form-control-lg example" id="pw" name="pw">
+        <a href="findMember" class="space">아이디 찾기/비밀번호 찾기</a>
+        <div id="text"></div>
+        <button type="submit" class="btn btn-warning" onclick="return emptyChk()">로그인</button>
+    </form>
 
-    <button type="submit" class="btn btn-warning" >로그인</button>
-        </form>
+    <br>
+
+    <br>
+    <div id="join">
+        <span style="display: inline" id="r">계정이 없으신가요?</span>
+        <button class="btn btn-primary" id="lb" type="button" onclick="location.href='signUp'">회원가입</button>
+
+    </div>
 </div>
 </body>
+<script>
+    function emptyChk() {
+        var id = $('#id').val()
+        var pw = $('#pw').val()
+        if (id == "" || pw == "") {
+            alert("정보를 입력하세요")
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+</script>
+<script th:inline="javascript">
+    var wrong = [[${wrong}]]
+
+    /*[# th:if="${stopMember}!=null"]*/
+
+    var s_text = [[${stopMember.s_text}]]
+    var today = [[${stopMember.today}]]
+    var finish = [[${stopMember.finish}]]
+
+    /*[/]*/
+
+
+    if (wrong != null) {
+        let text = document.getElementById("text");
+        var span = document.createElement('span')
+        span.style = "color:red"
+        span.innerHTML = wrong
+        text.appendChild(span)
+        } else if (s_text != null && today != null && finish != null) {
+
+            let text = document.getElementById("text");
+            var span = document.createElement('span')
+            span.style = "color:red"
+            span.innerHTML = "회원님의 계정은 정지되었습니다." +"<br>"+ "정지 사유: " + s_text + "<br>"+"정지 일: " + today +
+              "<br>"+  "정지 종료일: " + finish+"<br>"+"감사합니다."
+            text.appendChild(span)
+    }
+
+
+</script>
 </html>
