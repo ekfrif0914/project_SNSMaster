@@ -34,7 +34,7 @@ public class LoginController {
 
     }
 
-    @GetMapping("main")
+    @GetMapping("snsMaster")
     public String main() {
         return "main";
     }

@@ -24,7 +24,7 @@ public class PostController {
     @Autowired
     FileDataUtil fileDataUtil;
 
-    @GetMapping(value = "/postMain")
+    @GetMapping(value = "/myPost")
     public String postMain(Model model) throws Exception {
         model.addAttribute("posts", postService.selectAll());
         return "post_main_test"; // test 끝난 후 변경
@@ -52,7 +52,7 @@ public class PostController {
         postService.insertPost(postvo);
         return "redirect:/postMain";
     }
-    @GetMapping(value = "/postMyPage")
+    @GetMapping(value = "/myPage")
     public String postMyPage() {
 
         return "post_myPage_test"; // test 끝난 후 변경

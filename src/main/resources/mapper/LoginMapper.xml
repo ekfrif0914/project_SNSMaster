@@ -13,7 +13,5 @@
         select *
         from member
         where name = #{name}
-
-
     </select>
 </mapper>

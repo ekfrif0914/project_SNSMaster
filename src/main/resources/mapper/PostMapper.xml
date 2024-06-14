@@ -32,4 +32,5 @@
     <delete id="deletePost" parameterType="String">
         delete from post where NO = #{no}
     </delete>
+
 </mapper>

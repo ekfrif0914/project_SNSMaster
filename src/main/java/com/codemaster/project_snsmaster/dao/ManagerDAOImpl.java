@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -31,8 +32,8 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     }
 
     @Override
-    public GroupPostVO selectpost(int g_no) throws Exception {
-        return sqlSession.selectOne(mapperQuery+".selectpost",g_no);
+    public GroupPostVO selectgroupPost(int g_no) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".selectgroupPost",g_no);
     }
 
     @Override
@@ -43,5 +44,20 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     @Override
     public void delete(int g_no) throws Exception {
       sqlSession.delete(mapperQuery+".delete",g_no);
+    }
+
+    @Override
+    public void delete2(int gNo) throws Exception {
+        sqlSession.delete(mapperQuery+".delete2",gNo);
+    }
+
+    @Override
+    public PostVO selectpost(int no) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".selectpost",no);
+    }
+
+    @Override
+    public List<PostVO> selectrandom(HashMap<String, String> params)throws Exception {
+        return  sqlSession.selectList(mapperQuery+".selectrandom",params);
     }
 }

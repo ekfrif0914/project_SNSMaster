@@ -132,9 +132,9 @@
         width: 380px;
         height: 30px;
     }
-        search {
-     margin-left: 400px;
-             /* 원하는 너비로 조정하세요 */
+    search {
+        margin-left: 400px;
+        /* 원하는 너비로 조정하세요 */
         padding: 10px;
         border: none;
         border-radius: 20px; /* 검색 필드를 둥글게 만듭니다 */
@@ -143,32 +143,33 @@
         transition: box-shadow 0.3s ease; /* 그림자 변화에 애니메이션 적용 */
     }
     #gggg{
-    margin-left:375px;
-    height:30px;
+        margin-left:375px;
+        height:30px;
     }
-search:hover,
-search:focus {
+    search:hover,
+    search:focus {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 마우스 호버 또는 포커스 시 그림자 효과 강화 */
     }
 
- search::placeholder {
+    search::placeholder {
         color: #999; /* placeholder의 텍스트 색상 지정 */
         opacity: 0.8; /* 투명도 조절 */
     }
-#bubu{
-    padding: 5px 10px;
-    background-color:#333333;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 3px;
-}
+    #bubu{
+        padding: 5px 10px;
+        background-color:#333333;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
 </style>
 <body>
 
 <div class="navbar">
     <div class="container">
         <ul>
+
             <li><a href="managerMode">자유게시판 관리</a></li>
             <li><a href="managerMode2">그룹게시판 관리</a></li>
             <li><a href="#">정지 회원 관리</a></li>
@@ -176,25 +177,16 @@ search:focus {
     </div>
 </div>
 
-
-
-
 <div class="container">
-<h1 id="gogogo">사용자 관리</h1>
-    <form action="search" method="get">
-<select name="searchcell" id="gggg">
-<option value="id">아이디</option>
-   <option value="title">제목</option>
-   </select>
-    <input type="search" id="gihi" value="" name="search">
-        <input type="submit" value="검색">
+    <h1 id="gogogo">사용자 관리</h1>
+    <form action="search"  method="get">
+    <select name="searchType" id="gggg">
+        <option value="아이디">아이디</option>
+        <option value="제목">제목</option>
+    </select>
+    <input type="search" id="gihi">
+    <input type="submit" value="검색">
     </form>
-
-
-
-
-
-
     <table id="mana">
         <thead>
         <tr>
@@ -210,14 +202,15 @@ search:focus {
         <tr th:each="all:${all}" class="tr">
             <td th:text="${allStat.count}">
             <td th:text="${all.id}"></td>
-            <td><a th:href="@{/look2(no=${all.no})}"><button>신고글보기</button></a></td>
+            <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
             <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
-            <td><a th:href="@{delete2(no=${all.no})}"><button>삭제</button></a></td>
-            <td th:text="${all.report}"></td>
+            <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
+            <td th:text="${all.g_report}"></td>
         </tr>
         </tbody>
     </table>
 </div>
+
 </body>
 </html>
 </body>
