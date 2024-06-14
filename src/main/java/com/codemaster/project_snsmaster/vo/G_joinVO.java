@@ -10,6 +10,6 @@ public class G_joinVO {
     private int gno;
     private String id;
     private String m_name;
-    private int cnt;
+    private int cnt;//인원
     private String m_contents;
 }

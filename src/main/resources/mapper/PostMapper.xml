@@ -33,4 +33,13 @@
         delete from post where NO = #{no}
     </delete>
 
+    <select id="selectAllFileNames" resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
+        select * from post_attach
+    </select>
+    <select id="selectMyPost" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="String">
+        select * from post where id = #{userid}
+    </select>
+    <select id="selectMyPostbyCategory" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
+        select * from post where id = #{id} and category = #{category}
+    </select>
 </mapper>

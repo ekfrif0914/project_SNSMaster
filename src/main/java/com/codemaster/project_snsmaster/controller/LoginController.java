@@ -34,10 +34,6 @@ public class LoginController {
 
     }
 
-    @GetMapping("snsMaster")
-    public String main() {
-        return "main";
-    }
 
     @PostMapping("idSearch")
     public String idSearch(@ModelAttribute MemberVO memberVO, Model model) throws Exception {
@@ -102,13 +98,13 @@ public class LoginController {
             System.out.println("활동정지 입니다");
             return "loginForm";
         }
-        return "main";
+        return "redirect:snsMaster";
     }
 
     @GetMapping("logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "loginForm";
+        return "redirect:snsMaster";
 
     }
 }

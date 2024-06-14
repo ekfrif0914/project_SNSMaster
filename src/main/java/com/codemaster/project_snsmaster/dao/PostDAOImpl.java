@@ -1,5 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
+import com.codemaster.project_snsmaster.vo.PostAttachVO;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import org.apache.ibatis.session.SqlSession;
@@ -64,6 +65,21 @@ public class PostDAOImpl implements IF_PostDAO{
     @Override
     public void deletePost(String no) throws Exception {
         sqlSession.delete(mapperQuery+".deletePost", no);
+    }
+
+    @Override
+    public List<PostAttachVO> selectAllFileNames() throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectAllFileNames");
+    }
+
+    @Override
+    public List<PostVO> selectMyPost(String userid) throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectMyPost", userid);
+    }
+
+    @Override
+    public List<PostVO> selectMyPostbyCategory(PostVO postVO) throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectMyPostbyCategory", postVO);
     }
 
 }

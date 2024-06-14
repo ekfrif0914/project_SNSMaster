@@ -5,31 +5,86 @@
     <title>Title</title>
 </head>
 <body>
-<li ><a th:href= "@{groupinput(gno=${gno})}">등록</a> </li>
+<li><a th:href="@{groupinput(gno=${gno})}">등록</a></li>
+<a href="gList">그룹으로 가기</a>
+<h1>게시글</h1>
 <table>
     <tbody th:each="post: ${gpList}">
 
     <tr>
-        <td > <input type="hidden" value= "${post.gno}"> </td>
+        <td><input type="hidden" value="${post.gno}"></td>
         <td>아이디</td>
-        <td th:text = "${post.id}"></td>
-        </tr>
-        <td>제목</td>
-        <td th:text = "${post.g_title}"></td>
+        <td th:text="${post.id}"></td>
+    </tr>
+    <td>제목</td>
+    <td th:text="${post.g_title}"></td>
     <tr>
-    <td>내용</td>
-        <td th:text = "${post.g_content}"></td>
+        <td>내용</td>
+        <td th:text="${post.g_content}"></td>
     </tr>
     <tr>
         <td>좋아요</td>
-        <td th:text = "${post.g_like}"></td>
+        <td th:text="${post.g_like}"></td>
         <td>신고누적수</td>
-        <td th:text = "${post.g_report}"></td>
-        <td> <a th:href="@{modno(g_no=${post.g_no})}" > <button>수정</button> </a></td>
-       <td> <a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}" > <button>삭제</button> </a></td>
+        <td th:text="${post.g_report}"></td>
+        <td><a th:href="@{/grouppost(g_no=${post.g_no})}">
+            <button>자세히보기</button>
+        </a></td>
+        <td><a th:href="@{modno(g_no=${post.g_no})}">
+            <button>수정</button>
+        </a></td>
+        <td><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}">
+            <button>삭제</button>
+        </a></td>
+    </tr>
+    </tbody>
+</table>
+<h1>동행 모집글</h1>
+<table>
+    <tbody th:each="post: ${gjList}">
+
+    <tr>
+        <td><input type="hidden" value="${post.gno}"></td>
+        <td>아이디</td>
+        <td th:text="${post.id}"></td>
+    </tr>
+    <td>제목</td>
+    <td th:text="${post.m_name}"></td>
+    <tr>
+        <td>모집 인원</td>
+        <td><div id ="result">0</div></td>
+
+        <td th:text="${post.cnt}"></td>
+    </tr>
+    <tr>
+        <td>내용</td>
+        <td th:text="${post.m_contents}"></td>
+
+        <td><a th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no})}">
+           <input type="button" onclick="count('plus')" value="신청"/>
+        </a></td>
+        <td><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}">
+            <button>삭제</button>
+        </a></td>
+        <td><a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}">
+            <button>수정</button>
+        </a></td>
     </tr>
     </tbody>
 </table>
 
+
 </body>
+<script>
+    function count(type){
+        const resultElement =  document.getElementById('result');
+        //브라우저에 결과를 출력할 element를 가져온다
+        let number = resultElement.innerText;
+        //현제 화면에 출력되어 있는 값을 가져옴
+        if(type === 'plus'){
+            number = parseInt(number)+1;
+        }
+        resultElement.innerText = number;
+    }
+</script>
 </html>
