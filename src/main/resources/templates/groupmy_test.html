@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="gList">뒤로가기</a>
+<table>
+    <tbody th:each="post: ${gjoList}">
+
+    <tr>
+        <td><input type="hidden" value="${post.gno}"></td>
+        <td>그룹번호</td>
+        <td th:text="${post.gno}"></td>
+    </tr>
+    <tr>
+    <td>아이디</td>
+    <td th:text="${post.id}"></td>
+    </tr>
+    <tr>
+        <td><a th:href="@{groupjoinmember(gno=${post.gno},id=${post.id},wait_no=${post.wait_no})}">
+            <button>수락</button>
+        </a></td>
+        <td><a th:href="@{delgroupjoinmember(wait_no=${post.wait_no},gno=${post.gno})}">
+            <button>거부</button>
+        </a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

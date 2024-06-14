@@ -8,5 +8,6 @@ import lombok.ToString;
 public class GroupJoinVO {
     private int gno;
     private String id;
+    private int wait_no;
 
 }
