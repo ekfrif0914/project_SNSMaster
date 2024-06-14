@@ -5,9 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class StopMemberVO {
-    private String id;
-    private String s_text;
-    private String today;
-    private String finish;
+public class PostAttachVO {
+
+    private int no;
+    private String file_name;
+
 }

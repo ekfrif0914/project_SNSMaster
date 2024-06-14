@@ -24,7 +24,7 @@ public class PostController {
     @Autowired
     FileDataUtil fileDataUtil;
 
-    @GetMapping(value = "/snsMaster")
+    @GetMapping(value = "/postMain")
     public String postMain(Model model) throws Exception {
         model.addAttribute("posts", postService.selectAll());
         return "post_main_test"; // test 끝난 후 변경
@@ -37,7 +37,7 @@ public class PostController {
         model.addAttribute("posts", postService.select(params));
         return "post_main_test"; // test 끝난 후 변경
     }
-    @GetMapping(value = "/myPost")
+    @GetMapping(value = "/postInput")
     public String postInput() {
 
         return "post_inputForm_test"; // test 끝난 후 변경
@@ -53,9 +53,22 @@ public class PostController {
         return "redirect:/postMain";
     }
     @GetMapping(value = "/myPage")
-    public String postMyPage() {
-
-        return "post_myPage_test"; // test 끝난 후 변경
+    public String postMyPage(Model model, HttpSession session, String category) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        if(userid == null){
+            return "loginForm";
+        }
+        if(category == null || category.equals("all")){
+            model.addAttribute("posts", postService.selectMyPost(userid));
+        }else {
+            PostVO postVO = new PostVO();
+            postVO.setCategory(category);
+            postVO.setId(userid);
+            model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
+        }
+        model.addAttribute("userid", userid);
+        model.addAttribute("category", category);
+        return "post_myPage";
     }
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model) throws Exception {
