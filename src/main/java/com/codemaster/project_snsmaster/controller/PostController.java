@@ -24,10 +24,10 @@ public class PostController {
     @Autowired
     FileDataUtil fileDataUtil;
 
-    @GetMapping(value = "/postMain")
+    @GetMapping(value = "/snsMaster")
     public String postMain(Model model) throws Exception {
         model.addAttribute("posts", postService.selectAll());
-        return "post_main_test"; // test 끝난 후 변경
+        return "post_main";
     }
     @GetMapping(value = "/postSearch")
     public String postSearch(@RequestParam String sword, @RequestParam String region, Model model) throws Exception {
@@ -35,12 +35,12 @@ public class PostController {
         params.put("sword", sword);
         params.put("region", region);
         model.addAttribute("posts", postService.select(params));
-        return "post_main_test"; // test 끝난 후 변경
+        return "post_main";
     }
-    @GetMapping(value = "/postInput")
+    @GetMapping(value = "/myPost")
     public String postInput() {
 
-        return "post_inputForm_test"; // test 끝난 후 변경
+        return "post_inputForm";
     }
     @PostMapping(value = "/postInputSave")
     public String postInputSave(@ModelAttribute PostVO postvo, HttpSession session, MultipartFile[] file) throws Exception {
@@ -50,12 +50,25 @@ public class PostController {
             postvo.setFile_name(fileName);
         }
         postService.insertPost(postvo);
-        return "redirect:/postMain";
+        return "redirect:/snsMaster";
     }
-    @GetMapping(value = "/postMyPage")
-    public String postMyPage() {
-
-        return "post_myPage_test"; // test 끝난 후 변경
+    @GetMapping(value = "/myPage")
+    public String postMyPage(Model model, HttpSession session, String category) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        if(userid == null){
+            return "loginForm";
+        }
+        if(category == null || category.equals("all")){
+            model.addAttribute("posts", postService.selectMyPost(userid));
+        }else {
+            PostVO postVO = new PostVO();
+            postVO.setCategory(category);
+            postVO.setId(userid);
+            model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
+        }
+        model.addAttribute("userid", userid);
+        model.addAttribute("category", category);
+        return "post_myPage";
     }
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model) throws Exception {
@@ -64,7 +77,7 @@ public class PostController {
 //        System.out.println(postService.selectFileNames(no));
         model.addAttribute("fileNames", postService.selectFileNames(no));
         model.addAttribute("comments", postService.selectComment(no));
-        return "post_detail_test";
+        return "post_detail";
     }
     @PostMapping(value = "/postSaveComment")
     public String postSaveComment(@ModelAttribute PostCommentVO postCommentVO, HttpSession session) throws Exception {
@@ -80,12 +93,12 @@ public class PostController {
     @GetMapping(value = "/postDelete")
     public String postDelete(@RequestParam String no) throws Exception {
         postService.deletePost(no);
-        return "redirect:/postMain";
+        return "redirect:/snsMaster";
     }
     @GetMapping(value = "/postMod")
-    public String postMod(@RequestParam String no) throws Exception {
-        postService.selectOne(no);
-        return "redirect:/postDetail?no=" + no;
+    public String postMod(@RequestParam String no, Model model) throws Exception {
+        model.addAttribute("post", postService.selectOne(no));
+        return "post_modForm";
     }
 
 }

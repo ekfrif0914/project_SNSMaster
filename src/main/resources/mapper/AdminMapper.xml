@@ -3,7 +3,7 @@
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_AdminDAO">
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
 
-insert into member values(#{id}, #{email}, #{pw}, #{region}, #{name},null);
+insert into member values(#{id}, #{email}, #{pw}, #{region}, #{name}, null, null)
 
     </insert>
     <select id="overlappedID" resultType="int">
