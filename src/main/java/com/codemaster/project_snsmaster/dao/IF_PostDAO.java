@@ -1,5 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
+import com.codemaster.project_snsmaster.vo.PostAttachVO;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 
@@ -17,4 +18,7 @@ public interface IF_PostDAO {
     public List<PostCommentVO> selectComment(String no) throws Exception;
     public void deleteComment(String c_no) throws Exception;
     public void deletePost(String no) throws Exception;
+    public List<PostAttachVO> selectAllFileNames() throws Exception;
+    public List<PostVO> selectMyPost(String userid) throws Exception;
+    public List<PostVO> selectMyPostbyCategory(PostVO postVO) throws Exception;
 }

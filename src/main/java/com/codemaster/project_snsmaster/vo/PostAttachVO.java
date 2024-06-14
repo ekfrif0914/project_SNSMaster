@@ -5,10 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class GroupJoinVO {
-    private int wait_no;
-    private int gno;
-    private String id;
+public class PostAttachVO {
 
+    private int no;
+    private String file_name;
 
 }

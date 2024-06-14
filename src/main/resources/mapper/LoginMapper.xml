@@ -13,8 +13,6 @@
         select *
         from member
         where name = #{name}
-
-
     </select>
     <select id="ifStop" resultType="com.codemaster.project_snsmaster.vo.MemberVO" parameterType="String">
 
