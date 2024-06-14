@@ -32,6 +32,7 @@
     <delete id="deletePost" parameterType="String">
         delete from post where NO = #{no}
     </delete>
+
     <select id="selectAllFileNames" resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
         select * from post_attach
     </select>

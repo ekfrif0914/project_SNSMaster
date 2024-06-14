@@ -52,6 +52,7 @@ public class PostController {
         postService.insertPost(postvo);
         return "redirect:/snsMaster";
     }
+  
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session, String category) throws Exception {
         String userid = (String) session.getAttribute("userid");
@@ -69,6 +70,7 @@ public class PostController {
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
         return "post_myPage";
+
     }
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model) throws Exception {

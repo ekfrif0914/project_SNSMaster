@@ -34,6 +34,7 @@ public class LoginController {
 
     }
 
+
     @PostMapping("idSearch")
     public String idSearch(@ModelAttribute MemberVO memberVO, Model model) throws Exception {
         System.out.println(memberVO.toString());

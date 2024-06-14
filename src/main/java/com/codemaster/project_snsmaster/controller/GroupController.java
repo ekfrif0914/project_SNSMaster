@@ -112,6 +112,7 @@ public class GroupController {
         return "gpall_test";
     }
 
+
     @GetMapping("/groupmy")//그룹 가입 신청 한 사람 보기
     public String groupmy(@RequestParam("gno") String gno, Model model) throws Exception {
         System.out.println(gno);

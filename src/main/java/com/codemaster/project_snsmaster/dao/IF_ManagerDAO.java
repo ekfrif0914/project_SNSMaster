@@ -4,6 +4,7 @@ import com.codemaster.project_snsmaster.vo.GroupPostVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import com.codemaster.project_snsmaster.vo.StopMemberVO;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface IF_ManagerDAO {
@@ -14,10 +15,15 @@ public interface IF_ManagerDAO {
 
     public List<PostVO> postreport() throws Exception;
 
-    public GroupPostVO selectpost(int g_no) throws Exception;
+    public GroupPostVO selectgroupPost(int g_no) throws Exception;
 
     public void stopinsert(StopMemberVO stop) throws Exception;
 
     public void delete(int g_no) throws Exception;
 
+   public void delete2(int gNo)throws Exception;
+
+  public PostVO selectpost(int no)throws Exception;
+
+   public List<PostVO> selectrandom(HashMap<String, String> params)throws Exception;
 }
