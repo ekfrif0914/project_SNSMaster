@@ -5,15 +5,23 @@
     <title>Title</title>
 </head>
 <body>
+<a href="group">뒤로가기</a>
 <div th:each="post: ${gList}">
-    <li class="nav-item"><a th:href="@{groupinput(gno=${post.gno})}">등록</a> </li>
-    <span th:text = "${post.gno}"></span>
-    <span th:text = "${post.g_id}"></span>
-    <span th:text = "${post.gname}"></span>
-    <span th:text = "${post.g_region}"></span>
+    <span th:text ="${postStat.count}"></span>
+    <span th:text="${post.gno}"></span>
+    <span th:text="${post.g_id}"></span>
+    <span th:text="${post.gname}"></span>
+    <span th:text="${post.g_region}"></span>
     <a th:href="@{groupjoin(gno=${post.gno})}">가입</a>
-    <a th:href="@{gpList(gno=${post.gno})}"> <button>그룹 게시글 보기</button></a>
-    <a th:href="@{delmembergroup(gno=${post.gno})}"> <button>삭제</button></a>
+    <a th:href="@{gpList(gno=${post.gno})}">
+        <button>그룹 게시글 보기</button>
+    </a>
+    <a th:href="@{delmembergroup(gno=${post.gno})}">
+        <button>삭제</button>
+    </a>
+    <a th:href="@{groupmy(gno=${post.gno})}">
+        <button>가입수락</button>
+    </a>
 </div>
 </body>
 </html>
