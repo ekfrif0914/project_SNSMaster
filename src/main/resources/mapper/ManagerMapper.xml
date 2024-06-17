@@ -26,6 +26,37 @@
         delete from Post where no=#{no}
     </delete>
     <select id="selectrandom" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.PostVO">
-        SELECT * FROM post WHERE ${searchcell} = #{search}
+        SELECT * FROM post WHERE ${searchcell} like concat('%',#{search},'%')
     </select>
+    <select id="selectrandom2" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        SELECT * FROM grouppost WHERE ${searchcell} like concat('%',#{search},'%')
+    </select>
+    <update id="alter" parameterType="int">
+      update post set report=0 where no=#{no}
+    </update>
+    <update id="alter2" parameterType="int">
+        update grouppost set g_report=0 where g_no=#{g_no}
+    </update>
+    <select id="stopMember" resultType="com.codemaster.project_snsmaster.vo.StopMemberVO">
+     select*from stopmember
+    </select>
+    <delete id="deletestop" parameterType="String">
+     delete from stopmember where id=#{id}
+    </delete>
+    <delete id="fordelete" parameterType="java.util.List">
+        DELETE FROM post
+        WHERE no IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="fordelete2" parameterType="java.util.List">
+        DELETE FROM grouppost
+        WHERE g_no IN
+        <foreach item="item" index="index" collection="list"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

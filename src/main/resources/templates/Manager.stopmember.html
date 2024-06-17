@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Title</title>
 </head>
 <style>
-    /* 기본 스타일 */
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
@@ -164,21 +162,18 @@
         border-radius: 3px;
     }
 </style>
-<body>
 <div class="navbar">
     <div class="container">
         <ul>
             <li><a href="/review">공지사항 관리</a></li>
             <li><a href="managerMode">자유게시판 관리</a></li>
-            <li><a href="managerMode2" style="color:wheat;">그룹게시판 관리</a></li>
-            <li><a href="stopmember">정지 회원 관리</a></li>
+            <li><a href="managerMode2">그룹게시판 관리</a></li>
+            <li><a href="stopmember" style="color:wheat;">정지 회원 관리</a></li>
         </ul>
     </div>
 </div>
 <div class="container">
     <h1 id="gogogo">사용자 관리</h1>
-    <a href="snsMaster">snsmaster </a>
-    <span><a href="logoutManager">로그 아웃</a></span>
     <form action="search2" method="get">
         <select name="searchcell" id="gggg">
             <option value="id">아이디</option>
@@ -190,47 +185,23 @@
     <table id="mana">
         <thead>
         <tr>
-            <th class="th"><input type="button" value="체크삭제" id="chk"></th>
-            <th class="th">글번호</th>
             <th class="th">아이디</th>
-            <th class="th">제목</th>
-            <th class="th">자세히보기</th>
-            <th class="th">회원정지</th>
-            <th class="th">삭제</th>
-            <th class="th">확인</th>
-            <th class="th">신고누적</th>
-
+            <th class="th">정지사유</th>
+            <th class="th">정지시작일</th>
+            <th class="th">정지종료일</th>
+            <th class="th">정지해제</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="all:${all}" class="tr">
-            <td><input type="checkbox" th:value="${all.g_no}" class="checkbox"></td>
-            <td th:text="${allStat.count}">
             <td th:text="${all.id}"></td>
-            <td th:text="${all.g_title}"></td>
-            <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
-            <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
-            <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
-            <td><a th:href="@{alter2(g_no=${all.g_no})}"><button>문제없음</button></a></td>
-            <td th:text="${all.g_report}"></td>
+            <td th:text="${all.s_text}"></td>
+            <td th:text="${all.today}"></td>
+            <td th:text="${all.finish}"></td>
+            <td><a th:href="@{stopdelete(id=${all.id})}"><button>정지해제</button></a></td>
         </tr>
         </tbody>
     </table>
 </div>
-
 </body>
 </html>
-</body>
-</html>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('chk').addEventListener('click', function() {
-            var checkboxes = document.querySelectorAll('.checkbox:checked');
-            var aa = [];
-            for (var i = 0; i < checkboxes.length; i++) {
-                aa.push(checkboxes[i].value);
-            }
-            location.href="fordelete2?no="+aa
-        });
-    });
-</script>

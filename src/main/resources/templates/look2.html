@@ -53,6 +53,14 @@
     input[type="button"]:hover {
         background-color: #0056b3;
     }
+    button {
+        padding: 5px 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 3px;
+    }
 </style>
 <body>
 <table>
@@ -62,6 +70,7 @@
         <th>제목</th>
         <th>내용</th>
         <th>신고누적</th>
+        <th>회원정지 및삭제</th>
     </tr>
     </thead>
 
@@ -70,6 +79,7 @@
         <td th:text="${no.title}" class="td"></td>
         <td th:text="${no.content}" class="td"></td>
         <td th:text="${no.report}" class="td"></td>
+        <td><a th:href="@{StopAND(no=${no.no},id=${id})}"><button>회원정지 및 글삭제</button></a></td>
     </tr>
 </table>
 </body>

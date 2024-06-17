@@ -9,9 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @Controller
 public class ManagerController {
@@ -31,32 +32,33 @@ public class ManagerController {
         return "review";
     }
 
-    @RequestMapping(value="delete",method=RequestMethod.GET)
+    @RequestMapping(value = "delete", method = RequestMethod.GET)
     public String delete(@RequestParam("g_no") int g_no) throws Exception {
         System.out.println(g_no);
         manager.delete(g_no);
         return "redirect:managerMode2";
     }
 
-    @RequestMapping(value="delete2",method=RequestMethod.GET)
+    @RequestMapping(value = "delete2", method = RequestMethod.GET)
     public String delete2(@RequestParam("no") int no) throws Exception {
         System.out.println(no);
         manager.delete2(no);
         return "redirect:managerMode";
     }
 
-    @RequestMapping(value= "look", method=RequestMethod.GET)
-    public String look(@RequestParam("g_no") int g_no,Model model) throws Exception{
+    @RequestMapping(value = "look", method = RequestMethod.GET)
+    public String look(@RequestParam("g_no") int g_no, Model model) throws Exception {
         System.out.println(g_no);
-        GroupPostVO look=manager.selectgroupPost(g_no);
-        model.addAttribute("g_no",look);
+        GroupPostVO look = manager.selectgroupPost(g_no);
+        model.addAttribute("g_no", look);
         return "look";
     }
 
-    @RequestMapping(value= "look2", method=RequestMethod.GET)
-    public String look2(@RequestParam("no") int no,Model model) throws Exception{
-        PostVO look=manager.selectpost(no);
-        model.addAttribute("no",look);
+    @RequestMapping(value = "look2", method = RequestMethod.GET)
+    public String look2(@RequestParam("no") int no, Model model,@RequestParam("id") String id) throws Exception {
+        PostVO look = manager.selectpost(no);
+        model.addAttribute("id",id);
+        model.addAttribute("no", look);
         return "look2";
     }
 
@@ -69,23 +71,19 @@ public class ManagerController {
 
     @RequestMapping(value = "/managerMode", method = RequestMethod.GET)
     public String reportsave2(Model model) throws Exception {
-        List<PostVO> allList=manager.postreport();
-        model.addAttribute("all",allList);
+        List<PostVO> allList = manager.postreport();
+        model.addAttribute("all", allList);
         return "Manager.Main";
     }
 
     @RequestMapping(value = "/stop", method = RequestMethod.GET)
-    public String stop(Model model,String id) throws Exception {
+    public String stop(Model model, String id) throws Exception {
         System.out.println(id);
-        model.addAttribute("id",id);
+        model.addAttribute("id", id);
         return "stop";
     }
-    @RequestMapping(value="stopinput",method=RequestMethod.GET)
-    public String stopinput(@ModelAttribute StopMemberVO stop)throws Exception {
-        System.out.println(stop.toString());
-        manager.stopinsert(stop);
-        return "redirect:managerMode";
-    }
+
+
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchcell") String searchcell,
@@ -93,8 +91,94 @@ public class ManagerController {
         HashMap<String, String> params = new HashMap<>();
         params.put("searchcell", searchcell);
         params.put("search", search);
-        List<PostVO>allList=manager.selectrandom(params);
-        model.addAttribute("all",allList);
+        List<PostVO> allList = manager.selectrandom(params);
+        model.addAttribute("all", allList);
         return "Manager.Main";
     }
+
+    @RequestMapping(value = "/search2", method = RequestMethod.GET)
+    public String search2(@RequestParam("searchcell") String searchcell,
+                          @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<GroupPostVO> allList = manager.selectrandom2(params);
+        model.addAttribute("all", allList);
+        return "Manager.Main2";
+    }
+
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public String test(Model model) throws Exception {
+        String region = manager.random();
+        model.addAttribute("region", region);
+        return "test";
+    }
+
+    @RequestMapping(value = "alter", method = RequestMethod.GET)
+    public String alter(@RequestParam("no") int no) throws Exception {
+        System.out.println(no);
+        manager.alter(no);
+        return "redirect:managerMode";
+    }
+
+    @RequestMapping(value = "alter2", method = RequestMethod.GET)
+    public String alter2(@RequestParam("g_no") int g_no) throws Exception {
+        System.out.println(g_no);
+        manager.alter2(g_no);
+        return "redirect:managerMode";
+    }
+
+    @RequestMapping(value = "stopmember", method = RequestMethod.GET)
+    public String stopmember(Model model) throws Exception {
+        List<StopMemberVO> allList = manager.stopMember();
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
+    }
+
+    @RequestMapping(value = "stopdelete", method = RequestMethod.GET)
+    public String stopdelete(Model model, @RequestParam("id") String id) throws Exception {
+        manager.stopdelete(id);
+        List<StopMemberVO> allList = manager.stopMember();
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
+    }
+
+
+  @RequestMapping(value = "fordelete", method = RequestMethod.GET)
+   public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
+      List<String> list = Arrays.asList(no);
+       manager.fordelete(list);
+       List<PostVO>allList=manager.postreport();
+       model.addAttribute("all", allList);
+       return "Manager.Main";
+    }
+    @RequestMapping(value = "fordelete2", method = RequestMethod.GET)
+    public String fordelete2(Model model, @RequestParam("no") String[] no) throws Exception {
+        List<String> list = Arrays.asList(no);
+        manager.fordelete2(list);
+        List<GroupPostVO>allList=manager.groupreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main2";
+    }
+    @RequestMapping(value="StopAND",method=RequestMethod.GET)
+    public String StopAND(Model model,@RequestParam("no")String no,@RequestParam("id")String id)throws Exception{
+       model.addAttribute("no",no);
+       model.addAttribute("id",id);
+       return "StopANDdelete";
+    }
+    @RequestMapping(value = "stopdeleteinput", method = RequestMethod.GET)
+    public String stopinput2(@ModelAttribute StopMemberVO stop,@RequestParam int no) throws Exception {
+        System.out.println(stop.toString());
+        manager.stopinsert(stop);
+        manager.delete2(no);
+        return "redirect:managerMode";
+    }
+    @RequestMapping(value = "stopinput", method = RequestMethod.GET)
+    public String stopinput(@ModelAttribute StopMemberVO stop) throws Exception {
+        System.out.println(stop.toString());
+        manager.stopinsert(stop);
+        return "redirect:managerMode";
+    }
 }
+
+

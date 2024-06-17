@@ -60,4 +60,39 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     public List<PostVO> selectrandom(HashMap<String, String> params)throws Exception {
         return  sqlSession.selectList(mapperQuery+".selectrandom",params);
     }
+
+    @Override
+    public List<GroupPostVO> selectrandom2(HashMap<String, String> params) {
+        return sqlSession.selectList(mapperQuery+".selectrandom2",params);
+    }
+
+    @Override
+    public void alter(int no) throws Exception {
+        sqlSession.update(mapperQuery+".alter",no);
+    }
+
+    @Override
+    public List<StopMemberVO> stopMember() throws Exception {
+        return sqlSession.selectList(mapperQuery+".stopMember");
+    }
+
+    @Override
+    public void stopdelete(String id) throws Exception {
+        sqlSession.delete(mapperQuery + ".deletestop", id);
+    }
+
+    @Override
+    public void fordelete(List<String> list) {
+        sqlSession.delete(mapperQuery + ".fordelete",list);
+    }
+
+    @Override
+    public void fordelete2(List<String> list) {
+        sqlSession.delete(mapperQuery+".fordelete2",list);
+    }
+
+    @Override
+    public void alter2(int g_no) {
+        sqlSession.update(mapperQuery+".alter2",g_no);
+    }
 }

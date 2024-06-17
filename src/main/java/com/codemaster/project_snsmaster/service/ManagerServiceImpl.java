@@ -7,6 +7,7 @@ import com.codemaster.project_snsmaster.vo.StopMemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -61,5 +62,46 @@ IF_ManagerDAO mdao;
     @Override
     public List<PostVO> selectrandom(HashMap<String, String> params) throws Exception {
         return mdao.selectrandom(params);
+    }
+    @Override
+    public List<GroupPostVO> selectrandom2(HashMap<String, String> params) throws Exception {
+        return mdao.selectrandom2(params);
+    }
+    @Override
+    public String random() throws Exception {
+        String[] regions = {"Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", "Ulsan", "Suwon"};
+        String region = regions[rand.nextInt(8)];
+        return region;
+    }
+
+    @Override
+    public void alter(int no) throws Exception {
+        mdao.alter(no);
+    }
+
+    @Override
+    public List<StopMemberVO> stopMember() throws Exception {
+       return mdao.stopMember();
+    }
+
+    @Override
+    public void stopdelete(String id) throws Exception {
+        mdao.stopdelete(id);
+    }
+
+    @Override
+    public void fordelete(List<String> list) throws Exception {
+        System.out.println(list);
+        mdao.fordelete(list);
+    }
+
+    @Override
+    public void fordelete2(List<String> list) {
+        mdao.fordelete2(list);
+    }
+
+    @Override
+    public void alter2(int g_no) throws Exception {
+        mdao.alter2(g_no);
     }
 }
