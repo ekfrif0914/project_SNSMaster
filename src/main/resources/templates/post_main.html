@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
     body {
@@ -213,7 +214,10 @@
                 <b th:text="${post.id}"></b>
                 <a href="#">팔로우</a>
                 <span class="right">
-                    <a th:href="@{postDelete(no=${post.no})}">삭제</a>
+                    <span th:if="${session.userid==post.id}">
+                        <a th:href="@{postMod(no=${post.no})}">수정</a>
+                        <a th:href="@{postDelete(no=${post.no})}">삭제</a>
+                    </span>
                     <a th:href="@{postDetail(no=${post.no})}">자세히보기</a>
                 </span><br>
                 <span th:text="${post.region}"></span>
@@ -224,7 +228,7 @@
                 <div th:if="${post.file_name[0]} != null" th:id="carouselExample+${postStat.index}"
                      class="carousel slide slideContainer">
                     <div class="carousel-inner">
-                        <div th:each="fname : ${post.getFile_name()}" th:if="${fname} != null"
+                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
                              th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
                             <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
                         </div>
@@ -257,12 +261,10 @@
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
                     <span>사용자 이름:</span> <span th:text="${session.username}"></span>
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-                <span><a href="logout">로그 아웃</a></span>
             </div>
         </div>
         <div id="mmode">
-            <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
-            <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
+           <img src="img/mmode.png" id="m">
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
@@ -275,6 +277,35 @@
     </nav>
 </div>
 </body>
+<script th:inline="javascript">
+    var id = [[${session.userid}]]
+    if (id != null) {//로그인 되어있으면
+        console.log(id)
+        $("#login").remove()
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "logout"
+        button.type = button
+        button.className = "btn btn-primary"
+        button.innerHTML = "로그아웃"
+        button.style = "font-size: 15px"
+        area.appendChild(button)
+
+    } else {//로그아웃 되어있으면
+        $('#logout').remove()
+        console.log(id)
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "login"
+        button.type = button
+        button.className = "btn btn-primary"
+
+        button.innerHTML = "로그인"
+        area.appendChild(button)
+
+
+    }
+</script>
 <script>
     function chkAvail() {
         if (document.querySelector("#search").value == "") {
@@ -284,5 +315,21 @@
             return true;
         }
     }
+
+    $('#login').on('click', () => {
+        location.href = 'loginForm'
+    });
+
+    $('#logout').on('click', () => {
+        location.href = 'logout'
+    });
+
+    $('#m').on('click', () => {
+        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+        let openUrl='/managerPage'
+        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+
+
+    });
 </script>
 </html>

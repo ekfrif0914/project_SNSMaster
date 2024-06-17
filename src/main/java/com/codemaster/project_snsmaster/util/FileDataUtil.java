@@ -108,4 +108,13 @@ public class FileDataUtil {
 	public void setExtNameArray(ArrayList<String> extNameArray) {
 		this.extNameArray = extNameArray;
 	}
+
+	public void fileDelete(String[] fileNames) {
+		if(fileNames != null) {
+			for(String fileName : fileNames){
+				File file = new File(uploadPath + "/" + fileName);
+				file.delete();
+			}
+		}
+	}
 }
