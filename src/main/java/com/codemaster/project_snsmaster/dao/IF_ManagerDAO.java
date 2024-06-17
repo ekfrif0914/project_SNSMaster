@@ -26,4 +26,18 @@ public interface IF_ManagerDAO {
   public PostVO selectpost(int no)throws Exception;
 
    public List<PostVO> selectrandom(HashMap<String, String> params)throws Exception;
+
+   public List<GroupPostVO> selectrandom2(HashMap<String, String> params)throws Exception;
+
+   public void alter(int no)throws Exception;
+
+   public List<StopMemberVO> stopMember()throws Exception;
+
+    public void stopdelete(String id)throws Exception;
+
+  public  void fordelete(List<String> list)throws Exception;
+
+   public void fordelete2(List<String> list);
+
+   public void alter2(int g_no);
 }

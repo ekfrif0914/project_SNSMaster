@@ -116,7 +116,7 @@
     }
     #mana{
 
-        margin-left:370px;
+        margin-left:300px;
     }
     #lef{
         margin-left:250px;
@@ -143,7 +143,7 @@
         transition: box-shadow 0.3s ease; /* 그림자 변화에 애니메이션 적용 */
     }
     #gggg{
-        margin-left:375px;
+        margin-left:310px;
         height:30px;
     }
     search:hover,
@@ -165,46 +165,53 @@
     }
 </style>
 <body>
-
 <div class="navbar">
     <div class="container">
         <ul>
-
+            <li><a href="/review">공지사항 관리</a></li>
             <li><a href="managerMode">자유게시판 관리</a></li>
-            <li><a href="managerMode2">그룹게시판 관리</a></li>
-            <li><a href="#">정지 회원 관리</a></li>
+            <li><a href="managerMode2" style="color:wheat;">그룹게시판 관리</a></li>
+            <li><a href="stopmember">정지 회원 관리</a></li>
         </ul>
     </div>
 </div>
-
 <div class="container">
     <h1 id="gogogo">사용자 관리</h1>
-    <form action="search"  method="get">
-    <select name="searchType" id="gggg">
-        <option value="아이디">아이디</option>
-        <option value="제목">제목</option>
-    </select>
-    <input type="search" id="gihi">
-    <input type="submit" value="검색">
+    <a href="snsMaster">snsmaster </a>
+    <span><a href="logoutManager">로그 아웃</a></span>
+    <form action="search2" method="get">
+        <select name="searchcell" id="gggg">
+            <option value="id">아이디</option>
+            <option value="title">제목</option>
+        </select>
+        <input type="search" id="gihi" value="" name="search">
+        <input type="submit" value="검색">
     </form>
     <table id="mana">
         <thead>
         <tr>
+            <th class="th"><input type="button" value="체크삭제" id="chk"></th>
             <th class="th">글번호</th>
             <th class="th">아이디</th>
+            <th class="th">제목</th>
             <th class="th">자세히보기</th>
             <th class="th">회원정지</th>
             <th class="th">삭제</th>
+            <th class="th">확인</th>
             <th class="th">신고누적</th>
+
         </tr>
         </thead>
         <tbody>
         <tr th:each="all:${all}" class="tr">
+            <td><input type="checkbox" th:value="${all.g_no}" class="checkbox"></td>
             <td th:text="${allStat.count}">
             <td th:text="${all.id}"></td>
+            <td th:text="${all.g_title}"></td>
             <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
             <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
             <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
+            <td><a th:href="@{alter2(g_no=${all.g_no})}"><button>문제없음</button></a></td>
             <td th:text="${all.g_report}"></td>
         </tr>
         </tbody>
@@ -215,3 +222,15 @@
 </html>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('chk').addEventListener('click', function() {
+            var checkboxes = document.querySelectorAll('.checkbox:checked');
+            var aa = [];
+            for (var i = 0; i < checkboxes.length; i++) {
+                aa.push(checkboxes[i].value);
+            }
+            location.href="fordelete2?no="+aa
+        });
+    });
+</script>
