@@ -5,6 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -135,6 +136,21 @@ public class GroupDAOImpl implements IF_GroupDAO {
     @Override
     public void dgjmdelete(int wait_no) throws Exception {
         sqlSession.delete(mapperQuery+".dgjmdelete", wait_no);
+    }
+
+    @Override
+    public List<MemberGroupVO> searchselectAll(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".searchselectall", param);
+    }
+
+    @Override
+    public List<G_joinVO> gjsearchselectAll(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".gjsearchselectall", param);
+    }
+
+    @Override
+    public List<GroupPostVO> gpsearchselectAll(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".gpsearchselectall", param);
     }
 
   /*  @Override

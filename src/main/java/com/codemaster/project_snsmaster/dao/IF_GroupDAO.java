@@ -2,6 +2,7 @@ package com.codemaster.project_snsmaster.dao;
 
 import com.codemaster.project_snsmaster.vo.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface IF_GroupDAO {
@@ -51,6 +52,12 @@ public interface IF_GroupDAO {
     public void gjmdelete(GroupJoinVO gjvo) throws Exception;
 
     public void dgjmdelete(int wait_no) throws Exception;
+
+   public List<MemberGroupVO> searchselectAll(HashMap<String, String> param) throws  Exception;
+
+   public List<G_joinVO> gjsearchselectAll(HashMap<String, String> param) throws Exception;
+
+   public List<GroupPostVO> gpsearchselectAll(HashMap<String, String> param) throws Exception;
 
 
     // public int countselect(int mo_no) throws Exception;
