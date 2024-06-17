@@ -2,6 +2,7 @@ package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.vo.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface IF_GroupService {
@@ -52,6 +53,12 @@ public interface IF_GroupService {
    public void gjmdelete(GroupJoinVO gjvo) throws Exception;
 
    public void dgjmdelete(int wait_no) throws Exception;
+
+    public List<MemberGroupVO> search(HashMap<String, String> param) throws Exception;
+
+    public List<G_joinVO> gjsearch(HashMap<String, String> param) throws Exception;
+
+   public List<GroupPostVO> gpsearch(HashMap<String, String> param) throws Exception;
 
 
     // public int countselect(int mo_no) throws Exception;
