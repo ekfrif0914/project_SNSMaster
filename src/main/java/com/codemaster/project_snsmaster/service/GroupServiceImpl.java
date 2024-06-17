@@ -5,6 +5,7 @@ import com.codemaster.project_snsmaster.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -127,6 +128,21 @@ public class GroupServiceImpl implements IF_GroupService {
     @Override
     public void dgjmdelete(int wait_no) throws Exception {
         gdao.dgjmdelete(wait_no);
+    }
+
+    @Override
+    public List<MemberGroupVO> search(HashMap<String, String> param) throws Exception {
+        return gdao.searchselectAll(param);
+    }
+
+    @Override
+    public List<G_joinVO> gjsearch(HashMap<String, String> param) throws Exception {
+        return gdao.gjsearchselectAll(param);
+    }
+
+    @Override
+    public List<GroupPostVO> gpsearch(HashMap<String, String> param) throws Exception {
+        return gdao.gpsearchselectAll(param);
     }
 
    /* @Override

@@ -137,4 +137,15 @@
     <select id="countselect">
         select count(*) from g_member where mo_no=#{mo_no}
     </select>
+
+    <select id="searchselectall" resultType="com.codemaster.project_snsmaster.vo.MemberGroupVO" parameterType="hashmap">
+        select * from membergroup where g_region like concat('%',#{g_region},'%') and gname like concat('%',#{search },'%')
+    </select>
+
+    <select id="gjsearchselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.G_joinVO">
+        select * from g_join where ${g_region} like  concat('%',#{search},'%') and gno=#{gno}
+    </select>
+    <select id="gpsearchselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select * from grouppost where ${idsearch} like concat ('%',#{search},'%') and gno=#{gno}
+    </select>
 </mapper>

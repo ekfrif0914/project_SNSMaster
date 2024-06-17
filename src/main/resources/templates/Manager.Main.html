@@ -164,6 +164,7 @@
     }
 </style>
 <body>
+
 <div class="navbar">
     <div class="container">
         <ul>
@@ -176,6 +177,9 @@
 </div>
 <div class="container">
     <h1 id="gogogo">사용자 관리</h1>
+    <a href="snsMaster">snsmaster </a>
+    <span><a href="logoutManager">로그 아웃</a></span>
+
     <form action="search2" method="get">
         <select name="searchcell" id="gggg">
             <option value="id">아이디</option>
@@ -214,11 +218,7 @@
 </body>
 <script>
 
-
-    //self.close(); // 열었던 새창 닫기-->
-    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
     opener.document.location.href = '/managerMode';
     window.close()
-
 
 </script>

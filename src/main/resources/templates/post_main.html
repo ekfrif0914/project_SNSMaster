@@ -261,10 +261,12 @@
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
                     <span>사용자 이름:</span> <span th:text="${session.username}"></span>
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
+
             </div>
         </div>
         <div id="mmode">
            <img src="img/mmode.png" id="m">
+
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
@@ -277,6 +279,7 @@
     </nav>
 </div>
 </body>
+
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
@@ -305,6 +308,7 @@
 
 
     }
+
 </script>
 <script>
     function chkAvail() {
@@ -331,5 +335,6 @@
 
 
     });
+
 </script>
 </html>

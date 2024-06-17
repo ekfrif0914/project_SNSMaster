@@ -69,7 +69,7 @@
     }
 
     .img {
-
+        border: 1px solid black;
         width: 40px;
         height: 40px;
         margin: 4px;
@@ -183,40 +183,40 @@
         margin-right: auto;
     }
 
-    .profileImg{
+    .profileImg {
         width: 100px;
         height: 100px;
         object-fit: contain;
         float: left;
     }
 
-    #profileFrame{
+    #profileFrame {
         padding: 50px;
     }
 
-    #idText{
+    #idText {
         margin-left: 50px;
         margin-right: 50px;
         float: left;
     }
 
-    #myPostFrame{
+    #myPostFrame {
         padding-top: 50px;
         padding-left: 150px;
         padding-right: 150px;
     }
 
-    .cardButton{
+    .cardButton {
         position: absolute;
         bottom: 10px;
         right: 10px;
     }
 
-    .card-body{
+    .card-body {
         padding-bottom: 30px;
     }
 
-    #postSelector{
+    #postSelector {
         margin-bottom: 10px;
     }
 
@@ -244,14 +244,18 @@
                 </form>
             </div>
             <div id="profileFrame">
-<!--                <div th:if="${memberinfo.file_name}!=null">-->
-<!--                    <img th:src="'/download?filename='+${memberinfo.file_name}"  class="profileImg">-->
-<!--                </div>-->
-<!--                <div th:if="${memberinfo.file_name}==null">-->
-<!--                    <img src="img/user.png" class="profileImg">-->
-<!--                </div>-->
+
+              <div th:if="${memberinfo.file_name}!=null">
+                    <img th:src="'/download?filename='+${memberinfo.file_name}"  class="profileImg">
+               </div>
+               <div th:if="${memberinfo.file_name}==null">
+                   <img src="img/user.png" class="profileImg">
+               </div>
+
                 <div id="idText"><h3 th:text="${userid}"></h3></div>
-                <a href="#"><button>내 정보 관리</button></a>
+                <a th:href="@{/myinfoPage(id=${userid})}">
+                    <button>내 정보 관리</button>
+                </a>
             </div>
             <div id="myPostFrame">
                 <select name="category" id="postSelector" onchange="location.href=this.value;">
@@ -270,8 +274,12 @@
                                 <h5 class="card-title" th:text="${post.title}"></h5>
                                 <p class="card-text" th:text="${post.content}"></p>
                                 <div class="cardButton">
-                                    <a th:href="@{postMod(no=${post.no})}"><button>수정</button></a>
-                                    <a th:href="@{postDelete(no=${post.no})}"><button>삭제</button></a>
+                                    <a th:href="@{postMod(no=${post.no})}">
+                                        <button>수정</button>
+                                    </a>
+                                    <a th:href="@{postDelete(no=${post.no})}">
+                                        <button>삭제</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -337,6 +345,9 @@
 </div>
 </body>
 <script th:inline="javascript">
+
+    console.log([[${posts}]])
+
     function chkAvail() {
         if (document.querySelector("#search").value == "") {
             alert("검색어를 입력해주세요");
@@ -346,10 +357,11 @@
         }
     }
 
-    function selCategory(){
+    function selCategory() {
         var category = [[${category}]];
-        document.querySelector('#'+category).setAttribute('selected', true);
+        document.querySelector('#' + category).setAttribute('selected', true);
     }
+
     selCategory();
 </script>
 </html>
