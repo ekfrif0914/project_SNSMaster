@@ -1,9 +1,14 @@
 package com.codemaster.project_snsmaster.controller;
 
+import com.codemaster.project_snsmaster.service.IF_AdminService;
+
+import com.codemaster.project_snsmaster.service.IF_GroupService;
+
 import com.codemaster.project_snsmaster.service.IF_PostService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +25,12 @@ import java.util.HashMap;
 public class PostController {
     @Autowired
     IF_PostService postService;
+
+    @Autowired
+    IF_AdminService adminService;
+    @Autowired
+
+    IF_GroupService groupService;
 
     @Autowired
     FileDataUtil fileDataUtil;
@@ -44,7 +55,9 @@ public class PostController {
     }
     @PostMapping(value = "/postInputSave")
     public String postInputSave(@ModelAttribute PostVO postvo, HttpSession session, MultipartFile[] file) throws Exception {
-//        postvo.setId(session.getAttribute("userId"));
+
+        postvo.setId((String)session.getAttribute("userid"));
+
         if(file != null) {
             String[] fileName = fileDataUtil.fileUpload(file);
             postvo.setFile_name(fileName);
@@ -55,50 +68,91 @@ public class PostController {
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session, String category) throws Exception {
         String userid = (String) session.getAttribute("userid");
+
         if(userid == null){
             return "loginForm";
         }
-        if(category == null || category.equals("all")){
+        if(category == null){
             model.addAttribute("posts", postService.selectMyPost(userid));
-        }else {
-            PostVO postVO = new PostVO();
-            postVO.setCategory(category);
-            postVO.setId(userid);
-            model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
+            model.addAttribute("gposts", postService.selectMyGroupPost(userid));
+            model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
+        } else {
+            switch (category){
+                case "자유게시글":
+                case "여행계획서":
+                    PostVO postVO = new PostVO();
+                    postVO.setCategory(category);
+                    postVO.setId(userid);
+                    model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
+                    break;
+                case "그룹게시글":
+                    model.addAttribute("gposts", postService.selectMyGroupPost(userid));
+                    break;
+                case "모임모집글":
+                    model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
+                    break;
+                default:
+                    model.addAttribute("posts", postService.selectMyPost(userid));
+                    model.addAttribute("gposts", postService.selectMyGroupPost(userid));
+                    model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
+                    break;
+            }
         }
+
+        model.addAttribute("memberinfo",adminService.getMember(userid));
+
+        System.out.println(adminService.getMember(userid).getFile_name());
+        model.addAttribute("memberinfo",  adminService.getMember(userid));
+
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
+
         return "post_myPage";
     }
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model) throws Exception {
         model.addAttribute("post", postService.selectOne(no));
-//        System.out.println(no);
-//        System.out.println(postService.selectFileNames(no));
         model.addAttribute("fileNames", postService.selectFileNames(no));
         model.addAttribute("comments", postService.selectComment(no));
         return "post_detail";
     }
     @PostMapping(value = "/postSaveComment")
-    public String postSaveComment(@ModelAttribute PostCommentVO postCommentVO, HttpSession session) throws Exception {
-//        postCommentVO.setId(session.getAttribute("userid")); // 세션으로부터 아이디 받아옴
+    public String postSaveComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request, HttpSession session) throws Exception {
+        postCommentVO.setId((String) session.getAttribute("userid"));
         postService.insertComment(postCommentVO);
-        return "redirect:/postDetail?no=" + postCommentVO.getNo();
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
     @GetMapping(value = "/postDeleteComment")
-    public String postDeleteComment(@ModelAttribute PostCommentVO postCommentVO, HttpSession session) throws Exception {
+    public String postDeleteComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request) throws Exception {
         postService.deleteComment(postCommentVO.getC_no()+"");
-        return "redirect:/postDetail?no=" + postCommentVO.getNo();
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
     @GetMapping(value = "/postDelete")
-    public String postDelete(@RequestParam String no) throws Exception {
+    public String postDelete(@RequestParam String no, HttpServletRequest request) throws Exception {
+        String[] filenames = postService.selectOne(no).getFile_name();
         postService.deletePost(no);
-        return "redirect:/snsMaster";
+        fileDataUtil.fileDelete(filenames);
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
     @GetMapping(value = "/postMod")
-    public String postMod(@RequestParam String no, Model model) throws Exception {
+    public String postMod(@RequestParam String no, Model model, HttpServletRequest request) throws Exception {
         model.addAttribute("post", postService.selectOne(no));
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer", referer);
         return "post_modForm";
+    }
+    @PostMapping(value = "/postModSave")
+    public String postModSave(@ModelAttribute PostVO postVO, MultipartFile[] file, String[] delfname, String referer) throws Exception {
+        fileDataUtil.fileDelete(delfname);
+        if(file != null) {
+            String[] fileName = fileDataUtil.fileUpload(file);
+            postVO.setFile_name(fileName);
+        }
+        postService.modPost(postVO, delfname);
+        return "redirect:" + referer;
     }
 
 }

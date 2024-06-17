@@ -45,7 +45,6 @@
         margin-left: 160px;
         width: 980px;
         height: 840px;
-        border: 1px solid black;
     }
 
     #mmode {
@@ -170,8 +169,20 @@
         margin-left: 40px;
     }
 
-</style>
+    .postFile {
+        object-fit: contain;
+        width: 700px;
+        height: 700px;
+    }
 
+    .slideContainer {
+        width: 700px;
+        height: 700px;
+        background-color: black;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
 <body>
 <div class="title">
@@ -179,12 +190,9 @@
 
         <div id="logo">
             <h1 style="text-align: center" >LOGO</h1>
-
         </div>
-
         <div id="change">
             <div id="top">
-
                 <form action="postSearch" method="get">
                     <div id="select">
                         <select name="region" id="region" onchange="">
@@ -193,11 +201,8 @@
                             <option value="수원"><span>수원</span> </span></option>
                         </select>
                     </div>
-
                     <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
                     <input type="submit" value="검색" id="sbtn" onclick="return chkSearchAvail()">
-
-
                 </form>
             </div>
             <div class="post">
@@ -218,12 +223,31 @@
                 </span>
                 <hr>
                 <h5><b th:text="${post.title}"></b></h5>
-                <span th:text="${post.content}"></span><br>
-                <span th:each="fname : ${fileNames}" >
-                    <img th:src="@{download(filename=${fname})}" alt="...">
-                </span><br><hr>
+                <br>
+                <div th:if="${post.file_name[0]} != null" id="carouselExample"
+                     class="carousel slide slideContainer">
+                    <div class="carousel-inner">
+                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
+                             th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
+                            <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <br>
+                <span th:text="${post.content}"></span>
+                <br><hr>
                 <span th:each="comment : ${comments}">
-                    <span th:text="${comment.id}"></span> <a th:href="@{postDeleteComment(c_no=${comment.c_no},no=${comment.no})}">삭제</a><br>
+                    <span th:text="${comment.id}"></span> <a th:if="${session.userid == comment.id}" th:href="@{postDeleteComment(c_no=${comment.c_no},no=${comment.no})}">삭제</a><br>
                     <span th:text="${comment.cmt}"></span><br>
                 </span>
                 <form action="postSaveComment" method="post">
@@ -231,7 +255,6 @@
                     <input type="hidden" id="cmtContent" name="no" th:value="${post.no}">
                     <input type="submit" value="댓글달기" onclick="return chkCommentAvail()">
                 </form>
-
             </div>
             <div id="show">
                 <th:block th:if="${session.userid!=null}">
@@ -240,27 +263,23 @@
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
                 <span><a href="logout">로그 아웃</a></span>
             </div>
-
         </div>
-
         <div id="mmode">
             <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
             <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
         </div>
-
     </div>
-
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
             <a href="snsMaster"> <img src="img/home.png" class="img"></a>
             <a href="myPost"> <img src="img/plus.png" class="img"></a>
             <a href="group"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
-
         </div>
     </nav>
 </div>
 </body>
+
 <script>
     function chkSearchAvail(){
         if(document.querySelector("#sword").value==""){

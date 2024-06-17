@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보 관리</title>
+</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<body>
+<style>
+    #field {
+        display: inline-block;
+    }
+
+    .btn {
+
+        margin-top: 380px;
+        color: #666666;
+        text-decoration: underline;
+
+    }
+
+</style>
+<h1>회원정보 수정</h1>
+<br>
+<div id="field">
+    아이디: <span th:text="${member.id}"></span>
+
+    <br>
+    이메일:<span th:text="${member.email}"></span>
+
+    <form action="updateSave" method="post">
+        <input type="hidden" th:value="${member.id}" name="id">
+        지역
+        <select class="form-select" name="region" id="region">
+            <option value="서울특별시">서울특별시</option>
+            <option value="인천광역시">인천광역시</option>
+            <option value="부산광역시">부산광역시</option>
+            <option value="대구광역시">대구광역시</option>
+            <option value="울산광역시">울산광역시</option>
+            <option value="수원특례시">수원특례시</option>
+        </select>
+        <br><br><!--세분화-->
+
+
+        이름<input type="text" th:value="${member.name}" name="name" id="name">
+        <br><br>
+        비밀번호<input type="password" th:value="${member.pw}" id="userpw">
+        <input type="hidden" th:value="${member.pw}" id="oldpw">
+        <br><br>
+        새 비밀번호<input type="password" name="pw" id="pw" onchange="pwChk()" onkeyup="pwChk()"><br>
+        <span id="noticePw">
+
+                영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요
+            </span>
+        <br>
+        새 비밀번호 확인<input type="password" id="pwchk">
+        <br>
+        <br>
+        <input type="submit" value="수정하기" onclick="return updateSave()">
+    </form>
+</div>
+
+
+<div id="cancel">
+
+
+    <form action="memberCancelPage" method="post">
+        <input type="hidden" th:value="${member.id}" name="id">
+        <input type="hidden" th:value="${member.pw}" name="pw">
+        <input type="submit" class="btn" value="회원탈퇴">
+    </form>
+
+</div>
+
+</body>
+<script th:inline="javascript">
+    var region = [[${member.region}]]
+    console.log(region)
+
+    $('#region').val(region).attr("selected", true);
+    //$('#region option').val(region).prop("selected", true)
+</script>
+<script>
+
+    function updateSave() {
+
+        var name = $('#name').val()
+        var newpw = $('#pw').val()
+        var newpwchk = $('#pwchk').val()
+
+        if (name == "" || newpw != "" && newpwchk == "" || newpw == "" && newpwchk != "") {
+            alert("수정 항목을 입력하세요")
+            return false;
+        } else if (newpw == "" && newpwchk == "" && name != "") {
+            if (oldpwChk() && newchk()) {
+                console.log("서밋됨")
+                return true;
+            }
+        } else {
+
+            if (pwChk() && newchk() && oldpwChk()) {
+                console.log("submit 됨")
+                return true;
+            } else {
+                //console.log(pwChk() + "1")//비밀번호유효성
+                //console.log(newchk() + "2")//새 비밀번호와 확인
+                //console.log(oldpwChk() + "3")//현재 비밀번호와 일치하는지 확인
+                console.log("submit 안됨")
+                return false;
+            }
+        }
+
+    }
+
+    function newchk() {
+        var pw = $('#pw').val()
+        var pwchk = $('#pwchk').val()
+        if (pw == "" && pwchk == "") {
+            console.log("공백임")
+            var oldpw = $('#oldpw').val()
+            $('#pw').val(oldpw)
+            return true;
+        } else {
+            if (pw != pwchk) {
+                alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다")
+                return false;
+            } else {
+                // console.log("새 비밀번호 확인")
+                return true;
+            }
+        }
+    }
+
+    function oldpwChk() {
+        var oldpw = $('#oldpw').val()
+        var userpw = $('#userpw').val()
+        if (oldpw != userpw) {
+            alert("비밀번호를 정확하게 입력해주세요")
+            return false;
+        } else {
+            console.log("비밀번호 일치")
+            return true;
+        }
+
+    }
+
+    function pwChk() {
+        var pw1 = $('#pw').val()
+        var num = pw1.search(/[0-9]/g);
+        var eng = pw1.search(/[a-z]/ig);
+        var spe = pw1.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        var noticePw = $('#noticePw')
+
+        if (pw1 == "") {
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요")
+            noticePw.css("color", "grey")
+            return false;
+        } else if (pw1.length < 4 || pw1.length > 10) {
+
+            noticePw.text("4자리 ~ 10자리 이내로 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+        } else if (pw1.search(/\s/) != -1) {
+            noticePw.text("비밀번호는 공백 없이 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+        } else if (num < 0 || eng < 0 || spe < 0) {
+            noticePw.text("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
+            noticePw.css("color", "red");
+            return false;
+
+        } else {
+            console.log("통과");
+            noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~10자리)")
+            noticePw.css("color", "green")
+            // sum()
+            return true;
+        }
+    }
+
+</script>
+</html>

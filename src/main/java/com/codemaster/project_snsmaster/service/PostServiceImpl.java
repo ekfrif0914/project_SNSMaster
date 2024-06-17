@@ -1,9 +1,7 @@
 package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.dao.IF_PostDAO;
-import com.codemaster.project_snsmaster.vo.PostAttachVO;
-import com.codemaster.project_snsmaster.vo.PostCommentVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
+import com.codemaster.project_snsmaster.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +61,9 @@ public class PostServiceImpl implements IF_PostService{
 
     @Override
     public PostVO selectOne(String no) throws Exception {
-        return postDAO.selectOne(no);
+        PostVO postVO = postDAO.selectOne(no);
+        postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[8]));
+        return postVO;
     }
 
     @Override
@@ -100,5 +100,35 @@ public class PostServiceImpl implements IF_PostService{
     public List<PostVO> selectMyPostbyCategory(PostVO postVO) throws Exception {
         return postDAO.selectMyPostbyCategory(postVO);
     }
+
+    @Override
+    public void modPost(PostVO postVO, String[] delfname) throws Exception {
+        postDAO.modPost(postVO);
+        String[] filename = postVO.getFile_name();
+        if(filename != null){
+            for (String s : filename) {
+                if(s != null){
+                    postDAO.saveAttach(s);
+                }
+            }
+        }
+        if(delfname != null){
+            for (String s : delfname) {
+                postDAO.deleteAttach(s);
+            }
+        }
+
+    }
+
+    @Override
+    public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception {
+        return postDAO.selectMyGroupPost(userid);
+    }
+
+    @Override
+    public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception {
+        return postDAO.selectMyGroupJoin(userid);
+    }
+
 
 }

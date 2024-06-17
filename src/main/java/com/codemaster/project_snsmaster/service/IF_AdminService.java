@@ -11,4 +11,10 @@ public interface IF_AdminService {
     public int overlappedEmail(String email) throws Exception;
 
     public void updateProfile(String id, String[] file_name)throws Exception;
+
+    public MemberVO getMember(String id) throws Exception;
+
+    public void updateSave(MemberVO memberVO)throws Exception;
+
+    public void stop(String id) throws Exception;
 }

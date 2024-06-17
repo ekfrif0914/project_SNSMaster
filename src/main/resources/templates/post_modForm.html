@@ -163,10 +163,11 @@
         float: left;
     }
 
-    .postImg {
-        width: 30px;
-        height: 30px;
-        margin-left: 40px;
+    .postImg{
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+        background-color: black;
     }
 
     .postFile {
@@ -189,6 +190,7 @@
         padding-top: 50px;
         padding-left: 150px;
         padding-right: 150px;
+
     }
 
 </style>
@@ -215,21 +217,31 @@
                 </form>
             </div>
             <div id="mainFrame">
-                <form action="postInputSave" method="post" enctype="multipart/form-data">
+                <form action="postModSave" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="no" th:value="${post.no}">
                     <select name="region" id="postRegion">
                         <option value="none">지역선택</option>
-                        <option value="서울">서울</option>
-                        <option value="수원">수원</option>
+                        <option value="서울" id="서울">서울</option>
+                        <option value="수원" id="수원">수원</option>
                     </select>
                     <select name="category">
-                        <option value="자유게시글">자유게시글</option>
-                        <option value="여행계획서">여행계획서</option>
+                        <option value="자유게시글" id="자유게시글">자유게시글</option>
+                        <option value="여행계획서" id="여행계획서">여행계획서</option>
                     </select><br>
-                    <input name="title" id="title" type="text" placeholder="제목"><br>
-                    <textarea name="content" id="content" rows="10" cols="60" placeholder="내용"></textarea><br>
-                    <input type="file" name="file"><br>
-                    <input type="file" name="file"><br>
-                    <input type="submit" value="등록하기" onclick="return chkAvail()">
+                    <input name="title" id="title" type="text" placeholder="제목" size="58" maxlength="40" th:value="${post.title}"><br>
+                    <textarea name="content" id="content" rows="12" cols="60" placeholder="내용" maxlength="600" th:text="${post.content}"></textarea><br>
+                    <div th:each="fname : ${post.file_name}">
+                        <span th:if="${fname != null}">
+                            <img th:src="@{download(filename=${fname})}" alt="..." class="postImg">
+                            <input type="button" onclick="return changeTag(this)" value="제거하기">
+                            <span th:value="${fname}"></span>
+                        </span>
+                        <span th:unless="${fname != null}">
+                            <input type="file" name="file"><br><br>
+                        </span>
+                    </div>
+                    <input type="hidden" name="referer" th:value="${referer}">
+                    <input type="submit" value="저장하기" onclick="return chkAvail()">
                 </form>
                 <div id="show">
                     <th:block th:if="${session.userid!=null}">
@@ -256,7 +268,7 @@
     </nav>
 </div>
 </body>
-<script>
+<script th:inline="javascript">
     function chkSearchAvail() {
         if (document.querySelector("#search").value == "") {
             alert("검색어를 입력해주세요");
@@ -280,5 +292,20 @@
             return true;
         }
     }
+
+    function selOption(){
+        var category = [[${post.category}]];
+        var region = [[${post.region}]];
+        document.querySelector('#'+category).setAttribute('selected', true);
+        document.querySelector('#'+region).setAttribute('selected', true);
+    }
+    selOption();
+
+    function changeTag(target){
+        var fname = target.nextElementSibling.getAttribute('value');
+        target.parentNode.innerHTML="<input type=\"file\" name=\"file\"><br><br><input type='hidden' name='delfname' value="+fname+">";
+        return false;
+    }
+
 </script>
 </html>

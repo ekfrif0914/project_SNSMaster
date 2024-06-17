@@ -220,12 +220,11 @@
 </body>
 </html>
 <script>
-    //self.close(); // 열었던 새창 닫기-->
-    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
-   //  opener.document.location.href = '/managerMode';
-     //window.close();
+   
+   opener.document.location.href = '/managerMode';
+    window.close();
 
-    document.addEventListener('DOMContentLoaded', function() {
+   
         document.getElementById('chk').addEventListener('click', function() {
             var checkboxes = document.querySelectorAll('.checkbox:checked');
             var aa = [];
@@ -234,7 +233,7 @@
             }
             location.href="fordelete?no="+aa
         });
-    });
+
 
 
 </script>
