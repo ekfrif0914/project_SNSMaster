@@ -12,6 +12,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
 <style>
     body {
         margin: 0px;
@@ -213,7 +214,10 @@
                 <b th:text="${post.id}"></b>
                 <a href="#">팔로우</a>
                 <span class="right">
-                    <a th:href="@{postDelete(no=${post.no})}">삭제</a>
+                    <span th:if="${session.userid==post.id}">
+                        <a th:href="@{postMod(no=${post.no})}">수정</a>
+                        <a th:href="@{postDelete(no=${post.no})}">삭제</a>
+                    </span>
                     <a th:href="@{postDetail(no=${post.no})}">자세히보기</a>
                 </span><br>
                 <span th:text="${post.region}"></span>
@@ -224,7 +228,7 @@
                 <div th:if="${post.file_name[0]} != null" th:id="carouselExample+${postStat.index}"
                      class="carousel slide slideContainer">
                     <div class="carousel-inner">
-                        <div th:each="fname : ${post.getFile_name()}" th:if="${fname} != null"
+                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
                              th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
                             <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
                         </div>
@@ -331,9 +335,6 @@
 
 
     });
-
-
-
 
 </script>
 </html>

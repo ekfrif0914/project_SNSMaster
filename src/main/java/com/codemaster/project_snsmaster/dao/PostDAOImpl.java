@@ -1,8 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
-import com.codemaster.project_snsmaster.vo.PostAttachVO;
-import com.codemaster.project_snsmaster.vo.PostCommentVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
+import com.codemaster.project_snsmaster.vo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -80,6 +78,26 @@ public class PostDAOImpl implements IF_PostDAO{
     @Override
     public List<PostVO> selectMyPostbyCategory(PostVO postVO) throws Exception {
         return sqlSession.selectList(mapperQuery+".selectMyPostbyCategory", postVO);
+    }
+
+    @Override
+    public void modPost(PostVO postVO) throws Exception {
+        sqlSession.update(mapperQuery+".modPost", postVO);
+    }
+
+    @Override
+    public void deleteAttach(String fname) throws Exception {
+        sqlSession.delete(mapperQuery+".deleteAttach", fname);
+    }
+
+    @Override
+    public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectMyGroupPost", userid);
+    }
+
+    @Override
+    public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectMyGroupJoin", userid);
     }
 
 }

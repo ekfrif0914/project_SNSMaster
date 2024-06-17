@@ -21,7 +21,7 @@
         select file_name from post_attach where NO = #{no}
     </select>
     <insert id="insertComment" parameterType="com.codemaster.project_snsmaster.vo.PostCommentVO">
-        insert into post_comment values (null, #{no}, 'a', #{cmt})
+        insert into post_comment values (null, #{no}, #{id}, #{cmt})
     </insert>
     <select id="selectComment" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.PostCommentVO">
         select * from post_comment where NO = #{no}
@@ -41,5 +41,17 @@
     </select>
     <select id="selectMyPostbyCategory" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
         select * from post where id = #{id} and category = #{category}
+    </select>
+    <update id="modPost" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
+        update post set region = #{region}, title = #{title}, content = #{content}, category = #{category} where NO = #{no}
+    </update>
+    <delete id="deleteAttach" parameterType="String">
+        delete from post_attach where file_name = #{fname}
+    </delete>
+    <select id="selectMyGroupPost" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select * from grouppost where id = #{userid}
+    </select>
+    <select id="selectMyGroupJoin" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.G_joinVO">
+        select * from g_join where id = #{userid}
     </select>
 </mapper>

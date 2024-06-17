@@ -1,8 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
-import com.codemaster.project_snsmaster.vo.PostAttachVO;
-import com.codemaster.project_snsmaster.vo.PostCommentVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
+import com.codemaster.project_snsmaster.vo.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,4 +19,8 @@ public interface IF_PostDAO {
     public List<PostAttachVO> selectAllFileNames() throws Exception;
     public List<PostVO> selectMyPost(String userid) throws Exception;
     public List<PostVO> selectMyPostbyCategory(PostVO postVO) throws Exception;
+    public void modPost(PostVO postVO) throws Exception;
+    public void deleteAttach(String fname) throws Exception;
+    public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception;
+    public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception;
 }
