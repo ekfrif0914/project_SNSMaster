@@ -33,4 +33,19 @@ public class AdminDAOImpl implements IF_AdminDAO{
     public void updateProfile(Map<String,Object> param) throws Exception {
         sqlSession.update(mapperquery+".updateProfile",param);
     }
+
+    @Override
+    public MemberVO getMember(String id) throws Exception {
+        return sqlSession.selectOne(mapperquery+".memberInfo",id);
+    }
+
+    @Override
+    public void updateSave(MemberVO memberVO) throws Exception {
+        sqlSession.update(mapperquery+".updateSave",memberVO);
+    }
+
+    @Override
+    public void stop(String id) throws Exception {
+        sqlSession.insert(mapperquery+".stop",id);
+    }
 }

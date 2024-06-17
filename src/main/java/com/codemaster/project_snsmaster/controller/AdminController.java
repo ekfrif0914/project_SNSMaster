@@ -5,6 +5,7 @@ import com.codemaster.project_snsmaster.service.IF_EmailService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 @Controller
 public class AdminController {
@@ -33,12 +35,13 @@ public class AdminController {
     public String saveSignUp(@ModelAttribute MemberVO memberVO) throws Exception {
         System.out.println(memberVO.toString());
         ifAdminService.insert(memberVO);
-        return "redirect:/profilePage?id=" + memberVO.getId();
+        String idEncoding =  URLEncoder.encode(memberVO.getId(),"UTF-8");
+        return "redirect:/profilePage?id=" +  idEncoding ;
     }
 
     @GetMapping("profilePage")
-    public String profileUpdate(@RequestParam(required = false, value="id") String id, Model model) {
-        model.addAttribute("nowid","탕후루12");
+    public String profileUpdate(@RequestParam String id, Model model) {
+        model.addAttribute("nowid", id);
         return "profileUpdate";
 
     }
@@ -76,12 +79,55 @@ public class AdminController {
         System.out.println(id);
         System.out.println(file[0].getOriginalFilename());
 
-        if(file != null) {
+        if (file != null) {
             String[] filename = fileDataUtil.fileUpload(file);
             ifAdminService.updateProfile(id, filename);
             System.out.println("신갓다");
         }
 
         return "redirect:/snsMaster";
+    }
+
+    @GetMapping("myinfoPage")
+    public String myinfoPage(@RequestParam("id") String id, Model model) throws Exception {
+        //System.out.println(id);
+
+        MemberVO member = ifAdminService.getMember(id);
+        model.addAttribute("member", member);
+        return "myinfoPage";
+    }
+
+    @PostMapping("updateSave")
+    public String updateSave(@ModelAttribute MemberVO memberVO) throws Exception {
+        System.out.println(memberVO.toString());
+        ifAdminService.updateSave(memberVO);
+        return "redirect:myPage";
+
+    }
+
+    @PostMapping("memberCancelPage")
+    public String memberCancelPage(@RequestParam("id") String id, @RequestParam("pw") String pw, Model model) throws Exception {
+        System.out.println(id);
+        System.out.println(pw);
+        model.addAttribute("id", id);
+        model.addAttribute("pw", pw);
+        return "memberCancelPage";
+    }
+
+    @PostMapping("memberCancelPage2")
+    public String memberCancelPage2(@RequestParam("id") String id, @RequestParam("pw") String pw, Model model) throws Exception {
+        System.out.println(id);
+        System.out.println(pw);
+        model.addAttribute("id", id);
+        model.addAttribute("pw", pw);
+        return "memberCancelPage2";
+    }
+
+    @GetMapping("stopMember")
+    public String deleteMember(@RequestParam String id, HttpSession session) throws Exception {
+        ifAdminService.stop(id);
+        session.invalidate();
+        return "redirect:snsMaster";
+
     }
 }

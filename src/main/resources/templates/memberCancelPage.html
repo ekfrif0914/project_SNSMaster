@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 탈퇴 페이지</title>
+</head>
+
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+<style>
+    body {
+        margin-left: 300px;
+        margin-top: 50px;
+    }
+
+    table, td, tr, th {
+        border: 1px solid black;
+        height: 70px;
+        width: 700px;
+    }
+
+    span {
+        font-size: larger;
+        font-weight: bold;
+    }
+
+    .btn {
+        margin-top: 70px;
+        margin-left: 300px;
+        width: 90px;
+        height: 40px;
+        background-color: white;
+        background-color: beige;
+        border-color: red;
+        border-radius: 5px;
+
+    }
+</style>
+<body>
+<div id="title">
+    <h1>snsMater탈퇴 안내</h1>
+    <p class="contxt">회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
+    <br>
+    <span class="h_dropout" style="color: red">탈퇴 후 회원정보(아이디:</span>
+    <span th:text="${id}" class="h_dropout" style="color: black"></span>
+    <span class="h_dropout" style="color: red">)및 개인형 서비스 이용기록은 모두 삭제됩니다.</span>
+    <br>
+    <p class="dropout_dsc">
+        회원정보 및 게시글, 그룹정보 등 개인형 서비스 이용기록은 모두 삭제되며, 삭제된 데이터는 복구되지 않습니다.
+        <br>삭제되는 내용을 확인하시고 필요한 데이터는 미리 백업을 해주세요.
+    </p>
+    <table>
+        <tr>
+            <th>자유게시글</th>
+
+            <td>
+                자유게시글 사진 및 게시물 삭제
+            </td>
+        </tr>
+        <tr>
+            <th>그룹</th>
+
+            <td>
+                생성한 그룹 및 게시글 삭제
+            </td>
+        </tr>
+        <tr>
+            <th>댓글</th>
+
+            <td>
+                자유게시글, 그룹게시글에 작성한 댓글 삭제
+            </td>
+        </tr>
+    </table>
+    <br>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+        <label class="form-check-label" for="flexCheckChecked">
+            안내 사항을 모두 확인하였으며, 이에 동의합니다.
+        </label>
+    </div>
+    <br>
+    <form action="memberCancelPage2" method="post">
+        <input type="hidden" th:value="${id}" name="id">
+        <input type="hidden" th:value="${pw}" name="pw">
+        <input type="submit" class="btn" value="확인" onclick="checkbokChk()">
+    </form>
+</div>
+
+
+</body>
+<script>
+    function checkbokChk() {
+
+        if ($('input:checkbox[id="flexCheckChecked"]').is(":checked")) {
+            $('.btn').attr("type", "submit")
+        } else {
+            alert("탈퇴 안내를 확인하고 동의해 주세요.")
+            $('.btn').attr("type", "button")
+        }
+    }
+
+</script>
+</html>
