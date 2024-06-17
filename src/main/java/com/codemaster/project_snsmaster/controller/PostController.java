@@ -1,5 +1,6 @@
 package com.codemaster.project_snsmaster.controller;
 
+import com.codemaster.project_snsmaster.service.IF_AdminService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
@@ -21,6 +22,8 @@ public class PostController {
     @Autowired
     IF_PostService postService;
 
+    @Autowired
+    IF_AdminService adminService;
     @Autowired
     FileDataUtil fileDataUtil;
 
@@ -44,7 +47,7 @@ public class PostController {
     }
     @PostMapping(value = "/postInputSave")
     public String postInputSave(@ModelAttribute PostVO postvo, HttpSession session, MultipartFile[] file) throws Exception {
-//        postvo.setId(session.getAttribute("userId"));
+        postvo.setId((String)session.getAttribute("userid"));
         if(file != null) {
             String[] fileName = fileDataUtil.fileUpload(file);
             postvo.setFile_name(fileName);
@@ -55,6 +58,7 @@ public class PostController {
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session, String category) throws Exception {
         String userid = (String) session.getAttribute("userid");
+
         if(userid == null){
             return "loginForm";
         }
@@ -66,6 +70,8 @@ public class PostController {
             postVO.setId(userid);
             model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
         }
+        System.out.println(adminService.getMember(userid).getFile_name());
+        model.addAttribute("memberinfo",  adminService.getMember(userid));
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
         return "post_myPage";

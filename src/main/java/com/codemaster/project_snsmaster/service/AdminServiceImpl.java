@@ -43,4 +43,19 @@ public class AdminServiceImpl implements IF_AdminService {
 
 
     }
+
+    @Override
+    public MemberVO getMember(String id) throws Exception {
+        return adminDao.getMember(id);
+    }
+
+    @Override
+    public void updateSave(MemberVO memberVO) throws Exception {
+        adminDao.updateSave(memberVO);
+    }
+
+    @Override
+    public void stop(String id) throws Exception {
+        adminDao.stop(id);
+    }
 }

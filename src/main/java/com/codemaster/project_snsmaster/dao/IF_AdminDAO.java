@@ -12,7 +12,11 @@ public interface IF_AdminDAO {
 
     public int overlappedEmail(String email) throws Exception;
 
-    public void updateProfile(Map<String,Object> param) throws Exception;
+    public void updateProfile(Map<String, Object> param) throws Exception;
 
+    public MemberVO getMember(String id) throws Exception;
 
+    public void updateSave(MemberVO memberVO) throws Exception;
+
+    public void stop(String id) throws Exception;
 }
