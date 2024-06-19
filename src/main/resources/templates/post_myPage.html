@@ -316,7 +316,7 @@
                     </div>
                 </div>
             </div>
-            <div id="nothing" th:if="${posts.isEmpty()} and ${gposts.isEmpty()} and ${gjoins.isEmpty()}">
+            <div id="nothing" th:if="${(posts == null or posts.isEmpty()) and (gposts == null or gposts.isEmpty()) and (gjoins == null or gjoins.isEmpty())}">
                 <br><br>
                 작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.
                 <br><br>

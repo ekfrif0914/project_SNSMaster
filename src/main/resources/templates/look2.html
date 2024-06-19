@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <style>
     th {
         background-color: #f2f2f2;
@@ -53,6 +54,7 @@
     input[type="button"]:hover {
         background-color: #0056b3;
     }
+
     button {
         padding: 5px 10px;
         background-color: #007bff;
@@ -69,6 +71,7 @@
         <th>아이디</th>
         <th>제목</th>
         <th>내용</th>
+        <th>위반횟수</th>
         <th>신고누적</th>
         <th>회원정지 및삭제</th>
     </tr>
@@ -77,10 +80,41 @@
     <tr>
         <td th:text="${no.id}" class="td"></td>
         <td th:text="${no.title}" class="td"></td>
-        <td th:text="${no.content}" class="td"></td>
+        <td th:text="${no.content}" class="td" id="vv"></td>
+        <td th:text="${no.content}" id="abc"></td>
         <td th:text="${no.report}" class="td"></td>
-        <td><a th:href="@{StopAND(no=${no.no},id=${id})}"><button>회원정지 및 글삭제</button></a></td>
+        <td><a th:href="@{StopAND(no=${no.no},id=${id})}">
+            <button>회원정지 및 글삭제</button>
+        </a></td>
     </tr>
 </table>
 </body>
 </html>
+<script>
+    $(document).ready(function () {
+        var b = ['말미잘', '바보', '쓰레기', '전민정'];
+       const a = document.querySelector('#abc').innerText
+        const c = document.querySelector('#vv').innerText
+        let count = 0;
+
+        for (let i = 0; i < b.length; i++) {
+            let idx = a.indexOf(b[i]);
+            while (idx !== -1) {
+                count++;
+                idx = a.indexOf(b[i], idx + 1);
+            }
+
+        }
+        $('#abc').text(count)
+
+        for (let i = 0; i < b.length; i++) {
+            let idx = c.indexOf(b[i]);
+            while (idx !== -1) {
+                count++;
+                idx = c.indexOf(b[i], idx + 1);
+            }
+            document.querySelector('#vv').html = c.replaceAll(b[i], '<span style="background-color:red">' + b[i] + "</span>")
+        }
+    });
+
+</script>
