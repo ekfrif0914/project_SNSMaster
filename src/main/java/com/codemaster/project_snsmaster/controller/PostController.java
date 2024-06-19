@@ -40,6 +40,7 @@ public class PostController {
         model.addAttribute("posts", postService.selectAll());
         return "post_main";
     }
+
     @GetMapping(value = "/postSearch")
     public String postSearch(@RequestParam String sword, @RequestParam String region, Model model) throws Exception {
         HashMap<String, String> params = new HashMap<>();
@@ -48,36 +49,39 @@ public class PostController {
         model.addAttribute("posts", postService.select(params));
         return "post_main";
     }
+
     @GetMapping(value = "/myPost")
     public String postInput() {
 
         return "post_inputForm";
     }
+
     @PostMapping(value = "/postInputSave")
     public String postInputSave(@ModelAttribute PostVO postvo, HttpSession session, MultipartFile[] file) throws Exception {
 
-        postvo.setId((String)session.getAttribute("userid"));
+        postvo.setId((String) session.getAttribute("userid"));
 
-        if(file != null) {
+        if (file != null) {
             String[] fileName = fileDataUtil.fileUpload(file);
             postvo.setFile_name(fileName);
         }
         postService.insertPost(postvo);
         return "redirect:/snsMaster";
     }
+
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session, String category) throws Exception {
         String userid = (String) session.getAttribute("userid");
 
-        if(userid == null){
+        if (userid == null) {
             return "loginForm";
         }
-        if(category == null){
+        if (category == null) {
             model.addAttribute("posts", postService.selectMyPost(userid));
             model.addAttribute("gposts", postService.selectMyGroupPost(userid));
             model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
         } else {
-            switch (category){
+            switch (category) {
                 case "자유게시글":
                 case "여행계획서":
                     PostVO postVO = new PostVO();
@@ -99,16 +103,16 @@ public class PostController {
             }
         }
 
-        model.addAttribute("memberinfo",adminService.getMember(userid));
 
         System.out.println(adminService.getMember(userid).getFile_name());
-        model.addAttribute("memberinfo",  adminService.getMember(userid));
+        model.addAttribute("memberinfo", adminService.getMember(userid));
 
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
 
         return "post_myPage";
     }
+
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model) throws Exception {
         model.addAttribute("post", postService.selectOne(no));
@@ -116,6 +120,7 @@ public class PostController {
         model.addAttribute("comments", postService.selectComment(no));
         return "post_detail";
     }
+
     @PostMapping(value = "/postSaveComment")
     public String postSaveComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request, HttpSession session) throws Exception {
         postCommentVO.setId((String) session.getAttribute("userid"));
@@ -123,12 +128,14 @@ public class PostController {
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
+
     @GetMapping(value = "/postDeleteComment")
     public String postDeleteComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request) throws Exception {
-        postService.deleteComment(postCommentVO.getC_no()+"");
+        postService.deleteComment(postCommentVO.getC_no() + "");
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
+
     @GetMapping(value = "/postDelete")
     public String postDelete(@RequestParam String no, HttpServletRequest request) throws Exception {
         String[] filenames = postService.selectOne(no).getFile_name();
@@ -137,6 +144,7 @@ public class PostController {
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
+
     @GetMapping(value = "/postMod")
     public String postMod(@RequestParam String no, Model model, HttpServletRequest request) throws Exception {
         model.addAttribute("post", postService.selectOne(no));
@@ -144,14 +152,36 @@ public class PostController {
         model.addAttribute("referer", referer);
         return "post_modForm";
     }
+
     @PostMapping(value = "/postModSave")
     public String postModSave(@ModelAttribute PostVO postVO, MultipartFile[] file, String[] delfname, String referer) throws Exception {
         fileDataUtil.fileDelete(delfname);
-        if(file != null) {
+        if (file != null) {
             String[] fileName = fileDataUtil.fileUpload(file);
             postVO.setFile_name(fileName);
         }
         postService.modPost(postVO, delfname);
+        return "redirect:" + referer;
+    }
+
+    @PostMapping("deletePostArray")
+    public String deletePost(@RequestParam String postArray, @RequestParam String gpostArray, @RequestParam String gjoinArray, HttpServletRequest request) throws Exception {
+        System.out.println(postArray);
+        System.out.println(gpostArray);
+        System.out.println(gjoinArray);
+        if (postArray != "") {
+            System.out.println(postArray + "postarray");
+            adminService.deletePostArray(postArray);
+        }
+        if (gpostArray != "") {
+            System.out.println(gpostArray + "gpostarray");
+            adminService.deletegPostArray(gpostArray);
+        }
+        if (gjoinArray != "") {
+            System.out.println(gjoinArray + "gjoinarray");
+            adminService.deletegJoinArray(gjoinArray);
+        }
+        String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
 

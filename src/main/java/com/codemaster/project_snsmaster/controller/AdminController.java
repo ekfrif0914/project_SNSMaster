@@ -5,6 +5,7 @@ import com.codemaster.project_snsmaster.service.IF_EmailService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,8 +36,8 @@ public class AdminController {
     public String saveSignUp(@ModelAttribute MemberVO memberVO) throws Exception {
         System.out.println(memberVO.toString());
         ifAdminService.insert(memberVO);
-        String idEncoding =  URLEncoder.encode(memberVO.getId(),"UTF-8");
-        return "redirect:/profilePage?id=" +  idEncoding ;
+        String idEncoding = URLEncoder.encode(memberVO.getId(), "UTF-8");
+        return "redirect:/profilePage?id=" + idEncoding;
     }
 
     @GetMapping("profilePage")
@@ -97,10 +98,12 @@ public class AdminController {
         return "myinfoPage";
     }
 
-    @PostMapping("updateSave")
-    public String updateSave(@ModelAttribute MemberVO memberVO) throws Exception {
+    @PostMapping("updateSave")//회원정보 수정
+    public String updateSave(@ModelAttribute MemberVO memberVO, HttpSession session) throws Exception {
         System.out.println(memberVO.toString());
         ifAdminService.updateSave(memberVO);
+        session.setAttribute("username", memberVO.getName());
+        session.setAttribute("userregion", memberVO.getRegion());
         return "redirect:myPage";
 
     }
@@ -128,6 +131,27 @@ public class AdminController {
         ifAdminService.stop(id);
         session.invalidate();
         return "redirect:snsMaster";
+    }
 
+    @PostMapping("changeDefaultimg")
+    public String changeDefaultimg(@RequestParam("id") String id, @RequestParam String[] delfname ,HttpServletRequest request) throws Exception {
+        System.out.println(id);
+        fileDataUtil.fileDelete(delfname);
+        ifAdminService.changeDefaultimg(id);
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @PostMapping("updatemyProfileImg")
+    public String updateMyProfileImg(@RequestParam("id") String id, MultipartFile[] file, HttpServletRequest request) throws Exception {
+        System.out.println(id);
+        System.out.println(file[0].getOriginalFilename());
+
+        if (file != null) {
+            String[] filename = fileDataUtil.fileUpload(file);
+            ifAdminService.updateProfile(id, filename);
+        }
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

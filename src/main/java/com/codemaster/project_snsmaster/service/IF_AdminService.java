@@ -17,4 +17,12 @@ public interface IF_AdminService {
     public void updateSave(MemberVO memberVO)throws Exception;
 
     public void stop(String id) throws Exception;
+
+    public void deletePostArray(String postArray) throws Exception;
+
+    public void deletegPostArray(String gpostArray) throws Exception;
+
+    public void deletegJoinArray(String gjoinArray) throws Exception;
+
+    public void changeDefaultimg(String id)throws Exception;
 }
