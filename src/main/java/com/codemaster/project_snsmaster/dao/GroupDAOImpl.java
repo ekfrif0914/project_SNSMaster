@@ -153,9 +153,59 @@ public class GroupDAOImpl implements IF_GroupDAO {
         return sqlSession.selectList(mapperQuery + ".gpsearchselectall", param);
     }
 
+    @Override
+    public List<GroupJoinVO> gjoinselect(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".gjoinselectall", param);
+    }
+
+    @Override
+    public List<MemberGroupVO> mgselect(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".mjoinselectall", param);
+    }
+
+    @Override
+    public Object greportinsert(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery+".greportinsert", param);
+    }
+
+    @Override
+    public Object likeinsert(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectList(mapperQuery+".likeinsert", param);
+    }
+
+    @Override
+    public Object likedel(HashMap<String, String> likedel) throws Exception {
+        return sqlSession.delete(mapperQuery+".likedel", likedel);
+    }
+
+    @Override
+    public void greportselect(int g_no) throws Exception {
+        sqlSession.update(mapperQuery + ".greportupdate", g_no);
+    }
+
+    @Override
+    public void likepostselect(int g_no) throws Exception {
+        sqlSession.update(mapperQuery+".likeupdate", g_no);
+    }
+
+    @Override
+    public void likepostdel(int g_no) throws Exception {
+        sqlSession.update(mapperQuery+".likepostupdate", g_no);
+    }
+
+    @Override
+    public int reportsaveselect(HashMap<Object, Object> report) throws Exception {
+        return sqlSession.selectOne(mapperQuery + ".reportsaveselect", report);
+    }
+
+    @Override
+    public int likeselect(HashMap<Object, Object> likemap) throws Exception {
+        return sqlSession.selectOne(mapperQuery + ".likeselect", likemap);
+    }
+
   /*  @Override
-    public int countselect(int mo_no) throws Exception {
-        return sqlSession.selectOne(mapperQuery + ".countselect", mo_no);
+    public int reportsaveselect(int g_no) throws Exception {
+        return sqlSession.selectOne(mapperQuery + ".reportsaveselect", g_no);
     }*/
 
 

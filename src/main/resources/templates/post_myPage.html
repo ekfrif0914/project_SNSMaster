@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
     body {
         margin: 0px;
@@ -73,14 +73,15 @@
         width: 40px;
         height: 40px;
         margin: 4px;
+    }
+
+    .btnimg {
         margin-left: 160px;
     }
 
     .imgs {
         width: 50px;
         height: 50px;
-
-        margin-left: 160px;
 
     }
 
@@ -201,7 +202,7 @@
     }
 
     #myPostFrame {
-        padding-top: 50px;
+        padding-top: 18px;
         padding-left: 150px;
         padding-right: 150px;
     }
@@ -220,9 +221,50 @@
         margin-bottom: 10px;
     }
 
+    .dform {
+        display: inline;
+    }
+
+    #files {
+        display: none;
+    }
+
+    .hov {
+        text-align: center;
+        border: 2px solid darkgray;
+        background-color: white;
+        width: 147px;
+        height: 26px;
+        border-radius: 7px;
+        font-size: 16px
+
+    }
+
+    .defaulttag {
+        background-color: white;
+        border-color: white;
+        border-radius: 7px;
+    }
+
+    #profilechange {
+        display: inline-block;
+        margin-top: 5px;
+        margin-left: 32px;
+    }
+
+    #basicchange {
+        margin-left: 30px;
+    }
+
+    .photosave {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border-color: black;
+        display: none;
+    }
+
 </style>
-
-
 <body>
 <div class="title">
     <div class="all">
@@ -244,18 +286,33 @@
                 </form>
             </div>
             <div id="profileFrame">
-
-              <div th:if="${memberinfo.file_name}!=null">
-                    <img th:src="'/download?filename='+${memberinfo.file_name}"  class="profileImg">
-               </div>
-               <div th:if="${memberinfo.file_name}==null">
-                   <img src="img/user.png" class="profileImg">
-               </div>
-
+                <div th:if="${memberinfo.file_name}!=null">
+                    <img th:src="'/download?filename='+${memberinfo.file_name}" class="profileImg">
+                </div>
+                <div th:if="${memberinfo.file_name}==null">
+                    <img src="img/user.png" class="profileImg">
+                </div>
                 <div id="idText"><h3 th:text="${userid}"></h3></div>
                 <a th:href="@{/myinfoPage(id=${userid})}">
                     <button>내 정보 관리</button>
                 </a>
+            </div>
+            <br>
+            <div id="basicchange">
+                <form action="changeDefaultimg" method="post" class="dform">
+                    <input type="hidden" th:value="${memberinfo.file_name}" id="myfilename" name="delfname">
+                    <input type="hidden" th:value="${userid}" name="id">
+                    <input type="submit" value="기본이미지로 변경" class="defaulttag" onclick="defaultChk()">
+                </form>
+            </div>
+            <div id="profilechange">
+                <form action="updatemyProfileImg" method="post" enctype="multipart/form-data" class="dform">
+                    <input type="hidden" th:value="${userid}" name="id">
+                    <label class="hov" for="files">프로필 사진 변경</label>
+                    <input type="file" name="file" id="files">
+                    <span id="filename"></span>
+                    <input type=submit value="등록" class="photosave">
+                </form>
             </div>
             <div id="myPostFrame">
                 <select name="category" id="postSelector" onchange="location.href=this.value;">
@@ -265,10 +322,18 @@
                     <option id="그룹게시글" value="myPage?category=그룹게시글"><span>그룹게시글 </span> </span></option>
                     <option id="모임모집글" value="myPage?category=모임모집글"><span>모임모집글 </span> </span></option>
                 </select>
+                <form action="deletePostArray" method="post" class="dform">
+                    <input type="hidden" id="postArray" name="postArray">
+                    <input type="hidden" id="gpostArray" name="gpostArray">
+                    <input type="hidden" id="gjoinArray" name="gjoinArray">
+                    <input type="submit" value="삭제" onclick="go()">
+                </form>
                 <div class="row row-cols-1 row-cols-md-2 g-4">
                     <div class="col" th:each="post : ${posts}">
                         <div class="card h-100">
-                            <div class="card-header" th:text="${post.category}">
+                            <div class="card-header">
+                                <input class="form-check-input postCheckbox" type="checkbox" th:value="${post.no}">
+                                <span th:text="${post.category}"></span>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${post.title}"></h5>
@@ -287,14 +352,20 @@
                     <div class="col" th:each="gpost : ${gposts}">
                         <div class="card h-100">
                             <div class="card-header">
+                                <input type="checkbox" class="form-check-input gpostCheckbox"
+                                       th:value="${gpost.g_no}">
                                 그룹게시글
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${gpost.g_title}"></h5>
                                 <p class="card-text" th:text="${gpost.g_content}"></p>
                                 <div class="cardButton">
-                                    <a th:href="@{modno(g_no=${gpost.g_no})}"><button>수정</button></a>
-                                    <a th:href="@{delgroup(g_no=${gpost.g_no}, gno=${gpost.gno})}"><button>삭제</button></a>
+                                    <a th:href="@{modno(g_no=${gpost.g_no})}">
+                                        <button>수정</button>
+                                    </a>
+                                    <a th:href="@{delgroup(g_no=${gpost.g_no}, gno=${gpost.gno})}">
+                                        <button>삭제</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -302,21 +373,30 @@
                     <div class="col" th:each="gjoin : ${gjoins}">
                         <div class="card h-100">
                             <div class="card-header">
+                                <input type="checkbox" class="form-check-input gjoinCheckbox"
+                                       th:value="${gjoin.mo_no}">
                                 모임모집글
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title" th:text="${gjoin.m_name}"></h5>
                                 <p class="card-text" th:text="${gjoin.m_contents}"></p>
                                 <div class="cardButton">
-                                    <a th:href="@{gmjoinmod(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}"><button>수정</button></a>
-                                    <a th:href="@{gjdel(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}"><button>삭제</button></a>
+                                    <a th:href="@{gmjoinmod(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
+                                        <button>수정</button>
+                                    </a>
+                                    <a th:href="@{gjdel(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
+                                        <button>삭제</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="nothing" th:if="${(posts == null or posts.isEmpty()) and (gposts == null or gposts.isEmpty()) and (gjoins == null or gjoins.isEmpty())}">
+
+            <div id="nothing"
+                 th:if="${(posts == null or posts.isEmpty()) and (gposts == null or gposts.isEmpty()) and (gjoins == null or gjoins.isEmpty())}">
+
                 <br><br>
                 작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.
                 <br><br>
@@ -336,10 +416,10 @@
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a href="myPost"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="group" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -363,5 +443,68 @@
     }
 
     selCategory();
+</script>
+<script>
+    function go() {
+        var send_postArray = [];
+        var send_gpostArray = [];
+        var send_gjoinArray = [];
+        var postchkbox = $(".postCheckbox");
+        var gpostchkbox = $(".gpostCheckbox");
+        var gjoinchkbox = $('.gjoinCheckbox');
+
+
+        for (i = 0; i < postchkbox.length; i++) {
+            if (postchkbox[i].checked) {
+                send_postArray.push(postchkbox[i].value);
+
+            }
+        }
+        for (i = 0; i < gpostchkbox.length; i++) {
+            if (gpostchkbox[i].checked) {
+                send_gpostArray.push(gpostchkbox[i].value);
+
+            }
+        }
+        for (i = 0; i < gjoinchkbox.length; i++) {
+            if (gjoinchkbox[i].checked) {
+                send_gjoinArray.push(gjoinchkbox[i].value);
+
+            }
+        }
+
+        console.log(send_postArray)
+        console.log(send_gpostArray)
+        console.log(send_gjoinArray)
+        var postArray = $("#postArray")
+        var gpostArray = $("#gpostArray")
+        var gjoinArray = $("#gjoinArray")
+        postArray.val(send_postArray);
+        gpostArray.val(send_gpostArray);
+        gjoinArray.val(send_gjoinArray);
+        console.log(postArray.val())
+        console.log(gpostArray.val())
+        console.log(gjoinArray.val())
+
+    }
+
+    function defaultChk() {
+        var myfilename = $('#myfilename').val()
+        if (myfilename != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    $('#files').on('change', function () {
+        var fileName = $("#files").val();
+        console.log(fileName)
+        $('#filename').text(fileName)
+        $('.photosave').css('display', 'inline-block');
+
+    });
+
 </script>
 </html>

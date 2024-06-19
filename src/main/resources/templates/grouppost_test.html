@@ -56,7 +56,7 @@
     <input type="hidden" name="g_no" th:value="${gpvo.g_no}">
     <input type="hidden" name="id" th:value="${gpvo.id}">
     댓글<input type="text" name="cmt" id="cmt">
-    <input type="submit" value="전송" onclick="return check()">
+    <input th:if="${id!=null}" type="submit" value="전송" onclick="return check()">
 
 </form>
 

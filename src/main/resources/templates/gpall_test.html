@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<li><a th:href="@{groupinput(gno=${gno})}">등록</a></li>
+<li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
 <a href="gList">그룹으로 가기</a>
 
 <h1>게시글</h1>
@@ -15,13 +15,13 @@
         <option value="g_title">제목</option>
         <option value="g_content">내용</option>
     </select>
-   <!-- <input class="form-control me-2" type="search" placeholder="아이디 검색"
-           aria-label="Search" name="idsearch">-->
+    <!-- <input class="form-control me-2" type="search" placeholder="아이디 검색"
+            aria-label="Search" name="idsearch">-->
     <input class="form-control me-2" type="search" placeholder="게시글 검색"
            aria-label="Search" name="search">
     <input type="hidden" name="gno" th:value="${gno}">
     <input class="btn btn-outline-success" type="submit" value="search">
-    <a th:href="redirect"+referer>
+    <a th:href="redirect" +referer>
         <button>초기화</button>
     </a>
 </form>
@@ -31,7 +31,7 @@
     <tr>
         <td><input type="hidden" value="${post.gno}"></td>
         <td>로그인아이디</td>
-        <td th:text="${id}"> </td>
+        <td th:text="${id}"></td>
         <td>아이디</td>
         <td th:text="${post.id}"></td>
     </tr>
@@ -43,7 +43,8 @@
     </tr>
     <tr>
         <td>좋아요</td>
-        <td th:text="${post.g_like}"></td>
+        <td th:text="${post.g_like}"> </td>
+        <td th:if="${id!=post.id} and ${id!=null}"><a th:href="@{/grouplike(g_no=${post.g_no},id=${id},gno=${gno})}"><button>좋아요</button></a></td>
         <td>신고누적수</td>
         <td th:text="${post.g_report}"></td>
         <td><a th:href="@{/grouppost(g_no=${post.g_no})}">
@@ -54,6 +55,9 @@
         </a></td>
         <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}">
             <button>삭제</button>
+        <td>
+
+            <a th:if="${id!=post.id} and ${id!=null}" th:href="@{/greport(g_no=${post.g_no},id=${id},gno=${gno})}"><button>신고</button></a></td>
         </a></td>
     </tr>
     </tbody>
@@ -67,10 +71,10 @@
         <option value="cnt">모집인원수</option>
     </select>
     <input class="form-control me-2" type="search" placeholder="동행 모집글 검색"
-           aria-label="Search" name="search" >
+           aria-label="Search" name="search">
     <input type="hidden" name="gno" th:value="${gno}">
-    <input class="btn btn-outline-success" type="submit" value="search" >
-    <a th:href="redirect"+referer>
+    <input class="btn btn-outline-success" type="submit" value="search">
+    <a th:href="redirect" +referer>
         <button>초기화</button>
     </a>
 </form>
@@ -86,7 +90,9 @@
     <td th:text="${post.m_name}"></td>
     <tr>
         <td>모집 인원</td>
-        <td><div id ="result">0</div></td>
+        <td>
+            <div id="result">0</div>
+        </td>
 
         <td th:text="${post.cnt}"></td>
     </tr>
@@ -94,8 +100,8 @@
         <td>내용</td>
         <td th:text="${post.m_contents}"></td>
 
-        <td><a th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no})}">
-           <input type="button" onclick="count('plus')" value="신청"/>
+        <td }><a th:if="${id!=post.id} and ${id!=null}" th:ref="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no})}">
+            <input type="button" onclick="count('plus')" value="신청"/>
         </a></td>
         <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}">
             <button>삭제</button>
@@ -110,13 +116,13 @@
 
 </body>
 <script>
-    function count(type){
-        const resultElement =  document.getElementById('result');
+    function count(type) {
+        const resultElement = document.getElementById('result');
         //브라우저에 결과를 출력할 element를 가져온다
         let number = resultElement.innerText;
         //현제 화면에 출력되어 있는 값을 가져옴
-        if(type === 'plus'){
-            number = parseInt(number)+1;
+        if (type === 'plus') {
+            number = parseInt(number) + 1;
         }
         resultElement.innerText = number;
     }

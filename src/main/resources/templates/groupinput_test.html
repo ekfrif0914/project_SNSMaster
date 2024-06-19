@@ -20,7 +20,7 @@
     <h2> 모집글</h2>
     <input type="hidden" name="gno" th:value="${gno}"><!--그룹번호-->
     모임이름<input type="text" name="m_name" id="m_name">
-    모집인원<input type="text" name="cnt" id="cnt">
+    모집인원<input type="text" name="cnt" id="cnt" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />명
     모집 내용 <textarea rows="13" cols="70" name="m_contents" id="m_contents"></textarea>
     <input type="submit" value="전송" onclick="return mochek()">
 

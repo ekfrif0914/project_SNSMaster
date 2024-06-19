@@ -31,7 +31,7 @@
     <span th:text="${post.g_id}"></span>
     <span th:text="${post.gname}"></span>
     <span th:text="${post.g_region}"></span>
-    <a th:href="@{groupjoin(gno=${post.gno})}">가입</a>
+    <a th:if="${id!=post.g_id} and ${id!=null}"  th:href="@{groupjoin(gno=${post.gno})}">가입</a>
     <a th:href="@{gpList(gno=${post.gno})}">
         <button>그룹 게시글 보기</button>
     </a>

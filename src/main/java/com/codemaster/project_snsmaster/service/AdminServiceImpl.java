@@ -35,8 +35,8 @@ public class AdminServiceImpl implements IF_AdminService {
     public void updateProfile(String id, String[] file_name) throws Exception {
         String filename = file_name[0];
         Map<String, Object> param = new HashMap<String, Object>();
-        param.put("id",id);
-        param.put("filename",filename);
+        param.put("id", id);
+        param.put("filename", filename);
 
 
         adminDao.updateProfile(param);
@@ -57,5 +57,25 @@ public class AdminServiceImpl implements IF_AdminService {
     @Override
     public void stop(String id) throws Exception {
         adminDao.stop(id);
+    }
+
+    @Override
+    public void deletePostArray(String postArray) throws Exception {
+        adminDao.deletePostArray(postArray);
+    }
+
+    @Override
+    public void deletegPostArray(String gpostArray) throws Exception {
+        adminDao.deletegPostArray(gpostArray);
+    }
+
+    @Override
+    public void deletegJoinArray(String gjoinArray) throws Exception {
+        adminDao.deletegJoinArray(gjoinArray);
+    }
+
+    @Override
+    public void changeDefaultimg(String id) throws Exception {
+        adminDao.changeDefaultimg(id);
     }
 }

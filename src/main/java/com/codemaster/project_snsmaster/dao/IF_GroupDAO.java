@@ -59,6 +59,30 @@ public interface IF_GroupDAO {
 
    public List<GroupPostVO> gpsearchselectAll(HashMap<String, String> param) throws Exception;
 
+   public List<GroupJoinVO> gjoinselect(HashMap<String, String> param) throws Exception;
 
-    // public int countselect(int mo_no) throws Exception;
+   public List<MemberGroupVO> mgselect(HashMap<String, String> param) throws Exception;
+
+    public Object greportinsert(HashMap<String, String> param) throws Exception;
+
+   public Object likeinsert(HashMap<String, String> param) throws Exception;
+
+   public Object likedel(HashMap<String, String> likedel) throws Exception;
+
+    public void  greportselect(int g_no)throws Exception;
+
+    public void likepostselect(int g_no) throws Exception;
+
+    public void likepostdel(int g_no)throws Exception;
+
+   public int reportsaveselect(HashMap<Object, Object> report)throws Exception;
+
+   public int likeselect(HashMap<Object, Object> likemap) throws Exception;
+
+
+
+
+
+
+    /*  public int reportsaveselect(int g_no)throws Exception;*/
 }
