@@ -17,6 +17,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .addPathPatterns("/myPage")//접속이 불가능하다
                 .addPathPatterns("/myPost")
+                .addPathPatterns("/membergroupinput")
+                .addPathPatterns("/groupinput")
                 .excludePathPatterns("/snsMaster")  //가로채지않는다. 접속가능하다
                 .excludePathPatterns("/log*")
                 .excludePathPatterns("/id*")
