@@ -9,10 +9,13 @@
         select * from post order by NO DESC;
     </select>
     <select id="select" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="hashmap">
-        select * from post where region like concat('%',#{region},'%') and (title like concat('%',#{sword},'%') or content like concat('%',#{sword},'%'))
+        select * from post where (region like concat('%',#{region},'%') and category like concat('%',#{category},'%')) and ((title like concat('%',#{sword},'%') or content like concat('%',#{sword},'%')))
     </select>
     <insert id="insertAttach" parameterType="String">
         insert into post_attach values ((select max(NO) from post), #{fileName})
+    </insert>
+    <insert id="insertAttachbyNo" parameterType="hashmap">
+        insert into post_attach values (#{no}, #{fileName})
     </insert>
     <select id="selectOne" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.PostVO">
         select * from post where NO = #{no}
@@ -23,6 +26,9 @@
     <insert id="insertComment" parameterType="com.codemaster.project_snsmaster.vo.PostCommentVO">
         insert into post_comment values (null, #{no}, #{id}, #{cmt})
     </insert>
+    <select id="selectAllComment" resultType="hashmap">
+        select count(*) cnt, `NO` from post_comment group by NO
+    </select>
     <select id="selectComment" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.PostCommentVO">
         select * from post_comment where NO = #{no}
     </select>
@@ -32,7 +38,6 @@
     <delete id="deletePost" parameterType="String">
         delete from post where NO = #{no}
     </delete>
-
     <select id="selectAllFileNames" resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
         select * from post_attach
     </select>
@@ -53,5 +58,8 @@
     </select>
     <select id="selectMyGroupJoin" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.G_joinVO">
         select * from g_join where id = #{userid}
+    </select>
+    <select id="selectMyLikeNo" parameterType="String" resultType="int">
+        select NO from postlike where id = #{userid}
     </select>
 </mapper>

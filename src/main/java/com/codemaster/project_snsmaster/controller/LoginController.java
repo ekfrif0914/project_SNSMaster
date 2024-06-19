@@ -5,6 +5,7 @@ import com.codemaster.project_snsmaster.service.IF_LoginService;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import com.codemaster.project_snsmaster.vo.StopMemberVO;
 import com.zaxxer.hikari.HikariDataSource;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,9 @@ public class LoginController {
     private HikariDataSource dataSource;
 
     @GetMapping("loginForm")
-    public String loginForm() {
+    public String loginForm(HttpServletRequest request, Model model) {
+        String referer = request.getHeader("referer");
+        model.addAttribute("referer", referer);
         return "loginForm";
     }
 
@@ -87,8 +90,8 @@ public class LoginController {
     }
 
     @PostMapping("login")
-    public String login(@RequestParam("id") String id, @RequestParam("pw") String pass, Model model, HttpSession session)
-            throws Exception {
+    public String login(@RequestParam("id") String id, @RequestParam("pw") String pass, Model model, HttpSession session,
+                        @RequestParam String referer) throws Exception {
         System.out.println(id);
         System.out.println(pass);
         MemberVO mvo = loginService.login(id);
@@ -114,11 +117,13 @@ public class LoginController {
                     // 비밀번호 틀림
                     System.out.println("비밀번호 틀림");
                     model.addAttribute("wrong", "비밀번호가 일치하지 않습니다");
+                    model.addAttribute("referer", referer);
                     return "loginForm";
                 }
             } else{
                 System.out.println(mvo.getFinish());
                 model.addAttribute("stopMember",mvo);//계정 정지됨
+                model.addAttribute("referer", referer);
                 return "loginForm";
             }
 
@@ -127,9 +132,10 @@ public class LoginController {
             System.out.println("아이디가 존재하지 않습니다");
         //    System.out.println("활동정지 입니다");
             model.addAttribute("wrong","아이디가 존재하지 않습니다");
+            model.addAttribute("referer", referer);
             return "loginForm";
         }
-        return "redirect:snsMaster";
+        return "redirect:" + referer;
     }
 
     @GetMapping("logout")

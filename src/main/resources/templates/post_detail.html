@@ -11,6 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
     body {
@@ -251,9 +252,9 @@
                     <span th:text="${comment.cmt}"></span><br>
                 </span>
                 <form action="postSaveComment" method="post">
-                    <input type="text" name="cmt">
+                    <input id="cmt" type="text" name="cmt">
                     <input type="hidden" id="cmtContent" name="no" th:value="${post.no}">
-                    <input type="submit" value="댓글달기" onclick="return chkCommentAvail()">
+                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()">
                 </form>
             </div>
             <div id="show">
@@ -261,12 +262,10 @@
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
                     <span>사용자 이름:</span> <span th:text="${session.username}"></span>
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-                <span><a href="logout">로그 아웃</a></span>
             </div>
         </div>
         <div id="mmode">
-            <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
-            <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
+            <img src="img/mmode.png" id="m">
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
@@ -279,8 +278,45 @@
     </nav>
 </div>
 </body>
+<script th:inline="javascript">
+    var id = [[${session.userid}]]
+    if (id != null) {//로그인 되어있으면
+        console.log(id)
+        $("#login").remove()
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "logout"
+        button.type = button
+        button.className = "btn btn-primary"
+        button.innerHTML = "로그아웃"
+        button.style = "font-size: 15px"
+        area.appendChild(button)
 
-<script>
+    } else {//로그아웃 되어있으면
+        $('#logout').remove()
+        console.log(id)
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "login"
+        button.type = button
+        button.className = "btn btn-primary"
+
+        button.innerHTML = "로그인"
+        area.appendChild(button)
+
+
+    }
+</script>
+<script th:inline="javascript">
+    function chkLogin(){
+        console.log([[${session.userid}]]);
+        if([[${session.userid}]] == null){
+            document.querySelector("#cmt").setAttribute("placeholder", "로그인 후 이용해주세요");
+            document.querySelector("#cmtbtn").disabled = true;
+        }
+    }
+    chkLogin();
+
     function chkSearchAvail(){
         if(document.querySelector("#sword").value==""){
             alert("검색어를 입력해주세요");
@@ -298,5 +334,24 @@
             return true;
         }
     }
+</script>
+<script>
+    $('#login').on('click', () => {
+        location.href = 'loginForm'
+    });
+
+    $('#logout').on('click', () => {
+        location.href = 'logout'
+    });
+
+    $('#m').on('click', () => {
+        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+        let openUrl='/managerPage'
+        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+    });
+    //self.close(); // 열었던 새창 닫기-->
+    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
+    opener.document.location.href = '/managerMode';
+    window.close()
 </script>
 </html>

@@ -16,5 +16,5 @@ public class PostVO {
     private String report;
     private String category;
     private String[] file_name;
-
+    private boolean isLike=false;
 }
