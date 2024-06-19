@@ -60,6 +60,30 @@ public interface IF_GroupService {
 
    public List<GroupPostVO> gpsearch(HashMap<String, String> param) throws Exception;
 
+    public List<GroupJoinVO> gjoinList(HashMap<String, String> param) throws Exception;
+    public List<MemberGroupVO> mgList(HashMap<String, String> param) throws Exception;
 
-    // public int countselect(int mo_no) throws Exception;
+    public Object greport(HashMap<String, String> param) throws Exception;
+
+   public Object likegroup(HashMap<String, String> param) throws Exception;
+
+    public Object likegroupdel(HashMap<String, String> likedel) throws Exception;
+
+    public void greportselect(int g_no) throws Exception;
+
+   public void likepostselect(int g_no)throws Exception;
+
+    public void likepostdel(int g_no)throws Exception;
+
+  public int reportsaveselect(HashMap<Object, Object> report) throws Exception;
+
+   public int likeselect(HashMap<Object, Object> likemap) throws Exception;
+
+
+
+
+    //int reportsaveselect(int gNo, String id);
+
+
+    /* public int reportsaveselect(int g_no)throws Exception;*/
 }
