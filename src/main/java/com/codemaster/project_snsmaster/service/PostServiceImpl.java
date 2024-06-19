@@ -62,7 +62,11 @@ public class PostServiceImpl implements IF_PostService{
     @Override
     public PostVO selectOne(String no) throws Exception {
         PostVO postVO = postDAO.selectOne(no);
-        postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[8]));
+        int size = selectFileNames(no).size() + 1;
+        if(size > 8){
+            size = 8;
+        }
+        postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[size]));
         return postVO;
     }
 
@@ -79,6 +83,11 @@ public class PostServiceImpl implements IF_PostService{
     @Override
     public List<PostCommentVO> selectComment(String no) throws Exception {
         return postDAO.selectComment(no);
+    }
+
+    @Override
+    public List<HashMap<String, String>> selectAllComment() throws Exception {
+        return postDAO.selectAllComment();
     }
 
     @Override
@@ -105,10 +114,14 @@ public class PostServiceImpl implements IF_PostService{
     public void modPost(PostVO postVO, String[] delfname) throws Exception {
         postDAO.modPost(postVO);
         String[] filename = postVO.getFile_name();
+        String no = postVO.getNo()+"";
         if(filename != null){
             for (String s : filename) {
                 if(s != null){
-                    postDAO.saveAttach(s);
+                    HashMap<String, String> param = new HashMap<>();
+                    param.put("no", no);
+                    param.put("fileName", s);
+                    postDAO.saveAttachbyNo(param);
                 }
             }
         }
@@ -128,6 +141,11 @@ public class PostServiceImpl implements IF_PostService{
     @Override
     public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception {
         return postDAO.selectMyGroupJoin(userid);
+    }
+
+    @Override
+    public List<Integer> selectMyLikeNo(String userid) throws Exception {
+        return postDAO.selectMyLikeNo(userid);
     }
 
 
