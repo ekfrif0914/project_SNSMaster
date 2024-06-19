@@ -120,6 +120,8 @@ public class PostController {
                     break;
             }
         }
+
+      
         model.addAttribute("memberinfo", adminService.getMember(userid));
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
@@ -178,12 +180,35 @@ public class PostController {
         return "redirect:" + referer;
     }
 
+
     @ResponseBody
     @PostMapping("postLike")
     public boolean postLike(String no, String id) throws Exception {
         System.out.println(no);
         System.out.println(id);
         return true;
+    }
+  
+    @PostMapping("deletePostArray")
+    public String deletePost(@RequestParam String postArray, @RequestParam String gpostArray, @RequestParam String gjoinArray, HttpServletRequest request) throws Exception {
+        System.out.println(postArray);
+        System.out.println(gpostArray);
+        System.out.println(gjoinArray);
+        if (postArray != "") {
+            System.out.println(postArray + "postarray");
+            adminService.deletePostArray(postArray);
+        }
+        if (gpostArray != "") {
+            System.out.println(gpostArray + "gpostarray");
+            adminService.deletegPostArray(gpostArray);
+        }
+        if (gjoinArray != "") {
+            System.out.println(gjoinArray + "gjoinarray");
+            adminService.deletegJoinArray(gjoinArray);
+        }
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+
     }
 
 }

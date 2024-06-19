@@ -145,9 +145,59 @@ public class GroupServiceImpl implements IF_GroupService {
         return gdao.gpsearchselectAll(param);
     }
 
-   /* @Override
-    public int countselect(int mo_no) throws Exception {
-        return gdao.countselect(mo_no);
+    @Override
+    public List<GroupJoinVO> gjoinList(HashMap<String, String> param) throws Exception {
+        return gdao.gjoinselect(param);
+    }
+
+    @Override
+    public List<MemberGroupVO> mgList(HashMap<String, String> param) throws Exception {
+        return gdao.mgselect(param);
+    }
+
+    @Override
+    public Object greport(HashMap<String, String> param) throws Exception {
+        return gdao.greportinsert(param);
+    }
+
+    @Override
+    public Object likegroup(HashMap<String, String> param) throws Exception {
+        return gdao.likeinsert(param);
+    }
+
+    @Override
+    public Object likegroupdel(HashMap<String, String> likedel) throws Exception {
+        return gdao.likedel(likedel);
+    }
+
+    @Override
+    public void greportselect(int g_no) throws Exception {
+        gdao.greportselect(g_no);
+    }
+
+    @Override
+    public void likepostselect(int g_no) throws Exception {
+        gdao.likepostselect(g_no);
+    }
+
+    @Override
+    public void likepostdel(int g_no) throws Exception {
+        gdao.likepostdel(g_no);
+    }
+
+    @Override
+    public int reportsaveselect(HashMap<Object, Object> report) throws Exception {
+        return gdao.reportsaveselect(report);
+    }
+
+    @Override
+    public int likeselect(HashMap<Object, Object> likemap) throws Exception {
+        return gdao.likeselect(likemap);
+    }
+
+    /*@Override
+    public int reportsaveselect(int g_no) throws Exception {
+        return gdao.reportsaveselect(g_no);
     }*/
 
 

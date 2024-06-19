@@ -4,7 +4,7 @@
 
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
         insert into groupPost
-        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 1)
+        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0)
     </insert>
 
     <insert id="gjinsert" parameterType="com.codemaster.project_snsmaster.vo.G_joinVO">
@@ -128,6 +128,41 @@
         insert into grouppost_comment
         values (null, #{g_no}, #{id}, #{cmt})
     </insert>
+
+    <insert id="greportinsert" parameterType="hashmap">
+        insert into reportSave
+        values(#{id},#{null},#{g_no})
+    </insert>
+
+    <insert id="likeinsert" parameterType="hashmap">
+        insert into postlike
+        values (#{id},null,#{g_no})
+    </insert>
+
+    <delete id="likedel" parameterType="hashmap">
+        delete
+        from postlike
+        where id=#{id} and g_no=#{g_no}
+    </delete>
+
+    <update id="greportupdate" parameterType="int">
+        update grouppost
+        set g_report=g_report+1
+        where g_no=#{g_no}
+    </update>
+
+    <update id="likeupdate" parameterType="int">
+        update grouppost
+        set g_like=g_like+1
+        where g_no=#{g_no}
+    </update>
+
+    <update id="likepostupdate" parameterType="int">
+        update grouppost
+        set g_like = g_like-1
+        where g_no=#{g_no}
+    </update>
+
     <select id="cmselectall" resultType="com.codemaster.project_snsmaster.vo.GroupPostCommentVO">
         select *
         from grouppost_comment
@@ -148,4 +183,20 @@
     <select id="gpsearchselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
         select * from grouppost where ${idsearch} like concat ('%',#{search},'%') and gno=#{gno}
     </select>
+
+    <select id="gjoinselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.GroupJoinVO">
+        select * from groupjoin where id=#{id} and gno=#{gno}
+    </select>
+    <select id="mjoinselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
+        select * from membergroup where g_id=#{id} and gno=#{gno}
+    </select>
+
+    <select id="reportsaveselect" parameterType="hashmap" resultType="int">
+        select count(*) from reportsave where g_no=#{g_no} and id=#{id}
+    </select>
+
+    <select id="likeselect" parameterType="hashmap" resultType="int">
+        select count(*) from postlike where g_no=#{g_no} and id=#{id}
+    </select>
+
 </mapper>
