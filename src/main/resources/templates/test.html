@@ -205,8 +205,8 @@
             <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
             <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
         </div>
-
     </div>
+
 
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
@@ -220,19 +220,20 @@
 </div>
 </body>
 
+
 </html>
 <script>
     $(window).on('load', function() {
         var city = $('#city').val();
-        var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841'; // 여기에 자신의 OpenWeatherMap API 키를 입력하세요
-        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841';
+        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
 
         $.ajax({
             url: apiUrl,
             method: 'GET',
             success: function(data) {
-                var iconCode = data.weather[0].icon; // 아이콘 코드 가져오기
-                var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png"; // 아이콘 URL 생성
+                var iconCode = data.weather[0].icon;
+                var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
                 var weatherData = `
                 <span>지역: ${data.name}</span>
                <img src="${iconUrl}">

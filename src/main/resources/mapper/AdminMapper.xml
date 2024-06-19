@@ -4,7 +4,7 @@
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
 
         insert into member
-        values (#{id}, #{email}, #{pw}, #{region}, #{name}, null, null)
+        values (#{id}, #{email}, #{pw}, #{region}, #{name}, null, null, #{region1})
 
     </insert>
     <select id="overlappedID" resultType="int">
@@ -21,8 +21,6 @@
         update member
         set file_name=#{filename}
         where id = #{id}
-
-
     </update>
     <select id="memberInfo" resultType="com.codemaster.project_snsmaster.vo.MemberVO">
         select *
@@ -32,12 +30,29 @@
     </select>
     <update id="updateSave" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
 
-    update member set pw=#{pw}, region=#{region}, name=#{name} where id=#{id}
+    update member set pw=#{pw}, region=#{region}, name=#{name},  region1=#{region1} where id=#{id}
     </update>
 
     <insert id="stop">
         insert into stopmember
         values (#{id}, '회원 탈퇴', now(), DATE_ADD(NOW(), INTERVAL 7 DAY))
     </insert>
+<delete id="deletePostArray">
+delete from post where no in(${postArray})
 
+</delete>
+    <delete id="deletegPostArray">
+        delete from grouppost where g_no in(${gpostArray})
+    </delete>
+    <delete id="deletegJoinArray">
+        delete
+        from g_join
+        where mo_no in (${gjoinArray})
+
+    </delete>
+    <update id="changeDefaultimg">
+        update member
+        set file_name=null
+        where id = #{id}
+    </update>
 </mapper>

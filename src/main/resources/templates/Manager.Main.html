@@ -165,14 +165,7 @@
         color: #999; /* placeholder의 텍스트 색상 지정 */
         opacity: 0.8; /* 투명도 조절 */
     }
-    #ggg{
-        float: right;
 
-    }
-#dd{
-float: left;
-    margin-bottom: 30px;
-}
     #chk {
         margin-top: -40px;
         margin-left:40px;
@@ -202,11 +195,60 @@ float: left;
         color: #9e9e9e; /* 비활성화 시 텍스트 회색 */
         cursor: not-allowed; /* 마우스 커서 금지 모양으로 변경 */
     }
+    #excelDownload {
+        background-color: green; /* Green background */
+        color: white; /* White text */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Add some padding */
+        text-align: center; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Make the element inline-block */
+        font-size: 16px; /* Increase font size */
+        margin: 4px 2px; /* Add some margin */
+        cursor: pointer; /* Add a pointer cursor on hover */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+    #excelDownload:hover {
+        background-color: darkgreen; /* Darker green on hover */
+    }
+
+    .post{
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+
+    .postImgContainer{
+        display: block;
+        height: 25px;
+        margin-top: 5px;
+    }
+
+    .right{
+        float: right;
+    }
+
+    .left{
+        float: left;
+    }
+
+    .postImg {
+        width: 25px;
+        height: 25px;
+        margin-left: 40px;
+    }
+
+    #ab{
+        margin-left: 500px;
+    }
 </style>
 <body>
 <div class="navbar">
     <div class="container">
-        <a href="snsMaster"><div id="dd"><img src="img/로고임.png" width="100px" height="70px"></div></a>
+        <a href="snsMaster"><div id="dd"><img src="img/logo.png" width="100px" height="70px"></div></a>
         <ul>
             <li><a href="/review">공지사항 관리</a></li>
             <li><a href="managerMode" style="color:wheat;">자유게시판 관리</a></li>
@@ -226,40 +268,87 @@ float: left;
         <input type="search" id="gihi" value="" name="search">
         <input type="submit" value="검색">
     </form>
+
     <div class="table-wrapper">
-    <table>
-        <thead>
-        <tr>
-            <th class="th">체크박스</th>
-            <th class="th">글번호</th>
-            <th class="th">아이디</th>
-            <th class="th">제목</th>
-            <th class="th">자세히보기</th>
-            <th class="th">회원정지</th>
-            <th class="th">삭제</th>
-            <th class="th">확인</th>
-            <th class="th">위반횟수</th>
-            <th class="th">신고누적</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="all:${all}" class="tr">
-        <td><input type="checkbox" th:value="${all.no}" class="checkbox"></td>
-            <td th:text="${allStat.count}">
-            <td th:text="${all.id}"></td>
-            <td th:text="${all.title}"></td>
-            <td><a th:href="@{look2(no=${all.no},id=${all.id})}"><button>신고글보기</button></a></td>
-            <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
-            <td><a th:href="@{delete2(no=${all.no})}"><button>삭제</button></a></td>
-            <td><a th:href="@{alter(no=${all.no})}"><button>문제없음</button></a></td>
-            <td th:text="${all.content}"></td>
-            <td th:text="${all.report}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table id="mana">
+            <thead>
+            <tr>
+                <th class="th">체크박스</th>
+                <th class="th">글번호</th>
+                <th class="th">아이디</th>
+                <th class="th">제목</th>
+                <th class="th">자세히보기</th>
+                <th class="th">회원정지</th>
+                <th class="th">삭제</th>
+                <th class="th">확인</th>
+                <th class="th">위반횟수</th>
+                <th class="th">신고누적</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="all:${all}" class="tr">
+                <td><input type="checkbox" th:value="${all.no}" class="checkbox"></td>
+                <td th:text="${allStat.count}">
+                <td th:text="${all.id}"></td>
+                <td th:text="${all.title}"></td>
+                <td><a th:attr="no=${all.no}, id=${all.id}" onclick="look(this.getAttribute('no'), this.getAttribute('id'))"><button class="dd">신고글보기</button></a></td>
+                <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
+                <td><a th:href="@{delete2(no=${all.no})}"><button>삭제</button></a></td>
+                <td><a th:href="@{alter(no=${all.no})}"><button>문제없음</button></a></td>
+                <td th:text="${all.content}"></td>
+                <td th:text="${all.report}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<input type="button" value="체크삭제" id="chk">
+<input type="button" value="엑셀다운" id="excelDownload" class="download">
+
+
+
+
+
+
+
+
+
+
+<div class="post" style="display: block;">
+    <b id="pp"></b>
+    <a href="#">팔로우</a>
+    <span id="ab"></span>위반한단어:<span id="abc"></span>
+    <span class="right">
+    <a id="link">
+        <button>회원정지 및 글삭제</button>
+    </a>
+</span><br>
+    <span id="region"></span>
+    <span id="category"></span>
+    <span class="postImgContainer">
+    <img class="postImg left" src="img/chat.png">
+    <a class="left" href="#"><img class="postImg" src="img/siren.png"></a>
+        <span id="ss" style="margin-left: 39%"></span>
+    <span class="right">
+        <a href="#"><img class="postImg" src="img/heart.png"></a>
+        <span id="good"></span>
+    </span>
+</span>
+    <hr>
+    <h5><b id="title"></b></h5>
+    <br>
+    <span id="vv"></span>
+    <br>
+    <hr>
+    <span id="commentsContainer">
+</span>
 </div>
-    <input type="button" value="체크삭제" id="chk">
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<div id="jungtaeGOD"></div>
 </body>
 </html>
 <script>
@@ -267,31 +356,132 @@ float: left;
     opener.document.location.href = '/managerMode';
     window.close();
 
-    </script>
+</script>
 
 <script>
-        document.getElementById('chk').addEventListener('click', function() {
+    document.getElementById('chk').addEventListener('click', function() {
         var checkboxes = document.querySelectorAll('.checkbox:checked');
         var aa = [];
         for (var i = 0; i < checkboxes.length; i++) {
-        aa.push(checkboxes[i].value);
-    }
+            aa.push(checkboxes[i].value);
+        }
         location.href="fordelete?no="+aa
     });
 
-        $(document).ready(function () {
-            var b = ['말미잘', '바보', '쓰레기', '전민정'];
-            $('tr').each(function () {
-                var content = $(this).find('td:nth-child(9)').text();
-                var count = 0;
-                for (var i = 0; i < b.length; i++) {
-                    var idx = content.indexOf(b[i]);
+    $(document).ready(function () {
+        var b = ['말미잘', '바보', '쓰레기', '전민정'];
+        $('tr').each(function () {
+            var content = $(this).find('td:nth-child(9)').text();
+            var count = 0;
+            for (var i = 0; i < b.length; i++) {
+                var idx = content.indexOf(b[i]);
+                while (idx !== -1) {
+                    count++;
+                    idx = content.indexOf(b[i], idx + 1);
+                }
+            }
+            $(this).find('td:nth-child(9)').text(count);
+        });
+    });
+
+
+</script>
+<script>
+    const excelDownload = document.querySelector('#excelDownload');
+    document.addEventListener('DOMContentLoaded', ()=>{
+        excelDownload.addEventListener('click', exportExcel);
+    });
+
+    function exportExcel(){
+// step 1. workbook 생성
+        var wb = XLSX.utils.book_new();
+
+// step 2. 시트 만들기
+        var newWorksheet = excelHandler.getWorksheet();
+
+// step 3. workbook에 새로만든 워크시트에 이름을 주고 붙인다.
+        XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
+
+// step 4. 엑셀 파일 만들기
+        var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+
+// step 5. 엑셀 파일 내보내기
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), excelHandler.getExcelFileName());
+    }
+
+    var excelHandler = {
+        getExcelFileName : function(){
+            return 'table-test.xlsx';	//파일명
+        },
+        getSheetName : function(){
+            return 'Table Test Sheet';	//시트명
+        },
+        getExcelData : function(){
+            return document.getElementById('mana'); 	//TABLE id
+        },
+        getWorksheet : function(){
+            return XLSX.utils.table_to_sheet(this.getExcelData());
+        }
+    }
+
+    function s2ab(s) {
+        var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+        var view = new Uint8Array(buf);  //create uint8array as viewer
+        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+        return buf;
+    }
+</script>
+
+<script>
+    function look(n,i) {
+        var no = n
+        var id = i
+        $.ajax({
+            url: `/look?no=${no}&id=${id}`,
+            method: 'GET',
+            success: function (a) {
+                document.getElementById('pp').innerText = a.post.id
+                document.getElementById('abc').innerText = a.post.content
+                document.getElementById('link').href = `/StopAND?no=${no}&id=${id}`;
+                document.getElementById('region').innerText = document.getElementById('category').innerText = a.post.region
+                document.getElementById('good').innerText = a.post.good
+                document.getElementById('title').innerText = a.post.title
+                document.getElementById('vv').innerText = a.post.content
+                var b = ['말미잘', '바보', '쓰레기', '전민정'];
+                const w = document.querySelector('#abc').innerText
+                let c = document.querySelector('#vv').innerText
+                let ss= document.querySelector("#ss")
+                let count = 0;
+                let aa={}
+                let sum=0;
+                for (let i = 0; i < b.length; i++) {
+                    let idx = w.indexOf(b[i]);
                     while (idx !== -1) {
                         count++;
-                        idx = content.indexOf(b[i], idx + 1);
+                        sum++
+                        idx = w.indexOf(b[i], idx + 1);
+                    }
+                    if (count > 1) {
+                        aa[i] = b[i] + "=" + count
+                        count = 0;
                     }
                 }
-                $(this).find('td:nth-child(9)').text(count);
-            });
-        });
+                ss.innerHTML="총위반횟수="+sum;
+                let result = Object.values(aa)
+                $('#abc').text(result);
+
+                for (let i = 0; i < b.length; i++) {
+                    let idx = c.indexOf(b[i]);
+                    while (idx !== -1) {
+                        idx = c.indexOf(b[i], idx + 1);
+                    }
+                    c = c.replaceAll(b[i], '<span style="background-color:red">' + b[i] + "</span>")
+                }
+                document.querySelector('#vv').innerHTML = c;
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        })
+    }
 </script>
