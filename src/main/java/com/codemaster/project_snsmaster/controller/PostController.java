@@ -13,12 +13,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.HashMap;
 
 @Controller
@@ -36,17 +34,37 @@ public class PostController {
     FileDataUtil fileDataUtil;
 
     @GetMapping(value = "/snsMaster")
-    public String postMain(Model model) throws Exception {
-        model.addAttribute("posts", postService.selectAll());
+    public String postMain(Model model, HttpSession session) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        List<PostVO> posts = postService.selectAll();
+        List<Integer> likeNos = postService.selectMyLikeNo(userid);
+        System.out.println(likeNos.size());
+        for (PostVO post : posts) {
+            for (Integer likeNo : likeNos) {
+                if (likeNo != null) {
+                    if (post.getNo() == likeNo) {
+                        post.setLike(true);
+                    }
+                }
+            }
+        }
+        model.addAttribute("posts", posts);
+        model.addAttribute("comments", postService.selectAllComment());
         return "post_main";
     }
 
     @GetMapping(value = "/postSearch")
-    public String postSearch(@RequestParam String sword, @RequestParam String region, Model model) throws Exception {
+    public String postSearch(@RequestParam String category,
+                             @RequestParam String sword,
+                             @RequestParam String region,
+                             Model model, HttpSession session) throws Exception {
+        String userid = (String) session.getAttribute("userid");
         HashMap<String, String> params = new HashMap<>();
         params.put("sword", sword);
         params.put("region", region);
+        params.put("category", category);
         model.addAttribute("posts", postService.select(params));
+        model.addAttribute("comments", postService.selectAllComment());
         return "post_main";
     }
 
@@ -103,10 +121,8 @@ public class PostController {
             }
         }
 
-
-        System.out.println(adminService.getMember(userid).getFile_name());
+      
         model.addAttribute("memberinfo", adminService.getMember(userid));
-
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
 
@@ -164,6 +180,15 @@ public class PostController {
         return "redirect:" + referer;
     }
 
+
+    @ResponseBody
+    @PostMapping("postLike")
+    public boolean postLike(String no, String id) throws Exception {
+        System.out.println(no);
+        System.out.println(id);
+        return true;
+    }
+  
     @PostMapping("deletePostArray")
     public String deletePost(@RequestParam String postArray, @RequestParam String gpostArray, @RequestParam String gjoinArray, HttpServletRequest request) throws Exception {
         System.out.println(postArray);
@@ -183,6 +208,7 @@ public class PostController {
         }
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+
     }
 
 }

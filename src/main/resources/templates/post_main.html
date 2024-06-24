@@ -91,13 +91,13 @@
         margin: 20px;
     }
 
-    #region {
+    .selectBox {
         width: 90px;
         height: 40px;
         border: 1px solid blue;
         margin-bottom: 10px;
         margin-top: 28px;
-        margin-left: 50px;
+        margin-left: 5px;
 
     }
 
@@ -105,7 +105,7 @@
         border: 1px solid black;
         width: 100%;
         display: inline-block;
-
+        padding-left: 30px;
     }
 
     #select {
@@ -114,9 +114,8 @@
     }
 
     #search {
-        width: 700px;
+        width: 600px;
         height: 40px;
-
         float: left;
         margin-top: 28px;
         margin-left: 20px;
@@ -137,10 +136,6 @@
         border: 1px solid black;
         text-align: center;
 
-    }
-
-    #lb {
-        margin-left: 10px;
     }
 
     .post {
@@ -184,8 +179,11 @@
         margin-right: auto;
     }
 
-</style>
+    #cmtIcon{
+        text-decoration-line: none;
+    }
 
+</style>
 
 <body>
 <div class="title">
@@ -197,14 +195,19 @@
             <div id="top">
                 <form action="postSearch" method="get">
                     <div id="select">
-                        <select name="region" id="region" onchange="">
+                        <select class="selectBox" name="region" id="region" onchange="">
                             <option value=""><span>지역선택 </span></option>
                             <option value="서울"><span>서울 </span></option>
-                            <option value="수원"><span>수원</span> </span></option>
+                            <option value="수원"><span>수원 </span> </span></option>
+                        </select>
+                        <select class="selectBox" name="category" id="category" onchange="">
+                            <option value=""><span>카테고리 </span></option>
+                            <option value="자유게시글"><span>자유게시글 </span></option>
+                            <option value="여행계획서"><span>여행계획서 </span> </span></option>
                         </select>
                     </div>
                     <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
-                    <input type="submit" value="검색" id="sbtn" onclick="return chkAvail()">
+                    <input type="submit" value="검색" id="sbtn">
                 </form>
             </div>
             <div id="notice">
@@ -244,14 +247,19 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-
                 <br>
                 <span th:text="${post.content}"></span><br>
                 <span class="postFoot">
-                    <a class="left" th:href="@{postDetail(no=${post.no})}"><img class="postImg" src="img/chat.png"></a>
+                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${post.no})}">
+                        <img class="postImg" src="img/chat.png">
+                        <span th:each="cmt:${comments}">
+                            <span th:if="${cmt.NO==post.no}" th:text="${cmt.cnt}"></span>
+                        </span>
+                    </a>
                 <a class="left" href="#"><img class="postImg" src="img/siren.png"></a>
                 <span class="right">
-                    <a href="#"><img class="postImg" src="img/heart.png"></a>
+                    <img th:id="${post.no}" class="likeBtn postImg"
+                         th:attr="src = ${post.isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
                     <span th:text="${post.good}"></span>
                 </span>
                 </span>
@@ -261,12 +269,10 @@
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
                     <span>사용자 이름:</span> <span th:text="${session.username}"></span>
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-
             </div>
         </div>
         <div id="mmode">
            <img src="img/mmode.png" id="m">
-
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
@@ -305,21 +311,10 @@
 
         button.innerHTML = "로그인"
         area.appendChild(button)
-
-
     }
 
 </script>
-<script>
-    function chkAvail() {
-        if (document.querySelector("#search").value == "") {
-            alert("검색어를 입력해주세요");
-            return false;
-        } else {
-            return true;
-        }
-    }
-
+<script th:inline="javascript">
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
@@ -335,6 +330,56 @@
 
 
     });
+
+    $(".likeBtn").on("click", (event) => {
+        var no = event.target.id;
+        var id = [[${session.userid}]];
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "http://localhost:8080/postLike",
+            data: {no: no, id: id},
+            success: function (data){
+
+            },
+            error: function (request, status, error) { // 결과 에러 콜백함수
+                console.log(error)
+            }
+        })
+    })
+    //
+    // $(".likeBtn").click(function () {
+    //     $('#jb').attr("type", "button");
+    //     var id = $("#id").val();
+    //     if (idChk()) {
+    //         $.ajax({
+    //             type: "get",
+    //             async: false,
+    //             url: "http://localhost:8080/idCheck",
+    //             data: {id: id},
+    //             success: function (data) {
+    //                 if (data == 1) {
+    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
+    //                     $("#noticeId").css("color", "red");
+    //                     isIdChecked = false;
+    //                     console.log(isIdChecked)
+    //                 } else {
+    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
+    //                     $("#noticeId").css("color", "blue");
+    //                     //$("#signup").attr("type", "submit");
+    //                     isIdChecked = true;
+    //                     console.log(isIdChecked)
+    //                 }
+    //             },
+    //             error: function (request, status, error) { // 결과 에러 콜백함수
+    //                 console.log(error)
+    //             }
+    //
+    //         })
+    //     } else {
+    //         alert("형식을 지키세요")
+    //     }
+    // });
 
 </script>
 </html>

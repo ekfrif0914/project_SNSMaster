@@ -70,6 +70,7 @@
                aria-label=".form-control-lg example" id="pw" name="pw">
         <a href="findMember" class="space">아이디 찾기/비밀번호 찾기</a>
         <div id="text"></div>
+        <input type="hidden" name="referer" th:value="${referer}">
         <button type="submit" class="btn btn-warning" onclick="return emptyChk()">로그인</button>
     </form>
 

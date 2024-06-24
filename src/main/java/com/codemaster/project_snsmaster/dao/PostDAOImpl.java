@@ -36,6 +36,11 @@ public class PostDAOImpl implements IF_PostDAO{
     }
 
     @Override
+    public void saveAttachbyNo(HashMap<String, String> param) throws Exception {
+        sqlSession.insert(mapperQuery+".insertAttachbyNo", param);
+    }
+
+    @Override
     public PostVO selectOne(String no) throws Exception {
         return sqlSession.selectOne(mapperQuery+".selectOne", no);
     }
@@ -53,6 +58,11 @@ public class PostDAOImpl implements IF_PostDAO{
     @Override
     public List<PostCommentVO> selectComment(String no) throws Exception {
         return sqlSession.selectList(mapperQuery+".selectComment", no);
+    }
+
+    @Override
+    public List<HashMap<String, String>> selectAllComment() throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectAllComment");
     }
 
     @Override
@@ -98,6 +108,12 @@ public class PostDAOImpl implements IF_PostDAO{
     @Override
     public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception {
         return sqlSession.selectList(mapperQuery+".selectMyGroupJoin", userid);
+    }
+
+    @Override
+    public List<Integer> selectMyLikeNo(String userid) throws Exception {
+        System.out.println(userid);
+        return sqlSession.selectList(mapperQuery+".selectMyLikeNo", userid);
     }
 
 }

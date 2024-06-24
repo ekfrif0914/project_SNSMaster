@@ -13,6 +13,7 @@ public interface IF_PostService {
     public List<String> selectFileNames(String no) throws Exception;
     public void insertComment(PostCommentVO postCommentVO) throws Exception;
     public List<PostCommentVO> selectComment(String no) throws Exception;
+    public List<HashMap<String, String>> selectAllComment() throws Exception;
     public void deleteComment(String c_no) throws Exception;
     public void deletePost(String no) throws Exception;
     public List<PostVO> selectMyPost(String userid) throws Exception;
@@ -20,5 +21,5 @@ public interface IF_PostService {
     public void modPost(PostVO postVO, String[] delfname) throws Exception;
     public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception;
     public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception;
-
+    public List<Integer> selectMyLikeNo(String userid) throws Exception;
 }
