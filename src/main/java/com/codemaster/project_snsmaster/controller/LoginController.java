@@ -121,10 +121,17 @@ public class LoginController {
                     return "loginForm";
                 }
             } else{
-                System.out.println(mvo.getFinish());
-                model.addAttribute("stopMember",mvo);//계정 정지됨
-                model.addAttribute("referer", referer);
-                return "loginForm";
+                if(mvo.getPw().equals(pass)) {//계정정지인데 비밀번호가 일치할 경우
+                    System.out.println(mvo.getFinish());
+                    model.addAttribute("stopMember", mvo);//계정 정지됨
+                    model.addAttribute("referer", referer);
+                    return "loginForm";
+                }else{//비밀번호 틀림
+                    model.addAttribute("wrong", "비밀번호가 일치하지 않습니다");
+                    model.addAttribute("referer", referer);
+                    return "loginForm";
+                }
+
             }
 
         } else {
@@ -139,9 +146,13 @@ public class LoginController {
     }
 
     @GetMapping("logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:snsMaster";
+    public String logout(HttpSession session, HttpServletRequest request, Model model) {
+        session.removeAttribute("userid");
+        session.removeAttribute("username");
+        session.removeAttribute("userregion");
+        String referer = request.getHeader("referer");
+        model.addAttribute("referer", referer);
+        return "redirect:"+referer;
 
     }
     @GetMapping("logoutManager")

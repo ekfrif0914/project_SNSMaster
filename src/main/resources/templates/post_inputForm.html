@@ -59,6 +59,15 @@
         margin-left: 3px;
     }
 
+    #login{
+        margin-top: 13px;
+        margin-left: 12px;
+    }
+    #logout{
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+
     #menu {
         display: inline-block;
         width: 980px;
@@ -74,6 +83,10 @@
         width: 40px;
         height: 40px;
         margin: 4px;
+
+    }
+
+    .btnimg {
         margin-left: 160px;
     }
 
@@ -81,14 +94,15 @@
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
 
     }
 
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
     }
 
     .selectBox {
@@ -135,6 +149,12 @@
         padding-right: 150px;
     }
 
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
 </style>
 
 
@@ -142,7 +162,7 @@
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -170,7 +190,7 @@
                         <option value="서울">서울</option>
                         <option value="수원">수원</option>
                     </select>
-                    <select name="category">
+                    <select name="category" onchange="textareaChange(this)" id="category">
                         <option value="자유게시글">자유게시글</option>
                         <option value="여행계획서">여행계획서</option>
                     </select><br>
@@ -190,15 +210,18 @@
 
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+
+            <img src="img/mmode.png" id="m"  class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a href="myPost"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="group" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -256,6 +279,7 @@
             return true;
         }
     }
+
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
@@ -266,8 +290,8 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });
@@ -275,9 +299,9 @@
     const fileChange = () => {
         $('.file').on('change', (event) => {
             var cnt = $('.file').length;
-            if(cnt < 8){
+            if (cnt < 8) {
                 var targetId = event.target.id;
-                if("file"+cnt == targetId){
+                if ("file" + cnt == targetId) {
                     console.log("맞다");
                     var newFileInput = document.createElement("input");
                     newFileInput.id = "file" + (cnt + 1);
@@ -293,5 +317,21 @@
         })
     }
     fileChange();
+
+    function textareaChange(e) {
+        const text = e.options[e.selectedIndex].text;
+        console.log(text)
+        var contents = $('#content')
+        if (text == "여행계획서") {
+            contents.val("일시: \n" +
+                "장소: \n" +
+                "주요 일정: \n" +
+                "예상 경비: ")
+
+        } else {
+            contents.val("")
+        }
+
+    }
 </script>
 </html>

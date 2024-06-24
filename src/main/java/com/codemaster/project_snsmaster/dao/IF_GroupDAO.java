@@ -18,7 +18,6 @@ public interface IF_GroupDAO {
 
     public int gjminsert(GroupJoinVO gjvo) throws Exception;
 
-    public int gmjinsert(G_memberVO gmvo) throws Exception;
 
     public List<GroupPostVO> gpselectAll(String gno) throws Exception;
 
@@ -78,6 +77,16 @@ public interface IF_GroupDAO {
    public int reportsaveselect(HashMap<Object, Object> report)throws Exception;
 
    public int likeselect(HashMap<Object, Object> likemap) throws Exception;
+
+   public int gjinselect(HashMap<Object, Object> gjoinmap)throws Exception;
+
+   public int gjoinwaitselect(HashMap<Object, Object> gjoinwait) throws Exception;
+
+    public void monoup(int mo_no) throws Exception;
+
+    public  int joinmb(HashMap<Object, Object> gmjoin) throws Exception;
+
+   public void joininsert(HashMap<Object, Object> joininsert) throws Exception;
 
 
 

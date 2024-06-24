@@ -18,7 +18,6 @@ public interface IF_GroupService {
 
     public void gjminsert(GroupJoinVO gjvo) throws Exception;
 
-    public void gmjinsert(G_memberVO gmvo) throws Exception;
 
     public List<GroupPostVO> gpList(String gno) throws Exception;
 
@@ -79,7 +78,15 @@ public interface IF_GroupService {
 
    public int likeselect(HashMap<Object, Object> likemap) throws Exception;
 
+   public int gjoinselect(HashMap<Object, Object> gjoinmap) throws Exception;
 
+   public int gjoinwaitselect(HashMap<Object, Object> gjoinwait)throws Exception;
+
+    public void monoup(int mo_no) throws Exception;
+
+    public int joinmb(HashMap<Object, Object> gmjoin) throws Exception;
+
+   public void joininsert(HashMap<Object, Object> joininsert)throws Exception;
 
 
     //int reportsaveselect(int gNo, String id);

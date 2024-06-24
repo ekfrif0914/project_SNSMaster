@@ -1,11 +1,14 @@
 package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.dao.IF_AdminDAO;
+import com.codemaster.project_snsmaster.vo.FAQVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
+import com.codemaster.project_snsmaster.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -77,5 +80,41 @@ public class AdminServiceImpl implements IF_AdminService {
     @Override
     public void changeDefaultimg(String id) throws Exception {
         adminDao.changeDefaultimg(id);
+    }
+
+    @Override
+    public void faqinsert(FAQVO faqvo) throws Exception {
+        adminDao.faqinsert(faqvo);
+    }
+
+    @Override
+    public List<FAQVO> faqselect(PageVO pvo) throws Exception {
+
+        return adminDao.faqselect(pvo);
+    }
+
+    @Override
+    public FAQVO selectOne(String f_no) throws Exception {
+        return adminDao.selectOne(f_no);
+    }
+
+    @Override
+    public void viewUp(String f_no) throws Exception {
+        adminDao.viewUp(f_no);
+    }
+
+    @Override
+    public int getTotalCount() throws Exception {
+        return adminDao.getTotalcount();
+    }
+
+    @Override
+    public int getSearchTotalCount(HashMap<String, String> param) throws Exception {
+        return adminDao.getSearchTotalCount(param);
+    }
+
+    @Override
+    public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception {
+        return adminDao.faqSearchselect(pvo);
     }
 }

@@ -30,19 +30,28 @@
     </select>
     <update id="updateSave" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
 
-    update member set pw=#{pw}, region=#{region}, name=#{name},  region1=#{region1} where id=#{id}
+        update member
+        set pw=#{pw},
+            region=#{region},
+            name=#{name},
+            region1=#{region1}
+        where id = #{id}
     </update>
 
     <insert id="stop">
         insert into stopmember
         values (#{id}, '회원 탈퇴', now(), DATE_ADD(NOW(), INTERVAL 7 DAY))
     </insert>
-<delete id="deletePostArray">
-delete from post where no in(${postArray})
+    <delete id="deletePostArray">
+        delete
+        from post
+        where no in (${postArray})
 
-</delete>
+    </delete>
     <delete id="deletegPostArray">
-        delete from grouppost where g_no in(${gpostArray})
+        delete
+        from grouppost
+        where g_no in (${gpostArray})
     </delete>
     <delete id="deletegJoinArray">
         delete
@@ -55,4 +64,52 @@ delete from post where no in(${postArray})
         set file_name=null
         where id = #{id}
     </update>
+    <insert id="faqinsert">
+
+        insert into faqpost
+        values (null, #{id}, #{title}, #{content}, default, 0, #{secret})
+    </insert>
+    <select id="faqselect" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+        select *
+        from (select @rownum:=@rownum+1 as rownum,A.*
+              from faqpost A, (select @rownum := 0) R
+              order by f_no desc) list
+        where rownum  <![CDATA[>=]]> #{startNo}
+          and rownum  <![CDATA[<=]]> #{endNo}
+    </select>
+    <select id="faqsearchselect" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+
+        select *
+        from (select @rownum:=@rownum+1 as rownum,A.*
+              from faqpost A, (select @rownum := 0) R
+              where
+                  ${searchType} like concat('%'
+                  , #{searchKeyword}
+                  , '%')
+              order by f_no desc) list
+        where rownum <![CDATA[>=]]> #{startNo}
+          and rownum <![CDATA[<=]]> #{endNo}
+    </select>
+    <select id="selectOne" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+        select *
+        from faqpost
+        where f_no = #{f_no}
+    </select>
+    <update id="viewUp">
+        update faqpost
+        set view_c=view_c + 1
+        where f_no = ${f_no}
+
+    </update>
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from faqpost
+
+    </select>
+    <select id="getSearchTotalCount" resultType="int" parameterType="hashmap">
+        select count(*)
+        from faqpost
+        where ${searchType} like concat('%', #{searchKeyword}, '%');
+    </select>
+
 </mapper>

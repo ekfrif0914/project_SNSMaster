@@ -1,8 +1,11 @@
 package com.codemaster.project_snsmaster.dao;
 
+import com.codemaster.project_snsmaster.vo.FAQVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
+import com.codemaster.project_snsmaster.vo.PageVO;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface IF_AdminDAO {
@@ -27,4 +30,18 @@ public interface IF_AdminDAO {
     public void deletegJoinArray(String gjoinArray) throws Exception;
 
     public void changeDefaultimg(String id)throws Exception;
+
+    public void faqinsert(FAQVO faqvo) throws Exception;
+
+    public List<FAQVO> faqselect(PageVO pvo) throws Exception;
+
+    public FAQVO selectOne(String f_no)throws Exception;
+
+    public void viewUp(String f_no)throws Exception;
+
+    public int getTotalcount()throws Exception;
+
+    public int getSearchTotalCount(HashMap<String, String> param) throws Exception ;
+
+    public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception;
 }
