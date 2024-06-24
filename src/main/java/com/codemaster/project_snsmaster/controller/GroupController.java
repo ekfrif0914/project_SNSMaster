@@ -60,16 +60,42 @@ public class GroupController {
         gservice.mginsert(mgvo);
         return "membergroup_test";
     }
-
+    @ResponseBody
     @RequestMapping(value = "/groupjoin", method = RequestMethod.GET) //그룹에 가입
-    public String groupjoin(@ModelAttribute GroupJoinVO gjvo, HttpSession session) throws Exception {
-        gjvo.setId((String) session.getAttribute("userid"));
-        System.out.println(gjvo.getGno());
-        System.out.println(gjvo.getId());
-        //session.getAttribute("userid");
-        gservice.joinsert(gjvo);
-        return "groupjoin_test";
+    public int groupjoin(@ModelAttribute GroupJoinVO gjvo, HttpSession session, Model model, @RequestParam("gno") String gno) throws Exception {
+        String id = (String) session.getAttribute("userid");
+        HashMap<Object, Object> gjoinmap = new HashMap<>();
+        gjoinmap.put("gno", (gno));
+        gjoinmap.put("id", (id));
+        //System.out.println(gno);
+        //System.out.println(id);
+        int gjoin = gservice.gjoinselect(gjoinmap);
+        //System.out.println(gjoin);
+        model.addAttribute("gjoin", gjoin);
+        if (gjoin == 0) {
+            HashMap<Object, Object> gjoinwait = new HashMap<>();
+            gjoinwait.put("gno", (gno));
+            gjoinwait.put("id", (id));
+          //  System.out.println(gno);
+           // System.out.println(id);
+            int joinwait = gservice.gjoinwaitselect(gjoinwait);
+            //System.out.println(joinwait);
+            if (joinwait == 0) {
+                gjvo.setId((String) session.getAttribute("userid"));
+                System.out.println(gjvo.getGno());
+                System.out.println(gjvo.getId());
+                //session.getAttribute("userid");
+                gservice.joinsert(gjvo);
+            } else if (joinwait == 1) {
+            }
+        } else if (gjoin == 1) {
+        }
+        System.out.println(gjoin);
+        return gjoin;
     }
+
+
+
 
     @RequestMapping(value = "/groupjoinmember", method = RequestMethod.GET)//그룹 가입 그룹장이 수락
     public String groupjoinmember(@ModelAttribute GroupJoinVO gjvo) throws Exception {
@@ -80,17 +106,7 @@ public class GroupController {
         return "redirect:/groupmy?gno=" + gjvo.getGno();
     }
 
-    @RequestMapping(value = "/g_memberjoin", method = RequestMethod.GET)//그룹에서 모임동행글 신청
-    public String memberjoin(@ModelAttribute G_memberVO gmvo, HttpSession session) throws Exception {
-        gmvo.setId((String) session.getAttribute("userid"));
-        System.out.println(gmvo.getGno());
-        System.out.println(gmvo.getMo_no());
-        System.out.println(gmvo.getId());
 
-        gservice.gmjinsert(gmvo);
-        // return "redirect:gpList?gno=" + gmvo.getGno();
-        return "redirect:gList";
-    }
 
     @GetMapping("/gList")//그룹 전체보기
     public String gList(Model model, HttpSession session) throws Exception {
@@ -177,10 +193,9 @@ public class GroupController {
         System.out.println(gservice.mgList(param).size());
         List<GroupPostVO> gpList = gservice.gpList(gno);
         List<G_joinVO> gjList = gservice.gjList(gno);
+
         System.out.println(gpList);
         model.addAttribute("gpList", gpList);
-        //int count =gservice.countselect(mo_no);
-        // model.addAttribute("")
         System.out.println(gjList);
         model.addAttribute("gjList", gjList);
         String referer = request.getHeader("referer");
@@ -264,16 +279,17 @@ public class GroupController {
         //return "redirect:/gpList?gno=" + gpvo.getGno();
         return "redirect:" + referer;
     }
+
+    @ResponseBody
     @GetMapping("/greport")//게시글 신고
-    public String greport(@RequestParam("g_no")int g_no,
-                          HttpSession session,Model model,
-                          @RequestParam("gno") String gno) throws Exception {
+    public int greport(@RequestParam("g_no") int g_no,
+                          HttpSession session, Model model) throws Exception {
         String id = (String) session.getAttribute("userid");
         HashMap<Object, Object> report = new HashMap<>();
         report.put("g_no", (g_no));
-        report.put("id",(id));
-         int a=gservice.reportsaveselect(report);
-        if (a== 0){
+        report.put("id", (id));
+        int a = gservice.reportsaveselect(report);
+        if (a == 0) {
             HashMap<String, String> param = new HashMap<>();
             param.put("g_no", String.valueOf(g_no));
             param.put("id", id);
@@ -281,44 +297,76 @@ public class GroupController {
             gservice.greportselect(g_no);
             System.out.println(g_no);
             System.out.println(id);
-        }else if (a==1){
+        } else if (a == 1) {
         }
-        return "redirect:gpList?gno=" +gno;
+        return a;
 
     }
-    @GetMapping("/grouplike")
-    public String grouplike(@RequestParam("g_no")int g_no,
-                            HttpSession session,Model model,
-                            @RequestParam("gno") String gno) throws Exception {
+    @ResponseBody
+    @GetMapping("/grouplike")//좋아요
+    public int grouplike(@RequestParam("g_no") int g_no,
+                            HttpSession session, Model model) throws Exception {
         String id = (String) session.getAttribute("userid");
         HashMap<Object, Object> likemap = new HashMap<>();
         likemap.put("g_no", (g_no));
-        likemap.put("id",(id));
-        System.out.println(g_no);
-        System.out.println(id);
-        int like=gservice.likeselect(likemap);
-        System.out.println(like);
-        if (like == 0){
+        likemap.put("id", (id));
+        System.out.println("Received g_no: " + g_no);
+        System.out.println("Received id: " + id);
+        int like = gservice.likeselect(likemap);
+        System.out.println("Like status: " + like);
+        if (like == 0) {
             HashMap<String, String> param = new HashMap<>();
             param.put("g_no", String.valueOf(g_no));
             param.put("id", id);
-            System.out.println(param);
-            model.addAttribute("likegroup",gservice.likegroup(param));
+            System.out.println("Param map: " + param);
+            model.addAttribute("likegroup", gservice.likegroup(param));
             gservice.likepostselect(g_no);
-            System.out.println(g_no);
-            System.out.println(id);
-        }else if (like==1){
+        } else if (like == 1) {
             HashMap<String, String> likedel = new HashMap<>();
             likedel.put("g_no", String.valueOf(g_no));
             likedel.put("id", id);
-            System.out.println(likedel);
-            model.addAttribute("likegroupdel",gservice.likegroupdel(likedel));
+            System.out.println("Likedel map: " + likedel);
+            model.addAttribute("likegroupdel", gservice.likegroupdel(likedel));
             gservice.likepostdel(g_no);
-            System.out.println(g_no);
-            System.out.println(id);
+
         }
-        return "redirect:gpList?gno=" +gno;
+        return like;
     }
+    @ResponseBody
+    @GetMapping(value = "/g_memberjoin")//그룹에서 모임동행글 신청
+    public int memberjoin( @RequestParam("cont") int cont,@RequestParam("cnt") int cnt, @RequestParam("gno") int gno, @RequestParam("mo_no") int mo_no, HttpSession session,Model model) throws Exception {
+        System.out.println(gno);
+        String id = (String) session.getAttribute("userid");
+        HashMap<Object, Object> gmjoin = new HashMap<>();
+        gmjoin.put("mo_no", mo_no);
+        System.out.println("Received g_no: " + mo_no);
+        System.out.println("Received id: " + id);
+        gmjoin.put("id", (id));
+        int joinmember=gservice.joinmb(gmjoin);
+        System.out.println(joinmember);
+        if(cont==cnt){
+
+        }else {
+        if (joinmember==0){
+            HashMap<Object, Object> joininsert = new HashMap<>();
+            joininsert.put("gno", gno);
+            joininsert.put("mo_no", mo_no);
+            joininsert.put("id", id);
+            gservice.joininsert(joininsert);
+            gservice.monoup(mo_no);
+        }else if(joinmember==1){
+
+        }
+        }
+
+
+        return joinmember;
+    }
+
+
+
+
+
 
     @GetMapping(value = "/gmjoinmod")//그룹 모임동행글 수정
     public String gmjoinmod(@RequestParam("mo_no") int mo_no, Model model, HttpServletRequest request) throws Exception {
