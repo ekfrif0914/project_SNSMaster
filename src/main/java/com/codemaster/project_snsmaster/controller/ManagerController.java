@@ -1,9 +1,14 @@
 package com.codemaster.project_snsmaster.controller;
 
+import com.codemaster.project_snsmaster.service.IF_AdminService;
+import com.codemaster.project_snsmaster.service.IF_GroupService;
 import com.codemaster.project_snsmaster.service.IF_ManagerService;
+import com.codemaster.project_snsmaster.service.IF_PostService;
+import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.GroupPostVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +23,14 @@ import java.util.List;
 public class ManagerController {
     @Autowired
     IF_ManagerService manager;
-
+    @Autowired
+    FileDataUtil fileDataUtil;
+    @Autowired
+    IF_PostService postService;
+    @Autowired
+    IF_AdminService adminService;
+    @Autowired
+    IF_GroupService groupService;
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
     public String home() {
@@ -46,21 +58,23 @@ public class ManagerController {
         return "redirect:managerMode";
     }
 
-    @RequestMapping(value = "look", method = RequestMethod.GET)
-    public String look(@RequestParam("g_no") int g_no, Model model) throws Exception {
-        System.out.println(g_no);
-        GroupPostVO look = manager.selectgroupPost(g_no);
-        model.addAttribute("g_no", look);
-        return "look";
-    }
-
-    @RequestMapping(value = "look2", method = RequestMethod.GET)
-    public String look2(@RequestParam("no") int no, Model model,@RequestParam("id") String id) throws Exception {
-        PostVO look = manager.selectpost(no);
-        model.addAttribute("id",id);
-        model.addAttribute("no", look);
-        return "look2";
-    }
+//    @RequestMapping(value = "look", method = RequestMethod.GET)
+//    public String look(@RequestParam("g_no") String g_no, Model model,@RequestParam("id") String id) throws Exception {
+//        System.out.println(g_no);
+//        GroupPostVO look = manager.selectgroupPost(Integer.parseInt(g_no));
+//        model.addAttribute("g_no", look);
+//
+//        return "look";
+//    }
+//
+//    @RequestMapping(value = "look2", method = RequestMethod.GET)
+//    public String look2(@RequestParam("no") String no, Model model,@RequestParam("id") String id) throws Exception {
+//        PostVO look = manager.selectpost(Integer.parseInt(no));
+//        model.addAttribute("id",id);
+//        model.addAttribute("no", look);
+//        model.addAttribute("post", postService.selectOne(no));
+//        return "look2";
+//    }
 
     @RequestMapping(value = "/managerMode2", method = RequestMethod.GET)
     public String reportsave(Model model) throws Exception {
@@ -173,12 +187,27 @@ public class ManagerController {
         manager.delete2(no);
         return "redirect:managerMode";
     }
-    @RequestMapping(value = "stopinput", method = RequestMethod.GET)
-    public String stopinput(@ModelAttribute StopMemberVO stop) throws Exception {
-        System.out.println(stop.toString());
-        manager.stopinsert(stop);
-        return "redirect:managerMode";
+    @ResponseBody
+    @RequestMapping(value = "look", method = RequestMethod.GET)
+    public HashMap<String, Object> look(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        PostVO look = manager.selectpost(Integer.parseInt(no));
+       HashMap<String, Object> a = new HashMap<>();
+        a.put("id", id);
+        a.put("no", look);
+        a.put("post", postService.selectOne(no));
+        return a;
     }
+    @ResponseBody
+    @RequestMapping(value = "look2", method = RequestMethod.GET)
+    public HashMap<String, Object> look2(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        GroupPostVO look = manager.selectgroupPost(Integer.parseInt(no));
+        HashMap<String, Object> a = new HashMap<>();
+        a.put("id", id);
+        a.put("no", look);
+        a.put("post", groupService.gpselect(no));
+        return a;
+    }
+
 }
 
 

@@ -166,14 +166,7 @@
         color: #999; /* placeholder의 텍스트 색상 지정 */
         opacity: 0.8; /* 투명도 조절 */
     }
-    #ggg{
-        float: right;
 
-    }
-    #dd{
-        float: left;
-        margin-bottom: 30px;
-    }
     #chk {
         margin-top: -40px;
         margin-left:40px;
@@ -203,11 +196,61 @@
         color: #9e9e9e; /* 비활성화 시 텍스트 회색 */
         cursor: not-allowed; /* 마우스 커서 금지 모양으로 변경 */
     }
+    #excelDownload {
+        background-color: green; /* Green background */
+        color: white; /* White text */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Add some padding */
+        text-align: center; /* Center the text */
+        text-decoration: none; /* Remove underline */
+        display: inline-block; /* Make the element inline-block */
+        font-size: 16px; /* Increase font size */
+        margin: 4px 2px; /* Add some margin */
+        cursor: pointer; /* Add a pointer cursor on hover */
+        border-radius: 4px; /* Rounded corners */
+    }
+
+    #excelDownload:hover {
+        background-color: darkgreen; /* Darker green on hover */
+    }
+
+    .post{
+        border: 1px solid gray;
+        border-radius: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+
+    .postImgContainer{
+        display: block;
+        height: 25px;
+        margin-top: 5px;
+    }
+
+    .right{
+        float: right;
+    }
+
+    .left{
+        float: left;
+    }
+
+    .postImg {
+        width: 25px;
+        height: 25px;
+        margin-left: 40px;
+    }
+
+    #ab{
+        margin-left: 500px;
+    }
+
 </style>
 <body>
 <div class="navbar">
     <div class="container">
-    <a href="snsMaster"><div id="dd"><img src="img/로고임.png" width="100px" height="70px"></div></a>
+    <a href="snsMaster"><div id="dd"><img src="img/logo.png" width="100px" height="70px"></div></a>
         <ul>
             <li><a href="/review">공지사항 관리</a></li>
             <li><a href="managerMode">자유게시판 관리</a></li>
@@ -249,7 +292,7 @@
             <td th:text="${allStat.count}"></td>
             <td th:text="${all.id}"></td>
             <td th:text="${all.g_title}"></td>
-            <td><a th:href="@{/look(g_no=${all.g_no})}"><button>신고글보기</button></a></td>
+            <td><a th:attr="no=${all.g_no}, id=${all.id}" onclick="look2(this.getAttribute('no'), this.getAttribute('id'))"><button class="dd">신고글보기</button></a></td>
             <td><a th:href="@{stop(id=${all.id})}"><button>회원정지</button></a></td>
             <td><a th:href="@{delete(g_no=${all.g_no})}"><button>삭제</button></a></td>
             <td><a th:href="@{alter2(g_no=${all.g_no})}"><button>문제없음</button></a></td>
@@ -261,7 +304,47 @@
 </div>
 </div>
 <input type="button" value="체크삭제" id="chk">
+<input type="button" value="엑셀다운" id="excelDownload" class="download">
+
+
+
+
+
+<div class="post" style="display: block;">
+    <b id="pp"></b>
+    <a href="#">팔로우</a>
+    <span id="ab"></span>위반한단어:<span id="abc"></span>
+    <span class="right">
+    <a id="link">
+        <button>회원정지 및 글삭제</button>
+    </a>
+</span><br>
+    <span id="category"></span>
+    <span class="postImgContainer">
+    <img class="postImg left" src="img/chat.png">
+    <a class="left" href="#"><img class="postImg" src="img/siren.png"></a>
+        <span id="ss" style="margin-left: 39%"></span>
+    <span class="right">
+        <a href="#"><img class="postImg" src="img/heart.png"></a>
+        <span id="good"></span>
+    </span>
+</span>
+    <hr>
+    <h5><b id="title"></b></h5>
+    <br>
+    <span id="vv"></span>
+    <br>
+    <hr>
+    <span id="commentsContainer">
+</span>
+</div>
+
+
+
+
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 </html>
 </body>
 </html>
@@ -292,4 +375,57 @@
                 $(this).find('td:nth-child(9)').text(count);
             });
         });
+
+</script>
+<script>
+    function look2(n,i) {
+        var no = n
+        var id = i
+        $.ajax({
+            url: `/look2?no=${no}&id=${id}`,
+            method: 'GET',
+            success: function (a) {
+                document.getElementById('pp').innerText = a.post.id
+                document.getElementById('abc').innerText = a.post.g_content
+                document.getElementById('link').href = `/StopAND?no=${no}&id=${id}`;
+                document.getElementById('good').innerText = a.post.like
+                document.getElementById('title').innerText = a.post.g_title
+                document.getElementById('vv').innerText = a.post.g_content
+                var b = ['말미잘', '바보', '쓰레기', '전민정'];
+                const w = document.querySelector('#abc').innerText
+                let c = document.querySelector('#vv').innerText
+                let ss= document.querySelector("#ss")
+                let count = 0;
+                let aa={}
+                let sum=0;
+                for (let i = 0; i < b.length; i++) {
+                    let idx = w.indexOf(b[i]);
+                    while (idx !== -1) {
+                        count++;
+                        sum++
+                        idx = w.indexOf(b[i], idx + 1);
+                    }
+                    if (count > 1) {
+                        aa[i] = b[i] + "=" + count
+                        count = 0;
+                    }
+                }
+                ss.innerHTML="총위반횟수="+sum;
+                let result = Object.values(aa)
+                $('#abc').text(result);
+
+                for (let i = 0; i < b.length; i++) {
+                    let idx = c.indexOf(b[i]);
+                    while (idx !== -1) {
+                        idx = c.indexOf(b[i], idx + 1);
+                    }
+                    c = c.replaceAll(b[i], '<span style="background-color:red">' + b[i] + "</span>")
+                }
+                document.querySelector('#vv').innerHTML = c;
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        })
+    }
 </script>
