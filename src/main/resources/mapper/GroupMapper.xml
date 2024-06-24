@@ -4,7 +4,7 @@
 
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
         insert into groupPost
-        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0)
+        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0,default)
     </insert>
 
     <insert id="gjinsert" parameterType="com.codemaster.project_snsmaster.vo.G_joinVO">

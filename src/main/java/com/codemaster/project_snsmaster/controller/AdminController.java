@@ -3,7 +3,10 @@ package com.codemaster.project_snsmaster.controller;
 import com.codemaster.project_snsmaster.service.IF_AdminService;
 import com.codemaster.project_snsmaster.service.IF_EmailService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
+import com.codemaster.project_snsmaster.vo.FAQVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
+import com.codemaster.project_snsmaster.vo.PageVO;
+import com.codemaster.project_snsmaster.vo.PostVO;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
 
 @Controller
 public class AdminController {
@@ -55,6 +60,21 @@ public class AdminController {
         System.out.println(result);// 중복확인한 값을 int로 받음
         return result;
     }
+
+    @ResponseBody //비동기통신에서 특정 값을 리턴해줄때 씀
+    @GetMapping("memberCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
+    public String memberCheck(String id) throws Exception {
+
+        MemberVO mvo = ifAdminService.getMember(id);
+        //  System.out.println(mvo.getId());
+        if (mvo != null) {
+            return mvo.getPw();
+        } else {
+            String nomember = "회원아님";
+            return nomember;
+        }
+    }
+
 
     @ResponseBody
     @GetMapping("emailConfirm")
@@ -134,7 +154,7 @@ public class AdminController {
     }
 
     @PostMapping("changeDefaultimg")
-    public String changeDefaultimg(@RequestParam("id") String id, @RequestParam String[] delfname ,HttpServletRequest request) throws Exception {
+    public String changeDefaultimg(@RequestParam("id") String id, @RequestParam String[] delfname, HttpServletRequest request) throws Exception {
         System.out.println(id);
         fileDataUtil.fileDelete(delfname);
         ifAdminService.changeDefaultimg(id);
@@ -153,5 +173,67 @@ public class AdminController {
         }
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+    }
+
+    @GetMapping("FAQPage")//FAQ페이지의 메인
+    public String faqPage( Model model, @ModelAttribute PageVO pagevo) throws Exception {
+        if (pagevo.getPage() == null) {
+            pagevo.setPage(1);
+        }
+
+        if (pagevo.getSearchKeyword() == null || pagevo.getSearchType()==null
+        || pagevo.getSearchKeyword().equals("") || pagevo.getSearchType().equals("")){
+            System.out.println("실행1");
+            System.out.println(pagevo.getSearchKeyword());
+            System.out.println(pagevo.getSearchType());
+            pagevo.setTotalCount(ifAdminService.getTotalCount());
+            pagevo.prt();
+
+            List<FAQVO> faqvoList = ifAdminService.faqselect(pagevo);
+            model.addAttribute("pagevo", pagevo);
+            model.addAttribute("list", faqvoList);
+        } else {
+            System.out.println("실행2");
+            System.out.println(pagevo.getSearchKeyword());
+            System.out.println(pagevo.getSearchType());
+            HashMap<String, String> param = new HashMap<>();
+            param.put("searchKeyword", pagevo.getSearchKeyword());
+            param.put("searchType", pagevo.getSearchType());
+            pagevo.setTotalCount(ifAdminService.getSearchTotalCount(param));
+            System.out.println(pagevo.getTotalCount());
+            pagevo.prt();
+
+            List<FAQVO> faqvoSearchList = ifAdminService.faqSearchselect(pagevo);
+            model.addAttribute("pagevo", pagevo);
+            model.addAttribute("list", faqvoSearchList);
+        }
+//        String referer = request.getHeader("Referer");
+    //    model.addAttribute("referer", referer);
+        return "memberFAQ";
+    }
+
+    @GetMapping("FAQPageWrite")//FAQ글 작성
+    public String faqPageWrite(HttpServletRequest request ,Model model) throws Exception {
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer", referer);
+
+        return "memberFAQWrite";
+    }
+
+    @PostMapping("FAQInputSave")//글 작성 저장
+    public String faqinputSave(@ModelAttribute FAQVO faqvo) throws Exception {
+        ifAdminService.faqinsert(faqvo);
+
+        return "redirect:/FAQPage";
+    }
+
+    @GetMapping(value = "/FAQDetail")//글 상세보기
+    public String postDetail(HttpServletRequest request,@RequestParam String f_no, Model model) throws Exception {
+        ifAdminService.viewUp(f_no);
+       // System.out.println(ifAdminService.selectOne(f_no).isSecret());
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer", referer);
+        model.addAttribute("FAQDetail", ifAdminService.selectOne(f_no));
+        return "FAQDetail";
     }
 }
