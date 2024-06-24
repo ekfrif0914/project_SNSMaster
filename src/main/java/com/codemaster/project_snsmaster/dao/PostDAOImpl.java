@@ -116,4 +116,49 @@ public class PostDAOImpl implements IF_PostDAO{
         return sqlSession.selectList(mapperQuery+".selectMyLikeNo", userid);
     }
 
+    @Override
+    public void insertLike(HashMap<String, String> param) throws Exception {
+        sqlSession.insert(mapperQuery+".insertLike", param);
+    }
+
+    @Override
+    public void deleteLike(HashMap<String, String> param) throws Exception {
+        sqlSession.delete(mapperQuery+".deleteLike", param);
+    }
+
+    @Override
+    public int isLike(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".isLike", param);
+    }
+
+    @Override
+    public int likeCnt(String no) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".likeCnt", no);
+    }
+
+    @Override
+    public void plusLike(String no) throws Exception {
+        sqlSession.update(mapperQuery+".plusLike", no);
+    }
+
+    @Override
+    public void minusLike(String no) throws Exception {
+        sqlSession.update(mapperQuery+".minusLike", no);
+    }
+
+    @Override
+    public int cntReport(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".cntReport", param);
+    }
+
+    @Override
+    public void insertReport(HashMap<String, String> param) throws Exception {
+        sqlSession.insert(mapperQuery+".insertReport", param);
+    }
+
+    @Override
+    public void plusReport(String no) throws Exception {
+        sqlSession.update(mapperQuery+".plusReport", no);
+    }
+
 }

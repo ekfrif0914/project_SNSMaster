@@ -26,4 +26,13 @@ public interface IF_PostDAO {
     public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception;
     public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception;
     public List<Integer> selectMyLikeNo(String userid) throws Exception;
+    public void insertLike(HashMap<String, String> param) throws Exception;
+    public void deleteLike(HashMap<String, String> param) throws Exception;
+    public int isLike(HashMap<String, String> param) throws Exception;
+    public int likeCnt(String no) throws Exception;
+    public void plusLike(String no) throws Exception;
+    public void minusLike(String no) throws Exception;
+    public int cntReport (HashMap<String, String> param) throws Exception;
+    public void insertReport(HashMap<String, String> param) throws Exception;
+    public void plusReport(String no) throws Exception;
 }

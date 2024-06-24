@@ -22,4 +22,7 @@ public interface IF_PostService {
     public List<GroupPostVO> selectMyGroupPost(String userid) throws Exception;
     public List<G_joinVO> selectMyGroupJoin(String userid) throws Exception;
     public List<Integer> selectMyLikeNo(String userid) throws Exception;
+    public boolean changeLike(String no, String id) throws Exception;
+    public int likeCnt(String no) throws Exception;
+    public boolean report(String no, String id) throws Exception;
 }
