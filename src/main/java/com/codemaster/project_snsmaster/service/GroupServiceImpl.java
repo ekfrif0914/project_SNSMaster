@@ -44,10 +44,6 @@ public class GroupServiceImpl implements IF_GroupService {
         gdao.gjminsert(gjvo);
     }
 
-    @Override
-    public void gmjinsert(G_memberVO gmvo) throws Exception {
-        gdao.gmjinsert(gmvo);
-    }
 
     @Override
     public List<GroupPostVO> gpList(String gno) throws Exception {
@@ -193,6 +189,31 @@ public class GroupServiceImpl implements IF_GroupService {
     @Override
     public int likeselect(HashMap<Object, Object> likemap) throws Exception {
         return gdao.likeselect(likemap);
+    }
+
+    @Override
+    public int gjoinselect(HashMap<Object, Object> gjoinmap) throws Exception {
+        return gdao.gjinselect(gjoinmap);
+    }
+
+    @Override
+    public int gjoinwaitselect(HashMap<Object, Object> gjoinwait) throws Exception {
+        return gdao.gjoinwaitselect(gjoinwait);
+    }
+
+    @Override
+    public void monoup(int mo_no) throws Exception {
+        gdao.monoup(mo_no);
+    }
+
+    @Override
+    public int joinmb(HashMap<Object, Object> gmjoin) throws Exception {
+        return gdao.joinmb(gmjoin);
+    }
+
+    @Override
+    public void joininsert(HashMap<Object, Object> joininsert) throws Exception {
+        gdao.joininsert(joininsert);
     }
 
     /*@Override

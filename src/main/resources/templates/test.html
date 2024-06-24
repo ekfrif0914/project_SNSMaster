@@ -225,7 +225,8 @@
 <script>
     $(window).on('load', function() {
         var city = $('#city').val();
-        var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841';
+
+        var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841'; // 여기에 자신의 OpenWeatherMap API 키를 입력하세요
         var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
 
         $.ajax({

@@ -1,10 +1,14 @@
 package com.codemaster.project_snsmaster.dao;
 
+import com.codemaster.project_snsmaster.vo.FAQVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
+import com.codemaster.project_snsmaster.vo.PageVO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -69,5 +73,39 @@ public class AdminDAOImpl implements IF_AdminDAO {
         sqlSession.update(mapperquery + ".changeDefaultimg", id);
     }
 
+    @Override
+    public void faqinsert(FAQVO faqvo) throws Exception {
+        sqlSession.insert(mapperquery+".faqinsert",faqvo);
+    }
+
+    @Override
+    public List<FAQVO> faqselect(PageVO pvo) throws Exception {
+        return sqlSession.selectList(mapperquery+".faqselect",pvo);
+    }
+
+    @Override
+    public FAQVO selectOne(String f_no) throws Exception {
+        return sqlSession.selectOne(mapperquery+".selectOne",f_no);
+    }
+
+    @Override
+    public void viewUp(String f_no) throws Exception {
+        sqlSession.update(mapperquery+".viewUp",f_no);
+    }
+
+    @Override
+    public int getTotalcount() throws Exception {
+        return sqlSession.selectOne(mapperquery + ".getTotalCount");
+    }
+
+    @Override
+    public int getSearchTotalCount(HashMap<String, String> param) throws Exception {
+        return sqlSession.selectOne(mapperquery + ".getSearchTotalCount",param);
+    }
+
+    @Override
+    public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception {
+        return sqlSession.selectList(mapperquery+".faqsearchselect",pvo);
+    }
 
 }

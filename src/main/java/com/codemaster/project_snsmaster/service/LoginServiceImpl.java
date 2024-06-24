@@ -25,7 +25,14 @@ public class LoginServiceImpl implements IF_LoginService {
         if (mvo != null) {
             MemberVO result = logindao.ifStop(id);//활동정지 인지
             if (result !=null) {
-                return logindao.ifStop(id);//활동정지
+                MemberVO stopvo= logindao.ifStop(id);//활동정지
+                MemberVO stop= new MemberVO();
+                stop.setId(stopvo.getId());
+                stop.setPw(mvo.getPw());
+                stop.setS_text(stopvo.getS_text());
+                stop.setToday(stopvo.getToday());
+                stop.setFinish(stopvo.getFinish());
+                return stop;
             } else {
                 return logindao.selectOne(id);//사용가능
             }

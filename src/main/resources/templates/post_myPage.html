@@ -60,6 +60,15 @@
         margin-left: 3px;
     }
 
+    #login{
+        margin-top: 13px;
+        margin-left: 12px;
+    }
+    #logout{
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+
     #menu {
         display: inline-block;
         width: 980px;
@@ -71,7 +80,6 @@
     }
 
     .img {
-        border: 1px solid black;
         width: 40px;
         height: 40px;
         margin: 4px;
@@ -87,10 +95,12 @@
 
     }
 
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
     }
 
     #region {
@@ -171,7 +181,7 @@
     }
 
 
-    .noLine{
+    .noLine {
         text-decoration-line: none;
     }
 
@@ -220,12 +230,19 @@
         display: none;
     }
 
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+
 </style>
 <body>
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -316,10 +333,10 @@
                                 <h5 class="card-title" th:text="${gpost.g_title}"></h5>
                                 <p class="card-text" th:text="${gpost.g_content}"></p>
                                 <div class="cardButton">
-                                    <a th:href="@{modno(g_no=${gpost.g_no})}">
+                                    <a class="noLine" th:href="@{modno(g_no=${gpost.g_no})}">
                                         <button>수정</button>
                                     </a>
-                                    <a th:href="@{delgroup(g_no=${gpost.g_no}, gno=${gpost.gno})}">
+                                    <a class="noLine" th:href="@{delgroup(g_no=${gpost.g_no}, gno=${gpost.gno})}">
                                         <button>삭제</button>
                                     </a>
                                 </div>
@@ -337,10 +354,10 @@
                                 <h5 class="card-title" th:text="${gjoin.m_name}"></h5>
                                 <p class="card-text" th:text="${gjoin.m_contents}"></p>
                                 <div class="cardButton">
-                                    <a th:href="@{gmjoinmod(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
+                                    <a class="noLine" th:href="@{gmjoinmod(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
                                         <button>수정</button>
                                     </a>
-                                    <a th:href="@{gjdel(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
+                                    <a class="noLine" th:href="@{gjdel(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
                                         <button>삭제</button>
                                     </a>
                                 </div>
@@ -366,7 +383,8 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" id="m" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
@@ -440,8 +458,8 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });

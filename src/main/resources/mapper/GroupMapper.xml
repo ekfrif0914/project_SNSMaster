@@ -4,12 +4,12 @@
 
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
         insert into groupPost
-        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0)
+        values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0,default)
     </insert>
 
     <insert id="gjinsert" parameterType="com.codemaster.project_snsmaster.vo.G_joinVO">
         insert into g_join
-        values (null, #{gno}, #{id}, #{m_name}, #{cnt}, #{m_contents})
+        values (null, #{gno}, #{id}, #{m_name}, #{cnt}, #{m_contents},default,0)
     </insert>
 
     <insert id="mginsert" parameterType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
@@ -30,7 +30,7 @@
         values (#{gno},#{id})
     </insert>
 
-    <insert id="gmjinsert" parameterType="com.codemaster.project_snsmaster.vo.G_memberVO">
+    <insert id="joininsert" parameterType="hashmap">
         insert into g_member
         values (#{id}, #{mo_no}, #{gno})
     </insert>
@@ -124,6 +124,13 @@
 
     </update>
 
+    <update id="monoup" parameterType="int">
+        update g_join
+        set cont = cont+1
+        where mo_no=#{mo_no}
+    </update>
+
+
     <insert id="gcinsert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostCommentVO">
         insert into grouppost_comment
         values (null, #{g_no}, #{id}, #{cmt})
@@ -197,6 +204,17 @@
 
     <select id="likeselect" parameterType="hashmap" resultType="int">
         select count(*) from postlike where g_no=#{g_no} and id=#{id}
+    </select>
+
+    <select id="gjinselect" parameterType="hashmap" resultType="int">
+        select count(*) from groupjoin where gno=#{gno} and id=#{id}
+    </select>
+    <select id="gjoinwaitselect" parameterType="hashmap" resultType="int">
+        select count(*) from groupjoin_wait where gno=#{gno} and id=#{id}
+    </select>
+
+    <select id="joinmb" parameterType="hashmap" resultType="int">
+        select count(*) from g_member where mo_no=#{mo_no} and id=#{id}
     </select>
 
 </mapper>
