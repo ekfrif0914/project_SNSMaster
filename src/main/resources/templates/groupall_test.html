@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 <a href="group">뒤로가기</a>
@@ -21,17 +22,18 @@
         <option value="제주">제주</option>
         <option value="포항">포항</option>
     </select>
-    <input class="form-control me-2" type="search" placeholder="그룹 검색"
-           aria-label="Search" name="search">
+    <input class="form-control me-2" type="search" placeholder="그룹 검색" aria-label="Search" name="search">
     <button class="btn btn-outline-success" type="submit">Search</button>
 </form>
-<div th:each="post: ${gList}">
-    <span th:text ="${postStat.count}"></span>
+<div th:each="post: ${gList}" th:id="${post.gno}">
+    <span th:text="${postStat.count}"></span>
     <span th:text="${post.gno}"></span>
     <span th:text="${post.g_id}"></span>
     <span th:text="${post.gname}"></span>
     <span th:text="${post.g_region}"></span>
-    <a th:if="${id!=post.g_id} and ${id!=null}"  th:href="@{groupjoin(gno=${post.gno})}">가입</a>
+    <a th:if="${id!=post.g_id} and ${id!=null}" th:href="@{groupjoin(gno=${post.gno})}" id="gjoinck">
+        가입
+    </a>
     <a th:href="@{gpList(gno=${post.gno})}">
         <button>그룹 게시글 보기</button>
     </a>
@@ -42,5 +44,32 @@
         <button>가입수락</button>
     </a>
 </div>
+
+<script>
+    $(document).on('click', '#gjoinck', function (event) {
+        event.preventDefault();
+        var gno = $(this).closest('div').attr('id');
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "http://localhost:8080/groupjoin",
+            data: { gno: gno },
+            success: function (data) {
+                console.log(data);
+                if (data == 0) {
+                    alert("가입 되었습니다.");
+                } else if (data == 1) {
+                    alert("이미 가입 되었거나 대기 상태 입니다.");
+                }
+            },
+            error: function (request, status, error) {
+                console.log(request, status, error);
+            }
+        });
+    });
+
+
+
+</script>
 </body>
 </html>

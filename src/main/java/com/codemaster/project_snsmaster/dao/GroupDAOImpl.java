@@ -50,10 +50,6 @@ public class GroupDAOImpl implements IF_GroupDAO {
         return sqlSession.insert(mapperQuery+".gjminsert",gjvo);
     }
 
-    @Override
-    public int gmjinsert(G_memberVO gmvo) throws Exception {
-        return sqlSession.insert(mapperQuery + ".gmjinsert", gmvo);
-    }
 
     @Override
     public List<GroupPostVO> gpselectAll(String gno) throws Exception {
@@ -201,6 +197,31 @@ public class GroupDAOImpl implements IF_GroupDAO {
     @Override
     public int likeselect(HashMap<Object, Object> likemap) throws Exception {
         return sqlSession.selectOne(mapperQuery + ".likeselect", likemap);
+    }
+
+    @Override
+    public int gjinselect(HashMap<Object, Object> gjoinmap) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".gjinselect", gjoinmap);
+    }
+
+    @Override
+    public int gjoinwaitselect(HashMap<Object, Object> gjoinwait) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".gjoinwaitselect", gjoinwait);
+    }
+
+    @Override
+    public void monoup(int mo_no) throws Exception {
+        sqlSession.update(mapperQuery+".monoup", mo_no);
+    }
+
+    @Override
+    public int joinmb(HashMap<Object, Object> gmjoin) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".joinmb",gmjoin);
+    }
+
+    @Override
+    public void joininsert(HashMap<Object, Object> joininsert) throws Exception {
+        sqlSession.insert(mapperQuery+".joininsert",joininsert);
     }
 
   /*  @Override
