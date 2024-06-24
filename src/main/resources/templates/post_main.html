@@ -92,24 +92,22 @@
     }
 
     .selectBox {
-        width: 90px;
+        width: 103px;
         height: 40px;
         border: 1px solid blue;
         margin-bottom: 10px;
         margin-top: 28px;
         margin-left: 5px;
-
     }
 
     #top {
         border: 1px solid black;
         width: 100%;
         display: inline-block;
-        padding-left: 30px;
+        padding-left: 20px;
     }
 
     #select {
-
         float: left;
     }
 
@@ -119,7 +117,6 @@
         float: left;
         margin-top: 28px;
         margin-left: 20px;
-
     }
 
     #sbtn {
@@ -183,6 +180,10 @@
         text-decoration-line: none;
     }
 
+    .fTitle{
+        font-size: 20px;
+    }
+
 </style>
 
 <body>
@@ -211,9 +212,14 @@
                 </form>
             </div>
             <div id="notice">
-                <h1>공지</h1>
+                <b class="fTitle" th:text="'[경남 창녕] '+${festivalMap.name}"></b>
+                <div class="right">
+                    <span th:text="'기 간: '+${festivalMap.period}"></span><br>
+                    <span th:text="'장 소: '+${festivalMap.place}"></span><br>
+                    <span th:text="'주 관: '+${festivalMap.sponsor}"></span>
+                </div>
             </div>
-            <div th:each="post : ${posts}" class="post">
+            <div th:each="post : ${posts}" class="post" th:id="${post.no}">
                 <b th:text="${post.id}"></b>
                 <a href="#">팔로우</a>
                 <span class="right">
@@ -256,9 +262,9 @@
                             <span th:if="${cmt.NO==post.no}" th:text="${cmt.cnt}"></span>
                         </span>
                     </a>
-                <a class="left" href="#"><img class="postImg" src="img/siren.png"></a>
+                <img class="postImg report" src="img/siren.png">
                 <span class="right">
-                    <img th:id="${post.no}" class="likeBtn postImg"
+                    <img class="likeBtn postImg"
                          th:attr="src = ${post.isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
                     <span th:text="${post.good}"></span>
                 </span>
@@ -327,59 +333,50 @@
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
         let openUrl='/managerPage'
         window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
-
-
     });
 
     $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
+        var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
         $.ajax({
             type: "post",
             async: false,
-            url: "http://localhost:8080/postLike",
+            url: "postLike",
             data: {no: no, id: id},
             success: function (data){
-
+                if(data.isLike){
+                    event.target.src="img/filledHearts.png"
+                } else {
+                    event.target.src="img/heart.png"
+                }
+                event.target.nextElementSibling.innerText = data.likeCnt;
             },
             error: function (request, status, error) { // 결과 에러 콜백함수
                 console.log(error)
             }
         })
     })
-    //
-    // $(".likeBtn").click(function () {
-    //     $('#jb').attr("type", "button");
-    //     var id = $("#id").val();
-    //     if (idChk()) {
-    //         $.ajax({
-    //             type: "get",
-    //             async: false,
-    //             url: "http://localhost:8080/idCheck",
-    //             data: {id: id},
-    //             success: function (data) {
-    //                 if (data == 1) {
-    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
-    //                     $("#noticeId").css("color", "red");
-    //                     isIdChecked = false;
-    //                     console.log(isIdChecked)
-    //                 } else {
-    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
-    //                     $("#noticeId").css("color", "blue");
-    //                     //$("#signup").attr("type", "submit");
-    //                     isIdChecked = true;
-    //                     console.log(isIdChecked)
-    //                 }
-    //             },
-    //             error: function (request, status, error) { // 결과 에러 콜백함수
-    //                 console.log(error)
-    //             }
-    //
-    //         })
-    //     } else {
-    //         alert("형식을 지키세요")
-    //     }
-    // });
+
+    $(".report").on("click", (event) => {
+        var no = event.target.parentElement.parentElement.id
+        var id = [[${session.userid}]];
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "postReport",
+            data: {no: no, id: id},
+            success: function (data){
+                if(data){
+                    alert("이미 신고한 게시글입니다.")
+                } else {
+                    alert("신고하였습니다.")
+                }
+            },
+            error: function (request, status, error) { // 결과 에러 콜백함수
+                console.log(error)
+            }
+        })
+    })
 
 </script>
 </html>

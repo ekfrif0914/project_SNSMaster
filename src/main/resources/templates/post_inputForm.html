@@ -91,36 +91,32 @@
         margin: 20px;
     }
 
-    #region {
-        width: 90px;
+    .selectBox {
+        width: 103px;
         height: 40px;
         border: 1px solid blue;
         margin-bottom: 10px;
         margin-top: 28px;
-        margin-left: 50px;
-
+        margin-left: 5px;
     }
 
     #top {
         border: 1px solid black;
         width: 100%;
         display: inline-block;
-
+        padding-left: 20px;
     }
 
     #select {
-
         float: left;
     }
 
     #search {
-        width: 700px;
+        width: 600px;
         height: 40px;
-
         float: left;
         margin-top: 28px;
         margin-left: 20px;
-
     }
 
     #sbtn {
@@ -152,10 +148,15 @@
             <div id="top">
                 <form action="postSearch" method="get">
                     <div id="select">
-                        <select name="region" id="region" onchange="">
+                        <select class="selectBox" name="region" id="region" onchange="">
                             <option value=""><span>지역선택 </span></option>
                             <option value="서울"><span>서울 </span></option>
-                            <option value="수원"><span>수원</span> </span></option>
+                            <option value="수원"><span>수원 </span> </span></option>
+                        </select>
+                        <select class="selectBox" name="category" id="category" onchange="">
+                            <option value=""><span>카테고리 </span></option>
+                            <option value="자유게시글"><span>자유게시글 </span></option>
+                            <option value="여행계획서"><span>여행계획서 </span> </span></option>
                         </select>
                     </div>
                     <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
@@ -189,7 +190,7 @@
 
         </div>
         <div id="mmode">
-            <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
+            <img src="img/mmode.png" id="m">
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">

@@ -1,10 +1,9 @@
 package com.codemaster.project_snsmaster.controller;
 
 import com.codemaster.project_snsmaster.service.IF_AdminService;
-
 import com.codemaster.project_snsmaster.service.IF_GroupService;
-
 import com.codemaster.project_snsmaster.service.IF_PostService;
+
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
@@ -18,6 +17,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.HashMap;
+import java.util.Random;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 @Controller
 public class PostController {
@@ -38,7 +45,6 @@ public class PostController {
         String userid = (String) session.getAttribute("userid");
         List<PostVO> posts = postService.selectAll();
         List<Integer> likeNos = postService.selectMyLikeNo(userid);
-        System.out.println(likeNos.size());
         for (PostVO post : posts) {
             for (Integer likeNo : likeNos) {
                 if (likeNo != null) {
@@ -50,6 +56,27 @@ public class PostController {
         }
         model.addAttribute("posts", posts);
         model.addAttribute("comments", postService.selectAllComment());
+
+        // 공공데이터 xml을 document로 파싱
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse("https://www.cng.go.kr/country/api/cngevent.do");
+        Element root = document.getDocumentElement();
+        int dataLength = root.getChildNodes().getLength();
+        Random random = new Random();
+        int randomNo = random.nextInt(dataLength);
+        while (!root.getChildNodes().item(randomNo).getNodeName().equals("list")){
+            randomNo = random.nextInt(dataLength);
+        }
+        NodeList childNodes = root.getChildNodes().item(randomNo).getChildNodes();
+        HashMap<String, String> festivalMap = new HashMap<>();
+        festivalMap.put("name", childNodes.item(3).getTextContent());
+        festivalMap.put("period", childNodes.item(5).getTextContent());
+        festivalMap.put("place", childNodes.item(7).getTextContent());
+        festivalMap.put("sponsor", childNodes.item(9).getTextContent());
+        festivalMap.put("content", childNodes.item(11).getTextContent());
+        model.addAttribute("festivalMap", festivalMap);
+
         return "post_main";
     }
 
@@ -90,7 +117,6 @@ public class PostController {
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session, String category) throws Exception {
         String userid = (String) session.getAttribute("userid");
-
         if (userid == null) {
             return "loginForm";
         }
@@ -120,7 +146,6 @@ public class PostController {
                     break;
             }
         }
-
       
         model.addAttribute("memberinfo", adminService.getMember(userid));
         model.addAttribute("userid", userid);
@@ -130,8 +155,18 @@ public class PostController {
     }
 
     @GetMapping(value = "/postDetail")
-    public String postDetail(@RequestParam String no, Model model) throws Exception {
-        model.addAttribute("post", postService.selectOne(no));
+    public String postDetail(@RequestParam String no, Model model, HttpSession session) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        PostVO post = postService.selectOne(no);
+        List<Integer> likeNos = postService.selectMyLikeNo(userid);
+        for (Integer likeNo : likeNos) {
+            if (likeNo != null) {
+                if (post.getNo() == likeNo) {
+                    post.setLike(true);
+                }
+            }
+        }
+        model.addAttribute("post", post);
         model.addAttribute("fileNames", postService.selectFileNames(no));
         model.addAttribute("comments", postService.selectComment(no));
         return "post_detail";
@@ -183,12 +218,22 @@ public class PostController {
 
     @ResponseBody
     @PostMapping("postLike")
-    public boolean postLike(String no, String id) throws Exception {
-        System.out.println(no);
-        System.out.println(id);
-        return true;
+    public HashMap<String, Object> postLike(String no, String id) throws Exception {
+        boolean isLike = postService.changeLike(no, id);
+        int likeCnt = postService.likeCnt(no);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("isLike", isLike);
+        data.put("likeCnt", likeCnt);
+        return data;
     }
-  
+
+    @ResponseBody
+    @PostMapping("postReport")
+    public boolean postReport(String no, String id) throws Exception {
+        boolean isReport = postService.report(no, id);
+        return isReport;
+    }
+
     @PostMapping("deletePostArray")
     public String deletePost(@RequestParam String postArray, @RequestParam String gpostArray, @RequestParam String gjoinArray, HttpServletRequest request) throws Exception {
         System.out.println(postArray);

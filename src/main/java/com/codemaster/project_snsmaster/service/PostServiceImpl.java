@@ -148,5 +148,42 @@ public class PostServiceImpl implements IF_PostService{
         return postDAO.selectMyLikeNo(userid);
     }
 
+    @Override
+    public boolean changeLike(String no, String id) throws Exception {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("no", no);
+        param.put("id", id);
+        int isLike = postDAO.isLike(param);
+        if(isLike > 0){
+            postDAO.deleteLike(param);
+            postDAO.minusLike(no);
+            return false;
+        }else {
+            postDAO.insertLike(param);
+            postDAO.plusLike(no);
+            return true;
+        }
+    }
+
+    @Override
+    public int likeCnt(String no) throws Exception {
+        return postDAO.likeCnt(no);
+    }
+
+    @Override
+    public boolean report(String no, String id) throws Exception {
+        HashMap<String, String> param = new HashMap<>();
+        param.put("no", no);
+        param.put("id", id);
+        int isReport = postDAO.cntReport(param);
+        if(isReport > 0){
+            return true;
+        } else {
+            postDAO.insertReport(param);
+            postDAO.plusReport(no);
+            return false;
+        }
+    }
+
 
 }
