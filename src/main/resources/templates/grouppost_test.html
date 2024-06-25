@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a th:href="@{'/gpList?gno=' + ${gpvo.gno}}">뒤로가기</a>
+<table>
+    <tbody>
+
+    <tr>
+        <td><input type="hidden" value="${gpvo.gno}"></td>
+        <td></td>
+        <td>아이디</td>
+        <td th:text="${gpvo.id}"></td>
+    </tr>
+    <td>제목</td>
+    <td th:text="${gpvo.g_title}"></td>
+    <tr>
+        <td>내용</td>
+        <td th:text="${gpvo.g_content}"></td>
+    </tr>
+    <tr>
+        <td>좋아요</td>
+        <td th:text="${gpvo.g_like}"></td>
+        <td>신고누적수</td>
+        <td th:text="${gpvo.g_report}"></td>
+    </tr>
+    <td th:if="${id==gpvo.id}"><a th:href="@{modno(g_no=${gpvo.g_no})}">
+        <button>수정</button>
+    </a></td>
+    <td th:if="${id==gpvo.id}"><a th:href="@{delgroup(g_no=${gpvo.g_no},gno=${gpvo.gno})}">
+        <button>삭제</button>
+    </a></td>
+    </tbody>
+</table>
+
+
+<table>
+    <tbody th:each="post: ${cmList}">
+    <tr>
+        <td><input type="hidden" value="${post.c_no}"></td>
+        <td><span th:text ="${postStat.count}"></span></td>
+
+        <td th:text="${post.id}">아이디</td>
+        <td th:text="${post.cmt}">댓글</td>
+        <td><a th:href="@{/commentdel(c_no=${post.c_no},g_no=${post.g_no})}">
+            <button th:if="${id==post.id}"> 삭제</button>
+        </a></td>
+    </tr>
+    </tbody>
+</table>
+
+<form action="groupcommentSave" method="post">
+    <input type="hidden" name="g_no" th:value="${gpvo.g_no}">
+    <input type="hidden" name="id" th:value="${gpvo.id}">
+    댓글<input type="text" name="cmt" id="cmt">
+    <input th:if="${id!=null}" type="submit" value="전송" onclick="return check()">
+
+</form>
+
+</body>
+<script>
+    function check() {
+        if (document.querySelector("#cmt").value == "") {
+            alert("댓글을 적어주세요")
+            return false
+        } else if (document.querySelector("#cmt").value.length > 40) {
+            alert("제목은 최대 40자 입니다.")
+            return false
+        } else {
+            return true;
+        }
+    }
+</script>
+</html>

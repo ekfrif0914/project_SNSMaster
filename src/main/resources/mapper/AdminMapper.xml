@@ -1,4 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_AdminDAO">
+    <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
+
+        insert into member
+        values (#{id}, #{email}, #{pw}, #{region}, #{name}, null, null, #{region1})
+
+    </insert>
+    <select id="overlappedID" resultType="int">
+        select count(*)
+        From member
+        where id = #{id}
+    </select>
+    <select id="overlappedEmail" resultType="int">
+        select count(*)
+        From member
+        where email = #{email}
+    </select>
+    <update id="updateProfile" parameterType="hashMap">
+        update member
+        set file_name=#{filename}
+        where id = #{id}
+    </update>
+    <select id="memberInfo" resultType="com.codemaster.project_snsmaster.vo.MemberVO">
+        select *
+        from member
+        where id = #{id}
+
+    </select>
+    <update id="updateSave" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
+
+        update member
+        set pw=#{pw},
+            region=#{region},
+            name=#{name},
+            region1=#{region1}
+        where id = #{id}
+    </update>
+
+    <insert id="stop">
+        insert into stopmember
+        values (#{id}, '회원 탈퇴', now(), DATE_ADD(NOW(), INTERVAL 7 DAY))
+    </insert>
+    <delete id="deletePostArray">
+        delete
+        from post
+        where no in (${postArray})
+
+    </delete>
+    <delete id="deletegPostArray">
+        delete
+        from grouppost
+        where g_no in (${gpostArray})
+    </delete>
+    <delete id="deletegJoinArray">
+        delete
+        from g_join
+        where mo_no in (${gjoinArray})
+
+    </delete>
+    <update id="changeDefaultimg">
+        update member
+        set file_name=null
+        where id = #{id}
+    </update>
+    <insert id="faqinsert">
+
+        insert into faqpost
+        values (null, #{id}, #{title}, #{content}, default, 0, #{secret})
+    </insert>
+    <select id="faqselect" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+        select *
+        from (select @rownum:=@rownum+1 as rownum,A.*
+              from faqpost A, (select @rownum := 0) R
+              order by f_no desc) list
+        where rownum  <![CDATA[>=]]> #{startNo}
+          and rownum  <![CDATA[<=]]> #{endNo}
+    </select>
+    <select id="faqsearchselect" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+
+        select *
+        from (select @rownum:=@rownum+1 as rownum,A.*
+              from faqpost A, (select @rownum := 0) R
+              where
+                  ${searchType} like concat('%'
+                  , #{searchKeyword}
+                  , '%')
+              order by f_no desc) list
+        where rownum <![CDATA[>=]]> #{startNo}
+          and rownum <![CDATA[<=]]> #{endNo}
+    </select>
+    <select id="selectOne" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.FAQVO">
+        select *
+        from faqpost
+        where f_no = #{f_no}
+    </select>
+    <update id="viewUp">
+        update faqpost
+        set view_c=view_c + 1
+        where f_no = ${f_no}
+
+    </update>
+    <select id="getTotalCount" resultType="int">
+        select count(*)
+        from faqpost
+
+    </select>
+    <select id="getSearchTotalCount" resultType="int" parameterType="hashmap">
+        select count(*)
+        from faqpost
+        where ${searchType} like concat('%', #{searchKeyword}, '%');
+    </select>
+
 </mapper>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="gmjoinmodsave" method="post">
+
+    <table>
+        <tbody>
+        <tr>
+            <td > <input type="hidden" name ="mo_no" th:value= "${gjvo.mo_no}"> </td>
+            <td > <input type="hidden" name ="gno" th:value= "${gjvo.gno}"> </td>
+        </tr>
+        <td >제목<input type="text" name="m_name" th:value = "${gjvo.m_name}"></td>
+        <tr>
+            <td>모집 인원<input type="text" name="cnt" th:value = "${gjvo.cnt}"></td>
+
+        </tr>
+        <tr>
+            <td >그룹글 내용 <textarea  rows="13" cols="70" name="m_contents" th:text = "${gjvo.m_contents}"></textarea></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="referer" th:value="${referer}">
+    <input type="submit" value="전송">
+</form>
+
+</body>
+</html>

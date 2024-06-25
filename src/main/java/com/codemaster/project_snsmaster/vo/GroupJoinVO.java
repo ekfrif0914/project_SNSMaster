@@ -6,7 +6,9 @@ import lombok.ToString;
 
 @Getter@Setter@ToString
 public class GroupJoinVO {
+    private int wait_no;
     private int gno;
     private String id;
+
 
 }

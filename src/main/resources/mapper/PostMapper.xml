@@ -1,4 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_PostDAO">
+    <insert id="insertPost" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
+        <!-- 로그인 기능 완성 후 id 수정할 것-->
+        insert into post values(null, #{id}, #{region}, #{title}, #{content}, 0, 0, #{category}, default)
+    </insert>
+    <select id="selectAll" resultType="com.codemaster.project_snsmaster.vo.PostVO">
+        select * from post order by NO DESC;
+    </select>
+    <select id="select" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="hashmap">
+        select * from post where (region like concat('%',#{region},'%') and category like concat('%',#{category},'%')) and ((title like concat('%',#{sword},'%') or content like concat('%',#{sword},'%'))) order by NO DESC
+    </select>
+    <insert id="insertAttach" parameterType="String">
+        insert into post_attach values ((select max(NO) from post), #{fileName})
+    </insert>
+    <insert id="insertAttachbyNo" parameterType="hashmap">
+        insert into post_attach values (#{no}, #{fileName})
+    </insert>
+    <select id="selectOne" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.PostVO">
+        select * from post where NO = #{no}
+    </select>
+    <select id="selectFileNames" parameterType="String" resultType="String">
+        select file_name from post_attach where NO = #{no}
+    </select>
+    <insert id="insertComment" parameterType="com.codemaster.project_snsmaster.vo.PostCommentVO">
+        insert into post_comment values (null, #{no}, #{id}, #{cmt})
+    </insert>
+    <select id="selectAllComment" resultType="hashmap">
+        select count(*) cnt, `NO` from post_comment group by NO
+    </select>
+    <select id="selectComment" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.PostCommentVO">
+        select * from post_comment where NO = #{no}
+    </select>
+    <delete id="deleteComment" parameterType="String">
+        delete from post_comment where c_no = #{c_no}
+    </delete>
+    <delete id="deletePost" parameterType="String">
+        delete from post where NO = #{no}
+    </delete>
+    <select id="selectAllFileNames" resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
+        select * from post_attach
+    </select>
+    <select id="selectMyPost" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="String">
+        select * from post where id = #{userid} order by NO DESC
+    </select>
+    <select id="selectMyPostbyCategory" resultType="com.codemaster.project_snsmaster.vo.PostVO" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
+        select * from post where id = #{id} and category = #{category} order by NO DESC
+    </select>
+    <update id="modPost" parameterType="com.codemaster.project_snsmaster.vo.PostVO">
+        update post set region = #{region}, title = #{title}, content = #{content}, category = #{category} where NO = #{no}
+    </update>
+    <delete id="deleteAttach" parameterType="String">
+        delete from post_attach where file_name = #{fname}
+    </delete>
+    <select id="selectMyGroupPost" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
+        select * from grouppost where id = #{userid} order by g_no DESC
+    </select>
+    <select id="selectMyGroupJoin" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.G_joinVO">
+        select * from g_join where id = #{userid}
+    </select>
+    <select id="selectMyLikeNo" parameterType="String" resultType="int">
+        select NO from postlike where id = #{userid}
+    </select>
+    <insert id="insertLike" parameterType="hashmap">
+        insert into postlike values (#{id}, #{no}, null)
+    </insert>
+    <delete id="deleteLike" parameterType="hashmap">
+        delete from postlike where id = #{id} and NO = #{no}
+    </delete>
+    <select id="isLike" parameterType="hashmap">
+        select count(*) from postlike where id = #{id} and NO = #{no}
+    </select>
+    <select id="likeCnt" parameterType="String" resultType="int">
+        select good from post where NO = #{no}
+    </select>
+    <update id="plusLike" parameterType="String">
+        update post set good = good + 1 where NO = #{no}
+    </update>
+    <update id="minusLike" parameterType="String">
+        update post set good = good - 1 where NO = #{no}
+    </update>
+    <select id="cntReport" parameterType="hashmap" resultType="int">
+        select count(*) from reportSave where id = #{id} and NO = #{no}
+    </select>
+    <insert id="insertReport" parameterType="hashmap">
+        insert into reportSave values (#{id}, #{no}, null)
+    </insert>
+    <update id="plusReport" parameterType="String">
+        update post set report = report + 1 where NO = #{no}
+    </update>
 </mapper>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="modnosave" method="post">
+
+    <table>
+        <tbody>
+        <tr>
+            <td > <input type="hidden" name ="gno" th:value= "${gpvo.gno}"> </td>
+            <td > <input type="hidden" name ="g_no" th:value= "${gpvo.g_no}"> </td>
+        </tr>
+        <td >제목<input type="text" name="g_title" th:value = "${gpvo.g_title}"></td>
+        <tr>
+            <td >그룹글 내용 <textarea  rows="13" cols="70" name="g_content" th:text = "${gpvo.g_content}"></textarea></td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="hidden" name="referer" th:value="${referer}">
+    <input type="submit" value="전송">
+</form>
+
+</body>
+</html>

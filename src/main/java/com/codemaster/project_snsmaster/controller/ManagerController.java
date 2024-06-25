@@ -1,7 +1,213 @@
 package com.codemaster.project_snsmaster.controller;
 
+import com.codemaster.project_snsmaster.service.IF_AdminService;
+import com.codemaster.project_snsmaster.service.IF_GroupService;
+import com.codemaster.project_snsmaster.service.IF_ManagerService;
+import com.codemaster.project_snsmaster.service.IF_PostService;
+import com.codemaster.project_snsmaster.util.FileDataUtil;
+import com.codemaster.project_snsmaster.vo.GroupPostVO;
+import com.codemaster.project_snsmaster.vo.PostVO;
+import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 
 @Controller
 public class ManagerController {
+    @Autowired
+    IF_ManagerService manager;
+    @Autowired
+    FileDataUtil fileDataUtil;
+    @Autowired
+    IF_PostService postService;
+    @Autowired
+    IF_AdminService adminService;
+    @Autowired
+    IF_GroupService groupService;
+
+    @RequestMapping(value = "/review", method = RequestMethod.GET)
+    public String home() {
+        return "review";
+    }
+
+    @RequestMapping(value = "/input", method = RequestMethod.GET)
+    public String input(@RequestParam("id") String id) throws Exception {
+        System.out.println(id.toString());
+        manager.insert(id);
+        return "review";
+    }
+
+    @RequestMapping(value = "delete", method = RequestMethod.GET)
+    public String delete(@RequestParam("g_no") int g_no) throws Exception {
+        System.out.println(g_no);
+        manager.delete(g_no);
+        return "redirect:managerMode2";
+    }
+
+    @RequestMapping(value = "delete2", method = RequestMethod.GET)
+    public String delete2(@RequestParam("no") int no) throws Exception {
+        System.out.println(no);
+        manager.delete2(no);
+        return "redirect:managerMode";
+    }
+
+//    @RequestMapping(value = "look", method = RequestMethod.GET)
+//    public String look(@RequestParam("g_no") String g_no, Model model,@RequestParam("id") String id) throws Exception {
+//        System.out.println(g_no);
+//        GroupPostVO look = manager.selectgroupPost(Integer.parseInt(g_no));
+//        model.addAttribute("g_no", look);
+//
+//        return "look";
+//    }
+//
+//    @RequestMapping(value = "look2", method = RequestMethod.GET)
+//    public String look2(@RequestParam("no") String no, Model model,@RequestParam("id") String id) throws Exception {
+//        PostVO look = manager.selectpost(Integer.parseInt(no));
+//        model.addAttribute("id",id);
+//        model.addAttribute("no", look);
+//        model.addAttribute("post", postService.selectOne(no));
+//        return "look2";
+//    }
+
+    @RequestMapping(value = "/managerMode2", method = RequestMethod.GET)
+    public String reportsave(Model model) throws Exception {
+        List<GroupPostVO> allList = manager.groupreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main2";
+    }
+
+    @RequestMapping(value = "/managerMode", method = RequestMethod.GET)
+    public String reportsave2(Model model) throws Exception {
+        List<PostVO> allList = manager.postreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main";
+    }
+
+    @RequestMapping(value = "/stop", method = RequestMethod.GET)
+    public String stop(Model model, String id) throws Exception {
+        System.out.println(id);
+        model.addAttribute("id", id);
+        return "stop";
+    }
+
+
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public String search(@RequestParam("searchcell") String searchcell,
+                         @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<PostVO> allList = manager.selectrandom(params);
+        model.addAttribute("all", allList);
+        return "Manager.Main";
+    }
+
+    @RequestMapping(value = "/search2", method = RequestMethod.GET)
+    public String search2(@RequestParam("searchcell") String searchcell,
+                          @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<GroupPostVO> allList = manager.selectrandom2(params);
+        model.addAttribute("all", allList);
+        return "Manager.Main2";
+    }
+
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public String test(Model model) throws Exception {
+        String region = manager.random();
+        model.addAttribute("region", region);
+        return "test";
+    }
+
+    @RequestMapping(value = "alter", method = RequestMethod.GET)
+    public String alter(@RequestParam("no") int no) throws Exception {
+        System.out.println(no);
+        manager.alter(no);
+        return "redirect:managerMode";
+    }
+
+    @RequestMapping(value = "alter2", method = RequestMethod.GET)
+    public String alter2(@RequestParam("g_no") int g_no) throws Exception {
+        System.out.println(g_no);
+        manager.alter2(g_no);
+        return "redirect:managerMode";
+    }
+
+    @RequestMapping(value = "stopmember", method = RequestMethod.GET)
+    public String stopmember(Model model) throws Exception {
+        List<StopMemberVO> allList = manager.stopMember();
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
+    }
+
+    @RequestMapping(value = "stopdelete", method = RequestMethod.GET)
+    public String stopdelete(Model model, @RequestParam("id") String id) throws Exception {
+        manager.stopdelete(id);
+        List<StopMemberVO> allList = manager.stopMember();
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
+    }
+
+
+  @RequestMapping(value = "fordelete", method = RequestMethod.GET)
+   public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
+      List<String> list = Arrays.asList(no);
+       manager.fordelete(list);
+       List<PostVO>allList=manager.postreport();
+       model.addAttribute("all", allList);
+       return "Manager.Main";
+    }
+    @RequestMapping(value = "fordelete2", method = RequestMethod.GET)
+    public String fordelete2(Model model, @RequestParam("no") String[] no) throws Exception {
+        List<String> list = Arrays.asList(no);
+        manager.fordelete2(list);
+        List<GroupPostVO>allList=manager.groupreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main2";
+    }
+    @RequestMapping(value="StopAND",method=RequestMethod.GET)
+    public String StopAND(Model model,@RequestParam("no")String no,@RequestParam("id")String id)throws Exception{
+       model.addAttribute("no",no);
+       model.addAttribute("id",id);
+       return "StopANDdelete";
+    }
+    @RequestMapping(value = "stopdeleteinput", method = RequestMethod.GET)
+    public String stopinput2(@ModelAttribute StopMemberVO stop,@RequestParam int no) throws Exception {
+        System.out.println(stop.toString());
+        manager.stopinsert(stop);
+        manager.delete2(no);
+        return "redirect:managerMode";
+    }
+    @ResponseBody
+    @RequestMapping(value = "look", method = RequestMethod.GET)
+    public HashMap<String, Object> look(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        PostVO look = manager.selectpost(Integer.parseInt(no));
+       HashMap<String, Object> a = new HashMap<>();
+        a.put("id", id);
+        a.put("no", look);
+        a.put("post", postService.selectOne(no));
+        return a;
+    }
+    @ResponseBody
+    @RequestMapping(value = "look2", method = RequestMethod.GET)
+    public HashMap<String, Object> look2(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        GroupPostVO look = manager.selectgroupPost(Integer.parseInt(no));
+        HashMap<String, Object> a = new HashMap<>();
+        a.put("id", id);
+        a.put("no", look);
+        a.put("post", groupService.gpselect(no));
+        return a;
+    }
+
 }
+
+
