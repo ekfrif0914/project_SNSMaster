@@ -97,7 +97,6 @@ public class PostController {
 
     @GetMapping(value = "/myPost")
     public String postInput() {
-
         return "post_inputForm";
     }
 
@@ -255,5 +254,6 @@ public class PostController {
         return "redirect:" + referer;
 
     }
+
 
 }

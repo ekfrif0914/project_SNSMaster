@@ -354,7 +354,7 @@
 <script>
 
     opener.document.location.href = '/managerMode';
-    window.close();
+     window.close();
 
 </script>
 
@@ -411,7 +411,7 @@
 
     var excelHandler = {
         getExcelFileName : function(){
-            return 'table-test.xlsx';	//파일명
+            return '자유 게시물.xlsx';	//파일명
         },
         getSheetName : function(){
             return 'Table Test Sheet';	//시트명
@@ -443,7 +443,7 @@
                 document.getElementById('pp').innerText = a.post.id
                 document.getElementById('abc').innerText = a.post.content
                 document.getElementById('link').href = `/StopAND?no=${no}&id=${id}`;
-                document.getElementById('region').innerText = document.getElementById('category').innerText = a.post.region
+                document.getElementById('region').innerText = a.post.region
                 document.getElementById('good').innerText = a.post.good
                 document.getElementById('title').innerText = a.post.title
                 document.getElementById('vv').innerText = a.post.content
@@ -461,14 +461,15 @@
                         sum++
                         idx = w.indexOf(b[i], idx + 1);
                     }
-                    if (count > 1) {
+                    if (count >= 1) {
                         aa[i] = b[i] + "=" + count
                         count = 0;
                     }
                 }
+                    let result = Object.values(aa)
+                    $('#abc').text(result);
                 ss.innerHTML="총위반횟수="+sum;
-                let result = Object.values(aa)
-                $('#abc').text(result);
+
 
                 for (let i = 0; i < b.length; i++) {
                     let idx = c.indexOf(b[i]);

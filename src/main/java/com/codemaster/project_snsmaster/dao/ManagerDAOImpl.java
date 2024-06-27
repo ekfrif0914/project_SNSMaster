@@ -62,7 +62,7 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     }
 
     @Override
-    public List<GroupPostVO> selectrandom2(HashMap<String, String> params) {
+    public List<GroupPostVO> selectrandom2(HashMap<String, String> params)throws Exception {
         return sqlSession.selectList(mapperQuery+".selectrandom2",params);
     }
 
@@ -82,17 +82,37 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     }
 
     @Override
-    public void fordelete(List<String> list) {
+    public void fordelete(List<String> list) throws Exception {
         sqlSession.delete(mapperQuery + ".fordelete",list);
     }
 
     @Override
-    public void fordelete2(List<String> list) {
+    public void fordelete2(List<String> list) throws Exception {
         sqlSession.delete(mapperQuery+".fordelete2",list);
     }
 
     @Override
-    public void alter2(int g_no) {
+    public void alter2(int g_no) throws Exception  {
         sqlSession.update(mapperQuery+".alter2",g_no);
+    }
+
+    @Override
+    public void Notification(HashMap<String, Object> data) {
+        sqlSession.insert(mapperQuery+".Notification",data);
+    }
+
+    @Override
+    public int stateNotification(String id) {
+      return  sqlSession.selectOne(mapperQuery+".stateNotification",id);
+    }
+
+    @Override
+    public List<String> notificationlook(String id) {
+        return sqlSession.selectList(mapperQuery+".notificationlook",id);
+    }
+
+    @Override
+    public void notifi(String id) {
+        sqlSession.update(mapperQuery+".notifi",id);
     }
 }

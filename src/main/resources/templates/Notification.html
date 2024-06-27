@@ -1,10 +1,17 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
 <html lang="kor">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>자세히보기</title>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -45,8 +52,7 @@
         float: left;
         margin-left: 160px;
         width: 980px;
-        height: 803px;
-        /*border: 1px solid black;*/
+        height: 840px;
     }
 
     #mmode {
@@ -58,15 +64,13 @@
         border: 1px solid black;
         margin-left: 3px;
     }
-    #login{
-        margin-top: 13px;
-        margin-left: 12px;
-    }
-    #logout{
-        margin-top: 13px;
-        margin-left: 5px;
+    #login {
+        margin-left: 10px;
     }
 
+    #logout {
+        margin-left: 5px;
+    }
     #menu {
         display: inline-block;
         width: 980px;
@@ -82,10 +86,6 @@
         width: 40px;
         height: 40px;
         margin: 4px;
-
-    }
-
-    .btnimg {
         margin-left: 160px;
     }
 
@@ -93,15 +93,14 @@
         width: 50px;
         height: 50px;
 
+        margin-left: 160px;
 
     }
 
     .m {
-        width: 55px;
-        height: 55px;
-        margin-top: 19px;
-        margin-left: 19px;
-
+        width: 50px;
+        height: 50px;
+        margin: 20px;
     }
 
     .selectBox {
@@ -140,15 +139,7 @@
         margin-left: 10px;
     }
 
-    #notice {
-        width: 100%;
-        height: 90px;
-        border: 1px solid black;
-        text-align: center;
-
-    }
-
-    .post {
+    .post{
         border: 1px solid gray;
         border-radius: 10px;
         margin-top: 10px;
@@ -156,51 +147,12 @@
         padding: 10px;
     }
 
-    .postFoot {
-        display: block;
-        height: 30px;
-    }
 
-    .right {
-        float: right;
-    }
-
-    .left {
-        float: left;
-    }
-
-    .postImg {
-        width: 30px;
-        height: 30px;
-        margin-left: 40px;
-    }
-
-    .postFile {
-        object-fit: contain;
-        width: 300px;
-        height: 300px;
-    }
-
-    .slideContainer {
-        width: 300px;
-        height: 300px;
-        background-color: black;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #cmtIcon {
-        text-decoration-line: none;
-    }
     #logoimg{
         width: 135px;
         height: 135px;
         margin-left: 7px;
         margin-top: 5px;
-    }
-
-    .fTitle{
-        font-size: 20px;
     }
     #Notification{
         width: 135px;
@@ -208,7 +160,6 @@
         margin-left: 7px;
         margin-top: 5px;
     }
-
 </style>
 
 <body>
@@ -216,7 +167,7 @@
     <div class="all">
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
-            <a href="#" onclick="notification()"><img src="img/Notification.png" id="Notification"></a>
+            <a href="snsMaster"><img src="img/Notification.png" id="Notification"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -237,89 +188,31 @@
                     <input type="submit" value="검색" id="sbtn">
                 </form>
             </div>
-            <div id="notice">
-                <b class="fTitle" th:text="'[경남 창녕] '+${festivalMap.name}"></b>
-                <div class="right">
-                    <span th:text="'기 간: '+${festivalMap.period}"></span><br>
-                    <span th:text="'장 소: '+${festivalMap.place}"></span><br>
-                    <span th:text="'주 관: '+${festivalMap.sponsor}"></span>
-                </div>
-            </div>
-            <div th:each="post : ${posts}" class="post" th:id="${post.no}">
-                <b th:text="${post.id}"></b>
-
-                <a href="#">팔로우</a>
-                <span class="right">
-                    <span th:if="${session.userid==post.id}">
-                        <a th:href="@{postMod(no=${post.no})}">수정</a>
-                        <a th:href="@{postDelete(no=${post.no})}">삭제</a>
-                    </span>
-                    <a th:href="@{postDetail(no=${post.no})}">자세히보기</a>
-                </span><br>
-                <span th:text="${post.region}"></span>
-                <span th:text="${post.category}"></span>
-                <br>
-                <hr>
-                <b th:text="${post.title}"></b><br>
-                <div th:if="${post.file_name[0]} != null" th:id="carouselExample+${postStat.index}"
-                     class="carousel slide slideContainer">
-                    <div class="carousel-inner">
-                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
-                             th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
-                            <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button"
-                            th:data-bs-target="'#carouselExample'+${postStat.index}" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                            th:data-bs-target="'#carouselExample'+${postStat.index}" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <br>
-                <span th:text="${post.content}"></span><br>
-                <span class="postFoot">
-                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${post.no})}">
-                        <img class="postImg" src="img/chat.png">
-                        <span th:each="cmt:${comments}">
-                            <span th:if="${cmt.NO==post.no}" th:text="${cmt.cnt}"></span>
-                        </span>
-                    </a>
-                <img class="postImg report" src="img/siren.png">
-                <span class="right">
-                    <img class="likeBtn postImg"
-                         th:attr="src = ${post.isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
-                    <span th:text="${post.good}"></span>
-                </span>
-                </span>
-            </div>
-            <div id="show">
-                <th:block th:if="${session.userid!=null}">
-                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
-                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-            </div>
+            <div th:each="all : ${all}" class="post" th:id="${all.id}">
+                <a th:href="${all.url}">
+                <b th:text="${all.id}"></b>
+                <span th:text="${all.content}"></span>
+                    <Span th:text="${all.nowtime}"></Span>
+                    <br>
+                </a>
         </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m" class="m">
-            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
-    </div>
+            <div id="mmode">
+                <img src="img/mmode.png" id="m" class="m">
+                <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+            </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            <a href="group" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
+            <a href="myPost"> <img src="img/plus.png" class="img"></a>
+            <a href="group"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
+</div>
 </body>
-
+</html>
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
@@ -370,7 +263,7 @@
         var userid = postElement.find('b:eq(0)').text()
         var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
-    console.log(userid);
+        console.log(userid);
 
         $.ajax({
             type: "post",
@@ -380,14 +273,12 @@
             success: function (data){
                 if(data.isLike){
                     event.target.src="img/filledHearts.png"
-                var content=id+"님이 좋아요를 눌렀습니다!"
-                    var urll="http://localhost:8080/postDetail?no="+no
-                    console.log(urll);
+                    var content=id+"님이 좋아요를 눌렀습니다!"
                     console.log(content);
                     $.ajax({
                         type: "get",
                         url: "like Notification",
-                        data: {userid: userid, content: content,urll:urll},
+                        data: {userid: userid, content: content},
                         success: function(){
                             console.log("야호")
                         }, error: function (error) {
@@ -444,11 +335,7 @@
             }
         });
     });
-function notification(){
-let a= [[${session.userid}]];
-location.href="notification?id="+a
-}
+
 
 
 </script>
-</html>

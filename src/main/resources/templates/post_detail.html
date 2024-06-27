@@ -334,8 +334,22 @@
             alert("댓글을 입력해주세요");
             return false;
         } else{
-            return true;
+            var id = [[${session.userid}]];
+            var postElement = $(event.currentTarget).closest('.post');
+            var userid = postElement.find('b:eq(0)').text()
+            let content=id+"님이 댓글을 달았습니다"
+            $.ajax({
+                type: "get",
+                url: "comment Notification",
+                data: {userid: userid, content: content},
+                success: function(){
+                    console.log("야호")
+                }, error: function (error) {
+                    console.log(error)
+                }
+            });
         }
+        return true;
     }
 
     $(".likeBtn").on("click", (event) => {
