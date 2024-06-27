@@ -364,7 +364,7 @@
 <script>
 
     opener.document.location.href = '/managerMode';
-    window.close();
+     window.close();
 
 </script>
 
@@ -420,8 +420,10 @@
     }
 
     var excelHandler = {
-        getExcelFileName: function () {
-            return 'table-test.xlsx';	//파일명
+
+        getExcelFileName : function(){
+            return '자유 게시물.xlsx';	//파일명
+
         },
         getSheetName: function () {
             return 'Table Test Sheet';	//시트명
@@ -476,9 +478,12 @@
                         count = 0;
                     }
                 }
-                ss.innerHTML = "총위반횟수=" + sum;
-                let result = Object.values(aa)
-                $('#abc').text(result);
+
+                    let result = Object.values(aa)
+                    $('#abc').text(result);
+                ss.innerHTML="총위반횟수="+sum;
+
+
 
                 for (let i = 0; i < b.length; i++) {
                     let idx = c.indexOf(b[i]);

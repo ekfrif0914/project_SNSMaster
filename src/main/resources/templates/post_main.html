@@ -205,6 +205,12 @@
     .fTitle {
         font-size: 20px;
     }
+    #Notification{
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
 
 </style>
 
@@ -213,6 +219,7 @@
     <div class="all">
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
+            <a href="#" onclick="notification()"><img src="img/Notification.png" id="Notification"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -251,6 +258,7 @@
                         <button th:if="${session.userid!=post.id}" class="follow" type="button">팔로우</button>
                     </th:block>
                 </th:block>
+
                 <span class="right">
                     <span th:if="${session.userid==post.id}">
                         <a th:href="@{postMod(no=${post.no})}">수정</a>
@@ -368,17 +376,36 @@
     });
 
     $(".likeBtn").on("click", (event) => {
+        var postElement = $(event.currentTarget).closest('.post');
+        var userid = postElement.find('b:eq(0)').text()
         var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
+    console.log(userid);
+
         $.ajax({
             type: "post",
             async: false,
             url: "postLike",
             data: {no: no, id: id},
 
-            success: function (data) {
-                if (data.isLike) {
-                    event.target.src = "img/filledHearts.png"
+            success: function (data){
+                if(data.isLike){
+                    event.target.src="img/filledHearts.png"
+                var content=id+"님이 좋아요를 눌렀습니다!"
+                    var urll="http://localhost:8080/postDetail?no="+no
+                    console.log(urll);
+                    console.log(content);
+                    $.ajax({
+                        type: "get",
+                        url: "like Notification",
+                        data: {userid: userid, content: content,urll:urll},
+                        success: function(){
+                            console.log("야호")
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
+         
                 } else {
                     event.target.src = "img/heart.png"
                 }
@@ -411,6 +438,29 @@
             }
         })
     })
+
+
+    $(document).ready(function () {
+        const useridd = [[${session.userid}]];
+        $.ajax({
+            type: "GET",
+            url:"/notification state",
+            data: { id: useridd },
+            success: function (state) {
+                console.log("야호");
+                if (state > 0) {
+                    $('#Notification').attr('src', 'img/Notification2.png');
+                }
+            },
+            error: function (error) {
+                console.log("Error: ", error);
+            }
+        });
+    });
+function notification(){
+let a= [[${session.userid}]];
+location.href="notification?id="+a
+}
 
     $(".follow").on("click", (event) => {
         var followid = event.target.previousElementSibling.innerHTML;
@@ -449,6 +499,7 @@
             }
         })
     })
+
 
 
 </script>

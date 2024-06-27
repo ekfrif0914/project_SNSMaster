@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
 <html lang="kor">
 
 <head>
@@ -90,7 +97,7 @@
 
     }
 
-    #m {
+    .m {
         width: 50px;
         height: 50px;
         margin: 20px;
@@ -140,54 +147,27 @@
         padding: 10px;
     }
 
-    .postImgContainer{
-        display: block;
-        height: 25px;
-        margin-top: 5px;
-    }
 
-    .right{
-        float: right;
-    }
-
-    .left{
-        float: left;
-    }
-
-    .postImg {
-        width: 25px;
-        height: 25px;
-        margin-left: 40px;
-    }
-
-    .postFile {
-        object-fit: contain;
-        width: 700px;
-        height: 700px;
-    }
-
-    .slideContainer {
-        width: 700px;
-        height: 700px;
-        background-color: black;
-        margin-left: auto;
-        margin-right: auto;
-    }
     #logoimg{
         width: 135px;
         height: 135px;
         margin-left: 7px;
         margin-top: 5px;
     }
-
+    #Notification{
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
 </style>
 
 <body>
 <div class="title">
     <div class="all">
-
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
+            <a href="snsMaster"><img src="img/Notification.png" id="Notification"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -208,69 +188,19 @@
                     <input type="submit" value="검색" id="sbtn">
                 </form>
             </div>
-            <div class="post" th:id="${post.no}">
-                <b th:text="${post.id}"></b>
-                <a href="#">팔로우</a>
-                <span class="right">
-                    <a th:href="@{postDelete(no=${post.no})}">삭제</a>
-                </span><br>
-                <span th:text="${post.region}"></span>
-                <span th:text="${post.category}"></span>
-                <span class="postImgContainer">
-                    <img class="postImg left" src="img/chat.png" >
-                    <img class="postImg report" src="img/siren.png">
-                    <span class="right">
-                        <img class="likeBtn postImg"
-                             th:attr="src = ${post.isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
-                    <span th:text="${post.good}"></span>
-                    </span>
-                </span>
-                <hr>
-                <h5><b th:text="${post.title}"></b></h5>
-                <br>
-                <div th:if="${post.file_name[0]} != null" id="carouselExample"
-                     class="carousel slide slideContainer">
-                    <div class="carousel-inner">
-                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
-                             th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
-                            <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button"
-                            data-bs-target="#carouselExample" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                            data-bs-target="#carouselExample" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <br>
-                <span th:text="${post.content}"></span>
-                <br><hr>
-                <span th:each="comment : ${comments}">
-                    <span th:text="${comment.id}"></span> <a th:if="${session.userid == comment.id}" th:href="@{postDeleteComment(c_no=${comment.c_no},no=${comment.no})}">삭제</a><br>
-                    <span th:text="${comment.cmt}"></span><br>
-                </span>
-                <form action="postSaveComment" method="post">
-                    <input id="cmt" type="text" name="cmt">
-                    <input type="hidden" id="cmtContent" name="no" th:value="${post.no}">
-                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()">
-                </form>
-            </div>
-            <div id="show">
-                <th:block th:if="${session.userid!=null}">
-                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
-                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-            </div>
+            <div th:each="all : ${all}" class="post" th:id="${all.id}">
+                <a th:href="${all.url}">
+                <b th:text="${all.id}"></b>
+                <span th:text="${all.content}"></span>
+                    <Span th:text="${all.nowtime}"></Span>
+                    <br>
+                </a>
         </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m">
         </div>
-    </div>
+            <div id="mmode">
+                <img src="img/mmode.png" id="m" class="m">
+                <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+            </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
             <a href="snsMaster"> <img src="img/home.png" class="img"></a>
@@ -280,7 +210,9 @@
         </div>
     </nav>
 </div>
+</div>
 </body>
+</html>
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
@@ -306,55 +238,33 @@
 
         button.innerHTML = "로그인"
         area.appendChild(button)
-
-
     }
+
 </script>
 <script th:inline="javascript">
-    function chkLogin(){
-        console.log([[${session.userid}]]);
-        if([[${session.userid}]] == null){
-            document.querySelector("#cmt").setAttribute("placeholder", "로그인 후 이용해주세요");
-            document.querySelector("#cmtbtn").disabled = true;
-        }
-    }
-    chkLogin();
+    $('#login').on('click', () => {
+        location.href = 'loginForm'
+    });
 
-    function chkSearchAvail(){
-        if(document.querySelector("#sword").value==""){
-            alert("검색어를 입력해주세요");
-            return false;
-        } else{
-            return true;
-        }
-    }
+    $('#logout').on('click', () => {
+        location.href = 'logout'
+    });
 
-    function chkCommentAvail(){
-        if(document.querySelector("#cmtContent").value==""){
-            alert("댓글을 입력해주세요");
-            return false;
-        } else{
-            var id = [[${session.userid}]];
-            var postElement = $(event.currentTarget).closest('.post');
-            var userid = postElement.find('b:eq(0)').text()
-            let content=id+"님이 댓글을 달았습니다"
-            $.ajax({
-                type: "get",
-                url: "comment Notification",
-                data: {userid: userid, content: content},
-                success: function(){
-                    console.log("야호")
-                }, error: function (error) {
-                    console.log(error)
-                }
-            });
-        }
-        return true;
-    }
+    $('#m').on('click', () => {
+        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
+
+    });
 
     $(".likeBtn").on("click", (event) => {
+        var postElement = $(event.currentTarget).closest('.post');
+        var userid = postElement.find('b:eq(0)').text()
         var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
+        console.log(userid);
+
         $.ajax({
             type: "post",
             async: false,
@@ -363,6 +273,18 @@
             success: function (data){
                 if(data.isLike){
                     event.target.src="img/filledHearts.png"
+                    var content=id+"님이 좋아요를 눌렀습니다!"
+                    console.log(content);
+                    $.ajax({
+                        type: "get",
+                        url: "like Notification",
+                        data: {userid: userid, content: content},
+                        success: function(){
+                            console.log("야호")
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
                 } else {
                     event.target.src="img/heart.png"
                 }
@@ -373,6 +295,7 @@
             }
         })
     })
+
 
     $(".report").on("click", (event) => {
         var no = event.target.parentElement.parentElement.id
@@ -395,24 +318,24 @@
         })
     })
 
-</script>
-<script>
-    $('#login').on('click', () => {
-        location.href = 'loginForm'
+    $(document).ready(function () {
+        const useridd = [[${session.userid}]];
+        $.ajax({
+            type: "GET",
+            url:"/notification state",
+            data: { id: useridd },
+            success: function (state) {
+                console.log("야호");
+                if (state > 0) {
+                    $('#Notification').attr('src', 'img/Notification2.png');
+                }
+            },
+            error: function (error) {
+                console.log("Error: ", error);
+            }
+        });
     });
 
-    $('#logout').on('click', () => {
-        location.href = 'logout'
-    });
 
-    $('#m').on('click', () => {
-        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
-    });
-    //self.close(); // 열었던 새창 닫기-->
-    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
-    opener.document.location.href = '/managerMode';
-    window.close()
+
 </script>
-</html>
