@@ -82,8 +82,7 @@
         select *
         from (select @rownum:=@rownum+1 as rownum,A.*
               from faqpost A, (select @rownum := 0) R
-              where
-                  ${searchType} like concat('%'
+              where ${searchType} like concat('%'
                   , #{searchKeyword}
                   , '%')
               order by f_no desc) list
@@ -110,6 +109,45 @@
         select count(*)
         from faqpost
         where ${searchType} like concat('%', #{searchKeyword}, '%');
+    </select>
+
+    <select id="cntFollowing" resultType="int">
+        select count(*)
+        from follow
+        where userid = #{userid}
+          and followid = #{followid}
+    </select>
+    <insert id="insertFollowing">
+        insert into follow
+        values (#{userid}, #{followid})
+    </insert>
+    <select id="selectMyFollowinglist" parameterType="String" resultType="String">
+        select followid
+        from follow
+        where userid = #{userid}
+
+    </select>
+    <delete id="deleteFollowing">
+        delete
+        from follow
+        where userid = #{userid}
+          and followid = #{followid}
+    </delete>
+    <select id="myfollowCount">
+        select count(*)
+        from follow
+        where followid = #{id}
+
+    </select>
+    <select id="myfollowingCount">
+        select count(*)
+        from follow
+        where userid = #{id}
+    </select>
+    <select id="myfollowList">
+        select userid
+        from follow
+        where followid = #{id}
     </select>
 
 </mapper>

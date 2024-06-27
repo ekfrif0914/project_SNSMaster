@@ -59,4 +59,16 @@
             #{item}
         </foreach>
     </delete>
+    <insert id="Notification" parameterType="hashmap">
+     insert into Notification values(#{userid},#{content},false,#{urll})
+    </insert>
+<select id="stateNotification" parameterType="String" resultType="int">
+    SELECT count(*) FROM notification WHERE id=#{id} and state=FALSE
+</select>
+    <select id="notificationlook" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.NotificationVO">
+    select*from notification where id=#{id}
+    </select>
+    <update id="notifi" parameterType="String">
+     update notification set state=true where id=#{id}
+    </update>
 </mapper>

@@ -24,7 +24,15 @@ public interface IF_ManagerService {
    public void stopdelete(String id)throws Exception;
    public void fordelete(List<String> list) throws Exception;
 
-  public void fordelete2(List<String> list);
+  public void fordelete2(List<String> list) throws Exception;
 
   public void alter2(int g_no)throws Exception;
+
+   public void Notification(HashMap<String, Object> data);
+
+    public int statecount(String id);
+
+   public List<String> notificationlook(String id);
+
+   public void notifi(String id);
 }

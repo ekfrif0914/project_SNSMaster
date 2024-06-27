@@ -8,6 +8,7 @@ import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.GroupPostVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,9 +39,9 @@ public class ManagerController {
     }
 
     @RequestMapping(value = "/input", method = RequestMethod.GET)
-    public String input(@RequestParam("id") String id) throws Exception {
-        System.out.println(id.toString());
-        manager.insert(id);
+    public String input(@RequestParam("s_text") String memo) throws Exception {
+        System.out.println(memo.toString());
+        manager.insert(memo);
         return "review";
     }
 
@@ -208,6 +209,37 @@ public class ManagerController {
         return a;
     }
 
+    @GetMapping(value = "/like Notification")
+    public void postInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        System.out.println(urll);
+        data.put("userid",userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        manager.Notification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/comment Notification")
+    public void commentInput(@RequestParam String content,@RequestParam String userid) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userid",userid);
+        data.put("content", content);
+        manager.Notification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/notification state")
+    public int commentState(@RequestParam String id) {
+        int state=manager.statecount(id);
+     System.out.println(state);
+     return state;
+    }
+    @GetMapping(value="notification")
+     public String notification(@RequestParam String id,Model model) {
+    List<String>allList=manager.notificationlook(id);
+        manager.notifi(id);
+        model.addAttribute("all", allList);
+        return "Notification";
+    }
 }
 
 
