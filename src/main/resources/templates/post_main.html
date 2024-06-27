@@ -142,7 +142,7 @@
 
     #notice {
         width: 100%;
-        height: 90px;
+        height: 200px;
         border: 1px solid black;
         text-align: center;
 
@@ -203,6 +203,15 @@
         font-size: 20px;
     }
 
+    .noticeList, .festivalList, .weathers{
+        display: none;
+    }
+
+    .show, .showFestival, .showWeather{
+        display: block;
+    }
+
+
 </style>
 
 <body>
@@ -231,12 +240,17 @@
                 </form>
             </div>
             <div id="notice">
-                <b class="fTitle" th:text="'[경남 창녕] '+${festivalMap.name}"></b>
-                <div class="right">
+                <span th:each="notice : ${noticeList}" th:text="'[공지] ' + ${notice}" th:attr="class=${noticeStat.index==0 ? 'noticeList show' : 'noticeList'}"></span><br>
+                <span th:each="festivalMap : ${festivalMapList}" th:attr="class=${festivalMapStat.index==0 ? 'festivalList showFestival' : 'festivalList'}">
+                    <b class="fTitle" th:text="'[경남 창녕] '+${festivalMap.name}"></b><br>
                     <span th:text="'기 간: '+${festivalMap.period}"></span><br>
                     <span th:text="'장 소: '+${festivalMap.place}"></span><br>
                     <span th:text="'주 관: '+${festivalMap.sponsor}"></span>
-                </div>
+                </span>
+                <span th:each="region : ${regions}" th:attr="class=${regionStat.index==0 ? 'weathers showWeather' : 'weathers'}">
+                    <input type="hidden" class="city" placeholder="Enter city name" th:value="${region}">
+                    <div class="weatherResult"></div>
+                </span>
             </div>
             <div th:each="post : ${posts}" class="post" th:id="${post.no}">
                 <b th:text="${post.id}"></b>
@@ -293,7 +307,8 @@
                 <th:block th:if="${session.userid!=null}">
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
                     <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
+                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span>
+                </th:block>
             </div>
         </div>
         <div id="mmode">
@@ -339,6 +354,35 @@
         area.appendChild(button)
     }
 
+    $(window).on('load', function() {
+        var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841'; // 여기에 자신의 OpenWeatherMap API 키를 입력하세요
+        for(let i = 0; i < $('.weathers').length; i++){
+            var city = $('.city').eq(i).val();
+            console.log(city);
+            var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
+            $.ajax({
+                url: apiUrl,
+                method: 'GET',
+                success: function(data) {
+                    var iconCode = data.weather[0].icon;
+                    var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
+                    var weatherData = `
+                <span>지역: ${data.name}</span>
+               <img src="${iconUrl}">
+                <span>온도: ${data.main.temp} °C</span>
+                <span>날씨: ${data.weather[0].description}</span>
+                <span>습도: ${data.main.humidity}%</span>
+                <span>풍속: ${data.wind.speed} m/s</span>
+            `;
+                    $('.weatherResult').eq(i).html(weatherData);
+                },
+                error: function(error) {
+                    $('.weatherResult').eq(i).html('<p>An error occurred</p>');
+                }
+            });
+        }
+    });
+
 </script>
 <script th:inline="javascript">
     $('#login').on('click', () => {
@@ -358,49 +402,102 @@
     });
 
     $(".likeBtn").on("click", (event) => {
-        var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "postLike",
-            data: {no: no, id: id},
-
-            success: function (data){
-                if(data.isLike){
-                    event.target.src="img/filledHearts.png"
-                } else {
-                    event.target.src="img/heart.png"
+        if(id != null){
+            var no = event.target.parentElement.parentElement.parentElement.id
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postLike",
+                data: {no: no, id: id},
+                success: function (data){
+                    if(data.isLike){
+                        event.target.src="img/filledHearts.png"
+                    } else {
+                        event.target.src="img/heart.png"
+                    }
+                    event.target.nextElementSibling.innerText = data.likeCnt;
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
                 }
-                event.target.nextElementSibling.innerText = data.likeCnt;
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
+            })
+        }
     })
-
 
     $(".report").on("click", (event) => {
-        var no = event.target.parentElement.parentElement.id
         var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "postReport",
-            data: {no: no, id: id},
-            success: function (data){
-                if(data){
-                    alert("이미 신고한 게시글입니다.")
-                } else {
-                    alert("신고하였습니다.")
+        if(id != null){
+            var no = event.target.parentElement.parentElement.id
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postReport",
+                data: {no: no, id: id},
+                success: function (data){
+                    if(data){
+                        alert("이미 신고한 게시글입니다.")
+                    } else {
+                        alert("신고하였습니다.")
+                    }
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
                 }
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
+            })
+        }
     })
+
+    setInterval(() => {
+        var target = $('.show');
+        if(target.next('.noticeList').length == 0){
+            target.attr("class", "noticeList");
+            $('.noticeList:eq(0)').attr("class", "noticeList show");
+        } else {
+            target.attr("class", "noticeList");
+            target.next('.noticeList').attr("class", "noticeList show");
+        }
+        $('.noticeList').css({
+            "display": "none"
+        })
+        $('.show').css({
+            "display": "block"
+        })
+    }, 11000)
+
+    setInterval(() => {
+        var target = $('.showFestival');
+        if(target.next('.festivalList').length == 0){
+            target.attr("class", "festivalList");
+            $('.festivalList:eq(0)').attr("class", "festivalList showFestival");
+        } else {
+            target.attr("class", "festivalList");
+            target.next('.festivalList').attr("class", "festivalList showFestival");
+        }
+        $('.festivalList').css({
+            "display": "none"
+        })
+        $('.showFestival').css({
+            "display": "block"
+        })
+    }, 11000)
+
+    setInterval(() => {
+        var target = $('.showWeather');
+        if(target.next('.weathers').length == 0){
+            target.attr("class", "weathers");
+            $('.weathers:eq(0)').attr("class", "weathers showWeather");
+        } else {
+            target.attr("class", "weathers");
+            target.next('.weathers').attr("class", "weathers showWeather");
+        }
+        $('.weathers').css({
+            "display": "none"
+        })
+        $('.showWeather').css({
+            "display": "block"
+        })
+    }, 5000)
 
 </script>
 </html>

@@ -2,6 +2,7 @@ package com.codemaster.project_snsmaster.controller;
 
 import com.codemaster.project_snsmaster.service.IF_AdminService;
 import com.codemaster.project_snsmaster.service.IF_GroupService;
+import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 
 import com.codemaster.project_snsmaster.util.FileDataUtil;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Random;
@@ -30,12 +32,12 @@ import org.w3c.dom.NodeList;
 public class PostController {
     @Autowired
     IF_PostService postService;
-
     @Autowired
     IF_AdminService adminService;
     @Autowired
-
     IF_GroupService groupService;
+    @Autowired
+    IF_ManagerService managerService;
 
     @Autowired
     FileDataUtil fileDataUtil;
@@ -62,20 +64,27 @@ public class PostController {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document document = builder.parse("https://www.cng.go.kr/country/api/cngevent.do");
         Element root = document.getDocumentElement();
-        int dataLength = root.getChildNodes().getLength();
-        Random random = new Random();
-        int randomNo = random.nextInt(dataLength);
-        while (!root.getChildNodes().item(randomNo).getNodeName().equals("list")){
-            randomNo = random.nextInt(dataLength);
+        // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
+        int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+        List<HashMap<String, String>> festivalMapList = new ArrayList<>();
+        System.out.println("dataLength: "+dataLength);
+        for(int i = 3; i < dataLength; i=i+2){
+            NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+            System.out.println("childNodes: "+childNodes);
+            HashMap<String, String> festivalMap = new HashMap<>();
+            festivalMap.put("name", childNodes.item(3).getTextContent());
+            festivalMap.put("period", childNodes.item(5).getTextContent());
+            festivalMap.put("place", childNodes.item(7).getTextContent());
+            festivalMap.put("sponsor", childNodes.item(9).getTextContent());
+            festivalMap.put("content", childNodes.item(11).getTextContent());
+            festivalMapList.add(festivalMap);
         }
-        NodeList childNodes = root.getChildNodes().item(randomNo).getChildNodes();
-        HashMap<String, String> festivalMap = new HashMap<>();
-        festivalMap.put("name", childNodes.item(3).getTextContent());
-        festivalMap.put("period", childNodes.item(5).getTextContent());
-        festivalMap.put("place", childNodes.item(7).getTextContent());
-        festivalMap.put("sponsor", childNodes.item(9).getTextContent());
-        festivalMap.put("content", childNodes.item(11).getTextContent());
-        model.addAttribute("festivalMap", festivalMap);
+        model.addAttribute("festivalMapList", festivalMapList);
+
+        String[] regions = {"Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", "Ulsan", "Suwon"};
+        model.addAttribute("regions", regions);
+
+        model.addAttribute("noticeList", postService.selectAllNotice());
 
         return "post_main";
     }
@@ -92,6 +101,33 @@ public class PostController {
         params.put("category", category);
         model.addAttribute("posts", postService.select(params));
         model.addAttribute("comments", postService.selectAllComment());
+
+        // 공공데이터 xml을 document로 파싱
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse("https://www.cng.go.kr/country/api/cngevent.do");
+        Element root = document.getDocumentElement();
+        // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
+        int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+        List<HashMap<String, String>> festivalMapList = new ArrayList<>();
+        System.out.println("dataLength: "+dataLength);
+        for(int i = 3; i < dataLength; i=i+2){
+            NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+            System.out.println("childNodes: "+childNodes);
+            HashMap<String, String> festivalMap = new HashMap<>();
+            festivalMap.put("name", childNodes.item(3).getTextContent());
+            festivalMap.put("period", childNodes.item(5).getTextContent());
+            festivalMap.put("place", childNodes.item(7).getTextContent());
+            festivalMap.put("sponsor", childNodes.item(9).getTextContent());
+            festivalMap.put("content", childNodes.item(11).getTextContent());
+            festivalMapList.add(festivalMap);
+        }
+        model.addAttribute("festivalMapList", festivalMapList);
+
+        String[] regions = {"Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", "Ulsan", "Suwon"};
+        model.addAttribute("regions", regions);
+
+        model.addAttribute("noticeList", postService.selectAllNotice());
         return "post_main";
     }
 
@@ -115,42 +151,10 @@ public class PostController {
     }
 
     @GetMapping(value = "/myPage")
-    public String postMyPage(Model model, HttpSession session, String category) throws Exception {
+    public String postMyPage(Model model, HttpSession session) throws Exception {
         String userid = (String) session.getAttribute("userid");
-        if (userid == null) {
-            return "loginForm";
-        }
-        if (category == null) {
-            model.addAttribute("posts", postService.selectMyPost(userid));
-            model.addAttribute("gposts", postService.selectMyGroupPost(userid));
-            model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
-        } else {
-            switch (category) {
-                case "자유게시글":
-                case "여행계획서":
-                    PostVO postVO = new PostVO();
-                    postVO.setCategory(category);
-                    postVO.setId(userid);
-                    model.addAttribute("posts", postService.selectMyPostbyCategory(postVO));
-                    break;
-                case "그룹게시글":
-                    model.addAttribute("gposts", postService.selectMyGroupPost(userid));
-                    break;
-                case "모임모집글":
-                    model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
-                    break;
-                default:
-                    model.addAttribute("posts", postService.selectMyPost(userid));
-                    model.addAttribute("gposts", postService.selectMyGroupPost(userid));
-                    model.addAttribute("gjoins", postService.selectMyGroupJoin(userid));
-                    break;
-            }
-        }
-      
         model.addAttribute("memberinfo", adminService.getMember(userid));
         model.addAttribute("userid", userid);
-        model.addAttribute("category", category);
-
         return "post_myPage";
     }
 
@@ -253,7 +257,40 @@ public class PostController {
         }
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
+    }
 
+    @ResponseBody
+    @GetMapping("post-category")
+    public HashMap<String, Object> postCategory(String category, HttpSession session) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        HashMap<String, Object> postMap = new HashMap<>();
+        if (category.equals("all")) {
+            postMap.put("posts", postService.selectMyPost(userid));
+            postMap.put("gposts", postService.selectMyGroupPost(userid));
+            postMap.put("gjoins", postService.selectMyGroupJoin(userid));
+        } else {
+            switch (category) {
+                case "자유게시글":
+                case "여행계획서":
+                    PostVO postVO = new PostVO();
+                    postVO.setCategory(category);
+                    postVO.setId(userid);
+                    postMap.put("posts", postService.selectMyPostbyCategory(postVO));
+                    break;
+                case "그룹게시글":
+                    postMap.put("gposts", postService.selectMyGroupPost(userid));
+                    break;
+                case "모임모집글":
+                    postMap.put("gjoins", postService.selectMyGroupJoin(userid));
+                    break;
+                default:
+                    postMap.put("posts", postService.selectMyPost(userid));
+                    postMap.put("gposts", postService.selectMyGroupPost(userid));
+                    postMap.put("gjoins", postService.selectMyGroupJoin(userid));
+                    break;
+            }
+        }
+        return postMap;
     }
 
 }

@@ -339,46 +339,50 @@
     }
 
     $(".likeBtn").on("click", (event) => {
-        var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "postLike",
-            data: {no: no, id: id},
-            success: function (data){
-                if(data.isLike){
-                    event.target.src="img/filledHearts.png"
-                } else {
-                    event.target.src="img/heart.png"
+        if(id != null){
+            var no = event.target.parentElement.parentElement.parentElement.id
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postLike",
+                data: {no: no, id: id},
+                success: function (data){
+                    if(data.isLike){
+                        event.target.src="img/filledHearts.png"
+                    } else {
+                        event.target.src="img/heart.png"
+                    }
+                    event.target.nextElementSibling.innerText = data.likeCnt;
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
                 }
-                event.target.nextElementSibling.innerText = data.likeCnt;
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
+            })
+        }
     })
 
     $(".report").on("click", (event) => {
-        var no = event.target.parentElement.parentElement.id
         var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "postReport",
-            data: {no: no, id: id},
-            success: function (data){
-                if(data){
-                    alert("이미 신고한 게시글입니다.")
-                } else {
-                    alert("신고하였습니다.")
+        if(id != null){
+            var no = event.target.parentElement.parentElement.id
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postReport",
+                data: {no: no, id: id},
+                success: function (data){
+                    if(data){
+                        alert("이미 신고한 게시글입니다.")
+                    } else {
+                        alert("신고하였습니다.")
+                    }
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
                 }
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
+            })
+        }
     })
 
 </script>

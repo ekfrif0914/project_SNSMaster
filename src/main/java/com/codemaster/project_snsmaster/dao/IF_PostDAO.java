@@ -35,4 +35,5 @@ public interface IF_PostDAO {
     public int cntReport (HashMap<String, String> param) throws Exception;
     public void insertReport(HashMap<String, String> param) throws Exception;
     public void plusReport(String no) throws Exception;
+    public List<String> selectAllNotice() throws Exception;
 }

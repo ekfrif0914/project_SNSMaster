@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PostServiceImpl implements IF_PostService{
@@ -185,5 +186,18 @@ public class PostServiceImpl implements IF_PostService{
         }
     }
 
+    @Override
+    public String selectRandomNotice() throws Exception {
+        List<String> noticeList = postDAO.selectAllNotice();
+        String notice;
+        Random random = new Random();
+        notice = noticeList.get(random.nextInt(noticeList.size()));
+        return notice;
+    }
+
+    @Override
+    public List<String> selectAllNotice() throws Exception {
+        return postDAO.selectAllNotice();
+    }
 
 }
