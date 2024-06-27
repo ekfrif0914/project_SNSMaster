@@ -42,14 +42,23 @@ public class PostController {
 
     @GetMapping(value = "/snsMaster")
     public String postMain(Model model, HttpSession session) throws Exception {
+        session.removeAttribute("prev_url");
         String userid = (String) session.getAttribute("userid");
         List<PostVO> posts = postService.selectAll();
         List<Integer> likeNos = postService.selectMyLikeNo(userid);
+        List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
         for (PostVO post : posts) {
             for (Integer likeNo : likeNos) {
                 if (likeNo != null) {
                     if (post.getNo() == likeNo) {
                         post.setLike(true);
+                    }
+                }
+            }
+            for (String follow : myfollowList) {
+                if (follow != null) {
+                    if (post.getId().equals(follow)) {
+                        post.setFollowstate(true);
                     }
                 }
             }
@@ -65,7 +74,7 @@ public class PostController {
         int dataLength = root.getChildNodes().getLength();
         Random random = new Random();
         int randomNo = random.nextInt(dataLength);
-        while (!root.getChildNodes().item(randomNo).getNodeName().equals("list")){
+        while (!root.getChildNodes().item(randomNo).getNodeName().equals("list")) {
             randomNo = random.nextInt(dataLength);
         }
         NodeList childNodes = root.getChildNodes().item(randomNo).getChildNodes();
@@ -146,7 +155,10 @@ public class PostController {
                     break;
             }
         }
-      
+        model.addAttribute("myfollowingList",adminService.selectMyFollowinglist(userid));
+        model.addAttribute("myfollowList",adminService.myfollowList(userid));
+        model.addAttribute("myfollowCount",adminService.myfollowCount(userid));
+        model.addAttribute("myfollowingCount",adminService.myfollowingCount(userid));
         model.addAttribute("memberinfo", adminService.getMember(userid));
         model.addAttribute("userid", userid);
         model.addAttribute("category", category);
@@ -255,5 +267,6 @@ public class PostController {
         return "redirect:" + referer;
 
     }
+
 
 }

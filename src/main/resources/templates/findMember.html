@@ -10,9 +10,10 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<body>
+
 <style>
     #idSearch {
+        /*display: inline-block;*/
         width: 600px;
         height: 400px;
         border: 1px solid black;
@@ -24,6 +25,7 @@
     }
 
     #pwSearch {
+        display: inline-block;
         width: 600px;
         height: 400px;
         border: 1px solid black;
@@ -40,8 +42,30 @@
         margin-left: 150px;
 
     }
-</style>
 
+    .logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 90px;
+        margin-top: 5px;
+    }
+
+    #logo {
+        float: left;
+    }
+
+    #logo2 {
+        float: right;
+        margin-top: 190px;
+        margin-right: 80px;
+    }
+
+
+</style>
+<body>
+<div id="logo">
+    <a href="snsMaster"> <img src="img/logo.png" class="logoimg"></a>
+</div>
 <div id="idSearch">
     <br>
     <h2>아이디 찾기 </h2>
@@ -55,7 +79,7 @@
         <input class="form-control form-control-lg" type="text" placeholder="이메일을 입력하세요"
                aria-label=".form-control-lg example" id="email" name="email">
         <br>
-        <input type="submit" value="아이디 찾기">
+        <input type="submit" value="아이디 찾기" onclick="return idemptyChk()">
     </form>
 </div>
 
@@ -72,11 +96,15 @@
         <input class="form-control form-control-lg" type="text" placeholder="이메일을 입력하세요"
                aria-label=".form-control-lg example" id="email1" name="email">
         <br>
-        <input type="submit" value="비밀번호 찾기">
+        <input type="submit" value="비밀번호 찾기" onclick="return pwemptyChk()">
     </form>
 </div>
+<div id="logo2">
 
-
+    <a href="snsMaster"> <img src="img/logo.png" class="logoimg"></a>
+</div>
+<button class="btn btn-primary " id="lb" type="button" onclick="location.href='signUp'">회원가입</button>
+<button class="btn btn-primary" id="lb2" type="button" onclick="location.href='loginForm'">로그인</button>
 </body>
 <script th:inline="javascript">
     /*![CDATA[*/
@@ -84,7 +112,7 @@
 
     var resultid = [[${id}]]
 
-    var resultpwMsg=[[${pwMsg}]]
+    var resultpwMsg = [[${pwMsg}]]
     /*]]>*/
 
     if (resultmsg != null) {
@@ -93,11 +121,35 @@
     } else if (resultid != null) {
         alert("아이디: " + resultid)
         // $('#notice').innerText="아이디"+resultid;
-    }else if(resultpwMsg!=null){
+    } else if (resultpwMsg != null) {
         alert(resultpwMsg)
 
     }
 
+
+</script>
+<script>
+    function idemptyChk() {
+        var name = $('#name').val()
+        var email = $('#email').val()
+        if (id == "" || email == "") {
+            alert("정보를 입력하세요")
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function pwemptyChk() {
+        var pw = $('#id').val()
+        var email1 = $('#email1').val()
+        if (pw == "" || email1 == "") {
+            alert("정보를 입력하세요")
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 </script>
 </html>

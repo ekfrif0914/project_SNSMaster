@@ -27,6 +27,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/email*")
                 .excludePathPatterns("/updateProfile");
 
-
     }
 }

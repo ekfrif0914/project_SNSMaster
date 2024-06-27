@@ -58,11 +58,13 @@
         border: 1px solid black;
         margin-left: 3px;
     }
-    #login{
+
+    #login {
         margin-top: 13px;
         margin-left: 12px;
     }
-    #logout{
+
+    #logout {
         margin-top: 13px;
         margin-left: 5px;
     }
@@ -192,14 +194,15 @@
     #cmtIcon {
         text-decoration-line: none;
     }
-    #logoimg{
+
+    #logoimg {
         width: 135px;
         height: 135px;
         margin-left: 7px;
         margin-top: 5px;
     }
 
-    .fTitle{
+    .fTitle {
         font-size: 20px;
     }
 
@@ -239,8 +242,15 @@
                 </div>
             </div>
             <div th:each="post : ${posts}" class="post" th:id="${post.no}">
-                <b th:text="${post.id}"></b>
-                <a href="#">팔로우</a>
+                <b th:text="${post.id}" class="postid"></b>
+                <th:block th:if="${session.userid!=null}">
+                    <th:block th:if="${post.followstate}">
+                        <button type="button" class="follow">팔로우 취소</button>
+                    </th:block>
+                    <th:block th:unless="${post.followstate}">
+                        <button th:if="${session.userid!=post.id}" class="follow" type="button">팔로우</button>
+                    </th:block>
+                </th:block>
                 <span class="right">
                     <span th:if="${session.userid==post.id}">
                         <a th:href="@{postMod(no=${post.no})}">수정</a>
@@ -366,11 +376,11 @@
             url: "postLike",
             data: {no: no, id: id},
 
-            success: function (data){
-                if(data.isLike){
-                    event.target.src="img/filledHearts.png"
+            success: function (data) {
+                if (data.isLike) {
+                    event.target.src = "img/filledHearts.png"
                 } else {
-                    event.target.src="img/heart.png"
+                    event.target.src = "img/heart.png"
                 }
                 event.target.nextElementSibling.innerText = data.likeCnt;
             },
@@ -389,8 +399,8 @@
             async: false,
             url: "postReport",
             data: {no: no, id: id},
-            success: function (data){
-                if(data){
+            success: function (data) {
+                if (data) {
                     alert("이미 신고한 게시글입니다.")
                 } else {
                     alert("신고하였습니다.")
@@ -401,6 +411,45 @@
             }
         })
     })
+
+    $(".follow").on("click", (event) => {
+        var followid = event.target.previousElementSibling.innerHTML;
+        console.log(followid);
+        var userid = [[${session.userid}]];
+        console.log(userid);
+        //  console.log(followid);
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "following",
+            data: {userid: userid, followid: followid},
+            success: function (data) {
+                console.log("성공")
+                if (data) {//true이면 팔로우 함
+                    //  event.target.value = "팔로우 취소"
+                    var postidstag = document.querySelectorAll(".postid")
+                    for (var i = 0; i < postidstag.length; i++) {
+                        if (postidstag.item(i).innerText == followid) {
+                            postidstag.item(i).nextElementSibling.innerHTML = "팔로우 취소"
+                        }
+                    }
+
+                } else {//false 이면 팔로우 취소
+                    //event.target.value = "팔로우"
+                    var postidstag = document.querySelectorAll(".postid")
+                    for (var i = 0; i < postidstag.length; i++) {
+                        if (postidstag.item(i).innerText == followid) {
+                            postidstag.item(i).nextElementSibling.innerHTML = "팔로우"
+                        }
+                    }
+                }
+            },
+            error: function (request, status, error) { // 결과 에러 콜백함수
+                console.log(error)
+            }
+        })
+    })
+
 
 </script>
 </html>

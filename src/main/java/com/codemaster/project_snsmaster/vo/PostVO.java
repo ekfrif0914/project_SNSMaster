@@ -17,4 +17,5 @@ public class PostVO {
     private String category;
     private String[] file_name;
     private boolean isLike=false;
+    private boolean followstate=false;
 }
