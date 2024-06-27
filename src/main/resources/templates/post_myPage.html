@@ -243,24 +243,24 @@
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
-            <div id="top">
-                <form action="postSearch" method="get">
-                    <div id="select">
-                        <select class="selectBox" name="region" id="region" onchange="">
-                            <option value=""><span>지역선택 </span></option>
-                            <option value="서울"><span>서울 </span></option>
-                            <option value="수원"><span>수원 </span> </span></option>
-                        </select>
-                        <select class="selectBox" name="category" id="category" onchange="">
-                            <option value=""><span>카테고리 </span></option>
-                            <option value="자유게시글"><span>자유게시글 </span></option>
-                            <option value="여행계획서"><span>여행계획서 </span> </span></option>
-                        </select>
-                    </div>
-                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
-                    <input type="submit" value="검색" id="sbtn" onclick="return chkAvail()">
-                </form>
-            </div>
+<!--            <div id="top">-->
+<!--                <form action="postSearch" method="get">-->
+<!--                    <div id="select">-->
+<!--                        <select class="selectBox" name="region" id="region" onchange="">-->
+<!--                            <option value=""><span>지역선택 </span></option>-->
+<!--                            <option value="서울"><span>서울 </span></option>-->
+<!--                            <option value="수원"><span>수원 </span> </span></option>-->
+<!--                        </select>-->
+<!--                        <select class="selectBox" name="category" id="category" onchange="">-->
+<!--                            <option value=""><span>카테고리 </span></option>-->
+<!--                            <option value="자유게시글"><span>자유게시글 </span></option>-->
+<!--                            <option value="여행계획서"><span>여행계획서 </span> </span></option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">-->
+<!--                    <input type="submit" value="검색" id="sbtn" onclick="return chkAvail()">-->
+<!--                </form>-->
+<!--            </div>-->
             <div id="profileFrame">
                 <div th:if="${memberinfo.file_name}!=null">
                     <img th:src="'/download?filename='+${memberinfo.file_name}" class="profileImg">
@@ -304,12 +304,12 @@
                 </form>
             </div>
             <div id="myPostFrame">
-                <select name="category" id="postSelector" onchange="location.href=this.value;">
-                    <option id="all" value="myPage?category=all"><span>글 선택 </span></option>
-                    <option id="자유게시글" value="myPage?category=자유게시글"><span>자유게시글 </span></option>
-                    <option id="여행계획서" value="myPage?category=여행계획서"><span>여행계획서 </span> </span></option>
-                    <option id="그룹게시글" value="myPage?category=그룹게시글"><span>그룹게시글 </span> </span></option>
-                    <option id="모임모집글" value="myPage?category=모임모집글"><span>모임모집글 </span> </span></option>
+                <select name="category" id="postSelector">
+                    <option id="all" value="all"><span>글 선택 </span></option>
+                    <option id="자유게시글" value="자유게시글"><span>자유게시글 </span></option>
+                    <option id="여행계획서" value="여행계획서"><span>여행계획서 </span> </span></option>
+                    <option id="그룹게시글" value="그룹게시글"><span>그룹게시글 </span> </span></option>
+                    <option id="모임모집글" value="모임모집글"><span>모임모집글 </span> </span></option>
                 </select>
                 <form action="deletePostArray" method="post" class="dform">
                     <input type="hidden" id="postArray" name="postArray">
@@ -317,79 +317,12 @@
                     <input type="hidden" id="gjoinArray" name="gjoinArray">
                     <input type="submit" value="삭제" onclick="go()">
                 </form>
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col" th:each="post : ${posts}">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <input class="form-check-input postCheckbox" type="checkbox" th:value="${post.no}">
-                                <span th:text="${post.category}"></span>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${post.title}"></h5>
-                                <p class="card-text" th:text="${post.content}"></p>
-                                <div class="cardButton">
-                                    <a class="noLine" th:href="@{postMod(no=${post.no})}">
-                                        <button>수정</button>
-                                    </a>
-                                    <a class="noLine" th:href="@{postDelete(no=${post.no})}">
-                                        <button>삭제</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" th:each="gpost : ${gposts}">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <input type="checkbox" class="form-check-input gpostCheckbox"
-                                       th:value="${gpost.g_no}">
-                                그룹게시글
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${gpost.g_title}"></h5>
-                                <p class="card-text" th:text="${gpost.g_content}"></p>
-                                <div class="cardButton">
-                                    <a class="noLine" th:href="@{modno(g_no=${gpost.g_no})}">
-                                        <button>수정</button>
-                                    </a>
-                                    <a class="noLine" th:href="@{delgroup(g_no=${gpost.g_no}, gno=${gpost.gno})}">
-                                        <button>삭제</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col" th:each="gjoin : ${gjoins}">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <input type="checkbox" class="form-check-input gjoinCheckbox"
-                                       th:value="${gjoin.mo_no}">
-                                모임모집글
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${gjoin.m_name}"></h5>
-                                <p class="card-text" th:text="${gjoin.m_contents}"></p>
-                                <div class="cardButton">
-                                    <a class="noLine" th:href="@{gmjoinmod(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
-                                        <button>수정</button>
-                                    </a>
-                                    <a class="noLine" th:href="@{gjdel(gno=${gjoin.gno}, mo_no=${gjoin.mo_no})}">
-                                        <button>삭제</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="postCard" class="row row-cols-1 row-cols-md-2 g-4">
                 </div>
             </div>
 
 
-            <div id="nothing"
-                 th:if="${(posts == null or posts.isEmpty()) and (gposts == null or gposts.isEmpty()) and (gjoins == null or gjoins.isEmpty())}">
-
-                <br><br>
-                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.
-                <br><br>
+            <div id="nothing">
             </div>
             <div id="show">
                 <th:block th:if="${session.userid!=null}">
@@ -526,7 +459,6 @@
         }
     }
 
-
     $('#files').on('change', function () {
         var fileName = $("#files").val();
         console.log(fileName)
@@ -535,6 +467,112 @@
 
     });
 
+    $(window).on('load', () => {
+        var category = 'all';
+        loadCategory(category);
+    })
+
+    $('#postSelector').on('change', (event) => {
+        var category = event.target.value;
+        loadCategory(category);
+    })
+
+    function loadCategory(category) {
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "post-category",
+            data: {category: category},
+            success: function (data) {
+                $('#postCard').empty();
+                $('#nothing').empty();
+                console.log(data.posts, data.gposts, data.gjoins)
+                if((data.posts == null || data.posts.length == 0) && (data.gposts == null || data.gposts.length == 0) && (data.gjoins == null || data.gjoins.length == 0)){
+                    $('#nothing').html('<br><br>\n' +
+                        '                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.\n' +
+                        '                <br><br>')
+                    return;
+                }
+                for(let post in data.posts){
+                    $('#postCard').html(
+                        $('#postCard').html()+'                    <div class="col">\n' +
+                        '                        <div class="card h-100">\n' +
+                        '                            <div class="card-header">\n' +
+                        '                                <input class="form-check-input postCheckbox" type="checkbox" value='+data.posts[post].no+'>\n' +
+                        '                                <span>'+data.posts[post].category+'</span>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="card-body">\n' +
+                        '                                <h5 class="card-title">'+data.posts[post].title+'</h5>\n' +
+                        '                                <p class="card-text">'+data.posts[post].content+'</p>\n' +
+                        '                                <div class="cardButton">\n' +
+                        '                                    <a class="noLine" href="postMod?no='+data.posts[post].no+'">\n' +
+                        '                                        <button>수정</button>\n' +
+                        '                                    </a>\n' +
+                        '                                    <a class="noLine" href="postDelete?no='+data.posts[post].no+'">\n' +
+                        '                                        <button>삭제</button>\n' +
+                        '                                    </a>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>'
+                    );
+                }
+                for(let gpost in data.gposts){
+                    $('#postCard').html(
+                        $('#postCard').html() + '                    <div class="col">\n' +
+                        '                        <div class="card h-100">\n' +
+                        '                            <div class="card-header">\n' +
+                        '                                <input type="checkbox" class="form-check-input gpostCheckbox"\n' +
+                        '                                       value="'+data.gposts[gpost].g_no+'">\n' +
+                        '                                그룹게시글\n' +
+                        '                            </div>\n' +
+                        '                            <div class="card-body">\n' +
+                        '                                <h5 class="card-title">'+data.gposts[gpost].g_title+'</h5>\n' +
+                        '                                <p class="card-text">'+data.gposts[gpost].g_content+'</p>\n' +
+                        '                                <div class="cardButton">\n' +
+                        '                                    <a class="noLine" href="modno?g_no='+data.gposts[gpost].g_no+'">\n' +
+                        '                                        <button>수정</button>\n' +
+                        '                                    </a>\n' +
+                        '                                    <a class="noLine" href="delgroup?g_no='+data.gposts[gpost].g_no+'&gno='+data.gposts[gpost].gno+'">\n' +
+                        '                                        <button>삭제</button>\n' +
+                        '                                    </a>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>'
+                    );
+                }
+                for(let gjoin in data.gjoins){
+                    $('#postCard').html(
+                        $('#postCard').html() + '                    <div class="col">\n' +
+                        '                        <div class="card h-100">\n' +
+                        '                            <div class="card-header">\n' +
+                        '                                <input type="checkbox" class="form-check-input gjoinCheckbox"\n' +
+                        '                                       value="'+data.gjoins[gjoin].mo_no+'">\n' +
+                        '                                모임모집글\n' +
+                        '                            </div>\n' +
+                        '                            <div class="card-body">\n' +
+                        '                                <h5 class="card-title">'+data.gjoins[gjoin].m_name+'</h5>\n' +
+                        '                                <p class="card-text">'+data.gjoins[gjoin].m_contents+'</p>\n' +
+                        '                                <div class="cardButton">\n' +
+                        '                                    <a class="noLine" href="gmjoinmod?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
+                        '                                        <button>수정</button>\n' +
+                        '                                    </a>\n' +
+                        '                                    <a class="noLine" th:href="gjdel?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
+                        '                                        <button>삭제</button>\n' +
+                        '                                    </a>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>'
+                    );
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error);
+            }
+        })
+    }
 
 </script>
 </html>

@@ -25,4 +25,6 @@ public interface IF_PostService {
     public boolean changeLike(String no, String id) throws Exception;
     public int likeCnt(String no) throws Exception;
     public boolean report(String no, String id) throws Exception;
+    public String selectRandomNotice() throws Exception;
+    public List<String> selectAllNotice() throws Exception;
 }

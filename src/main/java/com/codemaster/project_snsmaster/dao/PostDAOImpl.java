@@ -161,4 +161,9 @@ public class PostDAOImpl implements IF_PostDAO{
         sqlSession.update(mapperQuery+".plusReport", no);
     }
 
+    @Override
+    public List<String> selectAllNotice() throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectAllNotice");
+    }
+
 }
