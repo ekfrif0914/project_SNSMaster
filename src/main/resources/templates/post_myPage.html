@@ -60,11 +60,12 @@
         margin-left: 3px;
     }
 
-    #login{
+    #login {
         margin-top: 13px;
         margin-left: 12px;
     }
-    #logout{
+
+    #logout {
         margin-top: 13px;
         margin-left: 5px;
     }
@@ -233,6 +234,7 @@
         margin-top: 5px;
     }
 
+
 </style>
 <body>
 <div class="title">
@@ -267,9 +269,22 @@
                     <img src="img/user.png" class="profileImg">
                 </div>
                 <div id="idText"><h3 th:text="${userid}"></h3></div>
-                <a th:href="@{/myinfoPage(id=${userid})}">
+                <a class="noLine" th:href="@{/myinfoPage(id=${userid})}">
                     <button>내 정보 관리</button>
                 </a>
+                    <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
+                        팔로우<span th:text="${myfollowCount}"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li th:each="follow :${myfollowList}"><a class="dropdown-item" href="#"><span th:text="${follow}"></span></a></li>
+                    </ul>
+                <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
+                    팔로잉<span th:text="${myfollowingCount}"></span>
+                </a>
+                <ul  class="dropdown-menu">
+                    <li th:each="following :${myfollowingList}"><a class="dropdown-item" href="#"><span th:text="${following}"></span></a></li>
+                </ul>
+
             </div>
             <br>
             <div id="basicchange">
@@ -392,7 +407,7 @@
         <div id="menu">
             <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
             <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            <a href="group" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>

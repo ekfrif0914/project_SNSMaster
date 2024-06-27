@@ -1,6 +1,7 @@
 package com.codemaster.project_snsmaster.dao;
 
 import com.codemaster.project_snsmaster.vo.FAQVO;
+import com.codemaster.project_snsmaster.vo.FollowVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import com.codemaster.project_snsmaster.vo.PageVO;
 import org.apache.ibatis.session.SqlSession;
@@ -106,6 +107,41 @@ public class AdminDAOImpl implements IF_AdminDAO {
     @Override
     public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception {
         return sqlSession.selectList(mapperquery+".faqsearchselect",pvo);
+    }
+
+    @Override
+    public int cntFollowing(FollowVO fvo) throws Exception {
+        return sqlSession.selectOne(mapperquery+".cntFollowing",fvo);
+    }
+
+    @Override
+    public void insertFollowing(FollowVO fvo) throws Exception {
+       sqlSession.insert(mapperquery+".insertFollowing",fvo);
+    }
+
+    @Override
+    public List<String> selectMyFollowinglist(String userid) throws Exception {
+        return sqlSession.selectList(mapperquery+".selectMyFollowinglist",userid);
+    }
+
+    @Override
+    public void deleteFollowing(FollowVO fvo) throws Exception {
+        sqlSession.delete(mapperquery+".deleteFollowing",fvo);
+    }
+
+    @Override
+    public int myfollowCount(String id) throws Exception {
+        return sqlSession.selectOne(mapperquery+".myfollowCount",id);
+    }
+
+    @Override
+    public int myfollowingCount(String id) throws Exception {
+        return sqlSession.selectOne(mapperquery+".myfollowingCount",id);
+    }
+
+    @Override
+    public List<String> myfollowList(String id) throws Exception {
+        return sqlSession.selectList(mapperquery+".myfollowList",id);
     }
 
 }

@@ -184,15 +184,21 @@
                 // return true;
             } else if (!emailChecked) {
                 alert("이메일 인증이 필요합니다")
-            } else {
-                console.log(isIdChecked)
-                console.log(1)
-                console.log(emailChecked)
-                console.log(pwChk())
-                console.log(idChk())
-                console.log(eachChk())
-                alert("id 중복확인이 필요합니다")
+            } else if(!pwChk()){
+                // console.log(isIdChecked)
+                // console.log(1)
+                // console.log(emailChecked)
+                // console.log(pwChk())
+                // console.log(idChk())
+                // console.log(eachChk())
+                alert("비밀번호는 영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요")
                 //  return false;
+            }else if(!eachChk()){
+                alert("비밀번호가 일치하지 않습니다")
+            }else if(!idChk()){
+                alert("아이디는 영문 or 한글(자음/모음만 사용불가)+숫자(2~20자리)로 작성하세요")
+            }else if(!isIdChecked){
+                alert("아이디 중복확인을 진행하세요")
             }
 
 
@@ -251,7 +257,7 @@
         var pw = $('#pw1').val()
         var num = pw.search(/[0-9]/g);
         var eng = pw.search(/[a-z]/ig);
-        var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        var spe = pw.search(/[!@#$%^&*]/gi);
         var noticePw = $('#noticePw')
 
         if (pw == "") {
@@ -290,7 +296,7 @@
 //        var kor = id.search(/^[가-힣]+$/);
         var koreng = id.search(/[가-힣a-zA-Z]/g);
         var noticeId = $('#noticeId')
-        var spe = id.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        var spe = id.search(/[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$☆★○●◎Ŋž※◀◁◆◇◈◎◌♥♧♨♣♂」ぉ】☏☎☜◌♂♀☞♨%&\\\=\(\'\"]/gi);
 
         if (id == "") {
             noticeId.text("영문 or 한글(자음/모음만 사용불가)+숫자(2~20자리)로 작성하세요");

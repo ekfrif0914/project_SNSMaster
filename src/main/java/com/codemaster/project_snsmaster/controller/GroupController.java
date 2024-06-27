@@ -49,16 +49,21 @@ public class GroupController {
     }
 
     @RequestMapping(value = "/membergroupinput", method = RequestMethod.GET)//그룹만들기
-    public String membergroupinput() {
+    public String membergroupinput(HttpServletRequest request, Model model) {
+        String referer = request.getHeader("referer");
+        model.addAttribute("referer", referer);
+        System.out.println(referer);
         return "membergroup_test";
     }
 
     @RequestMapping(value = "/membergroupinputSave", method = RequestMethod.POST)//그룹만들기
-    public String membergroupinputSave(@ModelAttribute MemberGroupVO mgvo, HttpSession session) throws Exception {
+    public String membergroupinputSave(@RequestParam("referer") String referer, @ModelAttribute MemberGroupVO mgvo, HttpSession session, HttpServletRequest request ) throws Exception {
         mgvo.setG_id((String) session.getAttribute("userid"));
         System.out.println(mgvo.toString());
+        System.out.println(referer);
         gservice.mginsert(mgvo);
-        return "membergroup_test";
+         return "redirect:" + referer;
+       // return "membergroup_test";
     }
     @ResponseBody
     @RequestMapping(value = "/groupjoin", method = RequestMethod.GET) //그룹에 가입
@@ -136,6 +141,7 @@ public class GroupController {
         String id = (String) session.getAttribute("userid");
         model.addAttribute("id", id);
         HashMap<String, String> param = new HashMap<>();
+        System.out.println(id);
         System.out.println(gno);
         System.out.println(search);
         System.out.println(g_region);
@@ -187,13 +193,9 @@ public class GroupController {
         param.put("gno", gno);
         param.put("id", id);
         model.addAttribute("gjoinList", gservice.gjoinList(param));
-        model.addAttribute("gjsize", gservice.gjoinList(param).size());
         model.addAttribute("mgList", gservice.mgList(param));
-        model.addAttribute("mgsize", gservice.mgList(param).size());
-        System.out.println(gservice.mgList(param).size());
         List<GroupPostVO> gpList = gservice.gpList(gno);
         List<G_joinVO> gjList = gservice.gjList(gno);
-
         System.out.println(gpList);
         model.addAttribute("gpList", gpList);
         System.out.println(gjList);
@@ -215,10 +217,12 @@ public class GroupController {
 
 
     @RequestMapping(value = "/group", method = RequestMethod.GET)
-    public String home(HttpSession session, Model model) {
+    public String home(HttpSession session, Model model,HttpServletRequest request) {
         String id = (String) session.getAttribute("userid");
         model.addAttribute("id", id);
-        return "grouphome_test";
+        String referer = request.getHeader("referer");
+        //return "grouphome_test";
+        return "redirect:" + referer;
     }
 
     @RequestMapping(value = "/delgroup", method = RequestMethod.GET)//게시글 삭제
