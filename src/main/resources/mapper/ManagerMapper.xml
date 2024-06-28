@@ -60,7 +60,7 @@
         </foreach>
     </delete>
     <insert id="Notification" parameterType="hashmap">
-     insert into Notification values(#{userid},#{content},false,#{urll})
+     insert into Notification values(#{userid},#{content},false,#{urll},default)
     </insert>
 <select id="stateNotification" parameterType="String" resultType="int">
     SELECT count(*) FROM notification WHERE id=#{id} and state=FALSE

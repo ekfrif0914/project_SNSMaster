@@ -73,27 +73,49 @@
         margin-left: 160px;
 
     }
-
+    .btnimg {
+        margin-left: 160px;
+    }
     .img {
 
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
+
 
     }
+    .btnimg {
+        margin-left: 160px;
+    }
 
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    #login {
+        margin-top: 13px;
+        margin-left: 12px;
+    }
+
+    #logout {
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
     }
 
     .selectBox {
@@ -198,7 +220,7 @@
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
 
@@ -322,16 +344,17 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
 
-            <a href="membergroupinput"> <img src="img/plus.png" class="img"></a>
-            <a href="gList"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -435,4 +458,4 @@
     // });
 
 </script>
-</html>-->
+</html>

@@ -57,11 +57,14 @@
         border: 1px solid black;
         margin-left: 3px;
     }
+
     #login {
-        margin-left: 10px;
+        margin-top: 13px;
+        margin-left: 12px;
     }
 
     #logout {
+        margin-top: 13px;
         margin-left: 5px;
     }
     #menu {
@@ -79,23 +82,32 @@
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
+
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
+
+
+    }
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
+    }
+    .btnimg {
         margin-left: 160px;
-
     }
-
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
-    }
-
     .selectBox {
         width: 103px;
         height: 40px;
@@ -210,7 +222,7 @@
             </div>
             <div class="post" th:id="${post.no}">
                 <b th:text="${post.id}"></b>
-                <a href="#">팔로우</a>
+
                 <span class="right">
                     <a th:href="@{postDelete(no=${post.no})}">삭제</a>
                 </span><br>
@@ -268,15 +280,16 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" id="m" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a href="myPost"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="group" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -330,7 +343,7 @@
     }
 
     function chkCommentAvail(){
-        if(document.querySelector("#cmtContent").value==""){
+        if(document.querySelector("#cmt").value==""){
             alert("댓글을 입력해주세요");
             return false;
         } else{
@@ -416,7 +429,7 @@
     });
     //self.close(); // 열었던 새창 닫기-->
     // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
-    opener.document.location.href = '/managerMode';
-    window.close()
+    // opener.document.location.href = '/managerMode';
+    // window.close()
 </script>
 </html>
