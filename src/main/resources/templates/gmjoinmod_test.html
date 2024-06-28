@@ -260,7 +260,7 @@
         <div id="menu">
             <a href="snsMaster"> <img src="img/home.png" class="img"></a>
 
-            <a  th:href="@{groupinput(gno=${gno})}"> <img src="img/plus.png" class="img"></a>
+            <a  th:href="@{groupinput(gno=${gjvo.gno})}"> <img src="img/plus.png" class="img"></a>
             <a href="gList"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
         </div>
@@ -320,22 +320,7 @@
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data){
 
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
 
 

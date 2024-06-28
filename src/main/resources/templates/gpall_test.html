@@ -179,32 +179,49 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
     }
-    table,tr{
-    margin-left: 25%;
-margin-bottom: 100px;
+
+    table, tr{
+        margin-left: 25%;
+        margin-bottom: 100px;
         margin-top: 100px;
-        border:1px solid black;
+        border: 1px solid black;
         border-radius: 5px;
     }
-    .trsize{
+
+    .trsize {
         width: 300px;
         height: 100px;
     }
-    .rsetbut{
+
+    .rsetbut {
         background-color: white;
         border: 1px solid green;
         border-radius: 5px;
         color: green;
     }
+
     .modsize {
         width: 40px;
         height: 40px;
         margin-left: 40px;
     }
 
+    .uptd {
+        height: 50px;
+
+    }
+
+    .idcolor {
+        border-top: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .colw {
+        border: 1px solid white;
+    }
 
 </style>
 
@@ -217,9 +234,8 @@ margin-bottom: 100px;
         <div id="change">
 
 
-
-          <!--  <li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
-            <a href="gList">그룹으로 가기</a>-->
+            <!--  <li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
+              <a href="gList">그룹으로 가기</a>-->
 
             <h1>게시글</h1>
             <form class="d-flex" role="search" action="gpsearch" method="GET">
@@ -241,16 +257,16 @@ margin-bottom: 100px;
             <table>
                 <tbody th:each="post: ${gpList}">
 
-                <tr>
-                    <th>아이디<input type="hidden" value="${post.g_no}"></th>
-                    <td th:text="${post.id}"></td>
-                    <td><a th:href="@{/grouppost(g_no=${post.g_no})}">
+                <tr class="idcolor">
+                    <th class="idcolor">아이디<input type="hidden" value="${post.g_no}"></th>
+                    <td th:text="${post.id}" class="idcolor"></td>
+                    <td class="idcolor" colspan='2'><a th:href="@{/grouppost(g_no=${post.g_no})}">
                         <img class="postImg report" src="img/pngwing.png">
                     </a></td>
                 </tr>
                 <tr>
-                <th>제목</th>
-                <td th:text="${post.g_title}"></td>
+                    <th>제목</th>
+                    <td th:text="${post.g_title}"></td>
                 </tr>
                 <tr>
                     <th>내용</th>
@@ -260,7 +276,7 @@ margin-bottom: 100px;
                     <td th:text="${post.g_like}" class="cklike"></td>
                     <td th:if="${id!=post.id} and ${id!=null}">
                         <a th:href="@{/grouplike(g_no=${post.g_no},id=${id})}" class="glck" th:data-g_no="${post.g_no}">
-                            <img class="likeBtn postImg" src ="img/heart.png">
+                            <img class="likeBtn postImg" src="img/heart.png">
                         </a></td>
                 </tr>
                 <tr>
@@ -275,16 +291,20 @@ margin-bottom: 100px;
                     <td th:if="${id==post.id}"><a th:href="@{modno(g_no=${post.g_no})}">
                         <img class="modsize report" src="img/mod.png">
                     </a></td>
-                    <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}" onclick="return delck()">
+                    <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}"
+                                                  onclick="return delck()">
                         <img class="postImg report" src="img/del.png">
                     </a></td>
                 </tr>
-                <tr>
-                    <td></td>
+                <tr class="colw">
+
+                    <td class="uptd">
+
+                    </td>
                 </tr>
 
                 </tbody>
-                <br>
+
             </table>
 
             <h1>동행 모집글</h1>
@@ -305,51 +325,53 @@ margin-bottom: 100px;
             </form>
             <table>
                 <tbody th:each="post: ${gjList}">
-                <tr>
+                <tr class="colw">
                     <td><input type="hidden" value="${post.gno}"></td>
                     <td><input type="hidden" value="${post.mo_no}"></td>
                 </tr>
 
-                <tr>
-                    <th>아이디</th>
-                    <td th:text="${post.id}" ></td>
+                <tr class="idcolor">
+                    <th class="idcolor">아이디</th>
+                    <td th:text="${post.id}" class="idcolor" colspan='7'></td>
                 </tr>
                 <tr>
                     <th>제목</th>
-                    <td th:text="${post.m_name}" ></td>
+                    <td th:text="${post.m_name}"></td>
                 </tr>
-                <tr >
+                <tr>
                     <th>내용</th>
-                    <td class="trsize" th:text="${post.m_contents}" colspan='1'></td>
+                    <td class="trsize" th:text="${post.m_contents}" ></td>
                 </tr>
                 <tr>
                     <th>모집 인원</th>
-                    <td th:text="${post.cnt}" ></td>
-                    <th >신청인원</th>
+                    <td th:text="${post.cnt}"></td>
+                    <th>신청인원</th>
                     <td th:text="${post.cont}"></td>
-                    <td th:if="${id!=post.id} and ${id!=null}" >
-                        <a th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
+
+                    <td >
+                        <a th:if="${id!=post.id} and ${id!=null}"
+                                th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
                            th:data-mo_no="${post.mo_no}" th:data-gno="${post.gno}" th:data-cnt="${post.cnt}" th:data-cont="${post.cont}">
                             <button>신청</button>
                         </a></td>
+
+
+
+
                     <td th:if="${id==post.id}"><a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}">
                         <img class="modsize report" src="img/mod.png">
                     </a></td>
-                    <td th:if="${id==post.id}"><a  th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}" onclick="return modelck()" >
+                    <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}"
+                                                  onclick="return modelck()">
                         <img class="postImg report" src="img/del.png">
                     </a></td>
+                </tr>
+                <tr class="colw">
+                    <td class="uptd"></td>
                 </tr>
 
                 </tbody>
             </table>
-
-
-
-
-
-
-
-
 
 
             <div id="show">
@@ -367,7 +389,7 @@ margin-bottom: 100px;
         <div id="menu">
             <a href="snsMaster"> <img src="img/home.png" class="img"></a>
 
-            <a  th:href="@{groupinput(gno=${gno})}"> <img src="img/plus.png" class="img"></a>
+            <a th:href="@{groupinput(gno=${gno})}"> <img src="img/plus.png" class="img"></a>
             <a href="gList"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
         </div>
@@ -375,12 +397,13 @@ margin-bottom: 100px;
 </div>
 </body>
 <script>
-    function delck(){
+    function delck() {
 
-            return confirm("선택하신 게시글을 삭제 하시겠습니까?")
+        return confirm("선택하신 게시글을 삭제 하시겠습니까?")
 
     }
-    function modelck(){
+
+    function modelck() {
         return confirm("선택하신 동행글을 삭제 하시겠습니까?")
     }
 </script>
@@ -424,28 +447,12 @@ margin-bottom: 100px;
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data){
-
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
     $(document).on('click', '.glck', function (event) {
         event.preventDefault();
@@ -511,23 +518,24 @@ margin-bottom: 100px;
     $(document).on('click', '.gjoin', function (event) {
         event.preventDefault();
         var mo_no = $(this).data('mo_no')
-        var gno=$(this).data('gno')
-        var cnt=$(this).data('cnt')
-        var cont=$(this).data('cont')
+        var gno = $(this).data('gno')
+        var cnt = $(this).data('cnt')
+        var cont = $(this).data('cont')
         console.log(mo_no);
         const aa = event.target.parentElement;
         const bb = aa.parentNode;
-        const cc =bb.previousElementSibling;
+        const cc = bb.previousElementSibling.previousElementSibling;
+
         $.ajax({
 
             type: "get",
             async: false,
             url: "g_memberjoin",
-            data: {mo_no: mo_no,gno: gno,cnt:cnt ,cont:cont},
+            data: {mo_no: mo_no, gno: gno, cnt: cnt, cont: cont},
             success: function (data) {
-                if(bb.previousElementSibling.innerText==cc.previousElementSibling.innerText) {
+                if (bb.previousElementSibling.innerText == cc.previousElementSibling.innerText) {
                     alert("신청인원이 초과 되었습니다.")
-                }else if(bb.previousElementSibling.innerText!=cc.previousElementSibling.innerText){
+                } else if (bb.previousElementSibling.innerText != cc.previousElementSibling.innerText) {
                     if (data == 0) {
                         console.log(bb.previousElementSibling.innerText)
                         bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
@@ -545,9 +553,6 @@ margin-bottom: 100px;
             }
         });
     });
-
-
-
 
 
     //

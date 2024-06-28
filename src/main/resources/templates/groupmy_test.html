@@ -190,6 +190,11 @@
     #cmtIcon{
         text-decoration-line: none;
     }
+    .modback {
+        width: 60px;
+        height: 60px;
+        margin-left: 0px;
+    }
 
 </style>
 
@@ -205,7 +210,7 @@
 
 
 
-            <a href="gList"> <img class="postImg report" src="img/back.png"> </a>
+            <a href="gList"> <img class="modback report" src="img/back.png"> </a>
             <table>
                 <tbody th:each="post: ${gjoList}">
 
@@ -304,22 +309,7 @@
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data){
 
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
 
 
