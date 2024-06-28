@@ -69,29 +69,46 @@
         margin-left: 160px;
 
     }
+    #login {
+        margin-top: 13px;
+        margin-left: 12px;
+    }
 
+    #logout {
+        margin-top: 13px;
+        margin-left: 5px;
+    }
     .img {
 
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
+
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
+
+
+    }
+    .btnimg {
         margin-left: 160px;
+    }
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
 
     }
-
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
     }
-
     .selectBox {
         width: 90px;
         height: 40px;
@@ -183,38 +200,66 @@
     #cmtIcon{
         text-decoration-line: none;
     }
+    .modback {
+        width: 60px;
+        height: 60px;
+        margin-left: 0px;
+    }
+    .msg textarea{
+        min-width: 55.5%;
+        max-width: 55.5%;
+        min-height: 150px;
+        max-height: 150px;
+        box-shadow: inset 3px 3px 10px #e6e6e6;
+        vertical-align: top;
+        border-radius: 10px;
+    }
+    .myinfo{
 
+        border-radius: 50px;
+    }
 </style>
 
 <body>
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
 
 
 
 
-            <a th:href="@{'/gpList?gno=' + ${gno}}"><img class="likeBtn postImg" src="img/back.png"></a>
+            <a th:href="@{'/gpList?gno=' + ${gno}}"><img class="likeBtn modback" src="img/back.png"></a>
             <form action="groupinputSave" method="post">
                 <h2> 그룹글</h2>
                 <input type="hidden" name="gno" th:value="${gno}">
-                제목<input type="text" name="g_title" id="g_title">
-                <br><br>
-                그룹글 내용 <textarea rows="13" cols="70" name="g_content" id="g_content"></textarea>
+                <div class="myinfo">
+                제목<input type="text" placeholder="제목을 입력하세요." name="g_title" id="g_title"> <br><br>
+                </div>
 
+                <div class="msg">
+
+                    그룹글 내용 <textarea rows="13" cols="70" placeholder="내용을 입력하세요." name="g_content" id="g_content"></textarea>
+                </div>
                 <input type="submit" value="전송" onclick="return check()">
 
             </form>
 
             <form action="joininputSave" method="post">
+                <br>
+                <br>
                 <h2> 모집글</h2>
                 <input type="hidden" name="gno" th:value="${gno}"><!--그룹번호-->
-                모임이름<input type="text" name="m_name" id="m_name"><br><br>
-                모집인원<input type="text" name="cnt" id="cnt" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />명<br><br>
-                모집 내용 <textarea rows="13" cols="70" name="m_contents" id="m_contents"></textarea>
+               <div class="myinfo">
+                모임이름<input type="text" placeholder="모임 이름을 입력하세요." name="m_name" id="m_name"><br><br>
+                모집인원<input type="text" placeholder="숫자만 입력해 주세요." name="cnt" id="cnt" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /><br><br>
+               </div>
+                <div class="msg">
+                    모집 내용 <textarea rows="13" cols="70" name="m_contents" id="m_contents"></textarea>
+                </div>
+
                 <input type="submit" value="전송" onclick="return mochek()">
 
             </form>
@@ -235,16 +280,17 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
 
-            <a  th:href="@{groupinput(gno=${gno})}"> <img src="img/plus.png" class="img"></a>
-            <a href="gList"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a  th:href="@{groupinput(gno=${gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -295,22 +341,7 @@
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data){
 
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
     function check() {
         if (document.querySelector("#g_title").value == "") {
@@ -389,4 +420,4 @@
     // });
 
 </script>
-</html>-->
+</html>

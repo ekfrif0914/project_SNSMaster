@@ -145,7 +145,6 @@
         height: 100px;
         object-fit: contain;
         float: left;
-        border-radius: 70%;
     }
 
     #profileFrame {
@@ -244,24 +243,7 @@
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
-            <!--            <div id="top">-->
-            <!--                <form action="postSearch" method="get">-->
-            <!--                    <div id="select">-->
-            <!--                        <select class="selectBox" name="region" id="region" onchange="">-->
-            <!--                            <option value=""><span>지역선택 </span></option>-->
-            <!--                            <option value="서울"><span>서울 </span></option>-->
-            <!--                            <option value="수원"><span>수원 </span> </span></option>-->
-            <!--                        </select>-->
-            <!--                        <select class="selectBox" name="category" id="category" onchange="">-->
-            <!--                            <option value=""><span>카테고리 </span></option>-->
-            <!--                            <option value="자유게시글"><span>자유게시글 </span></option>-->
-            <!--                            <option value="여행계획서"><span>여행계획서 </span> </span></option>-->
-            <!--                        </select>-->
-            <!--                    </div>-->
-            <!--                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">-->
-            <!--                    <input type="submit" value="검색" id="sbtn" onclick="return chkAvail()">-->
-            <!--                </form>-->
-            <!--            </div>-->
+
             <div id="profileFrame">
                 <div th:if="${memberinfo.file_name}!=null">
                     <img th:src="'/download?filename='+${memberinfo.file_name}" class="profileImg">
@@ -269,43 +251,47 @@
                 <div th:if="${memberinfo.file_name}==null">
                     <img src="img/user.png" class="profileImg">
                 </div>
-                <div id="idText"><h3 th:text="${userid}"></h3></div>
-                <a class="noLine" th:href="@{/myinfoPage(id=${userid})}">
-                    <button>내 정보 관리</button>
+                <div id="idText"><h3 th:text="${memberinfo.id}"></h3></div>
+                <th:block th:if="${session.userid!=memberinfo.id}">
+                    <th:block th:if="${isFollowing==1}">
+                        <button type="button" class="follow">팔로우 취소</button>
+                    </th:block>
+                    <th:block th:unless="${isFollowing==1}">
+                        <button type="button" class="follow">팔로우</button>
+                    </th:block>
+                </th:block>
+                <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                    팔로우<span th:text="${myfollowCount}" id="myfollowCount"></span>
                 </a>
-
-                    <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
-                        팔로우<span th:text="${myfollowCount}"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li th:each="follow :${myfollowList}"><a class="dropdown-item" th:href="@{yourPage(id=${follow})}"><span th:text="${follow}"></span></a></li>
-                    </ul>
-                <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
-                    팔로잉<span th:text="${myfollowingCount}"></span>
+                <ul class="dropdown-menu">
+                    <li th:each="follow :${myfollowList}" >
+                        <th:block th:if="${session.userid!= follow}">
+                            <a class="dropdown-item" th:href="@{yourPage(id=${follow})}">
+                                <span th:text="${follow}"></span></a></th:block>
+                        <th:block th:unless="${session.userid!= follow}">
+                            <a class="dropdown-item me" th:href="myPage">
+                                <span th:text="${follow}" class="me"></span></a>
+                        </th:block>
+                    </li>
+                </ul>
+                <a class="dropdown-toggle" role="button" data-bs-toggle="dropdown">
+                    팔로잉<span th:text="${myfollowingCount}" id="myfollowingCount"></span>
                 </a>
-                <ul  class="dropdown-menu">
-                    <li th:each="following :${myfollowingList}"><a class="dropdown-item" th:href="@{yourPage(id=${following})}"><span th:text="${following}"></span></a></li>
-
+                <ul class="dropdown-menu">
+                    <li th:each="following :${myfollowingList}">
+                        <th:block th:if="${session.userid!= following}">
+                            <a class="dropdown-item" th:href="@{yourPage(id=${following})}">
+                                <span th:text="${following}"></span></a></th:block>
+                        <th:block th:unless="${session.userid!= following}">
+                            <a class="dropdown-item" th:href="myPage">
+                                <span th:text="${following}"></span></a>
+                        </th:block>
+                    </li>
                 </ul>
 
             </div>
             <br>
-            <div id="basicchange">
-                <form action="changeDefaultimg" method="post" class="dform">
-                    <input type="hidden" th:value="${memberinfo.file_name}" id="myfilename" name="delfname">
-                    <input type="hidden" th:value="${userid}" name="id">
-                    <input type="submit" value="기본이미지로 변경" class="defaulttag" onclick="defaultChk()">
-                </form>
-            </div>
-            <div id="profilechange">
-                <form action="updatemyProfileImg" method="post" enctype="multipart/form-data" class="dform">
-                    <input type="hidden" th:value="${userid}" name="id">
-                    <label class="hov" for="files">프로필 사진 변경</label>
-                    <input type="file" name="file" id="files">
-                    <span id="filename"></span>
-                    <input type=submit value="등록" class="photosave">
-                </form>
-            </div>
+
             <div id="myPostFrame">
                 <select name="category" id="postSelector">
                     <option id="all" value="all"><span>글 선택 </span></option>
@@ -314,12 +300,7 @@
                     <option id="그룹게시글" value="그룹게시글"><span>그룹게시글 </span> </span></option>
                     <option id="모임모집글" value="모임모집글"><span>모임모집글 </span> </span></option>
                 </select>
-                <form action="deletePostArray" method="post" class="dform">
-                    <input type="hidden" id="postArray" name="postArray">
-                    <input type="hidden" id="gpostArray" name="gpostArray">
-                    <input type="hidden" id="gjoinArray" name="gjoinArray">
-                    <input type="submit" value="삭제" onclick="go()">
-                </form>
+
                 <div id="postCard" class="row row-cols-1 row-cols-md-2 g-4">
                 </div>
             </div>
@@ -334,19 +315,20 @@
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
             </div>
         </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m" class="m">
-            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
-        </div>
     </div>
-    <nav class="navbar fixed-bottom bg-body-tertiary">
-        <div id="menu">
-            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
-        </div>
-    </nav>
+    <div id="mmode">
+        <img src="img/mmode.png" id="m" class="m">
+        <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+    </div>
+</div>
+<nav class="navbar fixed-bottom bg-body-tertiary">
+    <div id="menu">
+        <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+        <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+        <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+        <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+    </div>
+</nav>
 </div>
 </body>
 <script th:inline="javascript">
@@ -380,16 +362,6 @@
 </script>
 <script th:inline="javascript">
 
-    console.log([[${posts}]])
-
-    function chkAvail() {
-        if (document.querySelector("#search").value == "") {
-            alert("검색어를 입력해주세요");
-            return false;
-        } else {
-            return true;
-        }
-    }
 
     function selCategory() {
         var category = [[${category}]];
@@ -398,7 +370,7 @@
 
     selCategory();
 </script>
-<script>
+<script th:inline="javascript">
 
     $('#login').on('click', () => {
         location.href = 'loginForm'
@@ -416,59 +388,6 @@
 
     });
 
-    function go() {
-        var send_postArray = [];
-        var send_gpostArray = [];
-        var send_gjoinArray = [];
-        var postchkbox = $(".postCheckbox");
-        var gpostchkbox = $(".gpostCheckbox");
-        var gjoinchkbox = $('.gjoinCheckbox');
-
-
-        for (i = 0; i < postchkbox.length; i++) {
-            if (postchkbox[i].checked) {
-                send_postArray.push(postchkbox[i].value);
-
-            }
-        }
-        for (i = 0; i < gpostchkbox.length; i++) {
-            if (gpostchkbox[i].checked) {
-                send_gpostArray.push(gpostchkbox[i].value);
-
-            }
-        }
-        for (i = 0; i < gjoinchkbox.length; i++) {
-            if (gjoinchkbox[i].checked) {
-                send_gjoinArray.push(gjoinchkbox[i].value);
-
-            }
-        }
-
-        var postArray = $("#postArray")
-        var gpostArray = $("#gpostArray")
-        var gjoinArray = $("#gjoinArray")
-        postArray.val(send_postArray);
-        gpostArray.val(send_gpostArray);
-        gjoinArray.val(send_gjoinArray);
-
-    }
-
-    function defaultChk() {
-        var myfilename = $('#myfilename').val()
-        if (myfilename != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    $('#files').on('change', function () {
-        var fileName = $("#files").val();
-        console.log(fileName)
-        $('#filename').text(fileName)
-        $('.photosave').css('display', 'inline-block');
-
-    });
 
     $(window).on('load', () => {
         var category = 'all';
@@ -481,18 +400,19 @@
     })
 
     function loadCategory(category) {
+        var id = [[${memberinfo.id}]]
         $.ajax({
             type: "get",
             async: false,
-            url: "post-category",
-            data: {category: category},
+            url: "post-yourcategory",
+            data: {category: category, id: id},
             success: function (data) {
                 $('#postCard').empty();
                 $('#nothing').empty();
                 console.log(data.posts, data.gposts, data.gjoins)
                 if ((data.posts == null || data.posts.length == 0) && (data.gposts == null || data.gposts.length == 0) && (data.gjoins == null || data.gjoins.length == 0)) {
                     $('#nothing').html('<br><br>\n' +
-                        '                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.\n' +
+                        '                작성된 글이 없습니다. \n' +
                         '                <br><br>')
                     return;
                 }
@@ -501,19 +421,12 @@
                         $('#postCard').html() + '                    <div class="col">\n' +
                         '                        <div class="card h-100">\n' +
                         '                            <div class="card-header">\n' +
-                        '                                <input class="form-check-input postCheckbox" type="checkbox" value=' + data.posts[post].no + '>\n' +
                         '                                <span>' + data.posts[post].category + '</span>\n' +
                         '                            </div>\n' +
                         '                            <div class="card-body">\n' +
                         '                                <h5 class="card-title">' + data.posts[post].title + '</h5>\n' +
                         '                                <p class="card-text">' + data.posts[post].content + '</p>\n' +
                         '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="postMod?no=' + data.posts[post].no + '">\n' +
-                        '                                        <button>수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="postDelete?no=' + data.posts[post].no + '">\n' +
-                        '                                        <button>삭제</button>\n' +
-                        '                                    </a>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>\n' +
@@ -525,20 +438,12 @@
                         $('#postCard').html() + '                    <div class="col">\n' +
                         '                        <div class="card h-100">\n' +
                         '                            <div class="card-header">\n' +
-                        '                                <input type="checkbox" class="form-check-input gpostCheckbox"\n' +
-                        '                                       value="' + data.gposts[gpost].g_no + '">\n' +
                         '                                그룹게시글\n' +
                         '                            </div>\n' +
                         '                            <div class="card-body">\n' +
                         '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>\n' +
                         '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>\n' +
                         '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="modno?g_no=' + data.gposts[gpost].g_no + '">\n' +
-                        '                                        <button>수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="delgroup?g_no=' + data.gposts[gpost].g_no + '&gno=' + data.gposts[gpost].gno + '">\n' +
-                        '                                        <button>삭제</button>\n' +
-                        '                                    </a>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>\n' +
@@ -550,20 +455,12 @@
                         $('#postCard').html() + '                    <div class="col">\n' +
                         '                        <div class="card h-100">\n' +
                         '                            <div class="card-header">\n' +
-                        '                                <input type="checkbox" class="form-check-input gjoinCheckbox"\n' +
-                        '                                       value="' + data.gjoins[gjoin].mo_no + '">\n' +
                         '                                모임모집글\n' +
                         '                            </div>\n' +
                         '                            <div class="card-body">\n' +
                         '                                <h5 class="card-title">' + data.gjoins[gjoin].m_name + '</h5>\n' +
                         '                                <p class="card-text">' + data.gjoins[gjoin].m_contents + '</p>\n' +
                         '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="gmjoinmod?gno=' + data.gjoins[gjoin].gno + '&mo_no=' + data.gjoins[gjoin].mo_no + '">\n' +
-                        '                                        <button>수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="gjdel?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
-                        '                                        <button>삭제</button>\n' +
-                        '                                    </a>\n' +
                         '                                </div>\n' +
                         '                            </div>\n' +
                         '                        </div>\n' +
@@ -576,6 +473,50 @@
             }
         })
     }
+
+    $(".follow").on("click", (event) => {
+        var followid = event.target.previousElementSibling.innerText
+        console.log(followid);
+        var userid = [[${session.userid}]];
+        console.log(userid);
+        $.ajax({
+            type: "post",
+            async: false,
+            url: "following",
+            data: {userid: userid, followid: followid},
+            success: function (data) {
+                console.log("성공")
+                if (data) {//true이면 팔로우 함
+                    event.target.innerHTML = "팔로우 취소"
+                    var myfollowCount = $('#myfollowCount').text()
+                    var number = Number(myfollowCount) + 1
+                    $('#myfollowCount').text(number)
+                    var newli = document.createElement("li")
+                    newli.setAttribute("class","me")
+                    newli.innerHTML = "<a class='dropdown-item me' href='myPage'>" + "<span id='idme' class='me'>" + "</span>" + "</a>"
+                    console.log(newli)
+                    var ul = event.target.nextElementSibling.nextElementSibling
+                    ul.appendChild(newli)
+                    $('#idme').text(userid)
+
+
+                } else {//false 이면 팔로우 취소
+                    event.target.innerHTML = "팔로우"
+                    var myfollowCount = $('#myfollowCount').text()
+                    var number = Number(myfollowCount) - 1
+                    $('#myfollowCount').text(number)
+
+                    $('.me').remove()
+
+
+                }
+            },
+            error: function (request, status, error) { // 결과 에러 콜백함수
+                console.log(error)
+            }
+        })
+    })
+
 
 </script>
 </html>

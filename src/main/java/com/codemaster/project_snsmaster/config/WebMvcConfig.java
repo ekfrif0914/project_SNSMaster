@@ -15,17 +15,38 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
         registry.addInterceptor(new LoginCheckInterceptor())
-                .addPathPatterns("/myPage")//접속이 불가능하다
+                .addPathPatterns("/post-category")
                 .addPathPatterns("/myPost")
+                .addPathPatterns("/myPage")//접속이 불가능하다
+                .addPathPatterns("/yourPage")
                 .addPathPatterns("/membergroupinput")
                 .addPathPatterns("/groupinput")
+                .addPathPatterns("/memberCheck")
+                .addPathPatterns("/myinfoPage")
+                .addPathPatterns("/grupinput")
+                .addPathPatterns("/groupjoin")
+                .addPathPatterns("/groupjoinmember")
+                .addPathPatterns("/groupmy")
+                .addPathPatterns("/delgroup")
+                .addPathPatterns("/gjdel")
+                .addPathPatterns("/delmembergroup")
+                .addPathPatterns("/delgroupjoinmember")
+                .addPathPatterns("/modno")
+                .addPathPatterns("/greport")
+                .addPathPatterns("/grouplike")
+                .addPathPatterns("/g_memberjoin")
+                .addPathPatterns("/gmjoinmod")
+                .addPathPatterns("/commentdel")
+                .addPathPatterns("/postDeleteComment")
+                .addPathPatterns("/postDelete")
+                .addPathPatterns("/postMod")
                 .excludePathPatterns("/snsMaster")  //가로채지않는다. 접속가능하다
                 .excludePathPatterns("/log*")
                 .excludePathPatterns("/id*")
                 .excludePathPatterns("/pwSearch")
                 .excludePathPatterns("/signUp")
-                .excludePathPatterns("/email*")
-                .excludePathPatterns("/updateProfile");
+                .excludePathPatterns("/email*");
+
 
     }
 }

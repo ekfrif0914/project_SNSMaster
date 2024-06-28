@@ -101,7 +101,6 @@ public class AdminController {
         if (file != null) {
             String[] filename = fileDataUtil.fileUpload(file);
             ifAdminService.updateProfile(id, filename);
-            System.out.println("신갓다");
         }
 
         return "redirect:/snsMaster";
@@ -147,7 +146,10 @@ public class AdminController {
     @GetMapping("stopMember")
     public String deleteMember(@RequestParam String id, HttpSession session) throws Exception {
         ifAdminService.stop(id);
-        session.invalidate();
+        session.removeAttribute("userid");
+        session.removeAttribute("username");
+        session.removeAttribute("userregion");
+        session.removeAttribute("prev_url");
         return "redirect:snsMaster";
     }
 
@@ -243,5 +245,7 @@ public class AdminController {
         System.out.println(isFollowing);
         return isFollowing;
     }
+
+
 
 }

@@ -15,7 +15,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
         String path = request.getServletPath();
 
-        System.out.println(path+"path1");
+        System.out.println(path + "path1");
 
         String query = request.getQueryString(); //파라미터가 있는지 없는지
 
@@ -26,14 +26,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         Object getSession = session.getAttribute("userid");
         Object getSession2 = session.getAttribute("managerid");// 세션에서 값을 가져온다.
         Object prev_url = session.getAttribute("prev_url");
-        if(getSession!=null ) {
+        if (getSession != null) {
             session.removeAttribute("prev_url");
-        }
-
-
-       else if(getSession == null) {// 로그인 안한 사람
+        } else if (getSession == null) {// 로그인 안한 사람
+            System.out.println("로그인 안함");
             response.sendRedirect(request.getContextPath() + "/loginForm");
-
+        //    return false;
             if (query != null) { //주소가 board?no=34&page=33
 
                 session.setAttribute("prev_url", path + "?" + query);
@@ -46,6 +44,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 // return true;
             }
             return false;
+
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

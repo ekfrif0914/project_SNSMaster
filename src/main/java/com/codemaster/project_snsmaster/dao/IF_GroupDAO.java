@@ -88,6 +88,8 @@ public interface IF_GroupDAO {
 
    public void joininsert(HashMap<Object, Object> joininsert) throws Exception;
 
+  public   List<GroupJoinVO> gjoinpopselect(String gno) throws Exception;
+
 
 
 
