@@ -38,13 +38,13 @@
     <select id="gpselect" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
         select *
         from grouppost
-        where gno = #{gno}
+        where gno = #{gno} order by g_no DESC
     </select>
 
     <select id="gjselect" resultType="com.codemaster.project_snsmaster.vo.G_joinVO">
         select *
         from g_join
-        where gno = #{gno}
+        where gno = #{gno} order by mo_no DESC
     </select>
 
     <select id="gjoselect" resultType="com.codemaster.project_snsmaster.vo.GroupJoinVO">
@@ -196,6 +196,10 @@
     </select>
     <select id="mjoinselectall" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.MemberGroupVO">
         select * from membergroup where g_id=#{id} and gno=#{gno}
+    </select>
+
+    <select id="gjoinpopselect" resultType="com.codemaster.project_snsmaster.vo.GroupJoinVO">
+        select * from groupjoin where gno=#{gno}
     </select>
 
     <select id="reportsaveselect" parameterType="hashmap" resultType="int">

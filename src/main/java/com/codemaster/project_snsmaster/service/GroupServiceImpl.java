@@ -152,6 +152,11 @@ public class GroupServiceImpl implements IF_GroupService {
     }
 
     @Override
+    public List<GroupJoinVO> gjoinpopList(String gno) throws Exception {
+        return gdao.gjoinpopselect(gno);
+    }
+
+    @Override
     public Object greport(HashMap<String, String> param) throws Exception {
         return gdao.greportinsert(param);
     }

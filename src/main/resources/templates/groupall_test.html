@@ -80,7 +80,6 @@
     }
 
     .img {
-
         width: 40px;
         height: 40px;
         margin: 4px;
@@ -104,34 +103,27 @@
         margin-top: 19px;
         margin-left: 19px;
 
+
     }
 
-    #logoimg {
-        width: 135px;
-        height: 135px;
-        margin-left: 7px;
-        margin-top: 5px;
-    }
-
+  
     .selectBox {
-        width: 90px;
+        width: 103px;
         height: 40px;
         border: 1px solid blue;
         margin-bottom: 10px;
         margin-top: 28px;
         margin-left: 5px;
-
     }
 
     #top {
         border: 1px solid black;
         width: 100%;
         display: inline-block;
-        padding-left: 30px;
+        padding-left: 20px;
     }
 
     #select {
-
         float: left;
     }
 
@@ -141,7 +133,6 @@
         float: left;
         margin-top: 28px;
         margin-left: 20px;
-
     }
 
     #sbtn {
@@ -152,57 +143,114 @@
         margin-left: 10px;
     }
 
-    #notice {
-        width: 100%;
-        height: 90px;
-        border: 1px solid black;
-        text-align: center;
-
-    }
-
-    .post {
-        border: 1px solid gray;
-        border-radius: 10px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        padding: 10px;
-    }
-
-    .postFoot {
-        display: block;
-        height: 30px;
-    }
-
-    .right {
-        float: right;
-    }
-
-    .left {
+    .profileImg {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
         float: left;
     }
 
+    #profileFrame {
+        padding: 50px;
+    }
+
+    #idText {
+        margin-left: 50px;
+        margin-right: 50px;
+        float: left;
+    }
+
+    #myPostFrame {
+        padding-top: 18px;
+        padding-left: 150px;
+        padding-right: 150px;
+    }
+
+    .cardButton {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .card-body {
+        padding-bottom: 30px;
+    }
+
+    #postSelector {
+        margin-bottom: 10px;
+    }
+
+
+    .noLine {
+        text-decoration-line: none;
+    }
+
+
+    .dform {
+        display: inline;
+    }
+
+    #files {
+        display: none;
+    }
+
+
+    .hov {
+        text-align: center;
+        border: 2px solid darkgray;
+        background-color: white;
+        width: 147px;
+        height: 26px;
+        border-radius: 7px;
+        font-size: 16px
+
+    }
+
+    .defaulttag {
+        background-color: white;
+        border-color: white;
+        border-radius: 7px;
+    }
+
+    #profilechange {
+        display: inline-block;
+        margin-top: 5px;
+        margin-left: 32px;
+    }
+
+    #basicchange {
+        margin-left: 30px;
+    }
+
+    .photosave {
+        background-color: black;
+        color: white;
+        border-radius: 10px;
+        border-color: black;
+        display: none;
+    }
+
+
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+    .rsetbut{
+        background-color: white;
+        border: 1px solid green;
+        border-radius: 5px;
+        color: green;
+    }
     .postImg {
         width: 30px;
         height: 30px;
         margin-left: 40px;
-    }
-
-    .postFile {
-        object-fit: contain;
-        width: 300px;
-        height: 300px;
-    }
-
-    .slideContainer {
-        width: 300px;
-        height: 300px;
-        background-color: black;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     #cmtIcon {
         text-decoration-line: none;
+
     }
 
 </style>
@@ -218,21 +266,101 @@
 
             <form class="d-flex" role="search" action="gsearch" method="GET">
                 <select name="g_region" id="g_region">
+
+
+
                     <option value="">지역선택</option>
-                    <option value="서울">서울</option>
-                    <option value="수원">수원</option>
-                    <option value="성남">성남</option>
-                    <option value="안산">안산</option>
-                    <option value="부산">부산</option>
-                    <option value="화성">화성</option>
-                    <option value="인천">인천</option>
-                    <option value="광주">광주</option>
-                    <option value="강릉">강릉</option>
-                    <option value="제주">제주</option>
-                    <option value="포항">포항</option>
+                    <option value="서울특별시">서울특별시</option>
+                    <option value="인천광역시">인천광역시</option>
+                    <option value="대전광역시">대전광역시</option>
+                    <option value="광주광역시">광주광역시</option>
+                    <option value="대구광역시">대구광역시</option>
+                    <option value="울산광역시">울산광역시</option>
+                    <option value="부산광역시">부산광역시</option>
+                    <option value="수원시">수원시</option>
+                    <option value="고양시">고양시</option>
+                    <option value="과천시">과천시</option>
+                    <option value="광명시">광명시</option>
+                    <option value="광주시">광주시</option>
+                    <option value="구리시">구리시</option>
+                    <option value="군포시">군포시</option>
+                    <option value="김포시">김포시</option>
+                    <option value="남양주시">남양주시</option>
+                    <option value="동두천시">동두천시</option>
+                    <option value="부천시">부천시</option>
+                    <option value="성남시">성남시</option>
+                    <option value="시흥시">시흥시</option>
+                    <option value="안산시">안산시</option>
+                    <option value="안성시">안성시</option>
+                    <option value="안양시">안양시</option>
+                    <option value="양주시">양주시</option>
+                    <option value="오산시">오산시</option>
+                    <option value="용인시">용인시</option>
+                    <option value="의왕시">의왕시</option>
+                    <option value="의정부시">의정부시</option>
+                    <option value="이천시">이천시</option>
+                    <option value="파주시">파주시</option>
+                    <option value="평택시">평택시</option>
+                    <option value="포천시">포천시</option>
+                    <option value="하남시">하남시</option>
+                    <option value="화성시">화성시</option>
+                    <option value="강릉시">강릉시</option>
+                    <option value="동해시">동해시</option>
+                    <option value="삼척시">삼척시</option>
+                    <option value="속초시">속초시</option>
+                    <option value="원주시">원주시</option>
+                    <option value="춘천시">춘천시</option>
+                    <option value="태백시">태백시</option>
+                    <option value="제천시">제천시</option>
+                    <option value="청주시">청주시</option>
+                    <option value="충주시">충주시</option>
+                    <option value="계룡시">계룡시</option>
+                    <option value="공주시">공주시</option>
+                    <option value="논산시">논산시</option>
+                    <option value="보령시">보령시</option>
+                    <option value="서산시">서산시</option>
+                    <option value="아산시">아산시</option>
+                    <option value="천안시">천안시</option>
+                    <option value="군산시">군산시</option>
+                    <option value="김제시">김제시</option>
+                    <option value="남원시">남원시</option>
+                    <option value="익산시">익산시</option>
+                    <option value="전주시">전주시</option>
+                    <option value="정읍시">정읍시</option>
+                    <option value="광양시">광양시</option>
+                    <option value="나주시">나주시</option>
+                    <option value="목포시">목포시</option>
+                    <option value="순천시">순천시</option>
+                    <option value="여수시">여수시</option>
+                    <option value="경산시">경산시</option>
+                    <option value="경주시">경주시</option>
+                    <option value="구미시">구미시</option>
+                    <option value="김천시">김천시</option>
+                    <option value="문경시">문경시</option>
+                    <option value="상주시">상주시</option>
+                    <option value="안동시">안동시</option>
+                    <option value="영주시">영주시</option>
+                    <option value="영천시">영천시</option>
+                    <option value="포항시">포항시</option>
+                    <option value="거제시">거제시</option>
+                    <option value="김해시">김해시</option>
+                    <option value="마산시">마산시</option>
+                    <option value="밀양시">밀양시</option>
+                    <option value="사천시">사천시</option>
+                    <option value="양산시">양산시</option>
+                    <option value="진주시">진주시</option>
+                    <option value="진해시">진해시</option>
+                    <option value="창원시">창원시</option>
+                    <option value="통영시">통영시</option>
+                    <option value="서귀포시">서귀포시</option>
+                    <option value="제주시">제주시</option>
+
                 </select>
                 <input class="form-control me-2" type="search" placeholder="그룹 검색" aria-label="Search" name="search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <button class="btn btn-outline-success" type="submit"   >Search</button>
+                <a th:href="redirect" +referer>
+                    <button class="rsetbut">초기화</button>
+                </a>
             </form>
             <div th:each="post: ${gList}" th:id="${post.gno}" class="post">
                 <span th:text="${postStat.count}"></span>
@@ -252,6 +380,9 @@
                 <a th:if="${id==post.g_id}" th:href="@{delmembergroup(gno=${post.gno})}">
                     <img class="postImg report" src="img/del.png">
                 </a>
+
+                 <a th:attr="gno=${post.gno}" onclick="joinck(this.getAttribute('gno'))"><button >그룹 명단 보기</button></a>
+
             </div>
 
 
@@ -277,6 +408,14 @@
     </nav>
 </div>
 </body>
+<script>
+    function joinck(gno) {
+        let popOption = "width=450px, height=400px, top=100px, right=30%, scrollbars=yes";
+        console.log(gno);
+        let openUrl = '/grouppopup?gno=' + gno;
+        window.open(openUrl, 'pop', popOption);
+    }
+</script>
 
 <script th:inline="javascript">
     var id = [[${session.userid}]]
@@ -323,22 +462,7 @@
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data) {
 
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
     $(document).on('click', '#gjoinck', function (event) {
         event.preventDefault();
@@ -351,9 +475,9 @@
             success: function (data) {
                 console.log(data);
                 if (data == 0) {
-                    alert("가입 되었습니다.");
+                    alert("가입 승인 대기 상태 입니다.");
                 } else if (data == 1) {
-                    alert("이미 가입 되었거나 대기 상태 입니다.");
+                    alert("이미 가입 되었습니다.");
                 }
             },
             error: function (request, status, error) {

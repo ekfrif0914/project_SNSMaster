@@ -276,9 +276,11 @@
         <div id="menu">
             <a href="snsMaster"  class="btnimg"> <img src="img/home.png" class="img"></a>
 
-            <a  th:href="@{groupinput(gno=${gno})}"  class="btnimg"> <img src="img/plus.png" class="img"></a>
+
+            <a  th:href="@{groupinput(gno=${gpvo.gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
             <a href="gList"  class="btnimg"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage"  class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+
         </div>
     </nav>
 </div>
@@ -336,62 +338,8 @@
 
     });
 
-    // $(".likeBtn").on("click", (event) => {
-    //     var no = event.target.id;
-    //     var id = [[${session.userid}]];
-    //     $.ajax({
-    //         type: "post",
-    //         async: false,
-    //         url: "http://localhost:8080/postLike",
-    //         data: {no: no, id: id},
-    //         success: function (data){
-    //
-    //         },
-    //         error: function (request, status, error) { // 결과 에러 콜백함수
-    //             console.log(error)
-    //         }
-    //     })
-    // })
 
 
-
-
-
-
-
-    //
-    // $(".likeBtn").click(function () {
-    //     $('#jb').attr("type", "button");
-    //     var id = $("#id").val();
-    //     if (idChk()) {
-    //         $.ajax({
-    //             type: "get",
-    //             async: false,
-    //             url: "http://localhost:8080/idCheck",
-    //             data: {id: id},
-    //             success: function (data) {
-    //                 if (data == 1) {
-    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
-    //                     $("#noticeId").css("color", "red");
-    //                     isIdChecked = false;
-    //                     console.log(isIdChecked)
-    //                 } else {
-    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
-    //                     $("#noticeId").css("color", "blue");
-    //                     //$("#signup").attr("type", "submit");
-    //                     isIdChecked = true;
-    //                     console.log(isIdChecked)
-    //                 }
-    //             },
-    //             error: function (request, status, error) { // 결과 에러 콜백함수
-    //                 console.log(error)
-    //             }
-    //
-    //         })
-    //     } else {
-    //         alert("형식을 지키세요")
-    //     }
-    // });
 
 </script>
 </html>

@@ -52,18 +52,14 @@ public class GroupController {
     public String membergroupinput(HttpServletRequest request, Model model) {
         String referer = request.getHeader("referer");
         model.addAttribute("referer", referer);
-        System.out.println(referer);
         return "membergroup_test";
     }
 
     @RequestMapping(value = "/membergroupinputSave", method = RequestMethod.POST)//그룹만들기
     public String membergroupinputSave(@RequestParam("referer") String referer, @ModelAttribute MemberGroupVO mgvo, HttpSession session, HttpServletRequest request ) throws Exception {
         mgvo.setG_id((String) session.getAttribute("userid"));
-        System.out.println(mgvo.toString());
-        System.out.println(referer);
         gservice.mginsert(mgvo);
          return "redirect:" + referer;
-       // return "membergroup_test";
     }
     @ResponseBody
     @RequestMapping(value = "/groupjoin", method = RequestMethod.GET) //그룹에 가입
@@ -113,23 +109,30 @@ public class GroupController {
 
 
 
+
     @GetMapping("/gList")//그룹 전체보기
     public String gList(Model model, HttpSession session) throws Exception {
         String id = (String) session.getAttribute("userid");
         model.addAttribute("id", id);
+        System.out.println(id);
         List<MemberGroupVO> gList = gservice.gList();
         model.addAttribute("gList", gList);
         return "groupall_test";
     }
 
     @GetMapping("/gsearch")// 그룹 전체보기 검색
-    public String search(@RequestParam("search") String search, @RequestParam String g_region, Model model) throws Exception {
+    public String search(@RequestParam("search") String search, @RequestParam String g_region, Model model, HttpSession session
+     ,HttpServletRequest request) throws Exception {
+        String id = (String) session.getAttribute("userid");
+        model.addAttribute("id", id);
         System.out.println(g_region);
         System.out.println(search);
         HashMap<String, String> param = new HashMap<>();
         param.put("search", search);
         param.put("g_region", g_region);
         model.addAttribute("gList", gservice.search(param));
+        String referer = request.getHeader("referer");
+        model.addAttribute("referer", referer);
         return "groupall_test";
     }
 
@@ -193,11 +196,14 @@ public class GroupController {
         param.put("gno", gno);
         param.put("id", id);
         model.addAttribute("gjoinList", gservice.gjoinList(param));
+     
         model.addAttribute("gjsize", gservice.gjoinList(param).size());
         model.addAttribute("mgList", gservice.mgList(param));
         model.addAttribute("mgsize", gservice.mgList(param).size());
+
         List<GroupPostVO> gpList = gservice.gpList(gno);
         List<G_joinVO> gjList = gservice.gjList(gno);
+
         System.out.println(gpList);
         model.addAttribute("gpList", gpList);
         System.out.println(gjList);
@@ -217,15 +223,25 @@ public class GroupController {
         return "groupmy_test";
     }
 
+    @GetMapping("/grouppopup")
+    public String groupppopup(String gno, Model model)throws Exception{
+        System.out.println(gno);
+        model.addAttribute("gno", gno);
+        List<GroupJoinVO>gjoinpopList = gservice.gjoinpopList(gno);
+        model.addAttribute("gjoinpopList", gjoinpopList);
+        System.out.println(gjoinpopList);
+        return "groupPopup";
+    }
 
-    @RequestMapping(value = "/group", method = RequestMethod.GET)
+
+    /*@RequestMapping(value = "/group", method = RequestMethod.GET)
     public String home(HttpSession session, Model model,HttpServletRequest request) {
         String id = (String) session.getAttribute("userid");
         model.addAttribute("id", id);
         String referer = request.getHeader("referer");
         //return "grouphome_test";
         return "redirect:" + referer;
-    }
+    }*/
 
     @RequestMapping(value = "/delgroup", method = RequestMethod.GET)//게시글 삭제
     public String delgroup(@RequestParam("gno") String gno, @RequestParam("g_no") int g_no, HttpServletRequest request) throws Exception {
