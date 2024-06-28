@@ -272,18 +272,19 @@
                 <a class="noLine" th:href="@{/myinfoPage(id=${userid})}">
                     <button>내 정보 관리</button>
                 </a>
-                    <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
-                        팔로우<span th:text="${myfollowCount}"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li th:each="follow :${myfollowList}"><a class="dropdown-item" href="#"><span th:text="${follow}"></span></a></li>
-                    </ul>
+                <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
+                    팔로우<span th:text="${myfollowCount}"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li th:each="follow :${myfollowList}"><a class="dropdown-item" th:href="@{yourPage(id=${follow})}"><span th:text="${follow}"></span></a></li>
+                </ul>
                 <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
                     팔로잉<span th:text="${myfollowingCount}"></span>
                 </a>
                 <ul  class="dropdown-menu">
-                    <li th:each="following :${myfollowingList}"><a class="dropdown-item" href="#"><span th:text="${following}"></span></a></li>
+                    <li th:each="following :${myfollowingList}"><a class="dropdown-item" th:href="@{yourPage(id=${following})}"><span th:text="${following}"></span></a></li>
                 </ul>
+
 
             </div>
             <br>

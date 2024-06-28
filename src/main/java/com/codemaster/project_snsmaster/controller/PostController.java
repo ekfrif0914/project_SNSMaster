@@ -6,6 +6,7 @@ import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 
 import com.codemaster.project_snsmaster.util.FileDataUtil;
+import com.codemaster.project_snsmaster.vo.FollowVO;
 import com.codemaster.project_snsmaster.vo.PostCommentVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -307,6 +308,4 @@ public class PostController {
         }
         return postMap;
     }
-
-
 }

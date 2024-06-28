@@ -165,7 +165,7 @@
 
     search:hover,
     search:focus {
-        box-shadow: 0 4px 10px rgba(O, O, O, O .2); /* 마우스 호버 또는 포커스 시 그림자 효과 강화 */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0); /* 마우스 호버 또는 포커스 시 그림자 효과 강화 */
     }
 
     search::placeholder {
@@ -325,9 +325,8 @@
 <input type="button" value="엑셀다운" id="excelDownload" class="download">
 
 
-<div class="post" style="display: block;">
+<div class="post" style="display:none;" id="jungtae">
     <b id="pp"></b>
-    <a href="#">팔로우</a>
     <span id="ab"></span>위반한단어:<span id="abc"></span>
     <span class="right">
     <a id="link">
@@ -446,6 +445,12 @@
 
 <script>
     function look(n, i) {
+        var post=document.getElementById("jungtae")
+        if(post.style.display==="block"){
+            post.display="none";
+        }else{
+            post.style.display="block";
+        }
         var no = n
         var id = i
         $.ajax({

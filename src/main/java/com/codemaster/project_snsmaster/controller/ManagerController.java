@@ -208,7 +208,7 @@ public class ManagerController {
         a.put("post", groupService.gpselect(no));
         return a;
     }
-
+    @ResponseBody
     @GetMapping(value = "/like Notification")
     public void postInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
@@ -220,10 +220,11 @@ public class ManagerController {
     }
     @ResponseBody
     @GetMapping(value = "/comment Notification")
-    public void commentInput(@RequestParam String content,@RequestParam String userid) {
+    public void commentInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("userid",userid);
         data.put("content", content);
+        data.put("urll", urll);
         manager.Notification(data);
     }
     @ResponseBody
