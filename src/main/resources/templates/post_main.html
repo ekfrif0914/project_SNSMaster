@@ -205,19 +205,28 @@
     .fTitle {
         font-size: 20px;
     }
-    #Notification{
+
+    #Notification {
         width: 135px;
         height: 135px;
         margin-left: 7px;
         margin-top: 5px;
     }
 
-    .noticeList, .festivalList, .weathers{
+    .noticeList, .festivalList, .weathers {
         display: none;
     }
 
-    .show, .showFestival, .showWeather{
+    .show, .showFestival, .showWeather {
         display: block;
+    }
+
+    .profileImg{
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        float: left;
+        border-radius: 70%;
     }
 
 
@@ -235,9 +244,91 @@
                 <form action="postSearch" method="get">
                     <div id="select">
                         <select class="selectBox" name="region" id="region" onchange="">
-                            <option value=""><span>지역선택 </span></option>
-                            <option value="서울"><span>서울 </span></option>
-                            <option value="수원"><span>수원 </span> </span></option>
+                            <option value="">지역선택</option>
+                            <option value="서울특별시">서울특별시</option>
+                            <option value="인천광역시">인천광역시</option>
+                            <option value="대전광역시">대전광역시</option>
+                            <option value="광주광역시">광주광역시</option>
+                            <option value="대구광역시">대구광역시</option>
+                            <option value="울산광역시">울산광역시</option>
+                            <option value="부산광역시">부산광역시</option>
+                            <option value="수원시">수원시</option>
+                            <option value="고양시">고양시</option>
+                            <option value="과천시">과천시</option>
+                            <option value="광명시">광명시</option>
+                            <option value="광주시">광주시</option>
+                            <option value="구리시">구리시</option>
+                            <option value="군포시">군포시</option>
+                            <option value="김포시">김포시</option>
+                            <option value="남양주시">남양주시</option>
+                            <option value="동두천시">동두천시</option>
+                            <option value="부천시">부천시</option>
+                            <option value="성남시">성남시</option>
+                            <option value="시흥시">시흥시</option>
+                            <option value="안산시">안산시</option>
+                            <option value="안성시">안성시</option>
+                            <option value="안양시">안양시</option>
+                            <option value="양주시">양주시</option>
+                            <option value="오산시">오산시</option>
+                            <option value="용인시">용인시</option>
+                            <option value="의왕시">의왕시</option>
+                            <option value="의정부시">의정부시</option>
+                            <option value="이천시">이천시</option>
+                            <option value="파주시">파주시</option>
+                            <option value="평택시">평택시</option>
+                            <option value="포천시">포천시</option>
+                            <option value="하남시">하남시</option>
+                            <option value="화성시">화성시</option>
+                            <option value="강릉시">강릉시</option>
+                            <option value="동해시">동해시</option>
+                            <option value="삼척시">삼척시</option>
+                            <option value="속초시">속초시</option>
+                            <option value="원주시">원주시</option>
+                            <option value="춘천시">춘천시</option>
+                            <option value="태백시">태백시</option>
+                            <option value="제천시">제천시</option>
+                            <option value="청주시">청주시</option>
+                            <option value="충주시">충주시</option>
+                            <option value="계룡시">계룡시</option>
+                            <option value="공주시">공주시</option>
+                            <option value="논산시">논산시</option>
+                            <option value="보령시">보령시</option>
+                            <option value="서산시">서산시</option>
+                            <option value="아산시">아산시</option>
+                            <option value="천안시">천안시</option>
+                            <option value="군산시">군산시</option>
+                            <option value="김제시">김제시</option>
+                            <option value="남원시">남원시</option>
+                            <option value="익산시">익산시</option>
+                            <option value="전주시">전주시</option>
+                            <option value="정읍시">정읍시</option>
+                            <option value="광양시">광양시</option>
+                            <option value="나주시">나주시</option>
+                            <option value="목포시">목포시</option>
+                            <option value="순천시">순천시</option>
+                            <option value="여수시">여수시</option>
+                            <option value="경산시">경산시</option>
+                            <option value="경주시">경주시</option>
+                            <option value="구미시">구미시</option>
+                            <option value="김천시">김천시</option>
+                            <option value="문경시">문경시</option>
+                            <option value="상주시">상주시</option>
+                            <option value="안동시">안동시</option>
+                            <option value="영주시">영주시</option>
+                            <option value="영천시">영천시</option>
+                            <option value="포항시">포항시</option>
+                            <option value="거제시">거제시</option>
+                            <option value="김해시">김해시</option>
+                            <option value="마산시">마산시</option>
+                            <option value="밀양시">밀양시</option>
+                            <option value="사천시">사천시</option>
+                            <option value="양산시">양산시</option>
+                            <option value="진주시">진주시</option>
+                            <option value="진해시">진해시</option>
+                            <option value="창원시">창원시</option>
+                            <option value="통영시">통영시</option>
+                            <option value="서귀포시">서귀포시</option>
+                            <option value="제주시">제주시</option>
                         </select>
                         <select class="selectBox" name="category" id="category" onchange="">
                             <option value=""><span>카테고리 </span></option>
@@ -250,76 +341,87 @@
                 </form>
             </div>
             <div id="notice">
-                <span th:each="notice : ${noticeList}" th:text="'[공지] ' + ${notice}" th:attr="class=${noticeStat.index==0 ? 'noticeList show' : 'noticeList'}"></span><br>
-                <span th:each="festivalMap : ${festivalMapList}" th:attr="class=${festivalMapStat.index==0 ? 'festivalList showFestival' : 'festivalList'}">
+                <span th:each="notice : ${noticeList}" th:text="'[공지] ' + ${notice}"
+                      th:attr="class=${noticeStat.index==0 ? 'noticeList show' : 'noticeList'}"></span><br>
+                <span th:each="festivalMap : ${festivalMapList}"
+                      th:attr="class=${festivalMapStat.index==0 ? 'festivalList showFestival' : 'festivalList'}">
                     <b class="fTitle" th:text="'[경남 창녕] '+${festivalMap.name}"></b><br>
                     <span th:text="'기 간: '+${festivalMap.period}"></span><br>
                     <span th:text="'장 소: '+${festivalMap.place}"></span><br>
                     <span th:text="'주 관: '+${festivalMap.sponsor}"></span>
                 </span>
-                <span th:each="region : ${regions}" th:attr="class=${regionStat.index==0 ? 'weathers showWeather' : 'weathers'}">
+                <span th:each="region : ${regions}"
+                      th:attr="class=${regionStat.index==0 ? 'weathers showWeather' : 'weathers'}">
                     <input type="hidden" class="city" placeholder="Enter city name" th:value="${region}">
                     <div class="weatherResult"></div>
                 </span>
             </div>
-            <div th:each="post : ${posts}" class="post" th:id="${post.no}">
-                <b th:text="${post.id}" class="postid"></b>
-                <th:block th:if="${session.userid!=null}">
-                    <th:block th:if="${post.followstate}">
-                        <button type="button" class="follow">팔로우 취소</button>
-                    </th:block>
-                    <th:block th:unless="${post.followstate}">
-                        <button th:if="${session.userid!=post.id}" class="follow" type="button">팔로우</button>
-                    </th:block>
-                </th:block>
 
-                <span class="right">
-                    <span th:if="${session.userid==post.id}">
-                        <a th:href="@{postMod(no=${post.no})}">수정</a>
-                        <a th:href="@{postDelete(no=${post.no})}">삭제</a>
+            <div id="postFrame">
+                <div th:each="postMap : ${postMaps}" class="post" th:id="${postMap['post'].no}">
+                    <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
+                  <th:block th:if="${session.userid==postMap['post'].id}">
+                   <a href="myPage">  <b th:text="${postMap['post'].id}" class="postid"></b></a>
+                         </th:block>
+                   <th:block th:unless="${session.userid==postMap['post'].id}">
+                   <a th:href="@{yourPage(id=${postMap['post'].id})}">  <b th:text="${postMap['post'].id}" class="postid"></b></a>
+                         </th:block>
+                    <th:block th:if="${session.userid!=null}">
+                        <th:block th:if="${postMap['post'].followstate}">
+                            <button type="button" class="follow">팔로우 취소</button>
+                        </th:block>
+                        <th:block th:unless="${postMap['post'].followstate}">
+                            <button th:if="${session.userid!=postMap['post'].id}" class="follow" type="button">팔로우</button>
+                        </th:block>
+
+                    <span class="right">
+                    <span th:if="${session.userid==postMap['post'].id}">
+                        <a th:href="@{postMod(no=${postMap['post'].no})}">수정</a>
+                        <a th:href="@{postDelete(no=${postMap['post'].no})}">삭제</a>
                     </span>
-                    <a th:href="@{postDetail(no=${post.no})}">자세히보기</a>
+                    <a th:href="@{postDetail(no=${postMap['post'].no})}">자세히보기</a>
                 </span><br>
-                <span th:text="${post.region}"></span>
-                <span th:text="${post.category}"></span>
-                <br>
-                <hr>
-                <b th:text="${post.title}"></b><br>
-                <div th:if="${post.file_name[0]} != null" th:id="carouselExample+${postStat.index}"
-                     class="carousel slide slideContainer">
-                    <div class="carousel-inner">
-                        <div th:each="fname : ${post.file_name}" th:if="${fname} != null"
-                             th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
-                            <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
+                    <span th:text="${postMap['post'].region}"></span>
+                    <span th:text="${postMap['post'].category}"></span>
+                    <br>
+                    <hr>
+                    <b th:text="${postMap['post'].title}"></b><br>
+                    <div th:if="${postMap['post'].file_name[0]} != null" th:id="carouselExample+${postMapStat.index}"
+                         class="carousel slide slideContainer">
+                        <div class="carousel-inner">
+                            <div th:each="fname : ${postMap['post'].file_name}" th:if="${fname} != null"
+                                 th:attr="class=${fnameStat.index == 0 ? 'fileContainer carousel-item active' : 'fileContainer carousel-item'}">
+                                <img th:src="@{download(filename=${fname})}" class="d-block w-100 postFile" alt="...">
+                            </div>
                         </div>
+                        <button class="carousel-control-prev" type="button"
+                                th:data-bs-target="'#carouselExample'+${postMapStat.index}" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                                th:data-bs-target="'#carouselExample'+${postMapStat.index}" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button class="carousel-control-prev" type="button"
-                            th:data-bs-target="'#carouselExample'+${postStat.index}" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button"
-                            th:data-bs-target="'#carouselExample'+${postStat.index}" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <br>
-                <span th:text="${post.content}"></span><br>
-                <span class="postFoot">
-                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${post.no})}">
+                    <br>
+                    <span th:text="${postMap['post'].content}"></span><br>
+                    <span class="postFoot">
+                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${postMap['post'].no})}">
                         <img class="postImg" src="img/chat.png">
                         <span th:each="cmt:${comments}">
-                            <span th:if="${cmt.NO==post.no}" th:text="${cmt.cnt}"></span>
+                            <span th:if="${cmt.NO==postMap['post'].no}" th:text="${cmt.cnt}"></span>
                         </span>
                     </a>
                 <img class="postImg report" src="img/siren.png">
                 <span class="right">
                     <img class="likeBtn postImg"
-                         th:attr="src = ${post.isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
-                    <span th:text="${post.good}"></span>
+                         th:attr="src = ${postMap['post'].isLike ? 'img/filledHearts.png' : 'img/heart.png'}">
+                    <span th:text="${postMap['post'].good}"></span>
                 </span>
                 </span>
+                </div>
             </div>
             <div id="show">
                 <th:block th:if="${session.userid!=null}">
@@ -372,16 +474,16 @@
         area.appendChild(button)
     }
 
-    $(window).on('load', function() {
+    $(window).on('load', function () {
         var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841'; // 여기에 자신의 OpenWeatherMap API 키를 입력하세요
-        for(let i = 0; i < $('.weathers').length; i++){
+        for (let i = 0; i < $('.weathers').length; i++) {
             var city = $('.city').eq(i).val();
             console.log(city);
             var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
             $.ajax({
                 url: apiUrl,
                 method: 'GET',
-                success: function(data) {
+                success: function (data) {
                     var iconCode = data.weather[0].icon;
                     var iconUrl = "http://openweathermap.org/img/wn/" + iconCode + ".png";
                     var weatherData = `
@@ -394,7 +496,7 @@
             `;
                     $('.weatherResult').eq(i).html(weatherData);
                 },
-                error: function(error) {
+                error: function (error) {
                     $('.weatherResult').eq(i).html('<p>An error occurred</p>');
                 }
             });
@@ -424,7 +526,8 @@
         var userid = postElement.find('b:eq(0)').text()
         var no = event.target.parentElement.parentElement.parentElement.id
         var id = [[${session.userid}]];
-        if(id!=null){
+
+        if (id != null) {
             console.log(userid);
 
             $.ajax({
@@ -433,18 +536,19 @@
                 url: "postLike",
                 data: {no: no, id: id},
 
-                success: function (data){
-                    if(data.isLike){
-                        event.target.src="img/filledHearts.png"
-                        var content=id+"님이 좋아요를 눌렀습니다!"
-                        var urll="http://localhost:8080/postDetail?no="+no
+                success: function (data) {
+                    if (data.isLike) {
+                        event.target.src = "img/filledHearts.png"
+                        var content = id + "님이 좋아요를 눌렀습니다!"
+                        var urll = "http://localhost:8080/postDetail?no=" + no
                         console.log(urll);
                         console.log(content);
                         $.ajax({
                             type: "get",
                             url: "like Notification",
-                            data: {userid: userid, content: content,urll:urll},
-                            success: function(){
+                            data: {userid: userid, content: content, urll: urll},
+                            success: function () {
+
                                 console.log("야호")
                             }, error: function (error) {
                                 console.log(error)
@@ -465,15 +569,15 @@
 
     $(".report").on("click", (event) => {
         var id = [[${session.userid}]];
-        if(id != null){
+        if (id != null) {
             var no = event.target.parentElement.parentElement.id
             $.ajax({
                 type: "post",
                 async: false,
                 url: "postReport",
                 data: {no: no, id: id},
-                success: function (data){
-                    if(data){
+                success: function (data) {
+                    if (data) {
                         alert("이미 신고한 게시글입니다.")
                     } else {
                         alert("신고하였습니다.")
@@ -490,7 +594,7 @@
 
     setInterval(() => {
         var target = $('.show');
-        if(target.next('.noticeList').length == 0){
+        if (target.next('.noticeList').length == 0) {
             target.attr("class", "noticeList");
             $('.noticeList:eq(0)').attr("class", "noticeList show");
         } else {
@@ -507,7 +611,7 @@
 
     setInterval(() => {
         var target = $('.showFestival');
-        if(target.next('.festivalList').length == 0){
+        if (target.next('.festivalList').length == 0) {
             target.attr("class", "festivalList");
             $('.festivalList:eq(0)').attr("class", "festivalList showFestival");
         } else {
@@ -524,7 +628,7 @@
 
     setInterval(() => {
         var target = $('.showWeather');
-        if(target.next('.weathers').length == 0){
+        if (target.next('.weathers').length == 0) {
             target.attr("class", "weathers");
             $('.weathers:eq(0)').attr("class", "weathers showWeather");
         } else {
@@ -544,8 +648,8 @@
         const useridd = [[${session.userid}]];
         $.ajax({
             type: "GET",
-            url:"/notification state",
-            data: { id: useridd },
+            url: "/notification state",
+            data: {id: useridd},
             success: function (state) {
                 console.log("야호");
                 if (state > 0) {
@@ -557,13 +661,15 @@
             }
         });
     });
-    function notification(){
-        let a= [[${session.userid}]];
-        location.href="notification?id="+a
+
+
+    function notification() {
+        let a = [[${session.userid}]];
+        location.href = "notification?id=" + a
     }
 
     $(".follow").on("click", (event) => {
-        var followid = event.target.previousElementSibling.innerHTML;
+        var followid = event.target.previousElementSibling.firstElementChild.innerHTML
         console.log(followid);
         var userid = [[${session.userid}]];
         console.log(userid);
@@ -580,7 +686,7 @@
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {
-                            postidstag.item(i).nextElementSibling.innerHTML = "팔로우 취소"
+                            postidstag.item(i).parentElement.nextElementSibling.innerHTML = "팔로우 취소"
                         }
                     }
 
@@ -589,7 +695,7 @@
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {
-                            postidstag.item(i).nextElementSibling.innerHTML = "팔로우"
+                            postidstag.item(i).parentElement.nextElementSibling.innerHTML = "팔로우"
                         }
                     }
                 }
@@ -600,6 +706,20 @@
         })
     })
 
+    var count = 0;
+    //스크롤 바닥 감지
+    $('.title').on('scroll', function (event){
+        //추가되는 임시 콘텐츠
+        //window height + window scrollY 값이 document height보다 클 경우,
+        console.log(document.querySelector('.title').scrollHeight, document.querySelector('.title').scrollY, window.innerHeight);
+        if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            //실행할 로직 (콘텐츠 추가)
+            count++;
+            var addContent = '<div class="block"><p>'+ count +'번째로 추가된 콘텐츠</p></div>';
+            //article에 추가되는 콘텐츠를 append
+            $('#postFrame').append(addContent);
+        }
+    });
 
 </script>
 </html>

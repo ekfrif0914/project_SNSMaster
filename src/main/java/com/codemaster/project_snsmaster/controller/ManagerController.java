@@ -99,7 +99,6 @@ public class ManagerController {
     }
 
 
-
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchcell") String searchcell,
                          @RequestParam("search") String search, Model model) throws Exception {
@@ -159,45 +158,50 @@ public class ManagerController {
     }
 
 
-  @RequestMapping(value = "fordelete", method = RequestMethod.GET)
-   public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
-      List<String> list = Arrays.asList(no);
-       manager.fordelete(list);
-       List<PostVO>allList=manager.postreport();
-       model.addAttribute("all", allList);
-       return "Manager.Main";
+    @RequestMapping(value = "fordelete", method = RequestMethod.GET)
+    public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
+        List<String> list = Arrays.asList(no);
+        manager.fordelete(list);
+        List<PostVO> allList = manager.postreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main";
     }
+
     @RequestMapping(value = "fordelete2", method = RequestMethod.GET)
     public String fordelete2(Model model, @RequestParam("no") String[] no) throws Exception {
         List<String> list = Arrays.asList(no);
         manager.fordelete2(list);
-        List<GroupPostVO>allList=manager.groupreport();
+        List<GroupPostVO> allList = manager.groupreport();
         model.addAttribute("all", allList);
         return "Manager.Main2";
     }
-    @RequestMapping(value="StopAND",method=RequestMethod.GET)
-    public String StopAND(Model model,@RequestParam("no")String no,@RequestParam("id")String id)throws Exception{
-       model.addAttribute("no",no);
-       model.addAttribute("id",id);
-       return "StopANDdelete";
+
+    @RequestMapping(value = "StopAND", method = RequestMethod.GET)
+    public String StopAND(Model model, @RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        model.addAttribute("no", no);
+        model.addAttribute("id", id);
+        return "StopANDdelete";
     }
+
     @RequestMapping(value = "stopdeleteinput", method = RequestMethod.GET)
-    public String stopinput2(@ModelAttribute StopMemberVO stop,@RequestParam int no) throws Exception {
+    public String stopinput2(@ModelAttribute StopMemberVO stop, @RequestParam int no) throws Exception {
         System.out.println(stop.toString());
         manager.stopinsert(stop);
         manager.delete2(no);
         return "redirect:managerMode";
     }
+
     @ResponseBody
     @RequestMapping(value = "look", method = RequestMethod.GET)
     public HashMap<String, Object> look(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
         PostVO look = manager.selectpost(Integer.parseInt(no));
-       HashMap<String, Object> a = new HashMap<>();
+        HashMap<String, Object> a = new HashMap<>();
         a.put("id", id);
         a.put("no", look);
         a.put("post", postService.selectOne(no));
         return a;
     }
+
     @ResponseBody
     @RequestMapping(value = "look2", method = RequestMethod.GET)
     public HashMap<String, Object> look2(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
@@ -208,35 +212,39 @@ public class ManagerController {
         a.put("post", groupService.gpselect(no));
         return a;
     }
+
     @ResponseBody
     @GetMapping(value = "/like Notification")
-    public void postInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+    public void postInput(@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
         System.out.println(urll);
-        data.put("userid",userid);
+        data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
         manager.Notification(data);
     }
+
     @ResponseBody
     @GetMapping(value = "/comment Notification")
     public void commentInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("userid",userid);
+        data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
         manager.Notification(data);
     }
+
     @ResponseBody
     @GetMapping(value = "/notification state")
     public int commentState(@RequestParam String id) {
-        int state=manager.statecount(id);
-     System.out.println(state);
-     return state;
+        int state = manager.statecount(id);
+        System.out.println(state);
+        return state;
     }
-    @GetMapping(value="notification")
-     public String notification(@RequestParam String id,Model model) {
-    List<String>allList=manager.notificationlook(id);
+
+    @GetMapping(value = "notification")
+    public String notification(@RequestParam String id, Model model) {
+        List<String> allList = manager.notificationlook(id);
         manager.notifi(id);
         model.addAttribute("all", allList);
         return "Notification";

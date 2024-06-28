@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="kor">
 
@@ -74,43 +77,23 @@
         width: 40px;
         height: 40px;
         margin: 4px;
-
+        margin-left: 160px;
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
-
-
-    }
-
-    .btnimg {
         margin-left: 160px;
-    }
-
-    #login {
-        margin-top: 13px;
-        margin-left: 12px;
-    }
-
-    #logout {
-        margin-top: 13px;
-        margin-left: 5px;
-    }
-    #logoimg {
-        width: 135px;
-        height: 135px;
-        margin-left: 7px;
-        margin-top: 5px;
-    }
-    .m {
-        width: 55px;
-        height: 55px;
-        margin-top: 19px;
-        margin-left: 19px;
 
     }
+
+    #m {
+        width: 50px;
+        height: 50px;
+        margin: 20px;
+    }
+
     .selectBox {
         width: 90px;
         height: 40px;
@@ -160,7 +143,7 @@
 
     .post {
         border: 1px solid gray;
-        border-radius: 10px;
+        border-radius: 5px;
         margin-top: 10px;
         margin-bottom: 10px;
         padding: 10px;
@@ -202,49 +185,29 @@
     #cmtIcon{
         text-decoration-line: none;
     }
-    .modback {
-        width: 60px;
-        height: 60px;
-        margin-left: 0px;
+    .rsetbut{
+        background-color: white;
+        border: 1px solid green;
+        border-radius: 5px;
+        color: green;
     }
 
 </style>
 
 <body>
-<div class="title">
-    <div class="all">
-        <div id="logo">
-            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
-        </div>
-        <div id="change">
+
+        <div >
+            <span><h1>그룹 명단</h1></span>
+
+
+            <div th:each="post: ${gjoinpopList}" th:id="${post.gno}" class="post">
+
+                <span th:text="${postStat.count}"></span>
+                <span th:text="${post.id}"></span>
+            </div>
 
 
 
-
-
-            <a href="gList"> <img class="modback report" src="img/back.png"> </a>
-            <table>
-                <tbody th:each="post: ${gjoList}">
-
-                <tr>
-                    <td><input type="hidden" value="${post.gno}"></td>
-                    <td>그룹번호</td>
-                    <td th:text="${post.gno}"></td>
-                </tr>
-                <tr>
-                    <td>아이디</td>
-                    <td th:text="${post.id}"></td>
-                </tr>
-                <tr>
-                    <td><a th:href="@{groupjoinmember(gno=${post.gno},id=${post.id},wait_no=${post.wait_no})}">
-                        <button>수락</button>
-                    </a></td>
-                    <td><a th:href="@{delgroupjoinmember(wait_no=${post.wait_no},gno=${post.gno})}">
-                        <button>거부</button>
-                    </a></td>
-                </tr>
-                </tbody>
-            </table>
 
 
 
@@ -260,72 +223,6 @@
                     <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
             </div>
         </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m" class="m">
-            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
-        </div>
-    </div>
-    <nav class="navbar fixed-bottom bg-body-tertiary">
-        <div id="menu">
-            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
 
-            <a href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
-        </div>
-    </nav>
-</div>
 </body>
-
-<script th:inline="javascript">
-    var id = [[${session.userid}]]
-    if (id != null) {//로그인 되어있으면
-        console.log(id)
-        $("#login").remove()
-        let area = document.getElementById("mmode");
-        var button = document.createElement("button")
-        button.id = "logout"
-        button.type = button
-        button.className = "btn btn-primary"
-        button.innerHTML = "로그아웃"
-        button.style = "font-size: 15px"
-        area.appendChild(button)
-
-    } else {//로그아웃 되어있으면
-        $('#logout').remove()
-        console.log(id)
-        let area = document.getElementById("mmode");
-        var button = document.createElement("button")
-        button.id = "login"
-        button.type = button
-        button.className = "btn btn-primary"
-
-        button.innerHTML = "로그인"
-        area.appendChild(button)
-    }
-
-</script>
-<script th:inline="javascript">
-    $('#login').on('click', () => {
-        location.href = 'loginForm'
-    });
-
-    $('#logout').on('click', () => {
-        location.href = 'logout'
-    });
-
-    $('#m').on('click', () => {
-        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
-
-
-    });
-
-
-
-
-
-
-</script>
 </html>

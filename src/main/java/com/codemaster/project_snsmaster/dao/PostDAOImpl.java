@@ -166,4 +166,9 @@ public class PostDAOImpl implements IF_PostDAO{
         return sqlSession.selectList(mapperQuery+".selectAllNotice");
     }
 
+    @Override
+    public String selectProfileImg(String id) throws Exception {
+        return sqlSession.selectOne(mapperQuery+".selectProfileImg", id);
+    }
+
 }

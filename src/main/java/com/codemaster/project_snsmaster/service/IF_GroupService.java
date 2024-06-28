@@ -60,7 +60,10 @@ public interface IF_GroupService {
    public List<GroupPostVO> gpsearch(HashMap<String, String> param) throws Exception;
 
     public List<GroupJoinVO> gjoinList(HashMap<String, String> param) throws Exception;
+
     public List<MemberGroupVO> mgList(HashMap<String, String> param) throws Exception;
+
+   public List<GroupJoinVO> gjoinpopList(String gno) throws Exception;
 
     public Object greport(HashMap<String, String> param) throws Exception;
 
@@ -87,6 +90,8 @@ public interface IF_GroupService {
     public int joinmb(HashMap<Object, Object> gmjoin) throws Exception;
 
    public void joininsert(HashMap<Object, Object> joininsert)throws Exception;
+
+
 
 
     //int reportsaveselect(int gNo, String id);

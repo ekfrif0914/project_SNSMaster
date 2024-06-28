@@ -56,5 +56,7 @@ public interface IF_AdminService {
 
     public List<String> myfollowList (String id) throws Exception;
 
+    public int isFollowing(FollowVO fvo)throws Exception;
+
 
 }
