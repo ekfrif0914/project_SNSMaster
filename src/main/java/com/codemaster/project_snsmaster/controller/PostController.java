@@ -315,6 +315,7 @@ public class PostController {
         return postMap;
     }
 
+
     @GetMapping(value = "/yourPage")
     public String yourPage(Model model, @RequestParam String id, HttpSession session) throws Exception {
         String userid=(String)session.getAttribute("userid");

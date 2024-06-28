@@ -313,7 +313,8 @@
 
             <div class="post" th:id="${postMap['post'].no}">
                 <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
-                <b th:text="${postMap['post'].id}"></b>
+                <b th:text="${postMap['post'].id}" id="idddd"></b>
+
                 <a href="#">팔로우</a>
 
         
@@ -430,23 +431,30 @@
 
     function chkCommentAvail(){
         if(document.querySelector("#cmt").value==""){
+
             alert("댓글을 입력해주세요");
             return false;
-        } else{
+        } else {
             var id = [[${session.userid}]];
-            let content=id+"님이 댓글을 달았습니다"
+            var userid = $("#idddd").text()
+            console.log(userid);
+            let content = id + "님이 댓글을 달았습니다"
+            console.log(content)
+            var no=$("#cmtContent").val()
+            var urll="http://localhost:8080/postDetail?no="+no
+
             $.ajax({
                 type: "get",
                 url: "comment Notification",
-                data: {userid: userid, content: content},
-                success: function(){
+                data: {userid: userid, content: content, urll:urll},
+                success: function () {
                     console.log("야호")
                 }, error: function (error) {
                     console.log(error)
                 }
             });
+            return true;
         }
-        return true;
     }
 
     $(".likeBtn").on("click", (event) => {
@@ -511,9 +519,6 @@
         let openUrl='/managerPage'
         window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
     });
-    //self.close(); // 열었던 새창 닫기-->
-    // window.open("/managerMode" ); // 새로 만들어진 창 객체가 반환되서 popup변수에 저장
-    // opener.document.location.href = '/managerMode';
-    // window.close()
+
 </script>
 </html>
