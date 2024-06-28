@@ -145,6 +145,7 @@
         height: 100px;
         object-fit: contain;
         float: left;
+        border-radius: 70%;
     }
 
     #profileFrame {
@@ -558,7 +559,7 @@
                         '                                    <a class="noLine" href="gmjoinmod?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
                         '                                        <button>수정</button>\n' +
                         '                                    </a>\n' +
-                        '                                    <a class="noLine" th:href="gjdel?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
+                        '                                    <a class="noLine" href="gjdel?gno='+data.gjoins[gjoin].gno+'&mo_no='+data.gjoins[gjoin].mo_no+'">\n' +
                         '                                        <button>삭제</button>\n' +
                         '                                    </a>\n' +
                         '                                </div>\n' +

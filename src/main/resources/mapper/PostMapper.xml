@@ -92,4 +92,7 @@
     <select id="selectAllNotice" resultType="String">
         select * from notice
     </select>
+    <select id="selectProfileImg" parameterType="String" resultType="String">
+        select file_name from member where id = #{id}
+    </select>
 </mapper>

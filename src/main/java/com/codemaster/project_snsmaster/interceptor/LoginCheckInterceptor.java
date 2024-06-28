@@ -45,7 +45,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
                 System.out.println(session.getAttribute("prev_url") + "1");
                 // return true;
             }
-
+            return false;
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
