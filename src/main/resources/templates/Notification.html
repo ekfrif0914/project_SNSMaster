@@ -1,11 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<!DOCTYPE html>
 <html lang="kor">
 
 <head>
@@ -48,13 +41,14 @@
 
     }
 
+
     #change {
         float: left;
         margin-left: 160px;
         width: 980px;
-        height: 840px;
+        height: 803px;
+        /*border: 1px solid black;*/
     }
-
     #mmode {
         position: fixed;
         right: 15px;
@@ -65,10 +59,12 @@
         margin-left: 3px;
     }
     #login {
-        margin-left: 10px;
+        margin-top: 13px;
+        margin-left: 12px;
     }
 
     #logout {
+        margin-top: 13px;
         margin-left: 5px;
     }
     #menu {
@@ -80,27 +76,37 @@
         margin-left: 160px;
 
     }
-
+    .btnimg {
+        margin-left: 160px;
+    }
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
     .img {
 
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
+
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
+
 
     }
 
     .m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
     }
 
     .selectBox {
@@ -171,22 +177,7 @@
         </div>
         <div id="change">
             <div id="top">
-                <form action="postSearch" method="get">
-                    <div id="select">
-                        <select class="selectBox" name="region" id="region" onchange="">
-                            <option value=""><span>지역선택 </span></option>
-                            <option value="서울"><span>서울 </span></option>
-                            <option value="수원"><span>수원 </span> </span></option>
-                        </select>
-                        <select class="selectBox" name="category" id="category" onchange="">
-                            <option value=""><span>카테고리 </span></option>
-                            <option value="자유게시글"><span>자유게시글 </span></option>
-                            <option value="여행계획서"><span>여행계획서 </span> </span></option>
-                        </select>
-                    </div>
-                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
-                    <input type="submit" value="검색" id="sbtn">
-                </form>
+
             </div>
             <div th:each="all : ${all}" class="post" th:id="${all.id}">
                 <a th:href="${all.url}">
@@ -203,10 +194,10 @@
             </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a href="myPost"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>

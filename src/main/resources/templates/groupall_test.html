@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="kor">
 
@@ -62,6 +59,16 @@
         margin-left: 3px;
     }
 
+    #login {
+        margin-top: 13px;
+        margin-left: 12px;
+    }
+
+    #logout {
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+
     #menu {
         display: inline-block;
         width: 980px;
@@ -77,6 +84,10 @@
         width: 40px;
         height: 40px;
         margin: 4px;
+
+    }
+
+    .btnimg {
         margin-left: 160px;
     }
 
@@ -84,14 +95,22 @@
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
 
     }
 
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
+
+    }
+
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
     }
 
     .selectBox {
@@ -182,7 +201,7 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
     }
 
@@ -192,7 +211,7 @@
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
 
@@ -236,15 +255,6 @@
             </div>
 
 
-
-
-
-
-
-
-
-
-
             <div id="show">
                 <th:block th:if="${session.userid!=null}">
                     <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
@@ -253,15 +263,16 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" id="m" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a  href="membergroupinput"> <img src="img/plus.png" class="img"></a>
-            <a href="gList"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
@@ -306,8 +317,8 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });
@@ -320,7 +331,7 @@
             async: false,
             url: "http://localhost:8080/postLike",
             data: {no: no, id: id},
-            success: function (data){
+            success: function (data) {
 
             },
             error: function (request, status, error) { // 결과 에러 콜백함수
@@ -336,7 +347,7 @@
             type: "get",
             async: false,
             url: "http://localhost:8080/groupjoin",
-            data: { gno: gno },
+            data: {gno: gno},
             success: function (data) {
                 console.log(data);
                 if (data == 0) {
@@ -350,7 +361,6 @@
             }
         });
     });
-
 
 
     //
@@ -388,4 +398,4 @@
     // });
 
 </script>
-</html>-->
+</html>

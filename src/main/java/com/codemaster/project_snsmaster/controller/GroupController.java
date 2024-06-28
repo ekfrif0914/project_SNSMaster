@@ -193,7 +193,9 @@ public class GroupController {
         param.put("gno", gno);
         param.put("id", id);
         model.addAttribute("gjoinList", gservice.gjoinList(param));
+        model.addAttribute("gjsize", gservice.gjoinList(param).size());
         model.addAttribute("mgList", gservice.mgList(param));
+        model.addAttribute("mgsize", gservice.mgList(param).size());
         List<GroupPostVO> gpList = gservice.gpList(gno);
         List<G_joinVO> gjList = gservice.gjList(gno);
         System.out.println(gpList);

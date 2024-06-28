@@ -151,4 +151,9 @@ public class AdminServiceImpl implements IF_AdminService {
         return adminDao.myfollowList(id);
     }
 
+    @Override
+    public int isFollowing(FollowVO fvo) throws Exception {
+        return adminDao.cntFollowing(fvo);
+    }
+
 }

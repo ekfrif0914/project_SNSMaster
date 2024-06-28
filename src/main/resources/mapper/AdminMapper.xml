@@ -150,4 +150,5 @@
         where followid = #{id}
     </select>
 
+
 </mapper>
