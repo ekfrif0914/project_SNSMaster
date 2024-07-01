@@ -437,7 +437,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -450,7 +449,6 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
@@ -501,7 +499,6 @@
             if (cnt < 8) {
                 var targetId = event.target.id;
                 if ("file" + cnt == targetId) {
-                    console.log("맞다");
                     var newFileInput = document.createElement("input");
                     newFileInput.id = "file" + (cnt + 1);
                     newFileInput.className = "file";
@@ -519,7 +516,6 @@
 
     function textareaChange(e) {
         const text = e.options[e.selectedIndex].text;
-        console.log(text)
         var contents = $('#content')
         if (text == "여행계획서") {
             contents.val("일시: \n" +
