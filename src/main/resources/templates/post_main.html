@@ -373,6 +373,7 @@
                         <th:block th:unless="${postMap['post'].followstate}">
                             <button th:if="${session.userid!=postMap['post'].id}" class="follow" type="button">팔로우</button>
                         </th:block>
+                    </th:block>
 
                     <span class="right">
                     <span th:if="${session.userid==postMap['post'].id}">
