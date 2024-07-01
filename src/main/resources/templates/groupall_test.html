@@ -365,7 +365,7 @@
             <div th:each="post: ${gList}" th:id="${post.gno}" class="post">
                 <span th:text="${postStat.count}"></span>
                 <span th:text="${post.gno}"></span>
-                <span th:text="${post.g_id}"></span>
+                <span th:text="${post.g_id}" id="ee"></span>
                 <span th:text="${post.gname}"></span>
                 <span th:text="${post.g_region}"></span>
                 <a th:if="${id!=post.g_id} and ${id!=null}" th:href="@{groupjoin(gno=${post.gno})}" id="gjoinck">
@@ -466,13 +466,27 @@
 
     $(document).on('click', '#gjoinck', function (event) {
         event.preventDefault();
+        var userid = [[${session.userid}]];
         var gno = $(this).closest('div').attr('id');
+      var id=event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText
         $.ajax({
             type: "get",
             async: false,
             url: "http://localhost:8080/groupjoin",
             data: {gno: gno},
             success: function (data) {
+               var urll="http://localhost:8080/groupmy?gno="+gno
+                var content =userid+"님이 가입 신청을 넣었습니다"
+                $.ajax({
+                    type: "get",
+                    url: "like Notification",
+                    data: {userid: id, content: content,urll:urll},
+                    success: function(){
+                        console.log("야호")
+                    }, error: function (error) {
+                        console.log(error)
+                    }
+                });
                 console.log(data);
                 if (data == 0) {
                     alert("가입 승인 대기 상태 입니다.");

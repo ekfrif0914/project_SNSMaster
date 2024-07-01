@@ -373,7 +373,7 @@
                         <th:block th:unless="${postMap['post'].followstate}">
                             <button th:if="${session.userid!=postMap['post'].id}" class="follow" type="button">팔로우</button>
                         </th:block>
-
+                    </th:block>
                     <span class="right">
                     <span th:if="${session.userid==postMap['post'].id}">
                         <a th:href="@{postMod(no=${postMap['post'].no})}">수정</a>
@@ -548,7 +548,6 @@
                             url: "like Notification",
                             data: {userid: userid, content: content, urll: urll},
                             success: function () {
-
                                 console.log("야호")
                             }, error: function (error) {
                                 console.log(error)
@@ -669,6 +668,8 @@
     }
 
     $(".follow").on("click", (event) => {
+        var postElement = $(event.currentTarget).closest('.post');
+        var id = postElement.find('b:eq(0)').text()
         var followid = event.target.previousElementSibling.firstElementChild.innerHTML
         console.log(followid);
         var userid = [[${session.userid}]];
@@ -681,8 +682,22 @@
             data: {userid: userid, followid: followid},
             success: function (data) {
                 console.log("성공")
-                if (data) {//true이면 팔로우 함
+                if (data) {
+                    //true이면 팔로우 함
                     //  event.target.value = "팔로우 취소"
+                    var content=userid+"님이 팔로우를 신청하였습니다!"
+                    var urll="http://localhost:8080/yourPage?id="+userid
+                    $.ajax({
+                        type: "get",
+                        url: "like Notification",
+                        data: {userid: id, content: content,urll:urll},
+                        success: function(){
+                            console.log("야호")
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
+
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {

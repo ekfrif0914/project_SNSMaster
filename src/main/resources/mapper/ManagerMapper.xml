@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_ManagerDAO">
     <insert id="insert" parameterType="String">
-    insert into notice values(#{memo})
+    insert into notice values(null,#{memo})
 </insert>
+<delete id="noticedell" parameterType="int">
+   delete from notice where No=#{NO}
+</delete>
     <select id="groupPost" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
     SELECT * FROM grouppost WHERE g_report >= 1 ORDER BY g_report desc;
     </select>
@@ -66,9 +69,12 @@
     SELECT count(*) FROM notification WHERE id=#{id} and state=FALSE
 </select>
     <select id="notificationlook" parameterType="String" resultType="com.codemaster.project_snsmaster.vo.NotificationVO">
-    select*from notification where id=#{id}
+    select*from notification where id=#{id} order by nowtime desc
     </select>
     <update id="notifi" parameterType="String">
      update notification set state=true where id=#{id}
     </update>
+    <select id="notice" resultType="com.codemaster.project_snsmaster.vo.NoticeVO">
+        select*from notice
+    </select>
 </mapper>

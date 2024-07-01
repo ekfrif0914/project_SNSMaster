@@ -236,10 +236,12 @@
                     <td th:text="${post.id}"></td>
                 </tr>
                 <tr>
-                    <td><a th:href="@{groupjoinmember(gno=${post.gno},id=${post.id},wait_no=${post.wait_no})}">
-                        <button>수락</button>
-                    </a></td>
-                    <td><a th:href="@{delgroupjoinmember(wait_no=${post.wait_no},gno=${post.gno})}">
+                    <td>
+                        <a th:href="@{groupjoinmember(gno=${post.gno}, id=${post.id}, wait_no=${post.wait_no})}">
+                            <button>수락</button>
+                        </a>
+                    </td>
+                    <td><a th:href="@{delgroupjoinmember(wait_no=${post.wait_no},gno=${post.gno})}" onclick="return check2()">
                         <button>거부</button>
                     </a></td>
                 </tr>
@@ -327,5 +329,35 @@
 
 
 
+</script>
+<script>
+    function check(id,gno) {
+        var iid = [[${session.userid}]];
+        var userid = id;
+        var gn = gno;
+        var content = iid + "님이 그룹 가입 신청을 승인하였습니다!";
+        var urll = "http://localhost:8080/gpList?gno=" + gn;
+        console.log("AJAX 요청 전송");
+        console.log("URL: " + urll);
+        console.log("Content: " + content);
+        $.ajax({
+            type: "GET",
+            url: "comment Notification",
+            data: {
+                userid: userid,
+                content: content,
+                urll: urll
+            },
+            success: function(response) {
+                console.log("AJAX 요청 성공");
+                console.log(response);
+            },
+            error: function(error) {
+                console.log("AJAX 요청 실패");
+                console.log(error);
+            }
+        });
+        return false;
+    }
 </script>
 </html>

@@ -1,6 +1,7 @@
 package com.codemaster.project_snsmaster.controller;
 
 import com.codemaster.project_snsmaster.service.IF_GroupService;
+import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.vo.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class GroupController {
+    @Autowired
+    IF_ManagerService manager;
     @Autowired
     IF_GroupService gservice;
 
@@ -99,9 +102,20 @@ public class GroupController {
 
 
     @RequestMapping(value = "/groupjoinmember", method = RequestMethod.GET)//그룹 가입 그룹장이 수락
-    public String groupjoinmember(@ModelAttribute GroupJoinVO gjvo) throws Exception {
+    public String groupjoinmember(@ModelAttribute GroupJoinVO gjvo,HttpSession session) throws Exception {
         System.out.println(gjvo);
         System.out.println(gjvo.getGno());
+        String id=gjvo.getId();
+        int gno=gjvo.getGno();
+        String userid =(String)session.getAttribute("userid");
+        String content=userid+"님이 가입을 승인하였습니다";
+        String url="http://localhost:8080/gpList?gno=" + gno;
+        System.out.println(id);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userid", id);
+        data.put("content", content);
+        data.put("urll", url);
+        manager.Notification(data);
         gservice.gjminsert(gjvo);
         gservice.gjmdelete(gjvo);
         return "redirect:/groupmy?gno=" + gjvo.getGno();

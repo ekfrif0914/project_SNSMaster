@@ -59,7 +59,6 @@ public class PostController {
                 }
             }
         }
-
         model.addAttribute("postMaps", postMaps);
         model.addAttribute("comments", postService.selectAllComment());
 
@@ -93,6 +92,7 @@ public class PostController {
         return "post_main";
     }
 
+
     @GetMapping(value = "/postSearch")
     public String postSearch(@RequestParam String category,
                              @RequestParam String sword,
@@ -106,7 +106,6 @@ public class PostController {
         params.put("category", category);
 
         List<HashMap<String, Object>> postMaps = postService.select(params, userid);
-        List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
         for(HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
@@ -151,10 +150,12 @@ public class PostController {
         return "post_main";
     }
 
+
     @GetMapping(value = "/myPost")
     public String postInput() {
         return "post_inputForm";
     }
+
 
     @PostMapping(value = "/postInputSave")
     public String postInputSave(@ModelAttribute PostVO postvo, HttpSession session, MultipartFile[] file) throws Exception {
@@ -167,6 +168,7 @@ public class PostController {
         return "redirect:/snsMaster";
     }
 
+
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session) throws Exception {
         String userid = (String) session.getAttribute("userid");
@@ -178,6 +180,8 @@ public class PostController {
         model.addAttribute("userid", userid);
         return "post_myPage";
     }
+
+
 
     @GetMapping(value = "/postDetail")
     public String postDetail(@RequestParam String no, Model model, HttpSession session) throws Exception {
@@ -198,6 +202,7 @@ public class PostController {
         return "post_detail";
     }
 
+
     @PostMapping(value = "/postSaveComment")
     public String postSaveComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request, HttpSession session) throws Exception {
         postCommentVO.setId((String) session.getAttribute("userid"));
@@ -206,12 +211,14 @@ public class PostController {
         return "redirect:" + referer;
     }
 
+
     @GetMapping(value = "/postDeleteComment")
     public String postDeleteComment(@ModelAttribute PostCommentVO postCommentVO, HttpServletRequest request) throws Exception {
         postService.deleteComment(postCommentVO.getC_no() + "");
         String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
+
 
     @GetMapping(value = "/postDelete")
     public String postDelete(@RequestParam String no, HttpServletRequest request) throws Exception {
@@ -222,6 +229,8 @@ public class PostController {
         return "redirect:" + referer;
     }
 
+
+
     @GetMapping(value = "/postMod")
     public String postMod(@RequestParam String no, Model model, HttpServletRequest request) throws Exception {
         model.addAttribute("post", postService.selectOne(no));
@@ -229,6 +238,7 @@ public class PostController {
         model.addAttribute("referer", referer);
         return "post_modForm";
     }
+
 
     @PostMapping(value = "/postModSave")
     public String postModSave(@ModelAttribute PostVO postVO, MultipartFile[] file, String[] delfname, String referer) throws Exception {
@@ -333,6 +343,7 @@ public class PostController {
         return "post_yourPage";
     }
 
+    
     @ResponseBody
     @GetMapping("post-yourcategory")
     public HashMap<String, Object> postyourCategory(String category, String id) throws Exception {
