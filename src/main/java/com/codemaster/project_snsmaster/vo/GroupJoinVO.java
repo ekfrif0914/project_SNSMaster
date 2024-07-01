@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class GroupJoinVO {
+public class GroupJoinVO {//그룹가입정보
     private int wait_no;
     private int gno;
     private String id;

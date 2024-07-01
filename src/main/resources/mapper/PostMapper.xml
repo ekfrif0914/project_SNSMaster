@@ -102,7 +102,7 @@
         update post set report = report + 1 where NO = #{no}
     </update>
     <select id="selectAllNotice" resultType="String">
-        select * from notice
+        select memo from notice
     </select>
     <select id="selectProfileImg" parameterType="String" resultType="String">
         select file_name from member where id = #{id}

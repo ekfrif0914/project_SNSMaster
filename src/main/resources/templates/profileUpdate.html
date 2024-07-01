@@ -5,7 +5,23 @@
     <title>프로필 변경 페이지</title>
 </head>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
     #img {
         margin-left: 380px;
         margin-top: 90px;
@@ -13,24 +29,29 @@
     }
 
     button {
-
         background-color: white;
         color: black;
         border: none;
     }
 
-    .hov:hover {
-        background: lightgrey;
-        width: 250px;
+    .hov {
+        width: 300px;
         height: 50px;
+    }
+
+    .hov:hover {
+        background:skyblue;
         border-radius: 10px;
     }
 
-    .go:hover {
-        background: antiquewhite;
-        border-radius: 10px;
+    .go {
+        width: 200px;
         height: 50px;
-        width: 130px;
+    }
+
+    .go:hover {
+        background: lightgrey;
+        border-radius: 10px;
 
     }
 
@@ -49,7 +70,15 @@
     }
 
     form {
-        display: inline;
+        display: inline-block;
+    }
+
+    .noLine {
+        text-decoration-line: none;
+    }
+
+    #yaho {
+        margin-left: 400px;
     }
 </style>
 <body>
@@ -59,16 +88,21 @@
 <div id="text">
     <form action="updateProfile" method="post" encType="multipart/form-data">
         <input type="hidden" th:value="${nowid}" name="id">
-        <label class="hov" for="file"><h1 class="hov">프로필 사진 등록 </h1></label><input type="file"
-                                                                                    name="file" id="file">
+        <label class="hov" for="file"><h1 class="hov">프로필 사진 등록 </h1></label>
+        <input type="file" name="file" id="file">
 
-        <input type=submit value="등록">
+        <input type=submit value="등록" class="btn btn-warning">
+
     </form>
-    <span id="filename"> </span>
 
-    <a href="snsMaster">
+
+    <a href="snsMaster" class="noLine">
         <button type="button" id="pass" class="go"><h1 style="color: grey">건너 뛰기</h1></button>
     </a>
+
+</div>
+<div id="yaho">
+    <span id="filename"> </span>
 </div>
 </body>
 <script>

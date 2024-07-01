@@ -12,8 +12,16 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
     body {
         margin: 0px;
     }
@@ -21,7 +29,7 @@
     .title {
         position: fixed;
         text-overflow: ellipsis;
-        overflow: scroll;
+        /*overflow: scroll;*/
 
     }
 
@@ -37,36 +45,35 @@
         float: left;
         width: 150px;
         height: 840px;
-        border: 1px solid black;
-
     }
 
     #change {
         float: left;
-        margin-left: 160px;
-        width: 980px;
+        margin-left: 330px;
+        width: 660px;
         height: 803px;
+        /*overflow: scroll;*/
         /*border: 1px solid black;*/
     }
 
     #mmode {
         position: fixed;
-        right: 15px;
+        right: 13px;
         float: right;
-        width: 100px;
+        width: 120px;
         height: 840px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         margin-left: 3px;
     }
 
     #menu {
         display: inline-block;
-        width: 980px;
+        width: 660px;
         height: 50px;
         border: 1px solid black;
         margin-top: 8px;
-        margin-left: 160px;
-
+        margin-left: 330px;
+        border-radius: 10px;
     }
 
     .img {
@@ -74,30 +81,34 @@
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
+
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
+
 
     }
-
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    .btnimg {
+        margin-left: 90px;
     }
+    .m {
+        width: 57px;
+        height: 57px;
+        margin-top: 19px;
+        margin-left: 32px;
 
+    }
     .selectBox {
-        width: 103px;
+        width: 80px;
         height: 40px;
-        border: 1px solid blue;
+        border: 1px solid skyblue;
         margin-bottom: 10px;
-        margin-top: 28px;
-        margin-left: 5px;
+        margin-top: 20px;
+        margin-left: 6px;
+        border-radius: 5px;
     }
 
     #top {
@@ -105,32 +116,43 @@
         width: 100%;
         display: inline-block;
         padding-left: 20px;
+        border-radius: 10px;
     }
 
     #select {
         float: left;
     }
 
+
     #search {
-        width: 600px;
+        width: 355px;
         height: 40px;
         float: left;
-        margin-top: 28px;
-        margin-left: 20px;
+        margin-top: 20px;
+        margin-left: 13px;
     }
-
     #sbtn {
         float: left;
-        width: 80px;
+        width: 68px;
         height: 40px;
-        margin-top: 27px;
+        margin-top: 20px;
         margin-left: 10px;
     }
+
 
     #lb {
         margin-left: 10px;
     }
 
+    #login {
+        margin-top: 2px;
+        margin-left: 23px;
+    }
+
+    #logout {
+        margin-top: 23px;
+        margin-left: 23px;
+    }
     .postImg{
         width: 300px;
         height: 300px;
@@ -142,10 +164,28 @@
         border: 1px solid gray;
         border-radius: 10px;
         padding-top: 50px;
-        padding-left: 150px;
+        padding-left: 90px;
         padding-right: 150px;
+        height: 600px;
+        overflow: scroll;
+        -ms-overflow-style: none;
     }
-
+    #mainFrame::-webkit-scrollbar{
+        display:none;
+    }
+    #idblock {
+        text-align: center;
+        margin-left: 2px;
+    }
+    #logoimg {
+        width: 90px;
+        height: 90px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+    select{
+        border-color: skyblue;
+    }
 </style>
 
 
@@ -153,7 +193,7 @@
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
             <div id="top">
@@ -252,8 +292,8 @@
                             <option value="여행계획서"><span>여행계획서 </span> </span></option>
                         </select>
                     </div>
-                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">
-                    <input type="submit" value="검색" id="sbtn">
+                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search" class="form-control">
+                    <input type="submit" value="검색" id="sbtn" class="btn btn-outline-info">
                 </form>
             </div>
             <div id="mainFrame">
@@ -350,47 +390,79 @@
                         <option value="자유게시글" id="자유게시글">자유게시글</option>
                         <option value="여행계획서" id="여행계획서">여행계획서</option>
                     </select><br>
-                    <input name="title" id="title" type="text" placeholder="제목" size="58" maxlength="40" th:value="${post.title}"><br>
+                    <input name="title" id="title" type="text" placeholder="제목" size="60" maxlength="40" th:value="${post.title}"><br>
                     <textarea name="content" id="content" rows="12" cols="60" placeholder="내용" maxlength="600" th:text="${post.content}"></textarea><br>
                     <div th:each="fname : ${post.file_name}">
                         <span th:if="${fname != null}">
                             <img th:src="@{download(filename=${fname})}" alt="..." class="postImg">
-                            <input type="button" onclick="return changeTag(this)" value="제거하기">
+                            <input type="button" onclick="return changeTag(this)" value="제거하기"  class="btn btn-warning">
                             <span th:value="${fname}"></span>
                         </span>
                         <span th:unless="${fname != null}">
-                            <input id="file1" type="file" name="file" class="file">
+                            <input id="file1" type="file" name="file" class="file ">
                         </span>
                     </div>
                     <input type="hidden" name="referer" th:value="${referer}">
-                    <input type="submit" value="저장하기" onclick="return chkAvail()">
+                    <br>
+                    <input type="submit" value="저장하기" class="btn btn-warning" onclick="return chkAvail()">
                 </form>
                 <div id="show">
-                    <th:block th:if="${session.userid!=null}">
-                        <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
-                        <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                        <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-                    <span><a href="logout">로그 아웃</a></span>
+
                 </div>
             </div>
 
         </div>
         <div id="mmode">
-            <a href="managerMode"> <img src="img/mmode.png" id="m"></a>
-            <button class="btn btn-primary" id="lb" type="button" onclick="location.href='loginForm'">로그인</button>
+            <img src="img/mmode.png" id="m" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+            <br><br>
+            <div id="idblock">
+                <th:block th:if="${session.userid!=null}">
+                    <span style="color: #007bff ">로그인 아이디:</span>
+                    <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                    <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                    <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+                </th:block>
+            </div>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
-            <a href="myPost"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
     </nav>
 </div>
 </body>
 <script th:inline="javascript">
+    var id = [[${session.userid}]]
+    if (id != null) {//로그인 되어있으면
+        console.log(id)
+        $("#login").remove()
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "logout"
+        button.type = button
+        button.className = "btn btn-primary"
+        button.innerHTML = "로그아웃"
+        button.style = "font-size: 15px"
+        area.appendChild(button)
+
+    } else {//로그아웃 되어있으면
+        $('#logout').remove()
+        console.log(id)
+        let area = document.getElementById("mmode");
+        var button = document.createElement("button")
+        button.id = "login"
+        button.type = button
+        button.className = "btn btn-primary"
+
+        button.innerHTML = "로그인"
+        area.appendChild(button)
+    }
+
     function chkAvail() {
         if (document.querySelector("#postRegion").value == "none") {
             alert("지역을 선택해주세요");
@@ -440,5 +512,24 @@
         })
     }
     fileChange();
+
+
+</script>
+<script>
+    $('#login').on('click', () => {
+        location.href = 'loginForm'
+    });
+
+    $('#logout').on('click', () => {
+        location.href = 'logout'
+    });
+
+    $('#m').on('click', () => {
+        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
+
+    });
 </script>
 </html>

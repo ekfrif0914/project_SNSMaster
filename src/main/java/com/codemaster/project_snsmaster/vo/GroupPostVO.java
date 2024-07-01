@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class GroupPostVO {
+public class GroupPostVO {//그룹 게시물
 
     private int g_no;
     private int gno;

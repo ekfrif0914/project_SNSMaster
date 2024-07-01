@@ -6,14 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 화면</title>
 </head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
     body {
         margin: 0px;
     }
@@ -37,49 +51,57 @@
         float: left;
         width: 150px;
         height: 840px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
 
     }
 
     #change {
         float: left;
-        margin-left: 160px;
-        width: 980px;
+        margin-left: 330px;
+        width: 660px;
         height: 803px;
-        /*border: 1px solid black;*/
+        border: 1px solid black;
+        border-radius: 10px;
+        overflow: scroll;
+        -ms-overflow-style: none;
     }
-
+    #change::-webkit-scrollbar{
+        display:none;
+    }
     #mmode {
         position: fixed;
-        right: 15px;
+        right: 13px;
         float: right;
-        width: 100px;
+        width: 120px;
         height: 840px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         margin-left: 3px;
     }
 
     #menu {
         display: inline-block;
-        width: 980px;
+        width: 660px;
         height: 50px;
         border: 1px solid black;
         margin-top: 8px;
-        margin-left: 160px;
-
+        margin-left: 330px;
+        border-radius: 10px;
     }
+
     #login {
-        margin-top: 13px;
-        margin-left: 12px;
+        margin-top: 2px;
+        margin-left: 23px;
     }
 
     #logout {
-        margin-top: 13px;
-        margin-left: 5px;
+        margin-top: 23px;
+        margin-left: 23px;
     }
+
     .btnimg {
-        margin-left: 160px;
+        margin-left: 90px;
     }
+
     .img {
 
         width: 40px;
@@ -93,16 +115,18 @@
         height: 50px;
 
     }
+
     .m {
-        width: 55px;
-        height: 55px;
+        width: 57px;
+        height: 57px;
         margin-top: 19px;
-        margin-left: 19px;
+        margin-left: 32px;
 
     }
+
     #logoimg {
-        width: 135px;
-        height: 135px;
+        width: 90px;
+        height: 90px;
         margin-left: 7px;
         margin-top: 5px;
     }
@@ -178,7 +202,6 @@
     .postImg {
         width: 30px;
         height: 30px;
-        margin-left: 40px;
     }
 
     .postFile {
@@ -199,14 +222,18 @@
         text-decoration-line: none;
     }
 
-    table, tr{
+    table, tr {
         margin-left: 25%;
         margin-bottom: 100px;
         margin-top: 100px;
         border: 1px solid black;
         border-radius: 5px;
+
     }
 
+    th,td{
+        background-color: #fffde5;
+    }
     .trsize {
         width: 300px;
         height: 100px;
@@ -222,22 +249,63 @@
     .modsize {
         width: 40px;
         height: 40px;
-        margin-left: 40px;
-    }
 
+    }
+.report{
+    margin-left: 40px;
+}
     .uptd {
         height: 50px;
-
+        background-color: white;
     }
 
-    .idcolor {
+    .idcolor  {
         border-top: 1px solid black;
         border-radius: 5px;
     }
 
     .colw {
         border: 1px solid white;
+        background-color: black;
     }
+
+    .w-btn {
+        position: relative;
+        border: none;
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 15px;
+        font-family: "paybooc-Light", sans-serif;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.25s;
+    }
+    .w-btn-green2 {
+        background-color: #519d9e;
+        color: #ffeee4;
+    }
+    .w-btn-gra1 {
+        background: linear-gradient(-45deg, #33ccff 0%, #ff99cc 100%);
+        color: white;
+    }
+    #show{
+         margin-left: 25%;
+         margin-top: 5%;
+     }
+     .jointable{
+         margin-left: 20%;
+     }
+     .likeBtn{
+         margin-left: 40px;
+     }
+
+    #idblock {
+        text-align: center;
+        margin-left: 2px;
+    }
+
+
 
 </style>
 
@@ -274,43 +342,51 @@
                 <tbody th:each="post: ${gpList}">
 
                 <tr class="idcolor">
-                    <th class="idcolor">아이디<input type="hidden" value="${post.g_no}"></th>
+                    <th class="idcolor" style="font-weight: bold">아이디<input type="hidden" value="${post.g_no}"></th>
                     <td th:text="${post.id}" class="idcolor"></td>
-                    <td class="idcolor" colspan='2'><a th:href="@{/grouppost(g_no=${post.g_no})}">
-                        <img class="postImg report" src="img/pngwing.png">
+                    <td class="idcolor" colspan='2'><a class="report" th:href="@{/grouppost(g_no=${post.g_no})}">
+                        <img class="postImg " src="img/pngwing.png">
                     </a></td>
                 </tr>
                 <tr>
-                    <th>제목</th>
+                    <th style="font-weight: bold" >제목</th>
                     <td th:text="${post.g_title}"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
-                    <th>내용</th>
+                    <th style="font-weight: bold" >내용</th>
                     <td th:text="${post.g_content}"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
+                    <th style="font-weight: bold">좋아요</th>
                     <td th:text="${post.g_like}" class="cklike"></td>
                     <td th:if="${id!=post.id} and ${id!=null}">
-                        <a th:href="@{/grouplike(g_no=${post.g_no},id=${id})}" class="glck" th:data-g_no="${post.g_no}">
-                            <img class="likeBtn postImg" src="img/heart.png">
+                        <a th:href="@{/grouplike(g_no=${post.g_no},id=${id})}" class="glck likeBtn" th:data-g_no="${post.g_no}">
+                            <img class="postImg" src="img/heart.png">
                         </a></td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
 
-                    <th>신고누적수</th>
+                    <th style="font-weight: bold">신고누적수</th>
                     <td th:text="${post.g_report}"></td>
                     <td th:if="${id!=post.id} and ${id!=null}">
-                        <a th:href="@{/greport(g_no=${post.g_no},id=${id})}" id="report" th:data-g_no="${post.g_no}">
-                            <img class="postImg report" src="img/siren.png">
+                        <a class="report" th:href="@{/greport(g_no=${post.g_no},id=${id})}" id="report" th:data-g_no="${post.g_no}">
+                            <img class="postImg " src="img/siren.png">
                         </a></td>
 
-                    <td th:if="${id==post.id}"><a th:href="@{modno(g_no=${post.g_no})}">
-                        <img class="modsize report" src="img/mod.png">
+                    <td th:if="${id==post.id}"><a class="report" th:href="@{modno(g_no=${post.g_no})}">
+                        <img class="modsize" src="img/mod.png">
                     </a></td>
-                    <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}"
+                    <td th:if="${id==post.id}"><a class=" report" th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}"
                                                   onclick="return delck()">
-                        <img class="postImg report" src="img/del.png">
+                        <img class="postImg" src="img/del.png">
                     </a></td>
+                    <td></td>
                 </tr>
                 <tr class="colw">
 
@@ -339,48 +415,102 @@
                     <button class="rsetbut">초기화</button>
                 </a>
             </form>
-            <table>
+            <table class="jointable">
                 <tbody th:each="post: ${gjList}">
                 <tr class="colw">
                     <td><input type="hidden" value="${post.gno}"></td>
                     <td><input type="hidden" value="${post.mo_no}"></td>
                 </tr>
 
-                <tr class="idcolor">
-                    <th class="idcolor">아이디</th>
-                    <td th:text="${post.id}" class="idcolor" colspan='7'></td>
-                </tr>
-                <tr>
-                    <th>제목</th>
-                    <td th:text="${post.m_name}"></td>
-                </tr>
-                <tr>
-                    <th>내용</th>
-                    <td class="trsize" th:text="${post.m_contents}" ></td>
-                </tr>
-                <tr>
-                    <th>모집 인원</th>
-                    <td th:text="${post.cnt}"></td>
-                    <th>신청인원</th>
-                    <td th:text="${post.cont}"></td>
+                <tr class="idcolor" >
+                    <th class="idcolor" style="font-weight: bold">아이디</th>
+                    <td th:text="${post.id}" class="idcolor"  ></td>
+                    <td class="idcolor"></td>
+                    <td class="idcolor"></td>
+                    <td class="idcolor"></td>
+                    <td class="idcolor"></td>
+                    <td class="idcolor" > <a  th:attr="mo_no=${post.mo_no},gno=${post.gno}"
+                                             onclick="memberck(this.getAttribute('mo_no'),this.getAttribute('gno'))">
+                        <button class="w-btn w-btn-green2" type="button">
+                        신청자 보기
+                    </button></a></td>
 
-                    <td >
+                </tr>
+                <tr>
+                    <th style="font-weight: bold">제목</th>
+                    <td th:text="${post.m_name}" ></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+
+                    <th style="font-weight: bold">내용</th>
+                    <td class="trsize" th:text="${post.m_contents}"  ></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+
+
+               
+                </tr>
+                <tr>
+                    <th style="font-weight: bold">모집 인원</th>
+                    <td th:text="${post.cnt}"></td>
+                    <th style="font-weight: bold">신청인원</th>
+                    <td th:text="${post.cont}" ></td>
+                    <td>
+
+
+
+
+                        <th:block th:if="${gjsize>0} or ${mgsize>0}">
                         <a th:if="${id!=post.id} and ${id!=null}"
                                 th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
                            th:data-mo_no="${post.mo_no}" th:data-gno="${post.gno}" th:data-cnt="${post.cnt}" th:data-cont="${post.cont}">
-                            <button>신청</button>
-                        </a></td>
+                            <button class="w-btn w-btn-gra1" type="button">
+                                신청
+                            </button>
+                        </a>
+                        </th:block>
+                        <th:block th:unless="${gjsize>0} or ${mgsize>0}">
+                            <button class="w-btn w-btn-gra1" type="button">
+                                신청
+                            </button>
+                        </th:block>
+
+
+                    </td>
 
 
 
 
-                    <td th:if="${id==post.id}"><a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}">
+                    <td>
+                        <th:block th:if="${id==post.id}">
+                        <a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}" class="report">
+                        <img class="modsize " src="img/mod.png">
+                    </a>
+                        </th:block>
+                    <th:block th:unless="${id==post.id}">
+
                         <img class="modsize report" src="img/mod.png">
-                    </a></td>
-                    <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}"
+                    </th:block>
+                    </td>
+                    <td >
+                        <th:block th:if="${id==post.id}">
+                        <a class="report" th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}"
                                                   onclick="return modelck()">
-                        <img class="postImg report" src="img/del.png">
-                    </a></td>
+                        <img class="postImg " src="img/del.png">
+                    </a>
+                        </th:block>
+                        <th:block th:unless="${id==post.id}">
+                            <img class="postImg report" src="img/del.png">
+                        </th:block>
+                    </td>
                 </tr>
                 <tr class="colw">
                     <td class="uptd"></td>
@@ -391,34 +521,40 @@
 
 
             <div id="show">
-                <th:block th:if="${session.userid!=null}">
-                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
-                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
+
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" class="m">
+            <img src="img/mmode.png" id="m" class="m">
             <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+            <br><br>
+            <div id="idblock">
+                <th:block th:if="${session.userid!=null}">
+                    <span style="color: #007bff ">로그인 아이디:</span>
+                    <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                    <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                    <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+                </th:block>
+            </div>
         </div>
+
+        <nav class="navbar fixed-bottom bg-body-tertiary">
+            <div id="menu">
+                <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+
+                <th:block th:if="${gjsize>0} or ${mgsize>0}">
+                    <a th:href="@{groupinput(gno=${gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
+                </th:block>
+
+                <th:block th:unless="${gjsize>0} or ${mgsize>0}">
+                    <a class="btnimg"><img src="img/plus.png" class="img"></a>
+                </th:block>
+                <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+                <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+
+            </div>
+        </nav>
     </div>
-    <nav class="navbar fixed-bottom bg-body-tertiary">
-        <div id="menu">
-            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-
-            <th:block th:if="${gjsize>0} or ${mgsize>0}">
-            <a th:href="@{groupinput(gno=${gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            </th:block>
-
-            <th:block th:unless="${gjsize>0} or ${mgsize>0}">
-                <a class="btnimg"><img src="img/plus.png" class="img"></a>
-            </th:block>
-            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
-
-        </div>
-    </nav>
-</div>
 </body>
 <script>
     function delck() {
@@ -430,6 +566,13 @@
     function modelck() {
         return confirm("선택하신 동행글을 삭제 하시겠습니까?")
     }
+    function memberck(mo_no,gno) {
+        let popOption = "width=450px, height=400px, top=100px, right=30%, scrollbars=yes";
+        console.log(mo_no);
+        let openUrl = '/joinpopup?mo_no=' + mo_no;
+        window.open(openUrl, 'pop', popOption);
+    }
+
 </script>
 
 <script th:inline="javascript">
@@ -578,8 +721,6 @@
         });
     });
 
-
-   
 
 </script>
 </html>

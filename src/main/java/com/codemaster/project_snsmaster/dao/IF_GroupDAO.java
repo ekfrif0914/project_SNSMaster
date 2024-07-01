@@ -90,6 +90,8 @@ public interface IF_GroupDAO {
 
   public   List<GroupJoinVO> gjoinpopselect(String gno) throws Exception;
 
+   public List<G_memberVO> gmemberpopList(int mo_no) throws  Exception;
+
 
 
 

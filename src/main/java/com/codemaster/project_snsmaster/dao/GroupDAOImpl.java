@@ -229,6 +229,11 @@ public class GroupDAOImpl implements IF_GroupDAO {
         return sqlSession.selectList(mapperQuery + ".gjoinpopselect", gno);
     }
 
+    @Override
+    public List<G_memberVO> gmemberpopList(int mo_no) throws Exception {
+        return sqlSession.selectList(mapperQuery + ".gmemberpoplist", mo_no);
+    }
+
   /*  @Override
     public int reportsaveselect(int g_no) throws Exception {
         return sqlSession.selectOne(mapperQuery + ".reportsaveselect", g_no);
