@@ -8,6 +8,7 @@ import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.GroupPostVO;
 import com.codemaster.project_snsmaster.vo.PostVO;
 import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,9 +39,9 @@ public class ManagerController {
     }
 
     @RequestMapping(value = "/input", method = RequestMethod.GET)
-    public String input(@RequestParam("id") String id) throws Exception {
-        System.out.println(id.toString());
-        manager.insert(id);
+    public String input(@RequestParam("s_text") String memo) throws Exception {
+        System.out.println(memo.toString());
+        manager.insert(memo);
         return "review";
     }
 
@@ -96,7 +97,6 @@ public class ManagerController {
         model.addAttribute("id", id);
         return "stop";
     }
-
 
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -158,45 +158,50 @@ public class ManagerController {
     }
 
 
-  @RequestMapping(value = "fordelete", method = RequestMethod.GET)
-   public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
-      List<String> list = Arrays.asList(no);
-       manager.fordelete(list);
-       List<PostVO>allList=manager.postreport();
-       model.addAttribute("all", allList);
-       return "Manager.Main";
+    @RequestMapping(value = "fordelete", method = RequestMethod.GET)
+    public String fordelete(Model model, @RequestParam("no") String[] no) throws Exception {
+        List<String> list = Arrays.asList(no);
+        manager.fordelete(list);
+        List<PostVO> allList = manager.postreport();
+        model.addAttribute("all", allList);
+        return "Manager.Main";
     }
+
     @RequestMapping(value = "fordelete2", method = RequestMethod.GET)
     public String fordelete2(Model model, @RequestParam("no") String[] no) throws Exception {
         List<String> list = Arrays.asList(no);
         manager.fordelete2(list);
-        List<GroupPostVO>allList=manager.groupreport();
+        List<GroupPostVO> allList = manager.groupreport();
         model.addAttribute("all", allList);
         return "Manager.Main2";
     }
-    @RequestMapping(value="StopAND",method=RequestMethod.GET)
-    public String StopAND(Model model,@RequestParam("no")String no,@RequestParam("id")String id)throws Exception{
-       model.addAttribute("no",no);
-       model.addAttribute("id",id);
-       return "StopANDdelete";
+
+    @RequestMapping(value = "StopAND", method = RequestMethod.GET)
+    public String StopAND(Model model, @RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
+        model.addAttribute("no", no);
+        model.addAttribute("id", id);
+        return "StopANDdelete";
     }
+
     @RequestMapping(value = "stopdeleteinput", method = RequestMethod.GET)
-    public String stopinput2(@ModelAttribute StopMemberVO stop,@RequestParam int no) throws Exception {
+    public String stopinput2(@ModelAttribute StopMemberVO stop, @RequestParam int no) throws Exception {
         System.out.println(stop.toString());
         manager.stopinsert(stop);
         manager.delete2(no);
         return "redirect:managerMode";
     }
+
     @ResponseBody
     @RequestMapping(value = "look", method = RequestMethod.GET)
     public HashMap<String, Object> look(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
         PostVO look = manager.selectpost(Integer.parseInt(no));
-       HashMap<String, Object> a = new HashMap<>();
+        HashMap<String, Object> a = new HashMap<>();
         a.put("id", id);
         a.put("no", look);
         a.put("post", postService.selectOne(no));
         return a;
     }
+
     @ResponseBody
     @RequestMapping(value = "look2", method = RequestMethod.GET)
     public HashMap<String, Object> look2(@RequestParam("no") String no, @RequestParam("id") String id) throws Exception {
@@ -208,6 +213,42 @@ public class ManagerController {
         return a;
     }
 
+    @ResponseBody
+    @GetMapping(value = "/like Notification")
+    public void postInput(@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        System.out.println(urll);
+        data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        manager.Notification(data);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/comment Notification")
+    public void commentInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        manager.Notification(data);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/notification state")
+    public int commentState(@RequestParam String id) {
+        int state = manager.statecount(id);
+        System.out.println(state);
+        return state;
+    }
+
+    @GetMapping(value = "notification")
+    public String notification(@RequestParam String id, Model model) {
+        List<String> allList = manager.notificationlook(id);
+        manager.notifi(id);
+        model.addAttribute("all", allList);
+        return "Notification";
+    }
 }
 
 

@@ -49,11 +49,22 @@ public class LoginController {
         if(result==1){
             model.addAttribute("pwMsg", "해당 메일로 비밀번호가 전송되었습니다");
         }else if(result==2){
-            model.addAttribute("pwMsg", "이메일이 존재하지 않습니다");
+            model.addAttribute("pwMsg", "이메일이 일치하지 않습니다");
         }else{
             model.addAttribute("pwMsg", "아이디가 존재하지 않습니다");
         }
 
+        return "findMember";
+    }
+
+    @GetMapping("pwSearch")
+    public String pwSearch2(Model model) throws Exception {
+        return "findMember";
+    }
+
+
+    @GetMapping("idSearch")
+    public String idSearch2() {
         return "findMember";
     }
 
@@ -94,6 +105,15 @@ public class LoginController {
                         @RequestParam String referer) throws Exception {
         System.out.println(id);
         System.out.println(pass);
+        String prev_url = (String)session.getAttribute("prev_url");
+        if(prev_url!=null){//인터셉터로 가로채서 값이 있는 경우
+            System.out.println(prev_url +"12");
+            session.removeAttribute("prev_url");
+            System.out.println(session.getAttribute("prev_url")+"pre");
+        }else{//값이 없는 경우
+            System.out.println(prev_url+"13");
+            prev_url=referer;
+        }
         MemberVO mvo = loginService.login(id);
 
         if (mvo != null) {
@@ -142,7 +162,8 @@ public class LoginController {
             model.addAttribute("referer", referer);
             return "loginForm";
         }
-        return "redirect:" + referer;
+        System.out.println(prev_url+"path임");
+        return "redirect:" + prev_url;
     }
 
     @GetMapping("logout")
@@ -150,6 +171,7 @@ public class LoginController {
         session.removeAttribute("userid");
         session.removeAttribute("username");
         session.removeAttribute("userregion");
+        session.removeAttribute("prev_url");
         String referer = request.getHeader("referer");
         model.addAttribute("referer", referer);
         return "redirect:"+referer;

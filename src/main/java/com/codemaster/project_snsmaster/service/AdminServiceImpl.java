@@ -2,6 +2,7 @@ package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.dao.IF_AdminDAO;
 import com.codemaster.project_snsmaster.vo.FAQVO;
+import com.codemaster.project_snsmaster.vo.FollowVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import com.codemaster.project_snsmaster.vo.PageVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,4 +118,42 @@ public class AdminServiceImpl implements IF_AdminService {
     public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception {
         return adminDao.faqSearchselect(pvo);
     }
+
+    @Override
+    public boolean following(FollowVO fvo) throws Exception {
+        int isFollowing = adminDao.cntFollowing(fvo);//1이면 이미 팔로우 0이면 팔로우 안함
+        if (isFollowing == 1) {
+            adminDao.deleteFollowing(fvo);
+            return false;
+        } else {//(==0) =>팔로우 함
+            adminDao.insertFollowing(fvo);
+            return true;
+        }
+    }
+
+    @Override
+    public List<String> selectMyFollowinglist(String userid) throws Exception {
+        return adminDao.selectMyFollowinglist(userid);
+    }
+
+    @Override
+    public int myfollowCount(String id) throws Exception {
+        return adminDao.myfollowCount(id);
+    }
+
+    @Override
+    public int myfollowingCount(String id) throws Exception {
+        return adminDao.myfollowingCount(id);
+    }
+
+    @Override
+    public List<String> myfollowList(String id) throws Exception {
+        return adminDao.myfollowList(id);
+    }
+
+    @Override
+    public int isFollowing(FollowVO fvo) throws Exception {
+        return adminDao.cntFollowing(fvo);
+    }
+
 }

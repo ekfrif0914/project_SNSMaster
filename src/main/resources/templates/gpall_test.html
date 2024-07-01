@@ -1,233 +1,3 @@
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-</head>
-<body>
-<li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
-<a href="gList">그룹으로 가기</a>
-
-<h1>게시글</h1>
-<form class="d-flex" role="search" action="gpsearch" method="GET">
-    <select name="idsearch" id="idsearch">
-        <option value="id">아이디</option>
-        <option value="g_title">제목</option>
-        <option value="g_content">내용</option>
-    </select>
-    &lt;!&ndash; <input class="form-control me-2" type="search" placeholder="아이디 검색"
-            aria-label="Search" name="idsearch">&ndash;&gt;
-    <input class="form-control me-2" type="search" placeholder="게시글 검색"
-           aria-label="Search" name="search">
-    <input type="hidden" name="gno" th:value="${gno}">
-    <input class="btn btn-outline-success" type="submit" value="search">
-    <a th:href="redirect" +referer>
-        <button>초기화</button>
-    </a>
-</form>
-<table>
-    <tbody th:each="post: ${gpList}">
-
-    <tr>
-
-        <td><input type="hidden" value="${post.g_no}"></td>
-        <td>로그인아이디</td>
-        <td th:text="${id}"></td>
-        <td>아이디</td>
-        <td th:text="${post.id}"></td>
-    </tr>
-    <td>제목</td>
-    <td th:text="${post.g_title}"></td>
-    <tr>
-        <td>내용</td>
-        <td th:text="${post.g_content}"></td>
-    </tr>
-    <tr>
-        <td>좋아요</td>
-        <td th:text="${post.g_like}" class="cklike"></td>
-        <td th:if="${id!=post.id} and ${id!=null}">
-            <a th:href="@{/grouplike(g_no=${post.g_no},id=${id})}" class="glck" th:data-g_no="${post.g_no}">
-                <button>좋아요</button>
-            </a></td>
-        <td>신고누적수</td>
-        <td th:text="${post.g_report}"></td>
-        <td th:if="${id!=post.id} and ${id!=null}">
-            <a th:href="@{/greport(g_no=${post.g_no},id=${id})}" id="report" th:data-g_no="${post.g_no}">
-                <button>신고</button>
-            </a></td>
-        <td><a th:href="@{/grouppost(g_no=${post.g_no})}">
-            <button>자세히보기</button>
-        </a></td>
-        <td th:if="${id==post.id}"><a th:href="@{modno(g_no=${post.g_no})}">
-            <button>수정</button>
-        </a></td>
-        <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}">
-            <button>삭제</button>
-        </a></td>
-    </tr>
-    </tbody>
-</table>
-<h1>동행 모집글</h1>
-<form class="d-flex" role="search" action="gjsearch" method="GET">
-    <select name="g_region" id="g_region">
-        <option value="id">아이디</option>
-        <option value="m_name">제목</option>
-        <option value="m_contents">내용</option>
-        <option value="cnt">모집인원수</option>
-    </select>
-    <input class="form-control me-2" type="search" placeholder="동행 모집글 검색"
-           aria-label="Search" name="search">
-    <input type="hidden" name="gno" th:value="${gno}">
-    <input class="btn btn-outline-success" type="submit" value="search">
-    <a th:href="redirect" +referer>
-        <button>초기화</button>
-    </a>
-</form>
-<table>
-    <tbody th:each="post: ${gjList}">
-    <tr>
-        <td><input type="hidden" value="${post.gno}"></td>
-        <td><input type="hidden" value="${post.mo_no}"></td>
-    </tr>
-
-    <tr>
-        <td>아이디</td>
-        <td th:text="${post.mo_no}"></td>
-        <td th:text="${post.id}"></td>
-    </tr>
-    <tr>
-        <td>제목</td>
-        <td th:text="${post.m_name}"></td>
-    </tr>
-    <tr>
-        <td>내용</td>
-        <td th:text="${post.m_contents}"></td>
-    </tr>
-    <tr>
-        <td>모집 인원</td>
-        <td th:text="${post.cnt}"></td>
-        <td th:text="${post.cont}"></td>
-        <td th:if="${id!=post.id} and ${id!=null} and ${gjsize>0} or ${mgsize>0}">
-            <a th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
-               th:data-mo_no="${post.mo_no}" th:data-gno="${post.gno}" th:data-cnt="${post.cnt}" th:data-cont="${post.cont}">
-                <button>신청</button>
-            </a></td>
-        <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}">
-            <button>삭제</button>
-        </a></td>
-        <td th:if="${id==post.id}"><a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}">
-            <button>수정</button>
-        </a></td>
-    </tr>
-    </tbody>
-</table>
-
-
-</body>
-<script>
-    $(document).on('click', '.glck', function (event) {
-        event.preventDefault();
-        var g_no = $(this).data('g_no')
-        console.log('g_no:', g_no);
-        const aa = event.target.parentElement;
-        const bb = aa.parentNode;
-        $.ajax({
-            type: "get",
-            async: false,
-            url: "grouplike",
-            data: {g_no: g_no},
-            success: function (data) {
-                console.log(data);
-                if (data == 0) {
-                    console.log(bb.previousElementSibling.innerText)
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-                } else if (data == 1) {
-                    console.log(bb.previousElementSibling)
-
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) - 1);
-                } else {
-                    console.log("Unexpected response:", data);
-                }
-            },
-            error: function (request, status, error) {
-                console.log(request, status, error);
-            }
-        });
-    });
-    $(document).on('click', '#report', function (event) {
-        event.preventDefault();
-        var g_no = $(this).data('g_no')
-
-        console.log(g_no);
-        const aa = event.target.parentElement;
-        const bb = aa.parentNode;
-        $.ajax({
-            type: "get",
-            async: false,
-            url: "greport",
-            data: {g_no: g_no},
-            success: function (data) {
-                console.log(data);
-                if (data == 0) {
-                    console.log(bb.previousElementSibling.innerText)
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-                    alert("신고 되었습니다")
-                } else if (data == 1) {
-                    alert("이미 신고 하셨습니다")
-                    console.log(bb.previousElementSibling.innerText)
-
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
-                }
-            },
-            error: function (request, status, error) {
-                console.log(request, status, error);
-            }
-        });
-    });
-
-    $(document).on('click', '.gjoin', function (event) {
-        event.preventDefault();
-        var mo_no = $(this).data('mo_no')
-        var gno=$(this).data('gno')
-        var cnt=$(this).data('cnt')
-        var cont=$(this).data('cont')
-        console.log(mo_no);
-        const aa = event.target.parentElement;
-        const bb = aa.parentNode;
-        const cc =bb.previousElementSibling;
-        $.ajax({
-
-            type: "get",
-            async: false,
-            url: "g_memberjoin",
-            data: {mo_no: mo_no,gno: gno,cnt:cnt ,cont:cont},
-            success: function (data) {
-               if(bb.previousElementSibling.innerText==cc.previousElementSibling.innerText) {
-                   alert("신청인원이 초과 되었습니다.")
-               }else if(bb.previousElementSibling.innerText!=cc.previousElementSibling.innerText){
-                if (data == 0) {
-                    console.log(bb.previousElementSibling.innerText)
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-                    alert("신청되었습니다")
-                } else if (data == 1) {
-                    alert("이미 신청 하셨습니다")
-                    console.log(bb.previousElementSibling.innerText)
-
-                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
-                }
-               }
-            },
-            error: function (request, status, error) {
-                console.log(request, status, error);
-            }
-        });
-    });
--->
-
-<!-- </script>
-</html> -->
 <!DOCTYPE html>
 <html lang="kor">
 
@@ -298,27 +68,43 @@
         margin-left: 160px;
 
     }
+    #login {
+        margin-top: 13px;
+        margin-left: 12px;
+    }
 
+    #logout {
+        margin-top: 13px;
+        margin-left: 5px;
+    }
+    .btnimg {
+        margin-left: 160px;
+    }
     .img {
 
         width: 40px;
         height: 40px;
         margin: 4px;
-        margin-left: 160px;
+
     }
 
     .imgs {
         width: 50px;
         height: 50px;
 
-        margin-left: 160px;
+    }
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
 
     }
-
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
+    #logoimg {
+        width: 135px;
+        height: 135px;
+        margin-left: 7px;
+        margin-top: 5px;
     }
 
     .selectBox {
@@ -409,8 +195,48 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
+    }
+
+    table, tr{
+        margin-left: 25%;
+        margin-bottom: 100px;
+        margin-top: 100px;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .trsize {
+        width: 300px;
+        height: 100px;
+    }
+
+    .rsetbut {
+        background-color: white;
+        border: 1px solid green;
+        border-radius: 5px;
+        color: green;
+    }
+
+    .modsize {
+        width: 40px;
+        height: 40px;
+        margin-left: 40px;
+    }
+
+    .uptd {
+        height: 50px;
+
+    }
+
+    .idcolor {
+        border-top: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .colw {
+        border: 1px solid white;
     }
 
 </style>
@@ -419,14 +245,13 @@
 <div class="title">
     <div class="all">
         <div id="logo">
-            <h1 style="text-align: center">LOGO</h1>
+            <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
 
 
-
-            <li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
-            <a href="gList">그룹으로 가기</a>
+            <!--  <li><a th:if="${gjsize>0} or ${mgsize>0}" th:href="@{groupinput(gno=${gno})}">등록</a></li>
+              <a href="gList">그룹으로 가기</a>-->
 
             <h1>게시글</h1>
             <form class="d-flex" role="search" action="gpsearch" method="GET">
@@ -442,51 +267,62 @@
                 <input type="hidden" name="gno" th:value="${gno}">
                 <input class="btn btn-outline-success" type="submit" value="search">
                 <a th:href="redirect" +referer>
-                    <button>초기화</button>
+                    <button class="rsetbut">초기화</button>
                 </a>
             </form>
             <table>
                 <tbody th:each="post: ${gpList}">
 
-                <tr>
-
-                    <td><input type="hidden" value="${post.g_no}"></td>
-                    <td>로그인아이디</td>
-                    <td th:text="${id}"></td>
-                    <td>아이디</td>
-                    <td th:text="${post.id}"></td>
+                <tr class="idcolor">
+                    <th class="idcolor">아이디<input type="hidden" value="${post.g_no}"></th>
+                    <td th:text="${post.id}" class="idcolor"></td>
+                    <td class="idcolor" colspan='2'><a th:href="@{/grouppost(g_no=${post.g_no})}">
+                        <img class="postImg report" src="img/pngwing.png">
+                    </a></td>
                 </tr>
-                <td>제목</td>
-                <td th:text="${post.g_title}"></td>
                 <tr>
-                    <td>내용</td>
+                    <th>제목</th>
+                    <td th:text="${post.g_title}"></td>
+                </tr>
+                <tr>
+                    <th>내용</th>
                     <td th:text="${post.g_content}"></td>
                 </tr>
                 <tr>
-                    <td>좋아요</td>
                     <td th:text="${post.g_like}" class="cklike"></td>
                     <td th:if="${id!=post.id} and ${id!=null}">
                         <a th:href="@{/grouplike(g_no=${post.g_no},id=${id})}" class="glck" th:data-g_no="${post.g_no}">
-                            <button>좋아요</button>
+                            <img class="likeBtn postImg" src="img/heart.png">
                         </a></td>
-                    <td>신고누적수</td>
+                </tr>
+                <tr>
+
+                    <th>신고누적수</th>
                     <td th:text="${post.g_report}"></td>
                     <td th:if="${id!=post.id} and ${id!=null}">
                         <a th:href="@{/greport(g_no=${post.g_no},id=${id})}" id="report" th:data-g_no="${post.g_no}">
-                            <button>신고</button>
+                            <img class="postImg report" src="img/siren.png">
                         </a></td>
-                    <td><a th:href="@{/grouppost(g_no=${post.g_no})}">
-                        <button>자세히보기</button>
-                    </a></td>
+
                     <td th:if="${id==post.id}"><a th:href="@{modno(g_no=${post.g_no})}">
-                        <button>수정</button>
+                        <img class="modsize report" src="img/mod.png">
                     </a></td>
-                    <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}">
-                        <button>삭제</button>
+                    <td th:if="${id==post.id}"><a th:href="@{delgroup(g_no=${post.g_no},gno=${post.gno})}"
+                                                  onclick="return delck()">
+                        <img class="postImg report" src="img/del.png">
                     </a></td>
                 </tr>
+                <tr class="colw">
+
+                    <td class="uptd">
+
+                    </td>
+                </tr>
+
                 </tbody>
+
             </table>
+
             <h1>동행 모집글</h1>
             <form class="d-flex" role="search" action="gjsearch" method="GET">
                 <select name="g_region" id="g_region">
@@ -500,54 +336,58 @@
                 <input type="hidden" name="gno" th:value="${gno}">
                 <input class="btn btn-outline-success" type="submit" value="search">
                 <a th:href="redirect" +referer>
-                    <button>초기화</button>
+                    <button class="rsetbut">초기화</button>
                 </a>
             </form>
             <table>
                 <tbody th:each="post: ${gjList}">
-                <tr>
+                <tr class="colw">
                     <td><input type="hidden" value="${post.gno}"></td>
                     <td><input type="hidden" value="${post.mo_no}"></td>
                 </tr>
 
-                <tr>
-                    <td>아이디</td>
-                    <td th:text="${post.mo_no}"></td>
-                    <td th:text="${post.id}"></td>
+                <tr class="idcolor">
+                    <th class="idcolor">아이디</th>
+                    <td th:text="${post.id}" class="idcolor" colspan='7'></td>
                 </tr>
                 <tr>
-                    <td>제목</td>
+                    <th>제목</th>
                     <td th:text="${post.m_name}"></td>
                 </tr>
                 <tr>
-                    <td>내용</td>
-                    <td th:text="${post.m_contents}"></td>
+                    <th>내용</th>
+                    <td class="trsize" th:text="${post.m_contents}" ></td>
                 </tr>
                 <tr>
-                    <td>모집 인원</td>
+                    <th>모집 인원</th>
                     <td th:text="${post.cnt}"></td>
+                    <th>신청인원</th>
                     <td th:text="${post.cont}"></td>
-                    <td th:if="${id!=post.id} and ${id!=null} and ${gjsize>0} or ${mgsize>0}">
-                        <a th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
+
+                    <td >
+                        <a th:if="${id!=post.id} and ${id!=null}"
+                                th:href="@{/g_memberjoin(gno=${post.gno},mo_no=${post.mo_no},cnt=${post.cnt},cont=${post.cont})}" class="gjoin"
                            th:data-mo_no="${post.mo_no}" th:data-gno="${post.gno}" th:data-cnt="${post.cnt}" th:data-cont="${post.cont}">
                             <button>신청</button>
                         </a></td>
-                    <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}">
-                        <button>삭제</button>
-                    </a></td>
+
+
+
+
                     <td th:if="${id==post.id}"><a th:href="@{/gmjoinmod(gno=${post.gno},mo_no=${post.mo_no})}">
-                        <button>수정</button>
+                        <img class="modsize report" src="img/mod.png">
+                    </a></td>
+                    <td th:if="${id==post.id}"><a th:href="@{/gjdel(gno=${post.gno},mo_no=${post.mo_no})}"
+                                                  onclick="return modelck()">
+                        <img class="postImg report" src="img/del.png">
                     </a></td>
                 </tr>
+                <tr class="colw">
+                    <td class="uptd"></td>
+                </tr>
+
                 </tbody>
             </table>
-
-
-
-
-
-
-
 
 
             <div id="show">
@@ -558,20 +398,39 @@
             </div>
         </div>
         <div id="mmode">
-            <img src="img/mmode.png" id="m">
+            <img src="img/mmode.png" class="m">
+            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
         </div>
     </div>
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
-            <a href="snsMaster"> <img src="img/home.png" class="img"></a>
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
 
-            <a  th:href="@{groupinput(gno=${gno})}"> <img src="img/plus.png" class="img"></a>
-            <a href="group"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage"> <img src="img/myprofile.png" class="img"></a>
+            <th:block th:if="${gjsize>0} or ${mgsize>0}">
+            <a th:href="@{groupinput(gno=${gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            </th:block>
+
+            <th:block th:unless="${gjsize>0} or ${mgsize>0}">
+                <a class="btnimg"><img src="img/plus.png" class="img"></a>
+            </th:block>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+
         </div>
     </nav>
 </div>
 </body>
+<script>
+    function delck() {
+
+        return confirm("선택하신 게시글을 삭제 하시겠습니까?")
+
+    }
+
+    function modelck() {
+        return confirm("선택하신 동행글을 삭제 하시겠습니까?")
+    }
+</script>
 
 <script th:inline="javascript">
     var id = [[${session.userid}]]
@@ -612,28 +471,12 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });
 
-    $(".likeBtn").on("click", (event) => {
-        var no = event.target.id;
-        var id = [[${session.userid}]];
-        $.ajax({
-            type: "post",
-            async: false,
-            url: "http://localhost:8080/postLike",
-            data: {no: no, id: id},
-            success: function (data){
-
-            },
-            error: function (request, status, error) { // 결과 에러 콜백함수
-                console.log(error)
-            }
-        })
-    })
 
     $(document).on('click', '.glck', function (event) {
         event.preventDefault();
@@ -655,6 +498,7 @@
                     console.log(bb.previousElementSibling)
 
                     bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) - 1);
+
                 } else {
                     console.log("Unexpected response:", data);
                 }
@@ -698,23 +542,24 @@
     $(document).on('click', '.gjoin', function (event) {
         event.preventDefault();
         var mo_no = $(this).data('mo_no')
-        var gno=$(this).data('gno')
-        var cnt=$(this).data('cnt')
-        var cont=$(this).data('cont')
+        var gno = $(this).data('gno')
+        var cnt = $(this).data('cnt')
+        var cont = $(this).data('cont')
         console.log(mo_no);
         const aa = event.target.parentElement;
         const bb = aa.parentNode;
-        const cc =bb.previousElementSibling;
+        const cc = bb.previousElementSibling.previousElementSibling;
+
         $.ajax({
 
             type: "get",
             async: false,
             url: "g_memberjoin",
-            data: {mo_no: mo_no,gno: gno,cnt:cnt ,cont:cont},
+            data: {mo_no: mo_no, gno: gno, cnt: cnt, cont: cont},
             success: function (data) {
-                if(bb.previousElementSibling.innerText==cc.previousElementSibling.innerText) {
+                if (bb.previousElementSibling.innerText == cc.previousElementSibling.innerText) {
                     alert("신청인원이 초과 되었습니다.")
-                }else if(bb.previousElementSibling.innerText!=cc.previousElementSibling.innerText){
+                } else if (bb.previousElementSibling.innerText != cc.previousElementSibling.innerText) {
                     if (data == 0) {
                         console.log(bb.previousElementSibling.innerText)
                         bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
@@ -734,40 +579,7 @@
     });
 
 
-
-    //
-    // $(".likeBtn").click(function () {
-    //     $('#jb').attr("type", "button");
-    //     var id = $("#id").val();
-    //     if (idChk()) {
-    //         $.ajax({
-    //             type: "get",
-    //             async: false,
-    //             url: "http://localhost:8080/idCheck",
-    //             data: {id: id},
-    //             success: function (data) {
-    //                 if (data == 1) {
-    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
-    //                     $("#noticeId").css("color", "red");
-    //                     isIdChecked = false;
-    //                     console.log(isIdChecked)
-    //                 } else {
-    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
-    //                     $("#noticeId").css("color", "blue");
-    //                     //$("#signup").attr("type", "submit");
-    //                     isIdChecked = true;
-    //                     console.log(isIdChecked)
-    //                 }
-    //             },
-    //             error: function (request, status, error) { // 결과 에러 콜백함수
-    //                 console.log(error)
-    //             }
-    //
-    //         })
-    //     } else {
-    //         alert("형식을 지키세요")
-    //     }
-    // });
+   
 
 </script>
 </html>

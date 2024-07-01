@@ -1,6 +1,7 @@
 package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.vo.FAQVO;
+import com.codemaster.project_snsmaster.vo.FollowVO;
 import com.codemaster.project_snsmaster.vo.MemberVO;
 import com.codemaster.project_snsmaster.vo.PageVO;
 
@@ -44,4 +45,18 @@ public interface IF_AdminService {
     public int getSearchTotalCount(HashMap<String, String> param) throws Exception;
 
     public List<FAQVO> faqSearchselect(PageVO pvo) throws Exception;
+
+    public boolean following(FollowVO fvo)throws Exception;
+
+    public List<String> selectMyFollowinglist(String userid)throws Exception;
+
+    public int myfollowCount(String id)throws Exception;
+
+    public int myfollowingCount(String id)throws Exception;
+
+    public List<String> myfollowList (String id) throws Exception;
+
+    public int isFollowing(FollowVO fvo)throws Exception;
+
+
 }

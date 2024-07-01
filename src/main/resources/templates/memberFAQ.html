@@ -73,13 +73,13 @@
 
     }
 
+    .m {
+        width: 55px;
+        height: 55px;
+        margin-top: 19px;
+        margin-left: 19px;
 
-    #m {
-        width: 50px;
-        height: 50px;
-        margin: 20px;
     }
-
 
     #top {
         border: 1px solid black;
@@ -121,13 +121,12 @@
 
     }
 
-    #login {
-        margin-top: 50px;
+    #login{
+        margin-top: 13px;
         margin-left: 12px;
     }
-
-    #logout {
-        margin-top: 50px;
+    #logout{
+        margin-top: 13px;
         margin-left: 5px;
     }
 
@@ -143,7 +142,7 @@
     }
 
 
-    .btn {
+    .btnn {
         margin-left: 870px;
         botton: 300px;
         position: fixed;
@@ -219,6 +218,7 @@
                     <td th:text="${list.id}"></td>
                     <th:block th:if="${list.secret}==true">
                         <td th:if="${session.managergrade}=='관리자' or ${list.id==session.userid}">
+                            <img src="img/secret.png" class="simg">
                             <a th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a>
 
                         </td>
@@ -250,15 +250,15 @@
         </div>
         <div id="btnarea">
             <a href="FAQPageWrite">
-                <button type="button" class="btn btn-dark">글 쓰기</button>
+                <button type="button" class="btn btnn btn-dark">글 쓰기</button>
             </a>
         </div>
 
     </div>
 
     <div id="mmode">
-
-
+        <img src="img/mmode.png" id="m" class="m">
+        <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
     </div>
 
 </div>

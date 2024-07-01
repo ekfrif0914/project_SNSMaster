@@ -96,12 +96,32 @@ IF_ManagerDAO mdao;
     }
 
     @Override
-    public void fordelete2(List<String> list) {
+    public void fordelete2(List<String> list) throws Exception {
         mdao.fordelete2(list);
     }
 
     @Override
     public void alter2(int g_no) throws Exception {
         mdao.alter2(g_no);
+    }
+
+    @Override
+    public void Notification(HashMap<String, Object> data) {
+      mdao.Notification(data);
+    }
+
+    @Override
+    public int statecount(String id) {
+     return mdao.stateNotification(id);
+    }
+
+    @Override
+    public List<String> notificationlook(String id) {
+      return mdao.notificationlook(id);
+    }
+
+    @Override
+    public void notifi(String id) {
+         mdao.notifi(id);
     }
 }

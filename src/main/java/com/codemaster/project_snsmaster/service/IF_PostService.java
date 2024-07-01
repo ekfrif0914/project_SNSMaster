@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface IF_PostService {
     public void insertPost(PostVO postVO) throws Exception;
-    public List<PostVO> selectAll() throws Exception;
-    public List<PostVO> select(HashMap<String, String> params) throws Exception;
+    public List<HashMap<String, Object>> selectAll(String userid) throws Exception;
+    public List<HashMap<String, Object>> select(HashMap<String, String> params, String userid) throws Exception;
     public PostVO selectOne(String no) throws Exception;
+    public HashMap<String, Object> selectOneMap(String no, String userid) throws Exception;
     public List<String> selectFileNames(String no) throws Exception;
     public void insertComment(PostCommentVO postCommentVO) throws Exception;
     public List<PostCommentVO> selectComment(String no) throws Exception;
@@ -25,4 +26,6 @@ public interface IF_PostService {
     public boolean changeLike(String no, String id) throws Exception;
     public int likeCnt(String no) throws Exception;
     public boolean report(String no, String id) throws Exception;
+    public String selectRandomNotice() throws Exception;
+    public List<String> selectAllNotice() throws Exception;
 }

@@ -3,10 +3,7 @@ package com.codemaster.project_snsmaster.controller;
 import com.codemaster.project_snsmaster.service.IF_AdminService;
 import com.codemaster.project_snsmaster.service.IF_EmailService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
-import com.codemaster.project_snsmaster.vo.FAQVO;
-import com.codemaster.project_snsmaster.vo.MemberVO;
-import com.codemaster.project_snsmaster.vo.PageVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
+import com.codemaster.project_snsmaster.vo.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -31,6 +28,7 @@ public class AdminController {
     IF_EmailService ifEmailService;
     @Autowired
     private FileDataUtil fileDataUtil;
+
 
     @GetMapping("signUp")
     public String signUp() {
@@ -103,7 +101,6 @@ public class AdminController {
         if (file != null) {
             String[] filename = fileDataUtil.fileUpload(file);
             ifAdminService.updateProfile(id, filename);
-            System.out.println("신갓다");
         }
 
         return "redirect:/snsMaster";
@@ -149,7 +146,10 @@ public class AdminController {
     @GetMapping("stopMember")
     public String deleteMember(@RequestParam String id, HttpSession session) throws Exception {
         ifAdminService.stop(id);
-        session.invalidate();
+        session.removeAttribute("userid");
+        session.removeAttribute("username");
+        session.removeAttribute("userregion");
+        session.removeAttribute("prev_url");
         return "redirect:snsMaster";
     }
 
@@ -176,13 +176,13 @@ public class AdminController {
     }
 
     @GetMapping("FAQPage")//FAQ페이지의 메인
-    public String faqPage( Model model, @ModelAttribute PageVO pagevo) throws Exception {
+    public String faqPage(Model model, @ModelAttribute PageVO pagevo) throws Exception {
         if (pagevo.getPage() == null) {
             pagevo.setPage(1);
         }
 
-        if (pagevo.getSearchKeyword() == null || pagevo.getSearchType()==null
-        || pagevo.getSearchKeyword().equals("") || pagevo.getSearchType().equals("")){
+        if (pagevo.getSearchKeyword() == null || pagevo.getSearchType() == null
+                || pagevo.getSearchKeyword().equals("") || pagevo.getSearchType().equals("")) {
             System.out.println("실행1");
             System.out.println(pagevo.getSearchKeyword());
             System.out.println(pagevo.getSearchType());
@@ -208,12 +208,12 @@ public class AdminController {
             model.addAttribute("list", faqvoSearchList);
         }
 //        String referer = request.getHeader("Referer");
-    //    model.addAttribute("referer", referer);
+        //    model.addAttribute("referer", referer);
         return "memberFAQ";
     }
 
     @GetMapping("FAQPageWrite")//FAQ글 작성
-    public String faqPageWrite(HttpServletRequest request ,Model model) throws Exception {
+    public String faqPageWrite(HttpServletRequest request, Model model) throws Exception {
         String referer = request.getHeader("Referer");
         model.addAttribute("referer", referer);
 
@@ -228,12 +228,24 @@ public class AdminController {
     }
 
     @GetMapping(value = "/FAQDetail")//글 상세보기
-    public String postDetail(HttpServletRequest request,@RequestParam String f_no, Model model) throws Exception {
+    public String postDetail(HttpServletRequest request, @RequestParam String f_no, Model model) throws Exception {
         ifAdminService.viewUp(f_no);
-       // System.out.println(ifAdminService.selectOne(f_no).isSecret());
+        // System.out.println(ifAdminService.selectOne(f_no).isSecret());
         String referer = request.getHeader("Referer");
         model.addAttribute("referer", referer);
         model.addAttribute("FAQDetail", ifAdminService.selectOne(f_no));
         return "FAQDetail";
     }
+
+    @ResponseBody
+    @PostMapping("following")
+    public boolean following(@ModelAttribute FollowVO fvo) throws Exception {
+        System.out.println("follow실행");
+        boolean isFollowing = ifAdminService.following(fvo);//true면 팔로잉 됨,false면 팔로우 취소
+        System.out.println(isFollowing);
+        return isFollowing;
+    }
+
+
+
 }

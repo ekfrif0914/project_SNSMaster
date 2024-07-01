@@ -5,8 +5,10 @@ import com.codemaster.project_snsmaster.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PostServiceImpl implements IF_PostService{
@@ -26,10 +28,13 @@ public class PostServiceImpl implements IF_PostService{
     }
 
     @Override
-    public List<PostVO> selectAll() throws Exception {
+    public List<HashMap<String, Object>> selectAll(String userid) throws Exception {
+        List<HashMap<String, Object>> postMaps = new ArrayList<HashMap<String,Object>>();
         List<PostVO> postList = postDAO.selectAll();
         List<PostAttachVO> postAttachVOList = postDAO.selectAllFileNames();
+        List<Integer> likeNos = postDAO.selectMyLikeNo(userid);
         for(PostVO postVO : postList){
+            HashMap<String, Object> postMap = new HashMap<>();
             String[] filenames = new String[8];
             int i = 0;
             for(PostAttachVO postAttachVO : postAttachVOList){
@@ -38,15 +43,29 @@ public class PostServiceImpl implements IF_PostService{
                 }
             }
             postVO.setFile_name(filenames);
+            for (Integer likeNo : likeNos) {
+                if (likeNo != null) {
+                    if (postVO.getNo() == likeNo) {
+                        postVO.setLike(true);
+                    }
+                }
+            }
+            String profileImgName = postDAO.selectProfileImg(postVO.getId());
+            postMap.put("profileImgName", profileImgName);
+            postMap.put("post", postVO);
+            postMaps.add(postMap);
         }
-        return postList;
+        return postMaps;
     }
 
     @Override
-    public List<PostVO> select(HashMap<String, String> params) throws Exception {
+    public List<HashMap<String, Object>> select(HashMap<String, String> params, String userid) throws Exception {
+        List<HashMap<String, Object>> postMaps = new ArrayList<HashMap<String,Object>>();
         List<PostVO> postList = postDAO.select(params);
         List<PostAttachVO> postAttachVOList = postDAO.selectAllFileNames();
+        List<Integer> likeNos = postDAO.selectMyLikeNo(userid);
         for(PostVO postVO : postList){
+            HashMap<String, Object> postMap = new HashMap<>();
             String[] filenames = new String[8];
             int i = 0;
             for(PostAttachVO postAttachVO : postAttachVOList){
@@ -55,8 +74,19 @@ public class PostServiceImpl implements IF_PostService{
                 }
             }
             postVO.setFile_name(filenames);
+            for (Integer likeNo : likeNos) {
+                if (likeNo != null) {
+                    if (postVO.getNo() == likeNo) {
+                        postVO.setLike(true);
+                    }
+                }
+            }
+            String profileImgName = postDAO.selectProfileImg(postVO.getId());
+            postMap.put("profileImgName", profileImgName);
+            postMap.put("post", postVO);
+            postMaps.add(postMap);
         }
-        return postList;
+        return postMaps;
     }
 
     @Override
@@ -68,6 +98,29 @@ public class PostServiceImpl implements IF_PostService{
         }
         postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[size]));
         return postVO;
+    }
+
+    @Override
+    public HashMap<String, Object> selectOneMap(String no, String userid) throws Exception {
+        HashMap<String, Object> postMap = new HashMap<>();
+        PostVO postVO = postDAO.selectOne(no);
+        List<Integer> likeNos = postDAO.selectMyLikeNo(userid);
+        int size = selectFileNames(no).size() + 1;
+        if(size > 8){
+            size = 8;
+        }
+        postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[size]));
+        for (Integer likeNo : likeNos) {
+            if (likeNo != null) {
+                if (postVO.getNo() == likeNo) {
+                    postVO.setLike(true);
+                }
+            }
+        }
+        String profileImgName = postDAO.selectProfileImg(postVO.getId());
+        postMap.put("profileImgName", profileImgName);
+        postMap.put("post", postVO);
+        return postMap;
     }
 
     @Override
@@ -185,5 +238,18 @@ public class PostServiceImpl implements IF_PostService{
         }
     }
 
+    @Override
+    public String selectRandomNotice() throws Exception {
+        List<String> noticeList = postDAO.selectAllNotice();
+        String notice;
+        Random random = new Random();
+        notice = noticeList.get(random.nextInt(noticeList.size()));
+        return notice;
+    }
+
+    @Override
+    public List<String> selectAllNotice() throws Exception {
+        return postDAO.selectAllNotice();
+    }
 
 }

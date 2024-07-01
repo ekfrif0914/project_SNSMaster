@@ -19,4 +19,6 @@ public class MemberVO {
     private String s_text;
     private String today;
     private String finish;
+
+    private boolean followstate;
 }
