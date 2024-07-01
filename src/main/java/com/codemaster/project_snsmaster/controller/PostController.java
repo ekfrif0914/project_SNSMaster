@@ -106,7 +106,6 @@ public class PostController {
         params.put("category", category);
 
         List<HashMap<String, Object>> postMaps = postService.select(params, userid);
-        List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
         for(HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
@@ -192,6 +191,13 @@ public class PostController {
                 }
             }
         }
+        String followid= postVO.getId();
+        FollowVO fvo = new FollowVO();
+        fvo.setUserid(userid);
+        fvo.setFollowid(followid);
+        int isFollowing = adminService.isFollowing(fvo);
+        model.addAttribute("isFollowing", isFollowing);
+
         model.addAttribute("postMap", postMap);
         model.addAttribute("fileNames", postService.selectFileNames(no));
         model.addAttribute("comments", postService.selectComment(no));

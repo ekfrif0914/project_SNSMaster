@@ -5,7 +5,7 @@
 
         insert into member
         values (#{id}, #{email}, #{pw}, #{region}, #{name}, null, null, #{region1})
-
+<!--member 순서 수정-->
     </insert>
     <select id="overlappedID" resultType="int">
         select count(*)
