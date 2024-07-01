@@ -10,83 +10,112 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <body>
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+    body {
+        background-color: #c8f1ff;
+
+    }
     #field {
+        margin-top:50px;
         display: inline-block;
+
+
     }
 
-    .btn {
-
-        margin-top: 380px;
+    .memberCancel {
+        margin-top: 150px;
         color: #666666;
         text-decoration: underline;
 
     }
-
+    #infoChang{
+        margin-top: 2px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10px;
+        border:1px solid black;
+        width:660px;
+        height: 803px;
+        text-align: center;
+    }
+    #logoimg {
+        width: 90px;
+        height: 90px;
+        margin-left: 590px;
+        margin-top: 5px;
+    }
 </style>
-<h1>회원정보 수정</h1>
-<br>
-<div id="field">
-    아이디: <span th:text="${member.id}"></span>
-
+<a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
+<div id="infoChang">
+    <h1>회원정보 수정</h1>
     <br>
-    이메일:<span th:text="${member.email}"></span>
+    <div id="field">
+        아이디: <span th:text="${member.id}"></span>
 
-    <form action="updateSave" method="post">
-        <input type="hidden" th:value="${member.id}" name="id">
-        지역
-        <select class="form-select" id="sido" onchange="categoryChange(this)" name="region1">
-            <option value="광역시/특별시">광역시/특별시</option>
-            <option value="경기도">경기도</option>
-            <option value="강원도">강원도</option>
-            <option value="충청북도">충청북도</option>
-            <option value="충청남도">충청남도</option>
-            <option value="전라북도">전라북도</option>
-            <option value="전라남도">전라남도</option>
-            <option value="경상북도">경상북도</option>
-            <option value="경상남도">경상남도</option>
-            <option value="제주도">제주도</option>
-        </select>
-        <select class="form-select" name="region" id="region">
-        </select>
+        <br>
+        이메일:<span th:text="${member.email}"></span>
 
-        <br><br><!--세분화-->
+        <form action="updateSave" method="post">
+            <input type="hidden" th:value="${member.id}" name="id">
+            지역
+            <select class="form-select" id="sido" onchange="categoryChange(this)" name="region1">
+                <option value="광역시/특별시">광역시/특별시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주도">제주도</option>
+            </select>
+            <select class="form-select" name="region" id="region">
+            </select>
+
+            <br><br><!--세분화-->
 
 
-        이름<input type="text" th:value="${member.name}" name="name" id="name">
-        <br><br>
-        비밀번호<input type="password" th:value="${member.pw}" id="userpw">
-        <input type="hidden" th:value="${member.pw}" id="oldpw">
-        <br><br>
-        새 비밀번호<input type="password" name="pw" id="pw" onchange="pwChk()" onkeyup="pwChk()"><br>
-        <span id="noticePw">
+            이름<input type="text" th:value="${member.name}" name="name" id="name">
+            <br><br>
+            비밀번호<input type="password" th:value="${member.pw}" id="userpw">
+            <input type="hidden" th:value="${member.pw}" id="oldpw">
+            <br><br>
+            새 비밀번호<input type="password" name="pw" id="pw" onchange="pwChk()" onkeyup="pwChk()"><br>
+            <span id="noticePw">
 
                 영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요
             </span>
-        <br>
-        새 비밀번호 확인<input type="password" id="pwchk">
-        <br>
-        <br>
-        <input type="submit" value="수정하기" onclick="return updateSave()">
-    </form>
-</div>
+            <br>
+            <br>
+            새 비밀번호 확인<input type="password" id="pwchk">
+            <br>
+            <br>
+            <input type="submit" value="수정하기" onclick="return updateSave()" class="btn btn-warning">
+        </form>
+            <form action="memberCancelPage" method="post">
+                <input type="hidden" th:value="${member.id}" name="id">
+                <input type="hidden" th:value="${member.pw}" name="pw">
+                <input type="submit" class="btn memberCancel" value="회원탈퇴">
+            </form>
 
+    </div>
 
-<div id="cancel">
-
-
-    <form action="memberCancelPage" method="post">
-        <input type="hidden" th:value="${member.id}" name="id">
-        <input type="hidden" th:value="${member.pw}" name="pw">
-        <input type="submit" class="btn" value="회원탈퇴">
-    </form>
 
 </div>
-
 </body>
 <script th:inline="javascript">
-    var region1= [[${member.region1}]]
+    var region1 = [[${member.region1}]]
     $('#sido').val(region1).attr("selected", true);
     var region = [[${member.region}]]
 
@@ -107,10 +136,10 @@
 
     var target = $('#region')
 
-    if (region1== "광역시/특별시") var sidetailOption = metrocity;
-    else if (region1== "경기도") var sidetailOption = gyeonggido;
+    if (region1 == "광역시/특별시") var sidetailOption = metrocity;
+    else if (region1 == "경기도") var sidetailOption = gyeonggido;
     else if (region1 == "강원도") var sidetailOption = Gangwondo;
-    else if (region1== "충청북도") var sidetailOption = Chungcheongbukdo;
+    else if (region1 == "충청북도") var sidetailOption = Chungcheongbukdo;
     else if (region1 == "충청남도") var sidetailOption = Chungcheongnamdo;
     else if (region1 == "전라북도") var sidetailOption = Jeollabukdo;
     else if (region1 == "전라남도") var sidetailOption = Jeollanamdo;
@@ -198,7 +227,7 @@
         var pw1 = $('#pw').val()
         var num = pw1.search(/[0-9]/g);
         var eng = pw1.search(/[a-z]/ig);
-        var spe = pw1.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        var spe = pw1.search(/[!@#$%^&*]/gi);
         var noticePw = $('#noticePw')
 
         if (pw1 == "") {

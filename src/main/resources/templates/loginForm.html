@@ -9,8 +9,23 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    body {
+        background-color: #c8f1ff;
+
+    }
+
     h1 {
 
         text-align: center;
@@ -19,10 +34,11 @@
     #chang {
         width: 600px;
         height: 600px;
-        border: 2px solid skyblue;
+        border: 2px solid black;
         margin-top: 20px;
         margin-left: 350px;
         padding-top: 30px;
+        border-radius: 10px;
         /*padding-left: 80px;*/
 
     }
@@ -78,6 +94,9 @@
         margin-left: 220px;
     }
 
+    .noLine {
+        text-decoration-line: none;
+    }
 
 </style>
 <body>
@@ -95,7 +114,7 @@
         <input class="form-control form-control-lg field" type="password" placeholder="비밀번호를 입력하세요"
                aria-label=".form-control-lg example" id="pw" name="pw">
         <br>
-        <a href="findMember" class="space field">아이디 찾기/비밀번호 찾기</a>
+        <a href="findMember" class="space field noLine">아이디 찾기/비밀번호 찾기</a>
         <br>
         <br>
         <div id="text"></div>
@@ -107,7 +126,7 @@
     <br>
 </div>
 <div id="join">
-    <span style=font-style:italic class="field" >계정이 없으신가요?</span>
+    <span style=font-style:italic class="field">계정이 없으신가요?</span>
     <button class="btn btn-primary " id="lb" type="button" onclick="location.href='signUp'">회원가입</button>
 
 </div>

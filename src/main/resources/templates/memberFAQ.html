@@ -10,9 +10,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
+    * {
+        font-family: "Nanum Gothic", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
     body {
         margin: 0px;
     }
@@ -29,9 +39,13 @@
 
 
     }
+    .noLine {
+        text-decoration-line: none;
+    }
 
     #notice {
         padding-top: 20px;
+        border-radius: 10px;
     }
 
     #logo {
@@ -40,69 +54,94 @@
         float: left;
         width: 150px;
         height: 840px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
+
+    }
+
+    .img {
+
+        width: 40px;
+        height: 40px;
+        margin: 4px;
+
+    }
+
+    .btnimg {
+        margin-left: 90px;
+    }
+
+    .imgs {
+        width: 50px;
+        height: 50px;
+
 
     }
 
     #change {
         float: left;
-        margin-left: 160px;
-        width: 980px;
+        margin-left: 330px;
+        width: 660px;
         height: 803px;
         border: 1px solid black;
+        overflow: scroll;
+        border-radius: 10px;
+        -ms-overflow-style: none;
+    }
+    #change::-webkit-scrollbar{
+        display:none;
+    }
+    #show {
+        width: 100%;
     }
 
     #mmode {
         position: fixed;
-        right: 15px;
+        right: 13px;
         float: right;
-        width: 100px;
+        width: 120px;
         height: 840px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         margin-left: 3px;
     }
 
+
     #menu {
         display: inline-block;
-        width: 980px;
+        width: 660px;
         height: 50px;
         border: 1px solid black;
         margin-top: 8px;
-        margin-left: 160px;
-        text-align: center;
-
+        margin-left: 330px;
+        border-radius: 10px;
     }
+
+
 
     .m {
-        width: 55px;
-        height: 55px;
+        width: 57px;
+        height: 57px;
         margin-top: 19px;
-        margin-left: 19px;
+        margin-left: 32px;
 
     }
-
     #top {
         border: 1px solid black;
         width: 100%;
         display: inline-block;
-        padding-left: 30px;
-        padding-bottom: 10px;
-        padding-top: 2px;
-    }
-
-    #select {
-
-        float: left;
+        padding-left: 20px;
+        border-radius: 10px;
     }
 
     #search {
-        width: 700px;
+        width: 440px;
         height: 40px;
-
-        /*float: left;*/
+        float: left;
         margin-top: 20px;
-        margin-left: 20px;
-
+        margin-left: 15px;
+    }
+    #idblock {
+        text-align: center;
+        margin-left: 2px;
     }
 
     #sbtn {
@@ -121,13 +160,14 @@
 
     }
 
-    #login{
-        margin-top: 13px;
-        margin-left: 12px;
+    #login {
+        margin-top: 2px;
+        margin-left: 23px;
     }
-    #logout{
-        margin-top: 13px;
-        margin-left: 5px;
+
+    #logout {
+        margin-top: 23px;
+        margin-left: 23px;
     }
 
     #lb {
@@ -135,15 +175,14 @@
     }
 
     #logoimg {
-        width: 135px;
-        height: 135px;
+        width: 90px;
+        height: 90px;
         margin-left: 7px;
         margin-top: 5px;
     }
 
-
     .btnn {
-        margin-left: 870px;
+        margin-left: 560px;
         botton: 300px;
         position: fixed;
     }
@@ -162,8 +201,23 @@
     }
 
     #optionSearch {
-        width: 90px;
+        width: 80px;
         height: 39px;
+        border-color: skyblue;
+        border-radius: 7px;
+        float: left;
+        margin-bottom: 20px;
+    }
+
+    #paging {
+        margin-top: 150px;
+        text-align: center;
+    }
+    .noLine{
+        text-decoration-line: none;
+    }
+    select{
+        margin-top: 20px;
     }
 </style>
 
@@ -193,8 +247,8 @@
                 </select>
 
                 <input th:value="${pagevo.searchKeyword}" name="searchKeyword" type="search"
-                       placeholder="검색어를 입력하세요" id="search">
-                <input type="submit" value="검색" id="sbtn">
+                       placeholder="검색어를 입력하세요" id="search" class="form-control">
+                <input type="submit" value="검색" id="sbtn" class="btn btn-outline-info">
 
 
             </form>
@@ -219,7 +273,7 @@
                     <th:block th:if="${list.secret}==true">
                         <td th:if="${session.managergrade}=='관리자' or ${list.id==session.userid}">
                             <img src="img/secret.png" class="simg">
-                            <a th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a>
+                            <a class="noLine" th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a>
 
                         </td>
                         <td th:if="${session.managergrade}==null and ${list.id!=session.userid}">
@@ -230,7 +284,7 @@
 
                     </th:block>
                     <th:block th:if="${list.secret}==false">
-                        <td><a th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a></td>
+                        <td><a class="noLine" th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a></td>
                     </th:block>
 
                     <!--                  <td><a th:href="@{FAQDetail(f_no=${list.f_no})}"><span th:text="${list.title}"></span></a></td>-->
@@ -253,41 +307,57 @@
                 <button type="button" class="btn btnn btn-dark">글 쓰기</button>
             </a>
         </div>
+        <div id="paging">
+            <th:block th:if="${!#lists.isEmpty(list)}">
+                <th:block th:if="${pagevo.prev }">
+                    <a class="noLine" th:href="@{FAQPage(page=${pagevo.startPage -1 }, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">[이전페이지그룹]</a>
+                </th:block>
+                <th:block th:each="item: ${#numbers.sequence(pagevo.startPage, pagevo.endPage)}">
+                    <a class="noLine" th:href="@{FAQPage(page=${item}, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">
+                        <th:block th:if="${item ==  pagevo.page }">
+                            <span>[</span>
+                        </th:block>
+                        <span th:text="${item}"></span>
+                        <th:block th:if="${item == pagevo.page }">
+                            <span>]</span>
+                        </th:block>
+                    </a>
+                </th:block>
+                <th:block th:if="${pagevo.next }">
+                    <a class="noLine" th:href="@{FAQPage(page=${pagevo.endPage +1 }, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">[다음페이지그룹]</a>
+                </th:block>
+            </th:block>
 
+        </div>
     </div>
 
     <div id="mmode">
         <img src="img/mmode.png" id="m" class="m">
         <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+        <br><br>
+        <div id="idblock">
+            <th:block th:if="${session.userid!=null}">
+                <span style="color: #007bff ">로그인 아이디:</span>
+                <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+            </th:block>
+        </div>
     </div>
 
-</div>
+
 
 <nav class="navbar fixed-bottom bg-body-tertiary">
     <div id="menu">
-        <th:block th:if="${!#lists.isEmpty(list)}">
-            <th:block th:if="${pagevo.prev }">
-                <a th:href="@{FAQPage(page=${pagevo.startPage -1 }, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">[이전페이지그룹]</a>
-            </th:block>
-            <th:block th:each="item: ${#numbers.sequence(pagevo.startPage, pagevo.endPage)}">
-                <a th:href="@{FAQPage(page=${item}, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">
-                    <th:block th:if="${item ==  pagevo.page }">
-                        <span>[</span>
-                    </th:block>
-                    <span th:text="${item}"></span>
-                    <th:block th:if="${item == pagevo.page }">
-                        <span>]</span>
-                    </th:block>
-                </a>
-            </th:block>
-            <th:block th:if="${pagevo.next }">
-                <a th:href="@{FAQPage(page=${pagevo.endPage +1 }, searchKeyword=${pagevo.searchKeyword}, searchType=${pagevo.searchType})}">[다음페이지그룹]</a>
-            </th:block>
-        </th:block>
+        <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+        <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+        <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+        <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
 
     </div>
 </nav>
 </div>
+
 </body>
 <script th:inline="javascript">
     var id = [[${session.userid}]]
@@ -323,6 +393,15 @@
 
     $('#logout').on('click', () => {
         location.href = `logout`
+    });
+
+
+    $('#m').on('click', () => {
+        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
+
     });
 </script>
 </html>
