@@ -244,24 +244,6 @@
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
-            <!--            <div id="top">-->
-            <!--                <form action="postSearch" method="get">-->
-            <!--                    <div id="select">-->
-            <!--                        <select class="selectBox" name="region" id="region" onchange="">-->
-            <!--                            <option value=""><span>지역선택 </span></option>-->
-            <!--                            <option value="서울"><span>서울 </span></option>-->
-            <!--                            <option value="수원"><span>수원 </span> </span></option>-->
-            <!--                        </select>-->
-            <!--                        <select class="selectBox" name="category" id="category" onchange="">-->
-            <!--                            <option value=""><span>카테고리 </span></option>-->
-            <!--                            <option value="자유게시글"><span>자유게시글 </span></option>-->
-            <!--                            <option value="여행계획서"><span>여행계획서 </span> </span></option>-->
-            <!--                        </select>-->
-            <!--                    </div>-->
-            <!--                    <input name="sword" type="search" placeholder="검색어를 입력하세요" id="search">-->
-            <!--                    <input type="submit" value="검색" id="sbtn" onclick="return chkAvail()">-->
-            <!--                </form>-->
-            <!--            </div>-->
             <div id="profileFrame">
                 <div th:if="${memberinfo.file_name}!=null">
                     <img th:src="'/download?filename='+${memberinfo.file_name}" class="profileImg">
@@ -273,24 +255,18 @@
                 <a class="noLine" th:href="@{/myinfoPage(id=${userid})}">
                     <button>내 정보 관리</button>
                 </a>
-
-
                     <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
                         팔로우<span th:text="${myfollowCount}"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li th:each="follow :${myfollowList}"><a class="dropdown-item" th:href="@{yourPage(id=${follow})}"><span th:text="${follow}"></span></a></li>
                     </ul>
-
                 <a class="dropdown-toggle"  role="button" data-bs-toggle="dropdown">
                     팔로잉<span th:text="${myfollowingCount}"></span>
                 </a>
                 <ul  class="dropdown-menu">
                     <li th:each="following :${myfollowingList}"><a class="dropdown-item" th:href="@{yourPage(id=${following})}"><span th:text="${following}"></span></a></li>
-
                 </ul>
-
-
             </div>
             <br>
             <div id="basicchange">
@@ -326,8 +302,6 @@
                 <div id="postCard" class="row row-cols-1 row-cols-md-2 g-4">
                 </div>
             </div>
-
-
             <div id="nothing">
             </div>
             <div id="show">
@@ -355,7 +329,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -368,7 +341,6 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
@@ -382,9 +354,6 @@
     }
 </script>
 <script th:inline="javascript">
-
-    console.log([[${posts}]])
-
     function chkAvail() {
         if (document.querySelector("#search").value == "") {
             alert("검색어를 입력해주세요");
@@ -467,7 +436,6 @@
 
     $('#files').on('change', function () {
         var fileName = $("#files").val();
-        console.log(fileName)
         $('#filename').text(fileName)
         $('.photosave').css('display', 'inline-block');
 
@@ -492,7 +460,6 @@
             success: function (data) {
                 $('#postCard').empty();
                 $('#nothing').empty();
-                console.log(data.posts, data.gposts, data.gjoins)
                 if ((data.posts == null || data.posts.length == 0) && (data.gposts == null || data.gposts.length == 0) && (data.gjoins == null || data.gjoins.length == 0)) {
                     $('#nothing').html('<br><br>\n' +
                         '                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.\n' +
@@ -510,6 +477,7 @@
                         '                            <div class="card-body">\n' +
                         '                                <h5 class="card-title">' + data.posts[post].title + '</h5>\n' +
                         '                                <p class="card-text">' + data.posts[post].content + '</p>\n' +
+                        '<a href="postDetail?no=' + data.posts[post].no + '" class="card-link">자세히보기</a>' +
                         '                                <div class="cardButton">\n' +
                         '                                    <a class="noLine" href="postMod?no=' + data.posts[post].no + '">\n' +
                         '                                        <button>수정</button>\n' +
@@ -535,6 +503,7 @@
                         '                            <div class="card-body">\n' +
                         '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>\n' +
                         '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>\n' +
+                        '<a href="grouppost?g_no=' + data.gposts[gpost].g_no + '" class="card-link">자세히보기</a>' +
                         '                                <div class="cardButton">\n' +
                         '                                    <a class="noLine" href="modno?g_no=' + data.gposts[gpost].g_no + '">\n' +
                         '                                        <button>수정</button>\n' +

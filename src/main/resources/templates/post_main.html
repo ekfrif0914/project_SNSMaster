@@ -25,6 +25,14 @@
 
     }
 
+    .title {
+        -ms-overflow-style: none;
+    }
+
+    .title::-webkit-scrollbar {
+        display: none;
+    }
+
     .all {
         margin: 5px auto;
 
@@ -221,7 +229,7 @@
         display: block;
     }
 
-    .profileImg{
+    .profileImg {
         width: 50px;
         height: 50px;
         object-fit: contain;
@@ -360,20 +368,22 @@
             <div id="postFrame">
                 <div th:each="postMap : ${postMaps}" class="post" th:id="${postMap['post'].no}">
                     <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
-                  <th:block th:if="${session.userid==postMap['post'].id}">
-                   <a href="myPage">  <b th:text="${postMap['post'].id}" class="postid"></b></a>
-                         </th:block>
-                   <th:block th:unless="${session.userid==postMap['post'].id}">
-                   <a th:href="@{yourPage(id=${postMap['post'].id})}">  <b th:text="${postMap['post'].id}" class="postid"></b></a>
-                         </th:block>
+                    <th:block th:if="${session.userid==postMap['post'].id}">
+                        <a href="myPage"> <b th:text="${postMap['post'].id}" class="postid"></b></a>
+                    </th:block>
+                    <th:block th:unless="${session.userid==postMap['post'].id}">
+                        <a th:href="@{yourPage(id=${postMap['post'].id})}"> <b th:text="${postMap['post'].id}"
+                                                                               class="postid"></b></a>
+                    </th:block>
                     <th:block th:if="${session.userid!=null}">
                         <th:block th:if="${postMap['post'].followstate}">
                             <button type="button" class="follow">팔로우 취소</button>
                         </th:block>
                         <th:block th:unless="${postMap['post'].followstate}">
-                            <button th:if="${session.userid!=postMap['post'].id}" class="follow" type="button">팔로우</button>
+                            <button th:if="${session.userid!=postMap['post'].id}" class="follow" type="button">팔로우
+                            </button>
                         </th:block>
-
+                    </th:block>
                     <span class="right">
                     <span th:if="${session.userid==postMap['post'].id}">
                         <a th:href="@{postMod(no=${postMap['post'].no})}">수정</a>
@@ -408,7 +418,7 @@
                     <br>
                     <span th:text="${postMap['post'].content}"></span><br>
                     <span class="postFoot">
-                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${postMap['post'].no})}">
+                    <a id="cmtIcon" class="left" th:href="@{postDetail(no=${postMap['post'].no}, cmtFocus=true)}">
                         <img class="postImg" src="img/chat.png">
                         <span th:each="cmt:${comments}">
                             <span th:if="${cmt.NO==postMap['post'].no}" th:text="${cmt.cnt}"></span>
@@ -450,7 +460,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -463,7 +472,6 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
@@ -478,7 +486,6 @@
         var apiKey = 'fbb0870cd3a95e3a4ae807939c8d2841'; // 여기에 자신의 OpenWeatherMap API 키를 입력하세요
         for (let i = 0; i < $('.weathers').length; i++) {
             var city = $('.city').eq(i).val();
-            console.log(city);
             var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=kr`;
             $.ajax({
                 url: apiUrl,
@@ -520,77 +527,6 @@
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
     });
-
-    $(".likeBtn").on("click", (event) => {
-        var postElement = $(event.currentTarget).closest('.post');
-        var userid = postElement.find('b:eq(0)').text()
-        var no = event.target.parentElement.parentElement.parentElement.id
-        var id = [[${session.userid}]];
-
-        if (id != null) {
-            console.log(userid);
-
-            $.ajax({
-                type: "post",
-                async: false,
-                url: "postLike",
-                data: {no: no, id: id},
-
-                success: function (data) {
-                    if (data.isLike) {
-                        event.target.src = "img/filledHearts.png"
-                        var content = id + "님이 좋아요를 눌렀습니다!"
-                        var urll = "http://localhost:8080/postDetail?no=" + no
-                        console.log(urll);
-                        console.log(content);
-                        $.ajax({
-                            type: "get",
-                            url: "like Notification",
-                            data: {userid: userid, content: content, urll: urll},
-                            success: function () {
-
-                                console.log("야호")
-                            }, error: function (error) {
-                                console.log(error)
-                            }
-                        });
-
-                    } else {
-                        event.target.src = "img/heart.png"
-                    }
-                    event.target.nextElementSibling.innerText = data.likeCnt;
-                },
-                error: function (request, status, error) { // 결과 에러 콜백함수
-                    console.log(error)
-                }
-            })
-        }
-    })
-
-    $(".report").on("click", (event) => {
-        var id = [[${session.userid}]];
-        if (id != null) {
-            var no = event.target.parentElement.parentElement.id
-            $.ajax({
-                type: "post",
-                async: false,
-                url: "postReport",
-                data: {no: no, id: id},
-                success: function (data) {
-                    if (data) {
-                        alert("이미 신고한 게시글입니다.")
-                    } else {
-                        alert("신고하였습니다.")
-                    }
-                },
-                error: function (request, status, error) { // 결과 에러 콜백함수
-                    console.log(error)
-
-                }
-            })
-        }
-    })
-
 
     setInterval(() => {
         var target = $('.show');
@@ -651,7 +587,6 @@
             url: "/notification state",
             data: {id: useridd},
             success: function (state) {
-                console.log("야호");
                 if (state > 0) {
                     $('#Notification').attr('src', 'img/Notification2.png');
                 }
@@ -668,30 +603,85 @@
         location.href = "notification?id=" + a
     }
 
-    $(".follow").on("click", (event) => {
+    $(document).on("click", ".likeBtn", (event) => {
+        console.log("몇번실행?")
+        var postElement = $(event.currentTarget).closest('.post');
+        var userid = postElement.find('b:eq(0)').text()
+        var no = event.target.parentElement.parentElement.parentElement.id
+        var id = [[${session.userid}]];
+        if (id != null) {
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postLike",
+                data: {no: no, id: id},
+                success: function (data) {
+                    if (data.isLike) {
+                        event.target.src = "img/filledHearts.png"
+                        var content = id + "님이 좋아요를 눌렀습니다!"
+                        var urll = "http://localhost:8080/postDetail?no=" + no
+                        $.ajax({
+                            type: "get",
+                            url: "like Notification",
+                            data: {userid: userid, content: content, urll: urll},
+                            success: function () {
+                            }, error: function (error) {
+                                console.log(error)
+                            }
+                        });
+                    } else {
+                        event.target.src = "img/heart.png"
+                    }
+                    event.target.nextElementSibling.innerText = data.likeCnt;
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
+                }
+            })
+        }
+    })
+
+    $(document).on("click", ".report", (event) => {
+        var id = [[${session.userid}]];
+        if (id != null) {
+            var no = event.target.parentElement.parentElement.id
+            $.ajax({
+                type: "post",
+                async: false,
+                url: "postReport",
+                data: {no: no, id: id},
+                success: function (data) {
+                    if (data) {
+                        alert("이미 신고한 게시글입니다.")
+                    } else {
+                        alert("신고하였습니다.")
+                    }
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
+
+                }
+            })
+        }
+    })
+
+    $(document).on("click", ".follow", (event) => {
         var followid = event.target.previousElementSibling.firstElementChild.innerHTML
-        console.log(followid);
         var userid = [[${session.userid}]];
-        console.log(userid);
-        //  console.log(followid);
         $.ajax({
             type: "post",
             async: false,
             url: "following",
             data: {userid: userid, followid: followid},
             success: function (data) {
-                console.log("성공")
                 if (data) {//true이면 팔로우 함
-                    //  event.target.value = "팔로우 취소"
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {
                             postidstag.item(i).parentElement.nextElementSibling.innerHTML = "팔로우 취소"
                         }
                     }
-
                 } else {//false 이면 팔로우 취소
-                    //event.target.value = "팔로우"
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {
@@ -706,18 +696,120 @@
         })
     })
 
-    var count = 0;
     //스크롤 바닥 감지
-    $('.title').on('scroll', function (event){
-        //추가되는 임시 콘텐츠
-        //window height + window scrollY 값이 document height보다 클 경우,
-        console.log(document.querySelector('.title').scrollHeight, document.querySelector('.title').scrollY, window.innerHeight);
-        if((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            //실행할 로직 (콘텐츠 추가)
-            count++;
-            var addContent = '<div class="block"><p>'+ count +'번째로 추가된 콘텐츠</p></div>';
-            //article에 추가되는 콘텐츠를 append
-            $('#postFrame').append(addContent);
+    $('.title').on('scroll', function (event) {
+        if ((document.querySelector('#show').getBoundingClientRect().top) <= window.innerHeight) {
+            var lastNo = $('.post').last().attr('id')
+            var sword = [[${sword}]];
+            var region = [[${region}]];
+            var category = [[${category}]]
+            $.ajax({
+                type: "get",
+                async: false,
+                url: "post",
+                data: {lastNo: lastNo, sword: sword, region: region, category: category},
+                success: function (data) {
+                    var addContent = "";
+                    var userid = [[${session.userid}]];
+                    $(data).each(function (index, postMap) {
+                        addContent += '<div class="post" id="' + postMap.post.no + '">\n' +
+                            '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">\n';
+                        if (userid == postMap.post.id) {
+                            addContent += '<a href="myPage"> <b class="postid">' + postMap.post.id + '</b></a>\n';
+                        } else {
+                            addContent += '<a href="yourPage?id=' + postMap.post.id + '"> <b class="postid">' + postMap.post.id + '</b></a>\n';
+                        }
+                        if (userid != null) {
+                            if (postMap.post.followstate) {
+                                addContent += '<button type="button" class="follow">팔로우 취소</button>';
+                            } else if (userid != postMap.post.id) {
+                                addContent += '<button class="follow" type="button">팔로우</button>'
+                            }
+                        }
+                        addContent += '<span class="right">';
+                        if (userid == postMap.post.id) {
+                            addContent +=
+                                '<a href="postMod?no=' + postMap.post.no + '">수정</a>\n' +
+                                '<a href="postDelete(no=' + postMap.post.no + '">삭제</a>\n'
+                        }
+                        addContent +=
+                            '                    <a href="postDetail?no=' + postMap.post.no + '">자세히보기</a>\n' +
+                            '                </span><br>\n' +
+                            '                    <span>' + postMap.post.region + '</span>\n' +
+                            '                    <span>' + postMap.post.category + '</span>\n' +
+                            '                    <br>\n' +
+                            '                    <hr>\n' +
+                            '                    <b>' + postMap.post.title + '</b><br>\n';
+                        if (postMap.post.file_name[0] != null) {
+                            addContent +=
+                                '                    <div id="carouselExample' + index + '"\n' +
+                                '                         class="carousel slide slideContainer">\n' +
+                                '                        <div class="carousel-inner">\n';
+                            $.each(postMap.post.file_name, function (j, fname) {
+                                if (fname != null) {
+                                    if (j == 0) {
+                                        addContent +=
+                                            '                            <div class="fileContainer carousel-item active">\n' +
+                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">\n' +
+                                            '                            </div>\n';
+                                    } else {
+                                        addContent +=
+                                            '                            <div class="fileContainer carousel-item">\n' +
+                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">\n' +
+                                            '                            </div>\n';
+                                    }
+                                }
+                            })
+                            addContent +=
+                                '                        </div>\n' +
+                                '                        <button class="carousel-control-prev" type="button"\n' +
+                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="prev">\n' +
+                                '                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>\n' +
+                                '                            <span class="visually-hidden">Previous</span>\n' +
+                                '                        </button>\n' +
+                                '                        <button class="carousel-control-next" type="button"\n' +
+                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="next">\n' +
+                                '                            <span class="carousel-control-next-icon" aria-hidden="true"></span>\n' +
+                                '                            <span class="visually-hidden">Next</span>\n' +
+                                '                        </button>\n' +
+                                '                    </div>\n';
+                        }
+                        addContent +=
+                            '                    <br>\n' +
+                            '                    <span>' + postMap.post.content + '</span><br>\n' +
+                            '                    <span class="postFoot">\n' +
+                            '                    <a id="cmtIcon" class="left" href="postDetail?no=' + postMap.post.no + '&cmtFocus=true">\n' +
+                            '                        <img class="postImg" src="img/chat.png">\n';
+                        $.each([[${comments}]], function (j, cmt) {
+                            addContent += '<span>\n';
+                            if (cmt.NO == postMap.post.no) {
+                                addContent += '<span th:text="${cmt.cnt}">' + cmt.cnt + '</span>\n';
+                            }
+                            addContent += '</span>\n';
+                        })
+                        addContent +=
+                            '                    </a>\n' +
+                            '                <img class="postImg report" src="img/siren.png">\n' +
+                            '                <span class="right">\n'
+                        if (postMap.post.like) {
+                            addContent += '<img class="likeBtn postImg" src="img/filledHearts.png">\n';
+                        } else {
+                            addContent += '<img class="likeBtn postImg" src="img/heart.png">\n';
+                        }
+                        addContent +=
+                            '                    <span>' + postMap.post.good + '</span>\n' +
+                            '                </span>\n' +
+                            '                </span>\n' +
+                            '                </div>';
+                    })
+
+                    $('#postFrame').append(addContent);
+                },
+                error: function (request, status, error) { // 결과 에러 콜백함수
+                    console.log(error)
+                }
+            })
+
         }
     });
 
