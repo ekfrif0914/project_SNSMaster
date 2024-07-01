@@ -106,6 +106,7 @@ public class PostController {
         params.put("category", category);
 
         List<HashMap<String, Object>> postMaps = postService.select(params, userid);
+
         for(HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {

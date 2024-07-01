@@ -157,6 +157,11 @@ public class GroupServiceImpl implements IF_GroupService {
     }
 
     @Override
+    public List<G_memberVO> gmemberpopList(int mo_no) throws Exception {
+        return gdao.gmemberpopList(mo_no);
+    }
+
+    @Override
     public Object greport(HashMap<String, String> param) throws Exception {
         return gdao.greportinsert(param);
     }

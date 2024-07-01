@@ -393,6 +393,7 @@
                 </span>
         </div>
 
+
         <div id="postFrame">
             <div th:each="postMap : ${postMaps}" class="post" th:id="${postMap['post'].no}">
                 <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
@@ -415,6 +416,7 @@
                     </th:block>
                 </th:block>
                 <span class="right">
+
                     <span th:if="${session.userid==postMap['post'].id}">
                         <a class="noLine" th:href="@{postMod(no=${postMap['post'].no})}">수정</a>
                         <a class="noLine" th:href="@{postDelete(no=${postMap['post'].no})}">삭제</a>

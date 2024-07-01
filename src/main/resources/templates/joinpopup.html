@@ -157,7 +157,6 @@
         margin-top: 10px;
         margin-bottom: 10px;
         padding: 10px;
-
     }
 
     .postFoot {
@@ -208,10 +207,10 @@
 <body>
 
         <div >
-            <span><h1>그룹 명단</h1></span>
+            <span><h1>동행 신청자 명단</h1></span>
 
 
-            <div th:each="post: ${gjoinpopList}" th:id="${post.gno}" class="post">
+            <div th:each="post: ${gmemberpopList}" th:id="${post.gno}" class="post">
 
                 <span th:text="${postStat.count}"></span>
                 <span th:text="${post.id}"></span>
