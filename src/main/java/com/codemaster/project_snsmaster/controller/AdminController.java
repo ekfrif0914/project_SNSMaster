@@ -37,7 +37,6 @@ public class AdminController {
 
     @PostMapping("saveSignUp")
     public String saveSignUp(@ModelAttribute MemberVO memberVO) throws Exception {
-        System.out.println(memberVO.toString());
         ifAdminService.insert(memberVO);
         String idEncoding = URLEncoder.encode(memberVO.getId(), "UTF-8");
         return "redirect:/profilePage?id=" + idEncoding;
@@ -53,7 +52,6 @@ public class AdminController {
     @ResponseBody // 값 변환을 위해 꼭 필요함
     @GetMapping("idCheck") // 아이디 중복확인을 위한 값으로 따로 매핑
     public int overlappedID(String id) throws Exception {
-        System.out.println("확인");
         int result = ifAdminService.overlappedID(id);
         System.out.println(result);// 중복확인한 값을 int로 받음
         return result;
@@ -80,7 +78,6 @@ public class AdminController {
             Exception {
 
         String confirm = ifEmailService.sendSimpleMessage(email);
-        System.out.println(confirm);
         return confirm;
     }
 
@@ -89,14 +86,11 @@ public class AdminController {
     public int emailCheck(String email) throws Exception {
         System.out.println("확인");
         int result = ifAdminService.overlappedEmail(email);
-        System.out.println(result);// 중복확인한 값을 int로 받음
         return result;
     }
 
     @PostMapping("updateProfile")//프로필 사진 올리기
     public String updateProfile(@RequestParam("id") String id, MultipartFile[] file) throws Exception {
-        System.out.println(id);
-        System.out.println(file[0].getOriginalFilename());
 
         if (file != null) {
             String[] filename = fileDataUtil.fileUpload(file);
@@ -117,7 +111,6 @@ public class AdminController {
 
     @PostMapping("updateSave")//회원정보 수정
     public String updateSave(@ModelAttribute MemberVO memberVO, HttpSession session) throws Exception {
-        System.out.println(memberVO.toString());
         ifAdminService.updateSave(memberVO);
         session.setAttribute("username", memberVO.getName());
         session.setAttribute("userregion", memberVO.getRegion());
@@ -127,8 +120,6 @@ public class AdminController {
 
     @PostMapping("memberCancelPage")
     public String memberCancelPage(@RequestParam("id") String id, @RequestParam("pw") String pw, Model model) throws Exception {
-        System.out.println(id);
-        System.out.println(pw);
         model.addAttribute("id", id);
         model.addAttribute("pw", pw);
         return "memberCancelPage";
@@ -136,8 +127,6 @@ public class AdminController {
 
     @PostMapping("memberCancelPage2")
     public String memberCancelPage2(@RequestParam("id") String id, @RequestParam("pw") String pw, Model model) throws Exception {
-        System.out.println(id);
-        System.out.println(pw);
         model.addAttribute("id", id);
         model.addAttribute("pw", pw);
         return "memberCancelPage2";
@@ -155,7 +144,6 @@ public class AdminController {
 
     @PostMapping("changeDefaultimg")
     public String changeDefaultimg(@RequestParam("id") String id, @RequestParam String[] delfname, HttpServletRequest request) throws Exception {
-        System.out.println(id);
         fileDataUtil.fileDelete(delfname);
         ifAdminService.changeDefaultimg(id);
         String referer = request.getHeader("Referer");
@@ -164,8 +152,6 @@ public class AdminController {
 
     @PostMapping("updatemyProfileImg")
     public String updateMyProfileImg(@RequestParam("id") String id, MultipartFile[] file, HttpServletRequest request) throws Exception {
-        System.out.println(id);
-        System.out.println(file[0].getOriginalFilename());
 
         if (file != null) {
             String[] filename = fileDataUtil.fileUpload(file);
@@ -183,9 +169,6 @@ public class AdminController {
 
         if (pagevo.getSearchKeyword() == null || pagevo.getSearchType() == null
                 || pagevo.getSearchKeyword().equals("") || pagevo.getSearchType().equals("")) {
-            System.out.println("실행1");
-            System.out.println(pagevo.getSearchKeyword());
-            System.out.println(pagevo.getSearchType());
             pagevo.setTotalCount(ifAdminService.getTotalCount());
             pagevo.prt();
 
@@ -193,14 +176,10 @@ public class AdminController {
             model.addAttribute("pagevo", pagevo);
             model.addAttribute("list", faqvoList);
         } else {
-            System.out.println("실행2");
-            System.out.println(pagevo.getSearchKeyword());
-            System.out.println(pagevo.getSearchType());
             HashMap<String, String> param = new HashMap<>();
             param.put("searchKeyword", pagevo.getSearchKeyword());
             param.put("searchType", pagevo.getSearchType());
             pagevo.setTotalCount(ifAdminService.getSearchTotalCount(param));
-            System.out.println(pagevo.getTotalCount());
             pagevo.prt();
 
             List<FAQVO> faqvoSearchList = ifAdminService.faqSearchselect(pagevo);
@@ -240,9 +219,7 @@ public class AdminController {
     @ResponseBody
     @PostMapping("following")
     public boolean following(@ModelAttribute FollowVO fvo) throws Exception {
-        System.out.println("follow실행");
         boolean isFollowing = ifAdminService.following(fvo);//true면 팔로잉 됨,false면 팔로우 취소
-        System.out.println(isFollowing);
         return isFollowing;
     }
 

@@ -47,7 +47,8 @@ public class PostController {
     public String postMain(Model model, HttpSession session) throws Exception {
         session.removeAttribute("prev_url");
         String userid = (String) session.getAttribute("userid");
-        List<HashMap<String, Object>> postMaps = postService.selectAll(userid);
+//        List<HashMap<String, Object>> postMaps = postService.selectAll(userid);
+        List<HashMap<String, Object>> postMaps = postService.selectLimit(userid);
         List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
         for(HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
@@ -70,10 +71,8 @@ public class PostController {
         // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
         int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        System.out.println("dataLength: "+dataLength);
         for(int i = 3; i < dataLength; i=i+2){
             NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
-            System.out.println("childNodes: "+childNodes);
             HashMap<String, String> festivalMap = new HashMap<>();
             festivalMap.put("name", childNodes.item(3).getTextContent());
             festivalMap.put("period", childNodes.item(5).getTextContent());
@@ -93,6 +92,50 @@ public class PostController {
     }
 
 
+    @ResponseBody
+    @GetMapping("post")
+    public List<HashMap<String, Object>> post(String category, String sword, String region, String lastNo, HttpSession session) throws Exception {
+        String userid = (String) session.getAttribute("userid");
+        HashMap<String, String> params = new HashMap<>();
+        if(sword == null) {
+            sword = "";
+        }
+        if(region == null) {
+            region = "";
+        }
+        if(category == null) {
+            category = "";
+        }
+        params.put("sword", sword);
+        params.put("region", region);
+        params.put("category", category);
+        params.put("lastNo", lastNo);
+        List<HashMap<String, Object>> postMaps = postService.selectLimit(userid, params);
+        List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
+        for(HashMap<String, Object> postMap : postMaps) {
+            for (String follow : myfollowList) {
+                if (follow != null) {
+                    PostVO postVO = (PostVO) postMap.get("post");
+                    if (postVO.getId().equals(follow)) {
+                        postVO.setFollowstate(true);
+                    }
+                }
+            }
+        }
+        return postMaps;
+    }
+
+    @ResponseBody
+    @PostMapping("postLike")
+    public HashMap<String, Object> postLike(String no, String id) throws Exception {
+        boolean isLike = postService.changeLike(no, id);
+        int likeCnt = postService.likeCnt(no);
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("isLike", isLike);
+        data.put("likeCnt", likeCnt);
+        return data;
+    }
+
     @GetMapping(value = "/postSearch")
     public String postSearch(@RequestParam String category,
                              @RequestParam String sword,
@@ -106,6 +149,7 @@ public class PostController {
         params.put("category", category);
 
         List<HashMap<String, Object>> postMaps = postService.select(params, userid);
+
         for(HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
@@ -117,12 +161,11 @@ public class PostController {
             }
         }
         model.addAttribute("postMaps", postMaps);
-
-
         model.addAttribute("comments", postService.selectAllComment());
-       
-       
-      
+        model.addAttribute("sword", sword);
+        model.addAttribute("region", region);
+        model.addAttribute("category", category);
+
         // 공공데이터 xml을 document로 파싱
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -131,10 +174,8 @@ public class PostController {
         // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
         int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        System.out.println("dataLength: "+dataLength);
         for(int i = 3; i < dataLength; i=i+2){
             NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
-          //  System.out.println("childNodes: "+childNodes);
             HashMap<String, String> festivalMap = new HashMap<>();
             festivalMap.put("name", childNodes.item(3).getTextContent());
             festivalMap.put("period", childNodes.item(5).getTextContent());
@@ -184,7 +225,7 @@ public class PostController {
 
 
     @GetMapping(value = "/postDetail")
-    public String postDetail(@RequestParam String no, Model model, HttpSession session) throws Exception {
+    public String postDetail(@RequestParam String no, Model model, HttpSession session, boolean cmtFocus) throws Exception {
         String userid = (String) session.getAttribute("userid");
         HashMap<String, Object> postMap = postService.selectOneMap(no, userid);
         List<Integer> likeNos = postService.selectMyLikeNo(userid);
@@ -196,6 +237,17 @@ public class PostController {
                 }
             }
         }
+
+        model.addAttribute("cmtFocus", cmtFocus);
+
+        String followid= postVO.getId();
+        FollowVO fvo = new FollowVO();
+        fvo.setUserid(userid);
+        fvo.setFollowid(followid);
+        int isFollowing = adminService.isFollowing(fvo);
+        model.addAttribute("isFollowing", isFollowing);
+
+
         model.addAttribute("postMap", postMap);
         model.addAttribute("fileNames", postService.selectFileNames(no));
         model.addAttribute("comments", postService.selectComment(no));
@@ -251,18 +303,6 @@ public class PostController {
         return "redirect:" + referer;
     }
 
-
-    @ResponseBody
-    @PostMapping("postLike")
-    public HashMap<String, Object> postLike(String no, String id) throws Exception {
-        boolean isLike = postService.changeLike(no, id);
-        int likeCnt = postService.likeCnt(no);
-        HashMap<String, Object> data = new HashMap<>();
-        data.put("isLike", isLike);
-        data.put("likeCnt", likeCnt);
-        return data;
-    }
-
     @ResponseBody
     @PostMapping("postReport")
     public boolean postReport(String no, String id) throws Exception {
@@ -272,19 +312,13 @@ public class PostController {
 
     @PostMapping("deletePostArray")
     public String deletePost(@RequestParam String postArray, @RequestParam String gpostArray, @RequestParam String gjoinArray, HttpServletRequest request) throws Exception {
-        System.out.println(postArray);
-        System.out.println(gpostArray);
-        System.out.println(gjoinArray);
         if (postArray != "") {
-            System.out.println(postArray + "postarray");
             adminService.deletePostArray(postArray);
         }
         if (gpostArray != "") {
-            System.out.println(gpostArray + "gpostarray");
             adminService.deletegPostArray(gpostArray);
         }
         if (gjoinArray != "") {
-            System.out.println(gjoinArray + "gjoinarray");
             adminService.deletegJoinArray(gjoinArray);
         }
         String referer = request.getHeader("Referer");

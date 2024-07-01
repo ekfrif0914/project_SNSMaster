@@ -59,6 +59,70 @@ public class PostServiceImpl implements IF_PostService{
     }
 
     @Override
+    public List<HashMap<String, Object>> selectLimit(String userid) throws Exception {
+        List<HashMap<String, Object>> postMaps = new ArrayList<HashMap<String,Object>>();
+//        List<PostVO> postList = postDAO.selectAll();
+        List<PostVO> postList = postDAO.selectLimit();
+//        List<PostAttachVO> postAttachVOList = postDAO.selectAllFileNames();
+        List<PostAttachVO> postAttachVOList = postDAO.selectLimitFileNames();
+        List<Integer> likeNos = postDAO.selectMyLikeNo(userid);
+        for(PostVO postVO : postList){
+            HashMap<String, Object> postMap = new HashMap<>();
+            String[] filenames = new String[8];
+            int i = 0;
+            for(PostAttachVO postAttachVO : postAttachVOList){
+                if(postVO.getNo() == postAttachVO.getNo()){
+                    filenames[i++] = postAttachVO.getFile_name();
+                }
+            }
+            postVO.setFile_name(filenames);
+            for (Integer likeNo : likeNos) {
+                if (likeNo != null) {
+                    if (postVO.getNo() == likeNo) {
+                        postVO.setLike(true);
+                    }
+                }
+            }
+            String profileImgName = postDAO.selectProfileImg(postVO.getId());
+            postMap.put("profileImgName", profileImgName);
+            postMap.put("post", postVO);
+            postMaps.add(postMap);
+        }
+        return postMaps;
+    }
+
+    @Override
+    public List<HashMap<String, Object>> selectLimit(String userid, HashMap<String, String> params) throws Exception {
+        List<HashMap<String, Object>> postMaps = new ArrayList<>();
+        List<PostVO> postList = postDAO.selectLimit(params);
+        List<PostAttachVO> postAttachVOList = postDAO.selectAllFileNames();
+        List<Integer> likeNos = postDAO.selectMyLikeNo(userid);
+        for(PostVO postVO : postList){
+            HashMap<String, Object> postMap = new HashMap<>();
+            String[] filenames = new String[8];
+            int i = 0;
+            for(PostAttachVO postAttachVO : postAttachVOList){
+                if(postVO.getNo() == postAttachVO.getNo()){
+                    filenames[i++] = postAttachVO.getFile_name();
+                }
+            }
+            postVO.setFile_name(filenames);
+            for (Integer likeNo : likeNos) {
+                if (likeNo != null) {
+                    if (postVO.getNo() == likeNo) {
+                        postVO.setLike(true);
+                    }
+                }
+            }
+            String profileImgName = postDAO.selectProfileImg(postVO.getId());
+            postMap.put("profileImgName", profileImgName);
+            postMap.put("post", postVO);
+            postMaps.add(postMap);
+        }
+        return postMaps;
+    }
+
+    @Override
     public List<HashMap<String, Object>> select(HashMap<String, String> params, String userid) throws Exception {
         List<HashMap<String, Object>> postMaps = new ArrayList<HashMap<String,Object>>();
         List<PostVO> postList = postDAO.select(params);

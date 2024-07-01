@@ -8,10 +8,14 @@ import java.util.List;
 public interface IF_PostDAO {
     public void insertPost(PostVO postVO) throws Exception;
     public List<PostVO> selectAll() throws Exception;
+    public List<PostVO> selectLimit() throws Exception;
+    public List<PostVO> selectLimit( HashMap<String, String> params) throws Exception;
     public List<PostVO> select(HashMap<String, String> params) throws Exception;
     public void saveAttach(String fileName) throws Exception;
     public void saveAttachbyNo(HashMap<String, String> param) throws Exception;
     public List<PostAttachVO> selectAllFileNames() throws Exception;
+    public List<PostAttachVO> selectLimitFileNames() throws Exception;
+    public List<PostAttachVO> selectLimitFileNames(String lastNo) throws Exception;
     public List<String> selectFileNames(String no) throws Exception;
     public void deleteAttach(String fname) throws Exception;
     public PostVO selectOne(String no) throws Exception;

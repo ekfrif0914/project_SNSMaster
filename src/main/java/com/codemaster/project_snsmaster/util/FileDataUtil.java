@@ -32,7 +32,7 @@ public class FileDataUtil {
 
 	// 첨부파일 업로드 경로 변수값으로 가져옴 servlet-context.xml
 
-	private String uploadPath = "/tmp";
+	private String uploadPath = "C:/tmp";
 
 	public String getUploadPath() {
 		return uploadPath;

@@ -237,7 +237,7 @@ public class GroupController {
         return "groupmy_test";
     }
 
-    @GetMapping("/grouppopup")
+    @GetMapping("/grouppopup")//그룹 가입한사람 리스트
     public String groupppopup(String gno, Model model)throws Exception{
         System.out.println(gno);
         model.addAttribute("gno", gno);
@@ -245,6 +245,17 @@ public class GroupController {
         model.addAttribute("gjoinpopList", gjoinpopList);
         System.out.println(gjoinpopList);
         return "groupPopup";
+    }
+
+
+    @GetMapping("/joinpopup")//동행글 신청한 사람 리스트
+    public String joinpopup(String mo_no, Model model)throws Exception{
+        System.out.println(mo_no+"이다");
+        model.addAttribute("mo_no", mo_no);
+        List<G_memberVO>gmemberpopList=gservice.gmemberpopList(Integer.parseInt(mo_no));
+        model.addAttribute("gmemberpopList", gmemberpopList);
+        System.out.println(gmemberpopList);
+        return "joinpopup";
     }
 
 
