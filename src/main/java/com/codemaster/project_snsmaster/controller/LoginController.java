@@ -175,7 +175,7 @@ public class LoginController {
     }
 
     @GetMapping("managerPage")
-    public String managerMode(HttpSession session, Model model) {
+    public String managerMode(Model model,HttpSession session) {
         if(session.getAttribute("managerid")!=null){
             return "redirect:managerMode";
         }else{

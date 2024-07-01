@@ -190,6 +190,28 @@
         text-align: center;
         margin-left: 2px;
     }
+    .post {
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .post a {
+        text-decoration: none;
+        color: #000;
+        display: block;
+        padding: 10px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .post a:hover {
+        background-color: #f8f9fa;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 </style>
 
 <body>
@@ -235,8 +257,10 @@
     </nav>
 </div>
 </div>
+<input type="hidden" th:value="${data}" id="da">
 </body>
 </html>
+
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면

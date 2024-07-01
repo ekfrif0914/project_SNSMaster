@@ -1,8 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
-import com.codemaster.project_snsmaster.vo.GroupPostVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
-import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import com.codemaster.project_snsmaster.vo.*;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -107,12 +105,22 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     }
 
     @Override
-    public List<String> notificationlook(String id) {
+    public List<NotificationVO> notificationlook(String id) {
         return sqlSession.selectList(mapperQuery+".notificationlook",id);
     }
 
     @Override
     public void notifi(String id) {
         sqlSession.update(mapperQuery+".notifi",id);
+    }
+
+    @Override
+    public List<NoticeVO> notice() {
+        return sqlSession.selectList(mapperQuery+".notice");
+    }
+
+    @Override
+    public void noticedell(int NO) {
+        sqlSession.delete(mapperQuery+".noticedell",NO);
     }
 }

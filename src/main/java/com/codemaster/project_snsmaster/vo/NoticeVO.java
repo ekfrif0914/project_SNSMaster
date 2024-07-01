@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter@Setter@ToString
-public class NoticeVO {//관리자 공지
-
+public class NoticeVO {
+    private int NO;
     private String memo;
 
 }
