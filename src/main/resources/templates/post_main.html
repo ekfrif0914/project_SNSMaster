@@ -264,6 +264,16 @@
     .btt {
         font-size: small;
     }
+
+    .postContent {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: break-word;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+    }
+
 </style>
 
 <body>
@@ -272,15 +282,6 @@
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
             <a href="#" onclick="notification()"><img src="img/bell.png" id="Notification"></a>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <!--        <div id="idblock">-->
-            <!--            <th:block th:if="${session.userid!=null}">-->
-            <!--                <span style="color: #007bff ">로그인 아이디:</span>-->
-            <!--                <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>-->
-            <!--                <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>-->
-            <!--                <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>-->
-            <!--            </th:block>-->
-            <!--        </div>-->
         </div>
     </div>
     <div id="change">
@@ -456,8 +457,8 @@
                     </button>
                 </div>
                 <br>
-                <span th:text="${postMap['post'].content}"></span><br>
-                    <span class="postFoot">
+                <span class="postContent" th:utext="${postMap['post'].content}"></span><br>
+                <span class="postFoot">
                     <a id="cmtIcon" class="left" th:href="@{postDetail(no=${postMap['post'].no}, cmtFocus=true)}">
                         <img class="postImg" src="img/chat.png">
                         <span th:each="cmt:${comments}">
@@ -474,11 +475,6 @@
             </div>
         </div>
         <div id="show">
-            <!--                <th:block th:if="${session.userid!=null}">-->
-            <!--                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>-->
-            <!--                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>-->
-            <!--                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span>-->
-            <!--                </th:block>-->
         </div>
     </div>
     <div id="mmode">
@@ -557,9 +553,6 @@
             });
         }
     });
-
-</script>
-<script th:inline="javascript">
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
@@ -763,7 +756,6 @@
 
     //스크롤 바닥 감지
     $('.title').on('scroll', function (event) {
-
         if ((document.querySelector('#show').getBoundingClientRect().top) <= window.innerHeight) {
             var lastNo = $('.post').last().attr('id')
             var sword = [[${sword}]];
@@ -778,104 +770,104 @@
                     var addContent = "";
                     var userid = [[${session.userid}]];
                     $(data).each(function (index, postMap) {
-                        addContent += '<div class="post" id="' + postMap.post.no + '">\n' +
-                            '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">\n';
+                        addContent += '<div class="post" id="' + postMap.post.no + '">' +
+                            '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">';
                         if (userid == postMap.post.id) {
-                            addContent += '<a href="myPage"> <b class="postid">' + postMap.post.id + '</b></a>\n';
+                            addContent += '<a class="noLine" href="myPage"> <b class="postid">' + postMap.post.id + '</b></a>';
                         } else {
-                            addContent += '<a href="yourPage?id=' + postMap.post.id + '"> <b class="postid">' + postMap.post.id + '</b></a>\n';
+                            addContent += '<a class="noLine" href="yourPage?id=' + postMap.post.id + '"> <b class="postid noLine">' + postMap.post.id + '</b></a>';
                         }
                         if (userid != null) {
                             if (postMap.post.followstate) {
-                                addContent += '<button type="button" class="follow">팔로우 취소</button>';
+                                addContent += '<button type="button" class="follow btn btt btn-secondary">팔로우 취소</button>';
                             } else if (userid != postMap.post.id) {
-                                addContent += '<button class="follow" type="button">팔로우</button>'
+                                addContent += '<button class="follow btn btt btn-secondary" type="button">팔로우</button>'
                             }
                         }
                         addContent += '<span class="right">';
                         if (userid == postMap.post.id) {
                             addContent +=
-                                '<a href="postMod?no=' + postMap.post.no + '">수정</a>\n' +
-                                '<a href="postDelete?no=' + postMap.post.no + '">삭제</a>\n'
+
+                                '<a class="noLine" href="postMod?no=' + postMap.post.no + '">수정</a>' +
+                                '<a class="noLine" href="postDelete?no=' + postMap.post.no + '">삭제</a>'
+
                         }
                         addContent +=
-                            '                    <a href="postDetail?no=' + postMap.post.no + '">자세히보기</a>\n' +
-                            '                </span><br>\n' +
-                            '                    <span>' + postMap.post.region + '</span>\n' +
-                            '                    <span>' + postMap.post.category + '</span>\n' +
-                            '                    <br>\n' +
-                            '                    <hr>\n' +
-                            '                    <b>' + postMap.post.title + '</b><br>\n';
+                            '                    <a class="noLine" href="postDetail?no=' + postMap.post.no + '">자세히보기</a>' +
+                            '                </span><br>' +
+                            '                    <span>' + postMap.post.region + '</span>' +
+                            '                    <span>' + postMap.post.category + '</span>' +
+                            '                    <br>' +
+                            '                    <hr>' +
+                            '                    <b>' + postMap.post.title + '</b><br>';
                         if (postMap.post.file_name[0] != null) {
                             addContent +=
-                                '                    <div id="carouselExample' + index + '"\n' +
-                                '                         class="carousel slide slideContainer">\n' +
-                                '                        <div class="carousel-inner">\n';
+                                '                    <div id="carouselExample' + index + '"' +
+                                '                         class="carousel slide slideContainer">' +
+                                '                        <div class="carousel-inner">';
                             $.each(postMap.post.file_name, function (j, fname) {
                                 if (fname != null) {
                                     if (j == 0) {
                                         addContent +=
-                                            '                            <div class="fileContainer carousel-item active">\n' +
-                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">\n' +
-                                            '                            </div>\n';
+                                            '                            <div class="fileContainer carousel-item active">' +
+                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">' +
+                                            '                            </div>';
                                     } else {
                                         addContent +=
-                                            '                            <div class="fileContainer carousel-item">\n' +
-                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">\n' +
-                                            '                            </div>\n';
+                                            '                            <div class="fileContainer carousel-item">' +
+                                            '                                <img src="download?filename=' + fname + '" class="d-block w-100 postFile" alt="...">' +
+                                            '                            </div>';
                                     }
                                 }
                             })
                             addContent +=
-                                '                        </div>\n' +
-                                '                        <button class="carousel-control-prev" type="button"\n' +
-                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="prev">\n' +
-                                '                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>\n' +
-                                '                            <span class="visually-hidden">Previous</span>\n' +
-                                '                        </button>\n' +
-                                '                        <button class="carousel-control-next" type="button"\n' +
-                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="next">\n' +
-                                '                            <span class="carousel-control-next-icon" aria-hidden="true"></span>\n' +
-                                '                            <span class="visually-hidden">Next</span>\n' +
-                                '                        </button>\n' +
-                                '                    </div>\n';
+                                '                        </div>' +
+                                '                        <button class="carousel-control-prev" type="button"' +
+                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="prev">' +
+                                '                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>' +
+                                '                            <span class="visually-hidden">Previous</span>' +
+                                '                        </button>' +
+                                '                        <button class="carousel-control-next" type="button"' +
+                                '                                data-bs-target="#carouselExample' + index + '" data-bs-slide="next">' +
+                                '                            <span class="carousel-control-next-icon" aria-hidden="true"></span>' +
+                                '                            <span class="visually-hidden">Next</span>' +
+                                '                        </button>' +
+                                '                    </div>';
                         }
                         addContent +=
-                            '                    <br>\n' +
-                            '                    <span>' + postMap.post.content + '</span><br>\n' +
-                            '                    <span class="postFoot">\n' +
-                            '                    <a id="cmtIcon" class="left" href="postDetail?no=' + postMap.post.no + '&cmtFocus=true">\n' +
-                            '                        <img class="postImg" src="img/chat.png">\n';
+                            '                    <br>' +
+                            '                    <span>' + postMap.post.content + '</span><br>' +
+                            '                    <span class="postFoot">' +
+                            '                    <a id="cmtIcon" class="left" href="postDetail?no=' + postMap.post.no + '&cmtFocus=true">' +
+                            '                        <img class="postImg" src="img/chat.png">';
                         $.each([[${comments}]], function (j, cmt) {
-                            addContent += '<span>\n';
+                            addContent += '<span>';
                             if (cmt.NO == postMap.post.no) {
-                                addContent += '<span th:text="${cmt.cnt}">' + cmt.cnt + '</span>\n';
+                                addContent += '<span th:text="${cmt.cnt}">' + cmt.cnt + '</span>';
                             }
-                            addContent += '</span>\n';
+                            addContent += '</span>';
                         })
                         addContent +=
-                            '                    </a>\n' +
-                            '                <img class="postImg report" src="img/siren.png">\n' +
-                            '                <span class="right">\n'
+                            '                    </a>' +
+                            '                <img class="postImg report" src="img/siren.png">' +
+                            '                <span class="right">'
                         if (postMap.post.like) {
-                            addContent += '<img class="likeBtn postImg" src="img/filledHearts.png">\n';
+                            addContent += '<img class="likeBtn postImg" src="img/filledHearts.png">';
                         } else {
-                            addContent += '<img class="likeBtn postImg" src="img/heart.png">\n';
+                            addContent += '<img class="likeBtn postImg" src="img/heart.png">';
                         }
                         addContent +=
-                            '                    <span>' + postMap.post.good + '</span>\n' +
-                            '                </span>\n' +
-                            '                </span>\n' +
+                            '                    <span>' + postMap.post.good + '</span>' +
+                            '                </span>' +
+                            '                </span>' +
                             '                </div>';
                     })
-
                     $('#postFrame').append(addContent);
                 },
                 error: function (request, status, error) { // 결과 에러 콜백함수
                     console.log(error)
                 }
             })
-
         }
     });
 
