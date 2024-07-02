@@ -18,12 +18,12 @@
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
+
     * {
         font-family: "Nanum Gothic", sans-serif;
         font-weight: 400;
         font-style: normal;
     }
-
 
     body {
         margin: 0px;
@@ -34,7 +34,6 @@
         text-overflow: ellipsis;
         overflow: scroll;
         -ms-overflow-style: none;
-
     }
 
     .all {
@@ -52,20 +51,18 @@
 
     #change {
         float: left;
-
         margin-left: 330px;
         width: 660px;
         height: 803px;
-        /*overflow: scroll;*/
-        /*border: 1px solid black;*/
         -ms-overflow-style: none;
     }
-    #change::-webkit-scrollbar{
-        display:none;
-    }
-    .title::-webkit-scrollbar{
-        display:none;
 
+    #change::-webkit-scrollbar {
+        display: none;
+    }
+
+    .title::-webkit-scrollbar {
+        display: none;
     }
 
     #mmode {
@@ -74,10 +71,8 @@
         float: right;
         width: 120px;
         height: 840px;
-        /*border: 1px solid black;*/
         margin-left: 3px;
     }
-
 
     #login {
         margin-top: 2px;
@@ -88,7 +83,6 @@
         margin-top: 23px;
         margin-left: 23px;
     }
-
 
     #menu {
         display: inline-block;
@@ -169,7 +163,6 @@
         margin-left: 13px;
     }
 
-
     .post {
         border: 1px solid gray;
         border-radius: 10px;
@@ -212,7 +205,6 @@
         margin-right: auto;
     }
 
-
     #logoimg {
         width: 90px;
         height: 90px;
@@ -229,9 +221,18 @@
         border-radius: 70%;
     }
 
+    .cmtProfileImg {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        float: left;
+        border-radius: 70%;
+    }
+
     #idblock {
         text-align: center;
     }
+
     #sbtn {
         float: left;
         width: 68px;
@@ -239,21 +240,22 @@
         margin-top: 20px;
         margin-left: 10px;
     }
-.noLine{
-    text-decoration-line: none;
-}
-    .btt{
+
+    .noLine {
+        text-decoration-line: none;
+    }
+
+    .btt {
         font-size: small;
     }
+
 </style>
 
 <body>
 <div class="title">
     <div class="all">
-
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
-
         </div>
         <div id="change">
             <div id="top">
@@ -356,16 +358,14 @@
                     <input type="submit" value="검색" id="sbtn" class="btn btn-outline-info">
                 </form>
             </div>
-
             <div class="post" th:id="${postMap['post'].no}">
                 <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
-
                 <th:block th:if="${session.userid== postMap['post'].id}">
                     <a class="noLine" href="myPage"> <b th:text="${postMap['post'].id}" class="idddd"></b></a>
                 </th:block>
                 <th:block th:unless="${session.userid==postMap['post'].id}">
-                    <a class="noLine" th:href="@{yourPage(id=${postMap['post'].id})}"> <b th:text="${postMap['post'].id}"
-                                                                           class="idddd"></b></a>
+                    <a class="noLine" th:href="@{yourPage(id=${postMap['post'].id})}"> <b
+                            th:text="${postMap['post'].id}" class="idddd"></b></a>
                 </th:block>
                 <th:block th:if="${session.userid!=null}">
                     <th:block th:if="${session.userid!=postMap['post'].id}">
@@ -377,15 +377,15 @@
                         </th:block>
                     </th:block>
                 </th:block>
-                 <span class="right" th:if="${postMap['post'].id==session.userid}">
+                <span class="right" th:if="${postMap['post'].id==session.userid}">
                     <a th:href="@{postMod(no=${postMap['post'].no})}">수정</a>
-                    <a th:href="@{postDelete(no=${postMap['post'].no})}">삭제</a>
+                    <a th:href="@{postDelete(no=${postMap['post'].no}, referer=${referer})}">삭제</a>
                 </span><br>
                 <span th:text="${postMap['post'].region}"></span>
                 <span th:text="${postMap['post'].category}"></span>
                 <span class="postImgContainer">
                     <img class="postImg left" src="img/chat.png">
-                    <span th:text="${comments.size()}"></span>
+                    <span th:text="${commentMaps.size()}"></span>
                     <img class="postImg report" src="img/siren.png">
                     <span class="right">
                         <img class="likeBtn postImg"
@@ -416,13 +416,15 @@
                     </button>
                 </div>
                 <br>
-                <span th:text="${postMap['post'].content}"></span>
+                <span th:utext="${postMap['post'].content}"></span>
                 <br>
                 <hr>
-                <span th:each="comment : ${comments}">
-                    <span th:text="${comment.id}"></span> <a th:if="${session.userid == comment.id}"
-                                                             th:href="@{postDeleteComment(c_no=${comment.c_no},no=${comment.no})}">삭제</a><br>
-                    <span th:text="${comment.cmt}"></span><br>
+                <span th:each="commentMap : ${commentMaps}">
+                    <img th:src="@{download(filename=${commentMap['profileImgName']})}" class="cmtProfileImg" alt="...">
+                    <b th:text="${commentMap['comment'].id}"></b>
+                    <a th:if="${session.userid == commentMap['comment'].id}"
+                       th:href="@{postDeleteComment(c_no=${commentMap['comment'].c_no},no=${commentMap['comment'].no})}">삭제</a><br>
+                    <span th:text="${commentMap['comment'].cmt}"></span><br>
                 </span>
                 <form action="postSaveComment" method="post">
                     <input th:if="${cmtFocus}" id="cmt" type="text" name="cmt" autofocus>
@@ -432,10 +434,6 @@
                 </form>
             </div>
             <div id="show">
-<!--                <th:block th:if="${session.userid!=null}">-->
-<!--                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>-->
-<!--                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>-->
-<!--                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>-->
             </div>
         </div>
         <div id="mmode">
@@ -474,7 +472,6 @@
         button.innerHTML = "로그아웃"
         button.style = "font-size: 15px"
         area.appendChild(button)
-
     } else {//로그아웃 되어있으면
         $('#logout').remove()
         let area = document.getElementById("mmode");
@@ -482,17 +479,12 @@
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
-
-
     }
-</script>
-<script th:inline="javascript">
 
-    function chkLogin(){
-        if([[${session.userid}]] == null){
+    function chkLogin() {
+        if ([[${session.userid}]] == null) {
             document.querySelector("#cmt").setAttribute("placeholder", "로그인 후 이용해주세요");
             document.querySelector("#cmtbtn").disabled = true;
         }
@@ -502,7 +494,6 @@
 
     function chkCommentAvail() {
         if (document.querySelector("#cmt").value == "") {
-
             alert("댓글을 입력해주세요");
             return false;
         } else {
@@ -512,8 +503,6 @@
             let content = id + "님이 댓글을 달았습니다"
             var no = $("#cmtContent").val()
             var urll = "http://localhost:8080/postDetail?no=" + no
-
-
             $.ajax({
                 type: "get",
                 url: "comment Notification",
@@ -604,13 +593,13 @@
 
                 } else {//false 이면 팔로우 취소
                     event.target.innerHTML = "팔로우"
-                    var content=userid+"님이 당신을 팔로우 합니다!"
-                    var urll="http://localhost:8080/yourPage?id="+followid
+                    var content = userid + "님이 당신을 팔로우 합니다!"
+                    var urll = "http://localhost:8080/yourPage?id=" + followid
                     $.ajax({
                         type: "get",
                         url: "like Notification",
-                        data: {userid: followid, content: content,urll:urll},
-                        success: function(){
+                        data: {userid: followid, content: content, urll: urll},
+                        success: function () {
                             console.log("야호")
                         }, error: function (error) {
                             console.log(error)
@@ -625,8 +614,6 @@
         })
     })
 
-</script>
-<script>
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
