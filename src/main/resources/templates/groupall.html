@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>그룹 메인</title>
 </head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -358,11 +358,8 @@
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
-
-
             <form class="d-flex" role="search" action="gsearch" method="GET">
                 <select name="g_region" id="g_region">
-
 
                     <option value="">지역선택</option>
                     <option value="서울특별시">서울특별시</option>
@@ -459,7 +456,6 @@
             </form>
             <div th:each="post: ${gList}" th:id="${post.gno}" class="post">
                 <span th:text="${postStat.count}"></span>
-
                 <span style="font-weight: bold">그룹장:</span>
                 <span th:text="${post.g_id}"></span>
                 <span style="font-weight: bold">그룹 이름:</span>
@@ -472,6 +468,7 @@
                         가입 하기
                     </button>
                 </a>
+                <br>
                 <a class="noLine" th:href="@{gpList(gno=${post.gno})}">
                     <button class="w-btn w-btn-green" type="button">
                         그룹 게시글 보기
@@ -490,13 +487,9 @@
                 <a class="noLine report" th:if="${id==post.g_id}" th:href="@{delmembergroup(gno=${post.gno})}">
                     <img class="postImg " src="img/del.png">
                 </a>
-
-
             </div>
 
-
             <div id="show">
-
             </div>
         </div>
         <div id="mmode">
@@ -523,10 +516,10 @@
     </div>
 </div>
 </body>
+
 <script>
     function joinck(gno) {
         let popOption = "width=450px, height=400px, top=100px, right=30%, scrollbars=yes";
-        console.log(gno);
         let openUrl = '/grouppopup?gno=' + gno;
         window.open(openUrl, 'pop', popOption);
     }
@@ -535,7 +528,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -548,13 +540,12 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
+
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
     }
@@ -573,8 +564,6 @@
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
-
-
     });
 
 
@@ -583,7 +572,6 @@
         var userid = [[${session.userid}]];
         var gno = $(this).closest('div').attr('id');
         var id = event.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText
-        console.log(id)
         $.ajax({
             type: "get",
             async: false,
@@ -597,12 +585,9 @@
                     url: "like Notification",
                     data: {userid: id, content: content, urll: urll},
                     success: function () {
-                        console.log("야호")
                     }, error: function (error) {
-                        console.log(error)
                     }
                 });
-                console.log(data);
                 if (data == 0) {
                     alert("가입 승인 대기 상태 입니다.");
                 } else if (data == 1) {
@@ -610,7 +595,6 @@
                 }
             },
             error: function (request, status, error) {
-                console.log(request, status, error);
             }
         });
     });
