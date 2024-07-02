@@ -6,16 +6,12 @@ import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.*;
-
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,7 +63,6 @@ public class ManagerController {
         return "redirect:managerMode";
     }
 
-
     @RequestMapping(value = "/managerMode2", method = RequestMethod.GET)
     public String reportsave(Model model) throws Exception {
         List<GroupPostVO> allList = manager.groupreport();
@@ -86,11 +81,15 @@ public class ManagerController {
 
     @RequestMapping(value = "/stop", method = RequestMethod.GET)
     public String stop(Model model, String id) throws Exception {
-        System.out.println(id);
         model.addAttribute("id", id);
         return "stop";
     }
 
+    @RequestMapping(value = "stopinput", method = RequestMethod.GET)
+    public String stopinput2(@ModelAttribute StopMemberVO stop) throws Exception {
+        manager.stopinsert(stop);
+        return "stop";
+    }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchcell") String searchcell,
@@ -112,13 +111,6 @@ public class ManagerController {
         List<GroupPostVO> allList = manager.selectrandom2(params);
         model.addAttribute("all", allList);
         return "Manager.Main2";
-    }
-
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    public String test(Model model) throws Exception {
-        String region = manager.random();
-        model.addAttribute("region", region);
-        return "test";
     }
 
     @RequestMapping(value = "alter", method = RequestMethod.GET)
@@ -178,7 +170,6 @@ public class ManagerController {
 
     @RequestMapping(value = "stopdeleteinput", method = RequestMethod.GET)
     public String stopinput2(@ModelAttribute StopMemberVO stop, @RequestParam int no) throws Exception {
-        System.out.println(stop.toString());
         manager.stopinsert(stop);
         manager.delete2(no);
         return "redirect:managerMode";
@@ -210,7 +201,6 @@ public class ManagerController {
     @GetMapping(value = "/like Notification")
     public void postInput(@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
-        System.out.println(urll);
         data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
@@ -231,7 +221,6 @@ public class ManagerController {
     @GetMapping(value = "/notification state")
     public int commentState(@RequestParam String id) {
         int state = manager.statecount(id);
-        System.out.println(state);
         return state;
     }
 
