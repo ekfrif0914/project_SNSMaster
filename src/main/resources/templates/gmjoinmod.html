@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>모집글 수정</title>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -84,7 +84,6 @@
         height: 50px;
 
 
-
     }
 
     .btnimg {
@@ -100,6 +99,7 @@
         margin-top: 23px;
         margin-left: 23px;
     }
+
     #logoimg {
         width: 135px;
         height: 135px;
@@ -203,24 +203,28 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
     }
-    table,tr{
-        border:1px solid black;
+
+    table, tr {
+        border: 1px solid black;
         border-radius: 5px;
     }
-    .rsetbut{
+
+    .rsetbut {
         background-color: white;
         border: 1px solid green;
         border-radius: 5px;
         color: green;
     }
+
     .modsize {
         width: 40px;
         height: 40px;
         margin-left: 40px;
     }
+
     .modback {
         width: 60px;
         height: 60px;
@@ -242,24 +246,21 @@
         </div>
         <div id="change">
 
-
-
-
             <form action="gmjoinmodsave" method="post">
                 <a th:href="@{'/gpList?gno=' + ${gjvo.gno}}"> <img class="likeBtn modback" src="img/back.png"> </a>
                 <table>
                     <tbody>
                     <tr>
-                        <td > <input type="hidden" name ="mo_no" th:value= "${gjvo.mo_no}"> </td>
-                        <td > <input type="hidden" name ="gno" th:value= "${gjvo.gno}"> </td>
+                        <td><input type="hidden" name="mo_no" th:value="${gjvo.mo_no}"></td>
+                        <td><input type="hidden" name="gno" th:value="${gjvo.gno}"></td>
                     </tr>
-                    <td >제목<input type="text" name="m_name" th:value = "${gjvo.m_name}"></td>
+                    <td>제목<input type="text" name="m_name" th:value="${gjvo.m_name}"></td>
                     <tr>
-                        <td>모집 인원<input type="text" name="cnt" th:value = "${gjvo.cnt}"></td>
-
+                        <td>모집 인원<input type="text" name="cnt" th:value="${gjvo.cnt}"></td>
                     </tr>
                     <tr>
-                        <td >그룹글 내용 <textarea  rows="13" cols="70" name="m_contents" th:text = "${gjvo.m_contents}"></textarea></td>
+                        <td>그룹글 내용 <textarea rows="13" cols="70" name="m_contents"
+                                             th:text="${gjvo.m_contents}"></textarea></td>
                     </tr>
                     </tbody>
                 </table>
@@ -267,38 +268,29 @@
                 <input type="submit" value="수정" onclick="return modck()">
             </form>
 
-
-
-
-
-
-
-
             <div id="show">
 
             </div>
         </div>
     </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m" class="m">
-            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
-            <br><br>
-            <div id="idblock">
-                <th:block th:if="${session.userid!=null}">
-                    <span style="color: #007bff ">로그인 아이디:</span>
-                    <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
-                    <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
-                    <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
-                </th:block>
-            </div>
+    <div id="mmode">
+        <img src="img/mmode.png" id="m" class="m">
+        <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+        <br><br>
+        <div id="idblock">
+            <th:block th:if="${session.userid!=null}">
+                <span style="color: #007bff ">로그인 아이디:</span>
+                <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+            </th:block>
         </div>
+    </div>
 
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
             <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-
-
-            <a  th:href="@{groupinput(gno=${gjvo.gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a th:href="@{groupinput(gno=${gjvo.gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
             <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
 
@@ -308,7 +300,7 @@
 </body>
 <script>
 
-    function modck(){
+    function modck() {
         return confirm("수정 하시겠습니까?")
     }
 
@@ -317,7 +309,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -330,13 +321,11 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
     }
@@ -353,53 +342,8 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
-
-
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
     });
-
-
-
-
-
-
-
-
-
-    //
-    // $(".likeBtn").click(function () {
-    //     $('#jb').attr("type", "button");
-    //     var id = $("#id").val();
-    //     if (idChk()) {
-    //         $.ajax({
-    //             type: "get",
-    //             async: false,
-    //             url: "http://localhost:8080/idCheck",
-    //             data: {id: id},
-    //             success: function (data) {
-    //                 if (data == 1) {
-    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
-    //                     $("#noticeId").css("color", "red");
-    //                     isIdChecked = false;
-    //                     console.log(isIdChecked)
-    //                 } else {
-    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
-    //                     $("#noticeId").css("color", "blue");
-    //                     //$("#signup").attr("type", "submit");
-    //                     isIdChecked = true;
-    //                     console.log(isIdChecked)
-    //                 }
-    //             },
-    //             error: function (request, status, error) { // 결과 에러 콜백함수
-    //                 console.log(error)
-    //             }
-    //
-    //         })
-    //     } else {
-    //         alert("형식을 지키세요")
-    //     }
-    // });
-
 </script>
 </html>

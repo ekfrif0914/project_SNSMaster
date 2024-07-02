@@ -1,13 +1,10 @@
-
-
-
 <!DOCTYPE html>
 <html lang="kor">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>그룹 명단</title>
 </head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +24,7 @@
         font-weight: 400;
         font-style: normal;
     }
+
     body {
         margin: 0px;
     }
@@ -193,10 +191,11 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
     }
-    .rsetbut{
+
+    .rsetbut {
         background-color: white;
         border: 1px solid green;
         border-radius: 5px;
@@ -207,33 +206,20 @@
 
 <body>
 
-        <div >
-            <span><h1>그룹 명단</h1></span>
+<div>
+    <span><h1>그룹 명단</h1></span>
 
-
-            <div th:each="post: ${gjoinpopList}" th:id="${post.gno}" class="post">
-
-                <span th:text="${postStat.count}"></span>
-                <span th:text="${post.id}"></span>
-            </div>
-
-
-
-
-
-
-
-
-
-
-
-            <div id="show">
-                <th:block th:if="${session.userid!=null}">
-                    <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
-                    <span>사용자 이름:</span> <span th:text="${session.username}"></span>
-                    <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
-            </div>
-        </div>
+    <div th:each="post: ${gjoinpopList}" th:id="${post.gno}" class="post">
+        <span th:text="${postStat.count}"></span>
+        <span th:text="${post.id}"></span>
+    </div>
+    <div id="show">
+        <th:block th:if="${session.userid!=null}">
+            <span>사용자 아이디:</span> <span th:text="${session.userid}"></span>
+            <span>사용자 이름:</span> <span th:text="${session.username}"></span>
+            <span>사용자 지역:</span> <span th:text="${session.userregion}"></span></th:block>
+    </div>
+</div>
 
 </body>
 </html>

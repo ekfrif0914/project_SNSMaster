@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="kor">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>게시글 자세히보기</title>
 </head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,10 +15,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
-      rel="stylesheet">
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <style>
@@ -46,7 +41,6 @@
 
     }
 
-
     #logo {
         position: fixed;
         left: 2px;
@@ -62,9 +56,17 @@
         margin-left: 330px;
         width: 660px;
         height: 803px;
+        overflow: scroll;
         border: 1px solid black;
         border-radius: 10px;
+        -ms-overflow-style: none;
+
     }
+
+    #change::-webkit-scrollbar {
+        display: none;
+    }
+
     #mmode {
         position: fixed;
         right: 13px;
@@ -75,6 +77,7 @@
         margin-left: 3px;
     }
 
+
     #menu {
         display: inline-block;
         width: 660px;
@@ -83,15 +86,6 @@
         margin-top: 8px;
         margin-left: 330px;
         border-radius: 10px;
-    }
-    #login {
-        margin-top: 2px;
-        margin-left: 23px;
-    }
-
-    #logout {
-        margin-top: 23px;
-        margin-left: 23px;
     }
 
     .img {
@@ -107,28 +101,35 @@
         height: 50px;
 
 
-
     }
+
     .btnimg {
         margin-left: 90px;
     }
+
+    #login {
+        margin-top: 2px;
+        margin-left: 23px;
+    }
+
+    #logout {
+        margin-top: 23px;
+        margin-left: 23px;
+    }
+
+    #logoimg {
+        width: 90px;
+        height: 90px;
+        margin-left: 7px;
+        margin-top: 5px;
+    }
+
     .m {
         width: 57px;
         height: 57px;
         margin-top: 19px;
         margin-left: 32px;
 
-    }
-
-    #idblock {
-        text-align: center;
-        margin-left: 2px;
-    }
-    #logoimg {
-        width: 90px;
-        height: 90px;
-        margin-left: 7px;
-        margin-top: 5px;
     }
 
     .selectBox {
@@ -219,54 +220,19 @@
         margin-right: auto;
     }
 
-    #cmtIcon{
+    #cmtIcon {
         text-decoration-line: none;
     }
+
     .modback {
         width: 60px;
         height: 60px;
         margin-left: 0px;
     }
-    .msg textarea{
-        min-width: 55.5%;
-        max-width: 55.5%;
-        min-height: 150px;
-        max-height: 150px;
-        box-shadow: inset 3px 3px 10px #e6e6e6;
-        vertical-align: top;
-        border-radius: 10px;
-    }
-    .myinfo{
 
-        border-radius: 50px;
-    }
-    .w-btn-indigo {
-        background-color: aliceblue;
-        color: #1e6b7b;
-    }
-    .w-btn {
-        position: relative;
-        border: none;
-        display: inline-block;
-        padding: 8px 20px;
-        border-radius: 15px;
-        font-family: "paybooc-Light", sans-serif;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-        text-decoration: none;
-        font-weight: 600;
-        transition: 0.25s;
-    }
-    .input {
-        margin-left: 25%;
-        margin-top: 0%;
-    }
-    h2{
-        margin-left: 25%;
-        margin-bottom: 5%;
-    }
-    #show{
-        margin-left: 25%;
-        margin-top: 5%;
+    #idblock {
+        text-align: center;
+        margin-left: 2px;
     }
 
 </style>
@@ -279,77 +245,79 @@
         </div>
         <div id="change">
 
+            <a th:href="@{'/gpList?gno=' + ${gpvo.gno}}"> <img class="likeBtn modback" src="img/back.png"> </a>
+            <table>
+                <tbody>
+                <tr>
+                    <td><input type="hidden" value="${gpvo.gno}"></td>
+                    <td></td>
+                    <td>아이디</td>
+                    <td th:text="${gpvo.id}"></td>
+                </tr>
+                <td>제목</td>
+                <td th:text="${gpvo.g_title}"></td>
+                <tr>
+                    <td>내용</td>
+                    <td th:text="${gpvo.g_content}"></td>
+                </tr>
+                <tr>
+                    <td>좋아요</td>
+                    <td th:text="${gpvo.g_like}"></td>
+                    <td>신고누적수</td>
+                    <td th:text="${gpvo.g_report}"></td>
+                </tr>
+                <td th:if="${id==gpvo.id}"><a th:href="@{modno(g_no=${gpvo.g_no})}">
+                    <img class="postImg report" src="img/mod.png">
+                </a></td>
+                <td th:if="${id==gpvo.id}"><a th:href="@{delgroup(g_no=${gpvo.g_no},gno=${gpvo.gno})}">
+                    <img class="postImg report" src="img/del.png">
+                </a></td>
+                </tbody>
+            </table>
 
+            <table>
+                <tbody th:each="post: ${cmList}">
+                <tr>
+                    <td><input type="hidden" value="${post.c_no}"></td>
+                    <td><span th:text="${postStat.count}"></span></td>
+                    <td th:text="${post.id}">아이디</td>
+                    <td th:text="${post.cmt}">댓글</td>
+                    <td th:if="${id==post.id}"><a th:href="@{/commentdel(c_no=${post.c_no},g_no=${post.g_no})}">
+                        <img class="postImg report" src="img/commentdel.png">
+                    </a></td>
+                </tr>
+                </tbody>
+            </table>
+            <form action="groupcommentSave" method="post">
+                <input type="hidden" name="g_no" th:value="${gpvo.g_no}">
+                <input type="hidden" name="id" th:value="${gpvo.id}">
+                댓글<input type="text" name="cmt" id="cmt">
+                <input th:if="${id!=null}" type="submit" value="전송" onclick="return check()">
 
-
-            <a th:href="@{'/gpList?gno=' + ${gno}}"><img class="likeBtn modback" src="img/back.png"></a>
-            <form action="groupinputSave" method="post">
-                <div class="input">
-                <h2> 그룹글</h2>
-                <input type="hidden" name="gno" th:value="${gno}">
-                <div class="myinfo">
-                제목<input type="text" placeholder="제목을 입력하세요." name="g_title" id="g_title"> <br><br>
-                </div>
-
-                <div class="msg">
-
-                    그룹글 내용 <textarea rows="13" cols="70" placeholder="내용을 입력하세요." name="g_content" id="g_content"></textarea>
-                </div>
-
-                <button class="w-btn w-btn-indigo" type="submit" onclick="return check()">
-                    등록
-                </button>
-                </div>
             </form>
-
-            <form action="joininputSave" method="post">
-               <div class="input">
-                <h2> 모집글</h2>
-                <input type="hidden" name="gno" th:value="${gno}"><!--그룹번호-->
-               <div class="myinfo">
-                모임이름<input type="text" placeholder="모임 이름을 입력하세요." name="m_name" id="m_name"><br><br>
-                모집인원<input type="text" placeholder="숫자만 입력해 주세요." name="cnt" id="cnt" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /><br><br>
-               </div>
-                <div class="msg">
-                    모집 내용 <textarea rows="13" cols="70" name="m_contents" id="m_contents"></textarea>
-                </div>
-                   <button class="w-btn w-btn-indigo" type="submit" onclick="return mochek()">
-                       등록
-                   </button>
-               </div>
-            </form>
-
-
-
-
-
-
-
-
 
             <div id="show">
-
-            </div>
-        </div>
-        <div id="mmode">
-            <img src="img/mmode.png" id="m" class="m">
-            <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
-            <br><br>
-            <div id="idblock">
-                <th:block th:if="${session.userid!=null}">
-                    <span style="color: #007bff ">로그인 아이디:</span>
-                    <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
-                    <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
-                    <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
-                </th:block>
             </div>
         </div>
     </div>
+    <div id="mmode">
+        <img src="img/mmode.png" id="m" class="m">
+        <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+        <br><br>
+        <div id="idblock">
+            <th:block th:if="${session.userid!=null}">
+                <span style="color: #007bff ">로그인 아이디:</span>
+                <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+            </th:block>
+        </div>
+    </div>
+
     <nav class="navbar fixed-bottom bg-body-tertiary">
         <div id="menu">
             <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-
-            <a  th:href="@{groupinput(gno=${gno})}" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a th:if="${id!=null}" href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
             <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
             <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
         </div>
@@ -360,7 +328,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -373,13 +340,11 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
     }
@@ -396,57 +361,24 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-        let openUrl='/managerPage'
-        window.open(openUrl,'_blank', 'width=500,height=600,menubar=yes');
+        let openUrl = '/managerPage'
+        window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
 
     });
 
 
-
     function check() {
-        if (document.querySelector("#g_title").value == "") {
-            alert("제목을 적어주세요")
+        if (document.querySelector("#cmt").value == "") {
+            alert("댓글을 적어주세요")
             return false
-        } else if (document.querySelector("#g_title").value.length > 40) {
+        } else if (document.querySelector("#cmt").value.length > 40) {
             alert("제목은 최대 40자 입니다.")
-            return false
-        } else if (document.querySelector("#g_content").value == "") {
-            alert("내용을 적어주세요")
-            return false
-        } else if (document.querySelector("#g_content").value.length > 100) {
-            alert("내용은 최대 100자 입니다.")
             return false
         } else {
             return true;
         }
     }
-
-    function mochek() {
-        if (document.querySelector("#m_name").value === "") {
-            alert("모임 이름을 작성해 주세요")
-            return false
-        }else if (document.querySelector("#m_name").value.length>40){
-            alert("제목은 최대 40자 입니다.")
-            return false
-        }else if (document.querySelector("#cnt").value === "") {
-            alert("모집 인원을 적어주세요")
-            return false
-        }else if(document.querySelector("#cnt").value>50){
-            alert("모집 인원은 최대 50명 입니다.")
-            return false
-        } else if (document.querySelector("#m_contents").value === "") {
-            alert("모집 내용을 작성해 주세요")
-            return false
-        }else if (document.querySelector("#m_contents").value.length > 100) {
-            alert("내용은 최대 100자 입니다.")
-            return false
-        }
-        else {
-            return true;
-        }
-    }
-
 
 
 </script>
