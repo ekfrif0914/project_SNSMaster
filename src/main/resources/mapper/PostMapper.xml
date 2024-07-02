@@ -71,6 +71,11 @@
         select *
         from post_attach
     </select>
+    <select id="selectLimitFileNames" resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
+        select *
+        from post_attach
+        order by NO DESC limit 80
+    </select>
     <select id="selectLimitFileNamesUnder" parameterType="String"
             resultType="com.codemaster.project_snsmaster.vo.PostAttachVO">
         select *
