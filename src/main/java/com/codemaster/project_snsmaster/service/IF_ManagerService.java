@@ -16,25 +16,16 @@ public interface IF_ManagerService {
    public PostVO selectpost(int no)throws Exception;
     public List<PostVO>selectrandom(HashMap<String, String> params)throws Exception;
     public List<GroupPostVO> selectrandom2(HashMap<String, String> params)throws Exception;
-    public String random()throws Exception;
     public void alter(int no)throws Exception;
     public List<StopMemberVO> stopMember()throws Exception;
    public void stopdelete(String id)throws Exception;
    public void fordelete(List<String> list) throws Exception;
-
   public void fordelete2(List<String> list) throws Exception;
-
   public void alter2(int g_no)throws Exception;
-
    public void Notification(HashMap<String, Object> data);
-
     public int statecount(String id);
-
    public List<NotificationVO> notificationlook(String id);
-
    public void notifi(String id);
-
    public List<NoticeVO> notice();
-
    public void noticedell(int NO);
 }

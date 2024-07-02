@@ -64,12 +64,6 @@ IF_ManagerDAO mdao;
     public List<GroupPostVO> selectrandom2(HashMap<String, String> params) throws Exception {
         return mdao.selectrandom2(params);
     }
-    @Override
-    public String random() throws Exception {
-        String[] regions = {"Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", "Ulsan", "Suwon"};
-        String region = regions[rand.nextInt(8)];
-        return region;
-    }
 
     @Override
     public void alter(int no) throws Exception {

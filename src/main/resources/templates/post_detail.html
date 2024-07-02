@@ -537,6 +537,19 @@
                 url: "postLike",
                 data: {no: no, id: id},
                 success: function (data) {
+                    var userid = $('.idddd').text()
+                    var no = $("#cmtContent").val()
+                    var urll = "http://localhost:8080/postDetail?no=" + no
+                    let content = id + "님이 좋아요를 눌렀습니다"
+                    $.ajax({
+                        type: "get",
+                        url: "comment Notification",
+                        data: {userid: userid, content: content, urll: urll},
+                        success: function () {
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
                     if (data.isLike) {
                         event.target.src = "img/filledHearts.png"
                     } else {

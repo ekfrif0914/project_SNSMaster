@@ -451,7 +451,6 @@
                 <span style="font-weight: bold">그룹장:</span>
                 <span th:text="${post.g_id}"></span>
                 <span style="font-weight: bold">그룹 이름:</span>
-
                 <span th:text="${post.gname}"></span>
                 <span style="font-weight: bold">지역:</span>
                 <span th:text="${post.g_region}"></span>
@@ -540,7 +539,6 @@
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
     }
@@ -568,7 +566,7 @@
         event.preventDefault();
         var userid = [[${session.userid}]];
         var gno = $(this).closest('div').attr('id');
-      var id=event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText
+       var id=event.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText
         $.ajax({
             type: "get",
             async: false,
@@ -582,9 +580,9 @@
                     url: "like Notification",
                     data: {userid: id, content: content,urll:urll},
                     success: function(){
-                        console.log("야호")
+
                     }, error: function (error) {
-                        console.log(error)
+
                     }
                 });
                 console.log(data);
