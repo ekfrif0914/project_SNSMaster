@@ -47,10 +47,9 @@ public class PostController {
     public String postMain(Model model, HttpSession session) throws Exception {
         session.removeAttribute("prev_url");
         String userid = (String) session.getAttribute("userid");
-//        List<HashMap<String, Object>> postMaps = postService.selectAll(userid);
         List<HashMap<String, Object>> postMaps = postService.selectLimit(userid);
         List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
-        for(HashMap<String, Object> postMap : postMaps) {
+        for (HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
                     PostVO postVO = (PostVO) postMap.get("post");
@@ -72,7 +71,7 @@ public class PostController {
         // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
         int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        for(int i = 3; i < dataLength; i=i+2){
+        for (int i = 3; i < dataLength; i = i + 2) {
             NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
             HashMap<String, String> festivalMap = new HashMap<>();
             festivalMap.put("name", childNodes.item(3).getTextContent());
@@ -97,13 +96,13 @@ public class PostController {
     public List<HashMap<String, Object>> post(String category, String sword, String region, String lastNo, HttpSession session) throws Exception {
         String userid = (String) session.getAttribute("userid");
         HashMap<String, String> params = new HashMap<>();
-        if(sword == null) {
+        if (sword == null) {
             sword = "";
         }
-        if(region == null) {
+        if (region == null) {
             region = "";
         }
-        if(category == null) {
+        if (category == null) {
             category = "";
         }
         params.put("sword", sword);
@@ -112,7 +111,7 @@ public class PostController {
         params.put("lastNo", lastNo);
         List<HashMap<String, Object>> postMaps = postService.selectLimit(userid, params);
         List<String> myfollowList = adminService.selectMyFollowinglist(userid);//null로들어가면
-        for(HashMap<String, Object> postMap : postMaps) {
+        for (HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
                     PostVO postVO = (PostVO) postMap.get("post");
@@ -150,7 +149,7 @@ public class PostController {
 
         List<HashMap<String, Object>> postMaps = postService.select(params, userid);
 
-        for(HashMap<String, Object> postMap : postMaps) {
+        for (HashMap<String, Object> postMap : postMaps) {
             for (String follow : myfollowList) {
                 if (follow != null) {
                     PostVO postVO = (PostVO) postMap.get("post");
@@ -174,7 +173,7 @@ public class PostController {
         // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
         int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        for(int i = 3; i < dataLength; i=i+2){
+        for (int i = 3; i < dataLength; i = i + 2) {
             NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
             HashMap<String, String> festivalMap = new HashMap<>();
             festivalMap.put("name", childNodes.item(3).getTextContent());
@@ -203,6 +202,7 @@ public class PostController {
             String[] fileName = fileDataUtil.fileUpload(file);
             postvo.setFile_name(fileName);
         }
+        postvo.setContent(postvo.getContent().replace("\r\n", "<br>"));
         postService.insertPost(postvo);
         return "redirect:/snsMaster";
     }
@@ -210,17 +210,17 @@ public class PostController {
     @GetMapping(value = "/myPage")
     public String postMyPage(Model model, HttpSession session) throws Exception {
         String userid = (String) session.getAttribute("userid");
-        model.addAttribute("myfollowingList",adminService.selectMyFollowinglist(userid));
-        model.addAttribute("myfollowList",adminService.myfollowList(userid));
-        model.addAttribute("myfollowCount",adminService.myfollowCount(userid));
-        model.addAttribute("myfollowingCount",adminService.myfollowingCount(userid));
+        model.addAttribute("myfollowingList", adminService.selectMyFollowinglist(userid));
+        model.addAttribute("myfollowList", adminService.myfollowList(userid));
+        model.addAttribute("myfollowCount", adminService.myfollowCount(userid));
+        model.addAttribute("myfollowingCount", adminService.myfollowingCount(userid));
         model.addAttribute("memberinfo", adminService.getMember(userid));
         model.addAttribute("userid", userid);
         return "post_myPage";
     }
 
     @GetMapping(value = "/postDetail")
-    public String postDetail(@RequestParam String no, Model model, HttpSession session, boolean cmtFocus) throws Exception {
+    public String postDetail(@RequestParam String no, Model model, HttpSession session, boolean cmtFocus, HttpServletRequest request) throws Exception {
         String userid = (String) session.getAttribute("userid");
         HashMap<String, Object> postMap = postService.selectOneMap(no, userid);
         List<Integer> likeNos = postService.selectMyLikeNo(userid);
@@ -235,17 +235,20 @@ public class PostController {
 
         model.addAttribute("cmtFocus", cmtFocus);
 
-        String followid= postVO.getId();
+        String followid = postVO.getId();
         FollowVO fvo = new FollowVO();
         fvo.setUserid(userid);
         fvo.setFollowid(followid);
         int isFollowing = adminService.isFollowing(fvo);
         model.addAttribute("isFollowing", isFollowing);
 
-
         model.addAttribute("postMap", postMap);
         model.addAttribute("fileNames", postService.selectFileNames(no));
-        model.addAttribute("comments", postService.selectComment(no));
+        model.addAttribute("commentMaps", postService.selectComment(no));
+
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer", referer);
+
         return "post_detail";
     }
 
@@ -265,11 +268,14 @@ public class PostController {
     }
 
     @GetMapping(value = "/postDelete")
-    public String postDelete(@RequestParam String no, HttpServletRequest request) throws Exception {
+    public String postDelete(@RequestParam String no, HttpServletRequest request, String referer) throws Exception {
         String[] filenames = postService.selectOne(no).getFile_name();
         postService.deletePost(no);
         fileDataUtil.fileDelete(filenames);
-        String referer = request.getHeader("Referer");
+        String nowReferer = request.getHeader("Referer");
+        if (referer == null) {
+            referer = nowReferer;
+        }
         return "redirect:" + referer;
     }
 
@@ -288,6 +294,7 @@ public class PostController {
             String[] fileName = fileDataUtil.fileUpload(file);
             postVO.setFile_name(fileName);
         }
+        postVO.setContent(postVO.getContent().replace("\r\n", "<br>"));
         postService.modPost(postVO, delfname);
         return "redirect:" + referer;
     }
@@ -348,21 +355,19 @@ public class PostController {
         return postMap;
     }
 
-
     @GetMapping(value = "/yourPage")
     public String yourPage(Model model, @RequestParam String id, HttpSession session) throws Exception {
-        String userid=(String)session.getAttribute("userid");
-        FollowVO fvo=new FollowVO();
+        String userid = (String) session.getAttribute("userid");
+        FollowVO fvo = new FollowVO();
         fvo.setUserid(userid);
         fvo.setFollowid(id);
         int isFollowing = adminService.isFollowing(fvo);
         model.addAttribute("isFollowing", isFollowing);
-        model.addAttribute("myfollowingList",adminService.selectMyFollowinglist(id));
-        model.addAttribute("myfollowList",adminService.myfollowList(id));
-        model.addAttribute("myfollowCount",adminService.myfollowCount(id));
-        model.addAttribute("myfollowingCount",adminService.myfollowingCount(id));
+        model.addAttribute("myfollowingList", adminService.selectMyFollowinglist(id));
+        model.addAttribute("myfollowList", adminService.myfollowList(id));
+        model.addAttribute("myfollowCount", adminService.myfollowCount(id));
+        model.addAttribute("myfollowingCount", adminService.myfollowingCount(id));
         model.addAttribute("memberinfo", adminService.getMember(id));
-     //   model.addAttribute("userid", userid);
         return "post_yourPage";
     }
 
@@ -398,6 +403,5 @@ public class PostController {
         }
         return postMap;
     }
-
 
 }

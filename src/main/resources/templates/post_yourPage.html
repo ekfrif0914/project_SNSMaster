@@ -62,9 +62,11 @@
         border-radius: 10px;
         -ms-overflow-style: none;
     }
-    #change::-webkit-scrollbar{
-        display:none;
+
+    #change::-webkit-scrollbar {
+        display: none;
     }
+
     #mmode {
         position: fixed;
         right: 13px;
@@ -263,6 +265,7 @@
         text-align: center;
         margin-left: 2px;
     }
+
     .btt {
         font-size: small;
     }
@@ -292,20 +295,20 @@
                     </th:block>
                 </th:block>
 
-                    <a class="dropdown-toggle noLine" role="button" data-bs-toggle="dropdown">
-                        팔로우<span th:text="${myfollowCount}" id="myfollowCount"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li th:each="follow :${myfollowList}">
-                            <th:block th:if="${session.userid!= follow}">
-                                <a class="dropdown-item" th:href="@{yourPage(id=${follow})}">
-                                    <span th:text="${follow}"></span></a></th:block>
-                            <th:block th:unless="${session.userid!= follow}">
-                                <a class="dropdown-item me" th:href="myPage">
-                                    <span th:text="${follow}" class="me"></span></a>
-                            </th:block>
-                        </li>
-                    </ul>
+                <a class="dropdown-toggle noLine" role="button" data-bs-toggle="dropdown">
+                    팔로우<span th:text="${myfollowCount}" id="myfollowCount"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li th:each="follow :${myfollowList}">
+                        <th:block th:if="${session.userid!= follow}">
+                            <a class="dropdown-item" th:href="@{yourPage(id=${follow})}">
+                                <span th:text="${follow}"></span></a></th:block>
+                        <th:block th:unless="${session.userid!= follow}">
+                            <a class="dropdown-item me" th:href="myPage">
+                                <span th:text="${follow}" class="me"></span></a>
+                        </th:block>
+                    </li>
+                </ul>
                 <a class="dropdown-toggle noLine" role="button" data-bs-toggle="dropdown">
                     팔로잉<span th:text="${myfollowingCount}" id="myfollowingCount"></span>
                 </a>
@@ -320,7 +323,8 @@
                         </th:block>
                     </li>
                 </ul>
-
+                <br>
+                <span id="postCnt"> </span>
             </div>
             <br>
 
@@ -346,7 +350,7 @@
         </div>
     </div>
 </div>
-    <div id="mmode">
+<div id="mmode">
     <img src="img/mmode.png" id="m" class="m">
     <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
     <br><br>
@@ -395,9 +399,8 @@
 
         button.innerHTML = "로그인"
         area.appendChild(button)
-
-
     }
+
 </script>
 <script th:inline="javascript">
 
@@ -427,7 +430,6 @@
 
     });
 
-
     $(window).on('load', () => {
         var category = 'all';
         loadCategory(category);
@@ -448,61 +450,80 @@
             success: function (data) {
                 $('#postCard').empty();
                 $('#nothing').empty();
-                console.log(data.posts, data.gposts, data.gjoins)
-                if ((data.posts == null || data.posts.length == 0) && (data.gposts == null || data.gposts.length == 0) && (data.gjoins == null || data.gjoins.length == 0)) {
-                    $('#nothing').html('<br><br>\n' +
-                        '                작성된 글이 없습니다. \n' +
+                var postCnt = 0;
+                if (data.posts != null) {
+                    postCnt += data.posts.length;
+                }
+                if (data.gposts != null) {
+                    postCnt += data.gposts.length;
+                }
+                if (data.gjoins != null) {
+                    postCnt += data.gjoins.length;
+                }
+                $('#postCnt').text("게시글 검색결과: " + postCnt + "건");
+                if (postCnt == 0) {
+                    $('#nothing').html('<br><br>' +
+                        '                작성된 글이 없습니다. ' +
                         '                <br><br>')
                     return;
                 }
                 for (let post in data.posts) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                <span>' + data.posts[post].category + '</span>\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.posts[post].title + '</h5>\n' +
-                        '                                <p class="card-text">' + data.posts[post].content + '</p>\n' +
-                        '                                <div class="cardButton">\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                   <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <span>' + data.posts[post].category + '</span>' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.posts[post].title + '</h5>' +
+                        '                                <p class="card-text">' + data.posts[post].content + '</p>' +
+                        '                                <a href="postDetail?no=' + data.posts[post].no + '" class="card-link">자세히보기</a>' +
+                        '                                <div class="cardButton">' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
                 for (let gpost in data.gposts) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                그룹게시글\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>\n' +
-                        '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>\n' +
-                        '                                <div class="cardButton">\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                    <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <input type="checkbox" class="form-check-input gpostCheckbox chk"' +
+                        '                                       value="' + data.gposts[gpost].g_no + '">' +
+                        '                                그룹게시글' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>' +
+                        '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>' +
+                        '                                <a href="grouppost?g_no=' + data.gposts[gpost].g_no + '" class="card-link">자세히보기</a>' +
+                        '                                <div class="cardButton">' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
                 for (let gjoin in data.gjoins) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                모임모집글\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.gjoins[gjoin].m_name + '</h5>\n' +
-                        '                                <p class="card-text">' + data.gjoins[gjoin].m_contents + '</p>\n' +
-                        '                                <div class="cardButton">\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                    <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <input type="checkbox" class="form-check-input gjoinCheckbox chk"' +
+                        '                                       value="' + data.gjoins[gjoin].mo_no + '">' +
+                        '                                모임모집글' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.gjoins[gjoin].m_name + '</h5>' +
+                        '                                <p class="card-text">' + data.gjoins[gjoin].m_contents + '</p>' +
+                        '                                <div class="cardButton">' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
@@ -555,7 +576,6 @@
             }
         })
     })
-
 
 </script>
 </html>
