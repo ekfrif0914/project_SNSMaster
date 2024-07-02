@@ -38,8 +38,6 @@
 
     .all {
         margin: 5px auto;
-
-
     }
 
     #logo {
@@ -48,8 +46,6 @@
         float: left;
         width: 150px;
         height: 840px;
-        /*border: 1px solid black;*/
-
     }
 
     #change {
@@ -73,7 +69,6 @@
         float: right;
         width: 120px;
         height: 840px;
-        /*border: 1px solid black;*/
         margin-left: 3px;
     }
 
@@ -110,7 +105,6 @@
     .imgs {
         width: 50px;
         height: 50px;
-
     }
 
 
@@ -119,43 +113,6 @@
         height: 57px;
         margin-top: 19px;
         margin-left: 32px;
-
-    }
-
-    .selectBox {
-        width: 103px;
-        height: 40px;
-        border: 1px solid blue;
-        margin-bottom: 10px;
-        margin-top: 28px;
-        margin-left: 5px;
-    }
-
-    #top {
-        border: 1px solid black;
-        width: 100%;
-        display: inline-block;
-        padding-left: 20px;
-    }
-
-    #select {
-        float: left;
-    }
-
-    #search {
-        width: 600px;
-        height: 40px;
-        float: left;
-        margin-top: 28px;
-        margin-left: 20px;
-    }
-
-    #sbtn {
-        float: left;
-        width: 80px;
-        height: 40px;
-        margin-top: 27px;
-        margin-left: 10px;
     }
 
     .profileImg {
@@ -177,7 +134,6 @@
         margin-right: 10px;
         float: left;
     }
-
 
     #myPostFrame {
         padding-top: 18px;
@@ -203,51 +159,6 @@
     .noLine {
         text-decoration-line: none;
         margin-left: 4px;
-    }
-
-
-    .dform {
-        display: inline;
-    }
-
-    #files {
-        display: none;
-    }
-
-
-    .hov {
-        text-align: center;
-        border: 2px solid darkgray;
-        background-color: white;
-        width: 147px;
-        height: 26px;
-        border-radius: 7px;
-        font-size: 16px
-
-    }
-
-    .defaulttag {
-        background-color: white;
-        border-color: white;
-        border-radius: 7px;
-    }
-
-    #profilechange {
-        display: inline-block;
-        margin-top: 5px;
-        margin-left: 32px;
-    }
-
-    #basicchange {
-        margin-left: 30px;
-    }
-
-    .photosave {
-        background-color: black;
-        color: white;
-        border-radius: 10px;
-        border-color: black;
-        display: none;
     }
 
     #logoimg {
@@ -396,14 +307,13 @@
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
+
     }
 
 </script>
 <script th:inline="javascript">
-
 
     function selCategory() {
         var category = [[${category}]];
@@ -423,8 +333,6 @@
     });
 
     $('#m').on('click', () => {
-        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 
@@ -450,6 +358,7 @@
             success: function (data) {
                 $('#postCard').empty();
                 $('#nothing').empty();
+
                 var postCnt = 0;
                 if (data.posts != null) {
                     postCnt += data.posts.length;
@@ -529,37 +438,31 @@
                 }
             },
             error: function (request, status, error) {
-                console.log(error);
             }
         })
     }
 
     $(".follow").on("click", (event) => {
-        var id=$("#idText").text()
+        var id = $("#idText").text()
         var followid = event.target.previousElementSibling.innerText
-        console.log(followid);
         var userid = [[${session.userid}]];
-        console.log(userid);
         $.ajax({
             type: "post",
             async: false,
             url: "following",
             data: {userid: userid, followid: followid},
             success: function (data) {
-                var content=userid+"님이 팔로우를 신청하였습니다!"
-                var urll="http://localhost:8080/yourPage?id="+userid
-                $.ajax({
-                    type: "get",
-                    url: "like Notification",
-                    data: {userid: id, content: content,urll:urll},
-                    success: function(){
-                        console.log("야호")
-                    }, error: function (error) {
-                        console.log(error)
-                    }
-                });
-                console.log("성공")
                 if (data) {//true이면 팔로우 함
+                    var content = userid + "님이 당신을 팔로우합니다!"
+                    var urll = "http://localhost:8080/yourPage?id=" + userid
+                    $.ajax({
+                        type: "get",
+                        url: "like Notification",
+                        data: {userid: id, content: content, urll: urll},
+                        success: function () {
+                        }, error: function (error) {
+                        }
+                    });
                     event.target.innerHTML = "팔로우 취소"
                     var myfollowCount = $('#myfollowCount').text()
                     var number = Number(myfollowCount) + 1
@@ -567,11 +470,10 @@
                     var newli = document.createElement("li")
                     newli.setAttribute("class", "me")
                     newli.innerHTML = "<a class='dropdown-item me' href='myPage'>" + "<span id='idme' class='me'>" + "</span>" + "</a>"
-                    console.log(newli)
+
                     var ul = event.target.nextElementSibling.nextElementSibling
                     ul.appendChild(newli)
                     $('#idme').text(userid)
-
 
                 } else {//false 이면 팔로우 취소
                     event.target.innerHTML = "팔로우"
@@ -580,7 +482,6 @@
                     $('#myfollowCount').text(number)
 
                     $('.me').remove()
-
 
                 }
             },

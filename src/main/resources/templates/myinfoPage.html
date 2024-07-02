@@ -160,7 +160,6 @@
 
 </script>
 <script>
-
     function updateSave() {
 
         var name = $('#name').val()
@@ -172,19 +171,16 @@
             return false;
         } else if (newpw == "" && newpwchk == "" && name != "") {
             if (oldpwChk() && newchk()) {
-                console.log("서밋됨")
                 return true;
             }
         } else {
 
             if (pwChk() && newchk() && oldpwChk()) {
-                console.log("submit 됨")
                 return true;
             } else {
                 //console.log(pwChk() + "1")//비밀번호유효성
                 //console.log(newchk() + "2")//새 비밀번호와 확인
                 //console.log(oldpwChk() + "3")//현재 비밀번호와 일치하는지 확인
-                console.log("submit 안됨")
                 return false;
             }
         }
@@ -195,7 +191,6 @@
         var pw = $('#pw').val()
         var pwchk = $('#pwchk').val()
         if (pw == "" && pwchk == "") {
-            console.log("공백임")
             var oldpw = $('#oldpw').val()
             $('#pw').val(oldpw)
             return true;
@@ -204,7 +199,6 @@
                 alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다")
                 return false;
             } else {
-                // console.log("새 비밀번호 확인")
                 return true;
             }
         }
@@ -217,10 +211,8 @@
             alert("비밀번호를 정확하게 입력해주세요")
             return false;
         } else {
-            console.log("비밀번호 일치")
             return true;
         }
-
     }
 
     function pwChk() {
@@ -235,7 +227,6 @@
             noticePw.css("color", "grey")
             return false;
         } else if (pw1.length < 4 || pw1.length > 10) {
-
             noticePw.text("4자리 ~ 10자리 이내로 입력해주세요.");
             noticePw.css("color", "red");
             return false;
@@ -247,9 +238,7 @@
             noticePw.text("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
             noticePw.css("color", "red");
             return false;
-
         } else {
-            console.log("통과");
             noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~10자리)")
             noticePw.css("color", "green")
             // sum()

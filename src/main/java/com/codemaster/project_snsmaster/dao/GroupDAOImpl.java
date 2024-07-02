@@ -17,21 +17,16 @@ public class GroupDAOImpl implements IF_GroupDAO {
 
     @Override
     public void insert(GroupPostVO gpvo) throws Exception {
-        System.out.println("DAO layer Insert method");
-        System.out.println(gpvo.toString());
         sqlSession.insert(mapperQuery + ".insert", gpvo);
     }
 
     @Override
     public void gjinsert(G_joinVO gjvo) throws Exception {
-        System.out.println(gjvo.toString());
         sqlSession.insert(mapperQuery + ".gjinsert", gjvo);
     }
 
     @Override
     public void mginsert(MemberGroupVO mgvo) throws Exception {
-        System.out.println("DAO layer Insert method");
-        System.out.println(mgvo.toString());
         sqlSession.insert(mapperQuery + ".mginsert", mgvo);
     }
 
@@ -109,8 +104,6 @@ public class GroupDAOImpl implements IF_GroupDAO {
 
     @Override
     public void gcinsert(GroupPostCommentVO gcvo) throws Exception {
-        System.out.println("DAO layer Insert method");
-        System.out.println(gcvo.toString());
         sqlSession.insert(mapperQuery + ".gcinsert", gcvo);
     }
 

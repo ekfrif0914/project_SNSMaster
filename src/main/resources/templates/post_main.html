@@ -720,7 +720,7 @@
             data: {userid: userid, followid: followid},
             success: function (data) {
                 if (data) {//true이면 팔로우 함
-                   var content=userid+"님이 팔로우를 신청하였습니다!"
+                   var content=userid+"님이 당신을 팔로우합니다!"
                       var urll="http://localhost:8080/yourPage?id="+userid
                       $.ajax({
                         type: "get",
@@ -787,8 +787,10 @@
                         addContent += '<span class="right">';
                         if (userid == postMap.post.id) {
                             addContent +=
+
                                 '<a class="noLine" href="postMod?no=' + postMap.post.no + '">수정</a>' +
                                 '<a class="noLine" href="postDelete?no=' + postMap.post.no + '">삭제</a>'
+
                         }
                         addContent +=
                             '                    <a class="noLine" href="postDetail?no=' + postMap.post.no + '">자세히보기</a>' +

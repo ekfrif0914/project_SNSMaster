@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 화면</title>
+    <title>그룹 메인</title>
 </head>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -68,9 +68,11 @@
         -ms-overflow-style: none;
         overflow: scroll;
     }
-    #change::-webkit-scrollbar{
-        display:none;
+
+    #change::-webkit-scrollbar {
+        display: none;
     }
+
     #mmode {
         position: fixed;
         right: 13px;
@@ -275,9 +277,11 @@
         text-decoration-line: none;
 
     }
+
     .noLine {
         text-decoration-line: none;
     }
+
     .post {
         border: 1px solid gray;
         border-radius: 5px;
@@ -285,10 +289,12 @@
         margin-bottom: 10px;
         padding: 10px;
     }
+
     .w-btn-green {
         background-color: #77af9c;
         color: #ffeee4;
     }
+
     .w-btn {
         position: relative;
         border: none;
@@ -301,18 +307,22 @@
         font-weight: 600;
         transition: 0.25s;
     }
+
     .w-btn-green2 {
         background-color: #519d9e;
         color: #ffeee4;
     }
+
     .w-btn-brown {
         background-color: #ce6d39;
         color: #ffeee4;
     }
-    #show{
+
+    #show {
         margin-left: 25%;
         margin-top: 5%;
     }
+
     .w-btn-outline {
         position: relative;
         padding: 8px 20px;
@@ -323,11 +333,13 @@
         font-weight: 600;
         transition: 0.25s;
     }
+
     .w-btn-indigo-outline {
         border: 3px solid #e4e6e8;
         color: #1e6b7b;
     }
-    .report{
+
+    .report {
         margin-left: 40px;
     }
 
@@ -346,11 +358,8 @@
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
         </div>
         <div id="change">
-
-
             <form class="d-flex" role="search" action="gsearch" method="GET">
                 <select name="g_region" id="g_region">
-
 
                     <option value="">지역선택</option>
                     <option value="서울특별시">서울특별시</option>
@@ -447,43 +456,40 @@
             </form>
             <div th:each="post: ${gList}" th:id="${post.gno}" class="post">
                 <span th:text="${postStat.count}"></span>
-
                 <span style="font-weight: bold">그룹장:</span>
                 <span th:text="${post.g_id}"></span>
                 <span style="font-weight: bold">그룹 이름:</span>
-
                 <span th:text="${post.gname}"></span>
                 <span style="font-weight: bold">지역:</span>
                 <span th:text="${post.g_region}"></span>
-                <a class="noLine" th:if="${id!=post.g_id} and ${id!=null}" th:href="@{groupjoin(gno=${post.gno})}" id="gjoinck">
+                <a class="noLine" th:if="${id!=post.g_id} and ${id!=null}" th:href="@{groupjoin(gno=${post.gno})}"
+                   id="gjoinck">
                     <button class="w-btn-outline w-btn-indigo-outline" type="button">
                         가입 하기
                     </button>
                 </a>
+                <br>
                 <a class="noLine" th:href="@{gpList(gno=${post.gno})}">
                     <button class="w-btn w-btn-green" type="button">
-                    그룹 게시글 보기
-                </button>
+                        그룹 게시글 보기
+                    </button>
                 </a>
-                 <a class="noLine" th:attr="gno=${post.gno}" onclick="joinck(this.getAttribute('gno'))"> <button class="w-btn w-btn-green2" type="button">
-                     그룹 명단
-                 </button></a>
+                <a class="noLine" th:attr="gno=${post.gno}" onclick="joinck(this.getAttribute('gno'))">
+                    <button class="w-btn w-btn-green2" type="button">
+                        그룹 명단
+                    </button>
+                </a>
                 <a class="noLine" th:if="${id==post.g_id}" th:href="@{groupmy(gno=${post.gno})}">
                     <button class="w-btn w-btn-brown" type="button">
-                    가입 수락
-                </button>
+                        가입 수락
+                    </button>
                 </a>
                 <a class="noLine report" th:if="${id==post.g_id}" th:href="@{delmembergroup(gno=${post.gno})}">
                     <img class="postImg " src="img/del.png">
                 </a>
-
-
             </div>
 
-
-
             <div id="show">
-
             </div>
         </div>
         <div id="mmode">
@@ -497,22 +503,23 @@
                     <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
                     <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
                 </th:block>
+            </div>
         </div>
+        <nav class="navbar fixed-bottom bg-body-tertiary">
+            <div id="menu">
+                <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+                <a href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
+                <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+                <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+            </div>
+        </nav>
     </div>
-    <nav class="navbar fixed-bottom bg-body-tertiary">
-        <div id="menu">
-            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-            <a href="membergroupinput" class="btnimg"> <img src="img/plus.png" class="img"></a>
-            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
-        </div>
-    </nav>
 </div>
 </body>
+
 <script>
     function joinck(gno) {
         let popOption = "width=450px, height=400px, top=100px, right=30%, scrollbars=yes";
-        console.log(gno);
         let openUrl = '/grouppopup?gno=' + gno;
         window.open(openUrl, 'pop', popOption);
     }
@@ -521,7 +528,6 @@
 <script th:inline="javascript">
     var id = [[${session.userid}]]
     if (id != null) {//로그인 되어있으면
-        console.log(id)
         $("#login").remove()
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
@@ -534,13 +540,12 @@
 
     } else {//로그아웃 되어있으면
         $('#logout').remove()
-        console.log(id)
+
         let area = document.getElementById("mmode");
         var button = document.createElement("button")
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
     }
@@ -559,8 +564,6 @@
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
-
-
     });
 
 
@@ -568,26 +571,23 @@
         event.preventDefault();
         var userid = [[${session.userid}]];
         var gno = $(this).closest('div').attr('id');
-      var id=event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText
+        var id = event.target.parentElement.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.previousElementSibling.innerText
         $.ajax({
             type: "get",
             async: false,
             url: "http://localhost:8080/groupjoin",
             data: {gno: gno},
             success: function (data) {
-               var urll="http://localhost:8080/groupmy?gno="+gno
-                var content =userid+"님이 가입 신청을 넣었습니다"
+                var urll = "http://localhost:8080/groupmy?gno=" + gno
+                var content = userid + "님이 가입 신청을 넣었습니다"
                 $.ajax({
                     type: "get",
                     url: "like Notification",
-                    data: {userid: id, content: content,urll:urll},
-                    success: function(){
-                        console.log("야호")
+                    data: {userid: id, content: content, urll: urll},
+                    success: function () {
                     }, error: function (error) {
-                        console.log(error)
                     }
                 });
-                console.log(data);
                 if (data == 0) {
                     alert("가입 승인 대기 상태 입니다.");
                 } else if (data == 1) {
@@ -595,13 +595,10 @@
                 }
             },
             error: function (request, status, error) {
-                console.log(request, status, error);
             }
         });
     });
 
-
-   
 
 </script>
 </html>
