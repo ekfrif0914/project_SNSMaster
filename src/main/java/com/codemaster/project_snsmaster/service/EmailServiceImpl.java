@@ -51,7 +51,6 @@ public class EmailServiceImpl implements IF_EmailService {
         System.out.println("보내는 대상 : " + to);
         System.out.println("인증 번호 : " + ePw);
         MimeMessage message = emailSender.createMimeMessage();
-
         message.addRecipients(MimeMessage.RecipientType.TO, to);//보내는 대상
         message.setSubject("회원가입 이메일 인증 테스트");//제목
 

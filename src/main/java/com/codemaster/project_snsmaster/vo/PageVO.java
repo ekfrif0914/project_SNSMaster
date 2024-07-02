@@ -8,9 +8,7 @@ public class PageVO {
 	private Integer page; // Integer 웹에서 받은 페이지 정보(String)가 없으면 null인데 int는 null을 저장할 수 없다. 오류방지
 	private int totalCount;//전체 튜플의 수
 	
-	
-	
-	
+
 	private int endPage;//페이지가 속한 그룹의 끝 페이지 번호
 	private int startPage;//페이지가 속한 그룹의 시작페이지 번호
 	private boolean prev;
@@ -68,19 +66,16 @@ public class PageVO {
 		        // 11      20   -  10 + 1  >>  11
 		// 시작 페이지 계산 클릭한page번호 10일때 까지 시작페이지는 1
 		if (tempEnd * this.perPageNum > this.totalCount ) {
-			System.out.println(tempEnd+"te1");
 			// 클릭한 page번호로 계산된 게시물수가 실제게시물개수 totalCount 클때
 			this.endPage = (int) Math.ceil(this.totalCount / (double) this.perPageNum);
-			//this.endNo = startNo + this.perPageNum - 1;	
-			System.out.println(endPage+"eend");
-//			System.out.println(startPage+"start");
+
+
 			if(endPage!=page || endPage==page) {
 				this.endNo = startNo + this.perPageNum - 1;	
 			}else {
 				this.endNo = startNo + this.totalCount % 10 - 1;
 			}
 		} else {
-//			System.out.println(tempEnd+"te12");
 			// 클릭한 page번호로 계산된 게시물수가 실제게시물개수 totalCount 작을때
 			this.endPage = tempEnd;
 			this.endNo = startNo + this.perPageNum - 1;
@@ -90,8 +85,7 @@ public class PageVO {
 		this.prev = this.startPage != 1;// 시작페이지 1보다 크면 무조건 이전 페이지가 있음. true
 		this.next = this.endPage * this.perPageNum < this.totalCount;
 		// 클릭한 page번호로 계산된 게시물수가 실제 게시물 개수보다 작다면 다음페이지가 있음. true
-//		System.out.println(endPage+"eensd");
-//		System.out.println(startPage+"stsart");
+
 	}
 
 	public int getTotalCount() {

@@ -62,9 +62,11 @@
         border-radius: 10px;
         -ms-overflow-style: none;
     }
-    #change::-webkit-scrollbar{
-        display:none;
+
+    #change::-webkit-scrollbar {
+        display: none;
     }
+
     #mmode {
         position: fixed;
         right: 13px;
@@ -275,7 +277,8 @@
         font-size: small;
 
     }
-    .btnf{
+
+    .btnf {
         width: 60px;
         height: 30px;
         font-size: small;
@@ -319,6 +322,8 @@
 
 
                 </ul>
+                <br>
+                <span id="postCnt"> </span>
             </div>
             <br>
             <div id="basicchange">
@@ -434,7 +439,6 @@
     selCategory();
 </script>
 <script>
-
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
@@ -528,85 +532,98 @@
             success: function (data) {
                 $('#postCard').empty();
                 $('#nothing').empty();
-                if ((data.posts == null || data.posts.length == 0) && (data.gposts == null || data.gposts.length == 0) && (data.gjoins == null || data.gjoins.length == 0)) {
-                    $('#nothing').html('<br><br>\n' +
-                        '                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.\n' +
+                var postCnt = 0;
+                if (data.posts != null) {
+                    postCnt += data.posts.length;
+                }
+                if (data.gposts != null) {
+                    postCnt += data.gposts.length;
+                }
+                if (data.gjoins != null) {
+                    postCnt += data.gjoins.length;
+                }
+                $('#postCnt').text("게시글 검색결과: " + postCnt + "건");
+                if (postCnt == 0) {
+                    $('#nothing').html('<br><br>' +
+                        '                작성된 글이 없습니다. snsMaster에 글을 작성해 보세요.' +
                         '                <br><br>')
                     return;
                 }
                 for (let post in data.posts) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                <input class="form-check-input postCheckbox chk" type="checkbox" value=' + data.posts[post].no + '>\n' +
-                        '                                <span>' + data.posts[post].category + '</span>\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.posts[post].title + '</h5>\n' +
-                        '                                <p class="card-text">' + data.posts[post].content + '</p>\n' +
-                        '<a href="postDetail?no=' + data.posts[post].no + '" class="card-link">자세히보기</a>' +
-                        '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="postMod?no=' + data.posts[post].no + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="postDelete?no=' + data.posts[post].no + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>\n' +
-                        '                                    </a>\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                   <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <span>' + data.posts[post].category + '</span>' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.posts[post].title + '</h5>' +
+                        '                                <p class="card-text">' + data.posts[post].content + '</p>' +
+                        '                                <a href="postDetail?no=' + data.posts[post].no + '" class="card-link">자세히보기</a>' +
+                        '                                <div class="cardButton">' +
+                        '                                    <a class="noLine" href="postMod?no=' + data.posts[post].no + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">수정</button>' +
+                        '                                    </a>' +
+                        '                                    <a class="noLine" href="postDelete?no=' + data.posts[post].no + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>' +
+                        '                                    </a>' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
                 for (let gpost in data.gposts) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                <input type="checkbox" class="form-check-input gpostCheckbox chk"\n' +
-                        '                                       value="' + data.gposts[gpost].g_no + '">\n' +
-                        '                                그룹게시글\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>\n' +
-                        '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>\n' +
-                        '<a href="grouppost?g_no=' + data.gposts[gpost].g_no + '" class="card-link">자세히보기</a>' +
-                        '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="modno?g_no=' + data.gposts[gpost].g_no + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="delgroup?g_no=' + data.gposts[gpost].g_no + '&gno=' + data.gposts[gpost].gno + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>\n' +
-                        '                                    </a>\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                    <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <input type="checkbox" class="form-check-input gpostCheckbox chk"' +
+                        '                                       value="' + data.gposts[gpost].g_no + '">' +
+                        '                                그룹게시글' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.gposts[gpost].g_title + '</h5>' +
+                        '                                <p class="card-text">' + data.gposts[gpost].g_content + '</p>' +
+                        '                                <a href="grouppost?g_no=' + data.gposts[gpost].g_no + '" class="card-link">자세히보기</a>' +
+                        '                                <div class="cardButton">' +
+                        '                                    <a class="noLine" href="modno?g_no=' + data.gposts[gpost].g_no + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">수정</button>' +
+                        '                                    </a>' +
+                        '                                    <a class="noLine" href="delgroup?g_no=' + data.gposts[gpost].g_no + '&gno=' + data.gposts[gpost].gno + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>' +
+                        '                                    </a>' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
                 for (let gjoin in data.gjoins) {
                     $('#postCard').html(
-                        $('#postCard').html() + '                    <div class="col">\n' +
-                        '                        <div class="card h-100">\n' +
-                        '                            <div class="card-header">\n' +
-                        '                                <input type="checkbox" class="form-check-input gjoinCheckbox chk"\n' +
-                        '                                       value="' + data.gjoins[gjoin].mo_no + '">\n' +
-                        '                                모임모집글\n' +
-                        '                            </div>\n' +
-                        '                            <div class="card-body">\n' +
-                        '                                <h5 class="card-title">' + data.gjoins[gjoin].m_name + '</h5>\n' +
-                        '                                <p class="card-text">' + data.gjoins[gjoin].m_contents + '</p>\n' +
-                        '                                <div class="cardButton">\n' +
-                        '                                    <a class="noLine" href="gmjoinmod?gno=' + data.gjoins[gjoin].gno + '&mo_no=' + data.gjoins[gjoin].mo_no + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">수정</button>\n' +
-                        '                                    </a>\n' +
-                        '                                    <a class="noLine" href="gjdel?gno=' + data.gjoins[gjoin].gno + '&mo_no=' + data.gjoins[gjoin].mo_no + '">\n' +
-                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>\n' +
-                        '                                    </a>\n' +
-                        '                                </div>\n' +
-                        '                            </div>\n' +
-                        '                        </div>\n' +
+                        $('#postCard').html() +
+                        '                    <div class="col">' +
+                        '                        <div class="card h-100">' +
+                        '                            <div class="card-header">' +
+                        '                                <input type="checkbox" class="form-check-input gjoinCheckbox chk"' +
+                        '                                       value="' + data.gjoins[gjoin].mo_no + '">' +
+                        '                                모임모집글' +
+                        '                            </div>' +
+                        '                            <div class="card-body">' +
+                        '                                <h5 class="card-title">' + data.gjoins[gjoin].m_name + '</h5>' +
+                        '                                <p class="card-text">' + data.gjoins[gjoin].m_contents + '</p>' +
+                        '                                <div class="cardButton">' +
+                        '                                    <a class="noLine" href="gmjoinmod?gno=' + data.gjoins[gjoin].gno + '&mo_no=' + data.gjoins[gjoin].mo_no + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">수정</button>' +
+                        '                                    </a>' +
+                        '                                    <a class="noLine" href="gjdel?gno=' + data.gjoins[gjoin].gno + '&mo_no=' + data.gjoins[gjoin].mo_no + '">' +
+                        '                                        <button class="btn btnf btn-outline-primary">삭제</button>' +
+                        '                                    </a>' +
+                        '                                </div>' +
+                        '                            </div>' +
+                        '                        </div>' +
                         '                    </div>'
                     );
                 }
@@ -620,10 +637,8 @@
     function allChk() {
         const allCheckbox = document.querySelector('#allCheckbox')
         const isChecked = allCheckbox.checked
-
         if (isChecked) {
             const checkboxes = document.querySelectorAll('.chk');
-
             for (const checkbox of checkboxes) {
                 checkbox.checked = true;
             }
@@ -633,8 +648,6 @@
                 checkbox.checked = false;
             }
         }
-
-
     }
 </script>
 </html>

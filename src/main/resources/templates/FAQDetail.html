@@ -156,9 +156,6 @@
         margin-left: 23px;
     }
 
-    #lb {
-        margin-left: 10px;
-    }
 
     #logoimg {
         width: 90px;
@@ -221,7 +218,7 @@
         margin-left: 2px;
     }
 
-    select{
+    select {
         margin-top: 20px;
     }
 </style>
@@ -300,30 +297,30 @@
         </a>
     </div>
 
-<div id="mmode">
-    <img src="img/mmode.png" id="m" class="m">
-    <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
-    <br><br>
-    <div id="idblock">
-        <th:block th:if="${session.userid!=null}">
-            <span style="color: #007bff ">로그인 아이디:</span>
-            <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
-            <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
-            <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
-        </th:block>
-    </div>
-</div>
-
-
-<nav class="navbar fixed-bottom bg-body-tertiary">
-    <div id="menu">
-        <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
-        <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
-        <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
-        <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+    <div id="mmode">
+        <img src="img/mmode.png" id="m" class="m">
+        <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
+        <br><br>
+        <div id="idblock">
+            <th:block th:if="${session.userid!=null}">
+                <span style="color: #007bff ">로그인 아이디:</span>
+                <br><span th:text="${session.userid}" style="font-weight: bold"></span><br>
+                <span style="color: #007bff">이름:</span> <span th:text="${session.username}"></span><br>
+                <span style="color: #007bff">지역:</span> <span th:text="${session.userregion}"></span>
+            </th:block>
+        </div>
     </div>
 
-</nav>
+
+    <nav class="navbar fixed-bottom bg-body-tertiary">
+        <div id="menu">
+            <a href="snsMaster" class="btnimg"> <img src="img/home.png" class="img"></a>
+            <a href="myPost" class="btnimg"> <img src="img/plus.png" class="img"></a>
+            <a href="gList" class="btnimg"> <img src="img/group.png" class="imgs"></a>
+            <a href="myPage" class="btnimg"> <img src="img/myprofile.png" class="img"></a>
+        </div>
+
+    </nav>
 </div>
 </body>
 <script th:inline="javascript">
@@ -364,8 +361,6 @@
     });
 
     $('#m').on('click', () => {
-        let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 

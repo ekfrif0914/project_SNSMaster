@@ -20,11 +20,6 @@ public class PostDAOImpl implements IF_PostDAO{
     }
 
     @Override
-    public List<PostVO> selectAll() throws Exception {
-        return sqlSession.selectList(mapperQuery+".selectAll");
-    }
-
-    @Override
     public List<PostVO> selectLimit() throws Exception {
         return sqlSession.selectList(mapperQuery+".selectLimit");
     }
@@ -92,11 +87,6 @@ public class PostDAOImpl implements IF_PostDAO{
     @Override
     public List<PostAttachVO> selectLimitFileNames() throws Exception {
         return sqlSession.selectList(mapperQuery+".selectLimitFileNames");
-    }
-
-    @Override
-    public List<PostAttachVO> selectLimitFileNames(String lastNo) throws Exception {
-        return sqlSession.selectList(mapperQuery+".selectLimitFileNamesUnder", lastNo);
     }
 
     @Override
