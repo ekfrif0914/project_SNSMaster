@@ -328,9 +328,9 @@
                         url: "like Notification",
                         data: {userid: userid, content: content},
                         success: function(){
-                            console.log("야호")
+
                         }, error: function (error) {
-                            console.log(error)
+
                         }
                     });
                 } else {
@@ -365,25 +365,5 @@
             }
         })
     })
-
-    $(document).ready(function () {
-        const useridd = [[${session.userid}]];
-        $.ajax({
-            type: "GET",
-            url:"/notification state",
-            data: { id: useridd },
-            success: function (state) {
-                console.log("야호");
-                if (state > 0) {
-                    $('#Notification').attr('src', 'img/Notification2.png');
-                }
-            },
-            error: function (error) {
-                console.log("Error: ", error);
-            }
-        });
-    });
-
-
 
 </script>

@@ -60,7 +60,7 @@ public class GroupController {
     public String membergroupinputSave(@RequestParam("referer") String referer, @ModelAttribute MemberGroupVO mgvo, HttpSession session, HttpServletRequest request) throws Exception {
         mgvo.setG_id((String) session.getAttribute("userid"));
         gservice.mginsert(mgvo);
-        return "redirect:" + referer;
+        return "redirect:gList";
     }
 
     @ResponseBody

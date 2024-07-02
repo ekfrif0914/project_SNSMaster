@@ -190,16 +190,14 @@
     select {
         border-color: skyblue;
     }
-</style>
 
+</style>
 
 <body>
 <div class="title">
     <div class="all">
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
-
-
         </div>
         <div id="change">
             <div id="top">
@@ -404,13 +402,10 @@
                     <input type="submit" value="등록하기" onclick="return chkAvail()" class="btn btn-warning">
                 </form>
                 <div id="show">
-
                 </div>
             </div>
-
         </div>
         <div id="mmode">
-
             <img src="img/mmode.png" id="m" class="m">
             <a href="FAQPage"> <img src="img/faq.png" class="m"></a>
             <br><br>
@@ -446,7 +441,6 @@
         button.innerHTML = "로그아웃"
         button.style = "font-size: 15px"
         area.appendChild(button)
-
     } else {//로그아웃 되어있으면
         $('#logout').remove()
         let area = document.getElementById("mmode");
@@ -454,14 +448,10 @@
         button.id = "login"
         button.type = button
         button.className = "btn btn-primary"
-
         button.innerHTML = "로그인"
         area.appendChild(button)
-
-
     }
-</script>
-<script>
+
     function chkAvail() {
         if (document.querySelector("#postRegion").value == "none") {
             alert("지역을 선택해주세요");
@@ -489,8 +479,6 @@
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
-
-
     });
 
     const fileChange = () => {
@@ -522,11 +510,9 @@
                 "장소: \n" +
                 "주요 일정: \n" +
                 "예상 경비: ")
-
         } else {
             contents.val("")
         }
-
     }
 </script>
 </html>

@@ -42,10 +42,7 @@ public class AdminServiceImpl implements IF_AdminService {
         param.put("id", id);
         param.put("filename", filename);
 
-
         adminDao.updateProfile(param);
-
-
     }
 
     @Override

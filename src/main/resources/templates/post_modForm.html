@@ -22,6 +22,7 @@
         font-weight: 400;
         font-style: normal;
     }
+
     body {
         margin: 0px;
     }
@@ -89,11 +90,12 @@
         height: 50px;
 
 
-
     }
+
     .btnimg {
         margin-left: 90px;
     }
+
     .m {
         width: 57px;
         height: 57px;
@@ -101,6 +103,7 @@
         margin-left: 32px;
 
     }
+
     .selectBox {
         width: 80px;
         height: 40px;
@@ -131,6 +134,7 @@
         margin-top: 20px;
         margin-left: 13px;
     }
+
     #sbtn {
         float: left;
         width: 68px;
@@ -153,7 +157,8 @@
         margin-top: 23px;
         margin-left: 23px;
     }
-    .postImg{
+
+    .postImg {
         width: 300px;
         height: 300px;
         object-fit: contain;
@@ -170,20 +175,24 @@
         overflow: scroll;
         -ms-overflow-style: none;
     }
-    #mainFrame::-webkit-scrollbar{
-        display:none;
+
+    #mainFrame::-webkit-scrollbar {
+        display: none;
     }
+
     #idblock {
         text-align: center;
         margin-left: 2px;
     }
+
     #logoimg {
         width: 90px;
         height: 90px;
         margin-left: 7px;
         margin-top: 5px;
     }
-    select{
+
+    select {
         border-color: skyblue;
     }
 </style>
@@ -390,12 +399,14 @@
                         <option value="자유게시글" id="자유게시글">자유게시글</option>
                         <option value="여행계획서" id="여행계획서">여행계획서</option>
                     </select><br>
-                    <input name="title" id="title" type="text" placeholder="제목" size="60" maxlength="40" th:value="${post.title}"><br>
-                    <textarea name="content" id="content" rows="12" cols="60" placeholder="내용" maxlength="600" th:text="${post.content}"></textarea><br>
+                    <input name="title" id="title" type="text" placeholder="제목" size="60" maxlength="40"
+                           th:value="${post.title}"><br>
+                    <textarea name="content" id="content" rows="12" cols="60" placeholder="내용" maxlength="600"
+                              th:text="${post.content}"></textarea><br>
                     <div th:each="fname : ${post.file_name}">
                         <span th:if="${fname != null}">
                             <img th:src="@{download(filename=${fname})}" alt="..." class="postImg">
-                            <input type="button" onclick="return changeTag(this)" value="제거하기"  class="btn btn-warning">
+                            <input type="button" onclick="return changeTag(this)" value="제거하기" class="btn btn-warning">
                             <span th:value="${fname}"></span>
                         </span>
                         <span th:unless="${fname != null}">
@@ -478,26 +489,27 @@
         }
     }
 
-    function selOption(){
+    function selOption() {
         var category = [[${post.category}]];
         var region = [[${post.region}]];
-        document.querySelector('#'+category).setAttribute('selected', true);
-        document.querySelector('#'+region).setAttribute('selected', true);
+        document.querySelector('#' + category).setAttribute('selected', true);
+        document.querySelector('#' + region).setAttribute('selected', true);
     }
+
     selOption();
 
-    function changeTag(target){
+    function changeTag(target) {
         var fname = target.nextElementSibling.getAttribute('value');
-        target.parentNode.innerHTML="<input type=\"file\" name=\"file\"><br><br><input type='hidden' name='delfname' value="+fname+">";
+        target.parentNode.innerHTML = "<input type=\"file\" name=\"file\"><br><br><input type='hidden' name='delfname' value=" + fname + ">";
         return false;
     }
 
     const fileChange = () => {
         $('.file').on('change', (event) => {
             var cnt = $('.file').length;
-            if(cnt < 9-[[${post.file_name}]].length){
+            if (cnt < 9 - [[${post.file_name}]].length) {
                 var targetId = event.target.id;
-                if("file"+cnt == targetId){
+                if ("file" + cnt == targetId) {
                     var newFileInput = document.createElement("input");
                     newFileInput.id = "file" + (cnt + 1);
                     newFileInput.className = "file";
@@ -513,9 +525,6 @@
     }
     fileChange();
 
-
-</script>
-<script>
     $('#login').on('click', () => {
         location.href = 'loginForm'
     });
@@ -526,10 +535,9 @@
 
     $('#m').on('click', () => {
         let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
-
         let openUrl = '/managerPage'
         window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
-
     });
+
 </script>
 </html>
