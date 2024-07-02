@@ -61,10 +61,6 @@
 
     }
 
-    /*#pass {*/
-    /*    margin-left: 30px;*/
-    /*}*/
-
     #file {
         display: none;
     }
@@ -106,18 +102,12 @@
 </div>
 </body>
 <script>
-
-
     $('#file').on('change', function () {
-        //fileTarget.display="block";
+
         var fileName = $("#file").val();
         console.log(fileName)
         $('#filename').text(fileName)
 
-        //document.getElementById('filename').innerHTML=fileName
-
     });
-
-
 </script>
 </html>

@@ -13,7 +13,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
       rel="stylesheet">
-
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <style>
     * {
@@ -21,6 +20,7 @@
         font-weight: 400;
         font-style: normal;
     }
+
     body {
         background-color: #c8f1ff;
 
@@ -86,7 +86,6 @@
         <span id="noticeId" style="color: grey">
         영문 or 한글+숫자(2~20자리)로 작성하세요</span>
         <br>
-
 
         <br>
 
@@ -192,23 +191,14 @@
             return false;
 
         } else {
-            console.log(region)
             if (isIdChecked && emailChecked && pwChk() && idChk() && eachChk()) {
                 sum()
                 $("#jb").attr("type", "submit");
                 $("form").submit();
-                // return true;
             } else if (!emailChecked) {
                 alert("이메일 인증이 필요합니다")
             } else if(!pwChk()){
-                // console.log(isIdChecked)
-                // console.log(1)
-                // console.log(emailChecked)
-                // console.log(pwChk())
-                // console.log(idChk())
-                // console.log(eachChk())
                 alert("비밀번호는 영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요")
-                //  return false;
             }else if(!eachChk()){
                 alert("비밀번호가 일치하지 않습니다")
             }else if(!idChk()){
@@ -216,16 +206,11 @@
             }else if(!isIdChecked){
                 alert("아이디 중복확인을 진행하세요")
             }
-
-
         }
     }
 
-
     function setDomain(e) {
         const text = e.options[e.selectedIndex].text;
-
-        console.log(e.options);
 
         if (text == "직접 입력") {
             $('#domain').val("")
@@ -260,13 +245,8 @@
     function sum() {
         var emailid = $('#emailid').val()
         var domain = $('#domain').val()
-        console.log(emailid)
-        console.log(domain)
         var hiddn = $('#hid')
         hiddn.val(emailid + "@" + domain)
-        console.log(hiddn.val())
-
-        //   return true;
     }
 
     function pwChk() {
@@ -281,7 +261,6 @@
             noticePw.css("color", "grey")
             return false;
         } else if (pw.length < 4 || pw.length > 10) {
-
             noticePw.text("4자리 ~ 10자리 이내로 입력해주세요.");
             noticePw.css("color", "red");
             return false;
@@ -293,23 +272,17 @@
             noticePw.text("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
             noticePw.css("color", "red");
             return false;
-
         } else {
-            console.log("통과");
             noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~10자리)")
             noticePw.css("color", "green")
-            // sum()
             return true;
         }
     }
 
     function idChk() {
         isIdChecked = false;
-        console.log("아이디체크 실행")
         var id = $('#id').val()
         var num = id.search(/[0-9]/g);
-//        var eng = id.search(/[a-z]/ig);
-//        var kor = id.search(/^[가-힣]+$/);
         var koreng = id.search(/[가-힣a-zA-Z]/g);
         var noticeId = $('#noticeId')
         var spe = id.search(/[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$☆★○●◎Ŋž※◀◁◆◇◈◎◌♥♧♨♣♂」ぉ】☏☎☜◌♂♀☞♨%&\\\=\(\'\"]/gi);
@@ -334,7 +307,6 @@
             noticeId.css("color", "green")
             return true;
         }
-
     }
 
     $("#overlappedID").click(function () {
@@ -351,13 +323,10 @@
                         $('#noticeId').text("이미 사용중인 ID 입니다.");
                         $("#noticeId").css("color", "red");
                         isIdChecked = false;
-                        console.log(isIdChecked)
                     } else {
                         $('#noticeId').text("사용 가능한 ID 입니다.");
                         $("#noticeId").css("color", "blue");
-                        //$("#signup").attr("type", "submit");
                         isIdChecked = true;
-                        console.log(isIdChecked)
                     }
                 },
                 error: function (request, status, error) { // 결과 에러 콜백함수
@@ -371,11 +340,10 @@
     });
 
     $('#authentication').click(function () {
-        // $('#authentication').attr("type", "submit");
         var emailid = $('#emailid').val()
         var domain = $('#domain').val()
         if (emailid != "" && domain != "") {
-            sum()
+            sum();
             var email = $('#hid').val()
 
             $.ajax({
@@ -385,9 +353,7 @@
                 data: {email: email},
                 success: function (data) {
                     if (data == 1) {
-
                         alert("이미 인증된 이메일입니다")
-
                     } else {
                         if (!plusrow) {
                             let area = document.getElementById("area");
@@ -404,7 +370,6 @@
                                 data: {email: email},
                                 success: function (data) {
                                     $("#confirm").attr("value", data);
-                                    console.log(data)
                                 },
                                 error: function (request, status, error) { // 결과 에러 콜백함수
                                     console.log(error)
@@ -426,12 +391,8 @@
     });
 
     function confirmNumber() {
-
         var number1 = $("#number").val();
         var number2 = $("#confirm").val();
-
-        console.log(number1)
-        console.log(number2)
         if (number1 != "") {
             if (number1 == number2) {
                 alert("인증되었습니다.");

@@ -6,15 +6,14 @@ import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
 import com.codemaster.project_snsmaster.vo.*;
-import jakarta.servlet.ServletOutputStream;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.time.Period;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
