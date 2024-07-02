@@ -569,6 +569,7 @@
 
     });
 
+
     setInterval(() => {
         var target = $('.show');
         if (target.next('.noticeList').length == 0) {
@@ -644,6 +645,7 @@
         location.href = "notification?id=" + a
     }
 
+
     $(document).on("click", ".likeBtn", (event) => {
         console.log("몇번실행?")
         var postElement = $(event.currentTarget).closest('.post');
@@ -682,7 +684,7 @@
         }
     })
 
-    $(document).on("click", ".report", (event) => {
+     $(document).on("click", ".report", (event) => {
         var id = [[${session.userid}]];
         if (id != null) {
             var no = event.target.parentElement.parentElement.id
@@ -707,6 +709,8 @@
     })
 
     $(document).on("click", ".follow", (event) => {
+       var postElement = $(event.currentTarget).closest('.post');
+        var id = postElement.find('b:eq(0)').text()
         var followid = event.target.previousElementSibling.firstElementChild.innerHTML
         var userid = [[${session.userid}]];
         $.ajax({
@@ -716,6 +720,19 @@
             data: {userid: userid, followid: followid},
             success: function (data) {
                 if (data) {//true이면 팔로우 함
+                   var content=userid+"님이 팔로우를 신청하였습니다!"
+                      var urll="http://localhost:8080/yourPage?id="+userid
+                      $.ajax({
+                        type: "get",
+                        url: "like Notification",
+                        data: {userid: id, content: content,urll:urll},
+                        success: function(){
+                            console.log("야호")
+                        }, error: function (error) {
+                            console.log(error)
+                        }
+                    });
+
                     var postidstag = document.querySelectorAll(".postid")
                     for (var i = 0; i < postidstag.length; i++) {
                         if (postidstag.item(i).innerText == followid) {

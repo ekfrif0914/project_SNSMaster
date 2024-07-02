@@ -535,6 +535,7 @@
     }
 
     $(".follow").on("click", (event) => {
+        var id=$("#idText").text()
         var followid = event.target.previousElementSibling.innerText
         console.log(followid);
         var userid = [[${session.userid}]];
@@ -545,6 +546,18 @@
             url: "following",
             data: {userid: userid, followid: followid},
             success: function (data) {
+                var content=userid+"님이 팔로우를 신청하였습니다!"
+                var urll="http://localhost:8080/yourPage?id="+userid
+                $.ajax({
+                    type: "get",
+                    url: "like Notification",
+                    data: {userid: id, content: content,urll:urll},
+                    success: function(){
+                        console.log("야호")
+                    }, error: function (error) {
+                        console.log(error)
+                    }
+                });
                 console.log("성공")
                 if (data) {//true이면 팔로우 함
                     event.target.innerHTML = "팔로우 취소"

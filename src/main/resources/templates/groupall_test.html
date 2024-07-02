@@ -447,9 +447,11 @@
             </form>
             <div th:each="post: ${gList}" th:id="${post.gno}" class="post">
                 <span th:text="${postStat.count}"></span>
+
                 <span style="font-weight: bold">그룹장:</span>
                 <span th:text="${post.g_id}"></span>
                 <span style="font-weight: bold">그룹 이름:</span>
+
                 <span th:text="${post.gname}"></span>
                 <span style="font-weight: bold">지역:</span>
                 <span th:text="${post.g_region}"></span>
@@ -564,13 +566,27 @@
 
     $(document).on('click', '#gjoinck', function (event) {
         event.preventDefault();
+        var userid = [[${session.userid}]];
         var gno = $(this).closest('div').attr('id');
+      var id=event.target.previousElementSibling.previousElementSibling.previousElementSibling.innerText
         $.ajax({
             type: "get",
             async: false,
             url: "http://localhost:8080/groupjoin",
             data: {gno: gno},
             success: function (data) {
+               var urll="http://localhost:8080/groupmy?gno="+gno
+                var content =userid+"님이 가입 신청을 넣었습니다"
+                $.ajax({
+                    type: "get",
+                    url: "like Notification",
+                    data: {userid: id, content: content,urll:urll},
+                    success: function(){
+                        console.log("야호")
+                    }, error: function (error) {
+                        console.log(error)
+                    }
+                });
                 console.log(data);
                 if (data == 0) {
                     alert("가입 승인 대기 상태 입니다.");
@@ -585,39 +601,7 @@
     });
 
 
-    //
-    // $(".likeBtn").click(function () {
-    //     $('#jb').attr("type", "button");
-    //     var id = $("#id").val();
-    //     if (idChk()) {
-    //         $.ajax({
-    //             type: "get",
-    //             async: false,
-    //             url: "http://localhost:8080/idCheck",
-    //             data: {id: id},
-    //             success: function (data) {
-    //                 if (data == 1) {
-    //                     $('#noticeId').text("이미 사용중인 ID 입니다.");
-    //                     $("#noticeId").css("color", "red");
-    //                     isIdChecked = false;
-    //                     console.log(isIdChecked)
-    //                 } else {
-    //                     $('#noticeId').text("사용 가능한 ID 입니다.");
-    //                     $("#noticeId").css("color", "blue");
-    //                     //$("#signup").attr("type", "submit");
-    //                     isIdChecked = true;
-    //                     console.log(isIdChecked)
-    //                 }
-    //             },
-    //             error: function (request, status, error) { // 결과 에러 콜백함수
-    //                 console.log(error)
-    //             }
-    //
-    //         })
-    //     } else {
-    //         alert("형식을 지키세요")
-    //     }
-    // });
+   
 
 </script>
 </html>

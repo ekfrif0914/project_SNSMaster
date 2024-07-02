@@ -5,9 +5,7 @@ import com.codemaster.project_snsmaster.service.IF_GroupService;
 import com.codemaster.project_snsmaster.service.IF_ManagerService;
 import com.codemaster.project_snsmaster.service.IF_PostService;
 import com.codemaster.project_snsmaster.util.FileDataUtil;
-import com.codemaster.project_snsmaster.vo.GroupPostVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
-import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import com.codemaster.project_snsmaster.vo.*;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,7 +35,9 @@ public class ManagerController {
     IF_GroupService groupService;
 
     @RequestMapping(value = "/review", method = RequestMethod.GET)
-    public String home() {
+    public String home(Model model) {
+       List<NoticeVO>allList=manager.notice();
+       model.addAttribute("allList", allList);
         return "review";
     }
 
@@ -44,6 +47,12 @@ public class ManagerController {
         manager.insert(memo);
         return "review";
     }
+
+   @GetMapping(value="dell")
+   public String dell(@RequestParam int NO)throws Exception{
+    manager.noticedell(NO);
+       return "redirect:review";
+   }
 
     @RequestMapping(value = "delete", method = RequestMethod.GET)
     public String delete(@RequestParam("g_no") int g_no) throws Exception {
@@ -59,23 +68,6 @@ public class ManagerController {
         return "redirect:managerMode";
     }
 
-//    @RequestMapping(value = "look", method = RequestMethod.GET)
-//    public String look(@RequestParam("g_no") String g_no, Model model,@RequestParam("id") String id) throws Exception {
-//        System.out.println(g_no);
-//        GroupPostVO look = manager.selectgroupPost(Integer.parseInt(g_no));
-//        model.addAttribute("g_no", look);
-//
-//        return "look";
-//    }
-//
-//    @RequestMapping(value = "look2", method = RequestMethod.GET)
-//    public String look2(@RequestParam("no") String no, Model model,@RequestParam("id") String id) throws Exception {
-//        PostVO look = manager.selectpost(Integer.parseInt(no));
-//        model.addAttribute("id",id);
-//        model.addAttribute("no", look);
-//        model.addAttribute("post", postService.selectOne(no));
-//        return "look2";
-//    }
 
     @RequestMapping(value = "/managerMode2", method = RequestMethod.GET)
     public String reportsave(Model model) throws Exception {
@@ -85,9 +77,11 @@ public class ManagerController {
     }
 
     @RequestMapping(value = "/managerMode", method = RequestMethod.GET)
-    public String reportsave2(Model model) throws Exception {
+    public String reportsave2(Model model,HttpSession session) throws Exception {
         List<PostVO> allList = manager.postreport();
         model.addAttribute("all", allList);
+        String managername=(String)session.getAttribute("managername");
+        model.addAttribute("managername", managername);
         return "Manager.Main";
     }
 
@@ -139,7 +133,7 @@ public class ManagerController {
     public String alter2(@RequestParam("g_no") int g_no) throws Exception {
         System.out.println(g_no);
         manager.alter2(g_no);
-        return "redirect:managerMode";
+        return "redirect:managerMode2";
     }
 
     @RequestMapping(value = "stopmember", method = RequestMethod.GET)
@@ -244,7 +238,7 @@ public class ManagerController {
 
     @GetMapping(value = "notification")
     public String notification(@RequestParam String id, Model model) {
-        List<String> allList = manager.notificationlook(id);
+        List<NotificationVO> allList = manager.notificationlook(id);
         manager.notifi(id);
         model.addAttribute("all", allList);
         return "Notification";

@@ -1,8 +1,6 @@
 package com.codemaster.project_snsmaster.dao;
 
-import com.codemaster.project_snsmaster.vo.GroupPostVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
-import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import com.codemaster.project_snsmaster.vo.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +43,11 @@ public interface IF_ManagerDAO {
 
     public int stateNotification(String id);
 
-   public List<String> notificationlook(String id);
+   public List<NotificationVO> notificationlook(String id);
 
    public void notifi(String id);
+
+   public List<NoticeVO> notice();
+
+  public void noticedell(int NO);
 }

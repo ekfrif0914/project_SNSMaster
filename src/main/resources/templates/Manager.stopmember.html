@@ -136,9 +136,10 @@
     #gogogo{
         margin-left: 520px;
     }
-    #gihi {
+    #gihi{
         width: 380px;
         height: 30px;
+
     }
     search {
         margin-left: 400px;
@@ -151,8 +152,11 @@
         transition: box-shadow 0.3s ease; /* 그림자 변화에 애니메이션 적용 */
     }
     #gggg{
-        margin-left:310px;
-        height:30px;
+        margin-left: 350px;
+        margin-top: -5px;
+        height: 40px;
+        border: 1px solid skyblue;
+        border-radius:10px;
     }
     search:hover,
     search:focus {
@@ -210,7 +214,57 @@
     #excelDownload:hover {
         background-color: darkgreen; /* Darker green on hover */
     }
+    .search-container {
+        display: flex;
+        gap: 10px;
+    }
 
+    input[type="search"], input[type="submit"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+
+
+    input[type="search"] {
+        width: 200px;
+    }
+
+    input[type="submit"] {
+
+        background: transparent;
+        color: #32CD32; /* 연두색 텍스트 */
+        cursor: pointer;
+        border: 2px solid #32CD32; /* 연두색 테두리 */
+        border-radius: 25px;
+        transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    }
+
+    input[type="search"]:focus,
+    select:focus {
+        border-color: #007BFF;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+
+    input[type="submit"]:hover {
+        background: #32CD32; /* 연두색 배경 */
+        color: white; /* 흰색 텍스트 */
+        transform: translateY(-2px);
+    }
+
+    input[type="submit"]:active {
+        background: #228B22; /* 더 진한 연두색 배경 */
+        border-color: #228B22; /* 더 진한 연두색 테두리 */
+        transform: translateY(0);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    #inz{
+        margin-top: -7px;
+    }
 </style>
 <div class="navbar">
     <div class="container">
@@ -227,13 +281,16 @@
 <div class="container">
     <h1 id="gogogo">사용자 관리</h1>
     <form action="search2" method="get">
+        <div class="search-container">
         <select name="searchcell" id="gggg">
             <option value="id">아이디</option>
             <option value="title">제목</option>
         </select>
         <input type="search" id="gihi" value="" name="search">
-        <input type="submit" value="검색">
+        <input type="submit" value="검색" id="inz">
+        </div>
     </form>
+    <br>
     <table id="mana">
         <thead>
         <tr>
@@ -247,7 +304,7 @@
         </thead>
         <tbody>
         <tr th:each="all:${all}" class="tr">
-            <td><a th:href="@{myPage2(userid=${all.id})}">
+            <td><a th:href="@{yourPage(id=${all.id})}">
                     <button>회원정보</button>
                 </a></td>
             <td th:text="${all.id}"></td>
