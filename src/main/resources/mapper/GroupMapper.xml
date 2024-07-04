@@ -201,6 +201,9 @@
     <select id="gjoinpopselect" resultType="com.codemaster.project_snsmaster.vo.GroupJoinVO">
         select * from groupjoin where gno=#{gno}
     </select>
+    <select id="gmemberpoplist" resultType="com.codemaster.project_snsmaster.vo.G_memberVO">
+        select * from g_member where mo_no=#{mo_no}
+    </select>
 
     <select id="reportsaveselect" parameterType="hashmap" resultType="int">
         select count(*) from reportsave where g_no=#{g_no} and id=#{id}

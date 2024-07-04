@@ -21,7 +21,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/yourPage")
                 .addPathPatterns("/membergroupinput")
                 .addPathPatterns("/groupinput")
-                .addPathPatterns("/memberCheck")
                 .addPathPatterns("/myinfoPage")
                 .addPathPatterns("/grupinput")
                 .addPathPatterns("/groupjoin")

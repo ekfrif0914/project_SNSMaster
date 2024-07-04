@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter@Setter@ToString
+@Getter
+@Setter
+@ToString
 public class PostVO {
 
     private int no;
@@ -16,6 +18,6 @@ public class PostVO {
     private String report;
     private String category;
     private String[] file_name;
-    private boolean isLike=false;
-    private boolean followstate=false;
+    private boolean isLike = false;
+    private boolean followstate = false;
 }

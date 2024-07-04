@@ -1,0 +1,50 @@
+* {
+    font-family: "Nanum Gothic", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    background-color: #c8f1ff;
+
+}
+
+#chang {
+    width: 700px;
+    height: 680px;
+    border: 2px solid coral;
+    margin-left: 300px;
+    text-align: left;
+    margin-top: 14px;
+    border-radius: 10px;
+}
+
+#chang h1 {
+    text-align: center;
+}
+
+#jb {
+    margin-left: 319px;
+
+}
+
+#login {
+    margin-left: 298px;
+    display: inline;
+}
+
+#area {
+    display: block;
+    text-align: center;
+}
+
+#lb {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+#logoimg{
+    width: 110px;
+    height: 110px;
+    margin-left: 590px;
+    margin-top: 20px;
+}

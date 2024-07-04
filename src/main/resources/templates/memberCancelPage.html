@@ -4,39 +4,19 @@
     <meta charset="UTF-8">
     <title>회원 탈퇴 페이지</title>
 </head>
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-
-<style>
-    body {
-        margin-left: 300px;
-        margin-top: 50px;
-    }
-
-    table, td, tr, th {
-        border: 1px solid black;
-        height: 70px;
-        width: 700px;
-    }
-
-    span {
-        font-size: larger;
-        font-weight: bold;
-    }
-
-    .btn {
-        margin-top: 70px;
-        margin-left: 300px;
-        width: 90px;
-        height: 40px;
-        background-color: white;
-        background-color: beige;
-        border-color: red;
-        border-radius: 5px;
-
-    }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
+<link href="css/memberCancelPage.css" rel="stylesheet">
 <body>
+<a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
 <div id="title">
     <h1>snsMater탈퇴 안내</h1>
     <p class="contxt">회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
@@ -89,16 +69,5 @@
 
 
 </body>
-<script>
-    function checkbokChk() {
-
-        if ($('input:checkbox[id="flexCheckChecked"]').is(":checked")) {
-            $('.btn').attr("type", "submit")
-        } else {
-            alert("탈퇴 안내를 확인하고 동의해 주세요.")
-            $('.btn').attr("type", "button")
-        }
-    }
-
-</script>
+<script src="js/memberCancelPage.js" type="text/javascript"></script>
 </html>

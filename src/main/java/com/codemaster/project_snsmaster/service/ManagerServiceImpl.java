@@ -1,13 +1,10 @@
 package com.codemaster.project_snsmaster.service;
 
 import com.codemaster.project_snsmaster.dao.IF_ManagerDAO;
-import com.codemaster.project_snsmaster.vo.GroupPostVO;
-import com.codemaster.project_snsmaster.vo.PostVO;
-import com.codemaster.project_snsmaster.vo.StopMemberVO;
+import com.codemaster.project_snsmaster.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -67,12 +64,6 @@ IF_ManagerDAO mdao;
     public List<GroupPostVO> selectrandom2(HashMap<String, String> params) throws Exception {
         return mdao.selectrandom2(params);
     }
-    @Override
-    public String random() throws Exception {
-        String[] regions = {"Seoul", "Busan", "Incheon", "Daegu", "Daejeon", "Gwangju", "Ulsan", "Suwon"};
-        String region = regions[rand.nextInt(8)];
-        return region;
-    }
 
     @Override
     public void alter(int no) throws Exception {
@@ -116,12 +107,22 @@ IF_ManagerDAO mdao;
     }
 
     @Override
-    public List<String> notificationlook(String id) {
+    public List<NotificationVO> notificationlook(String id) {
       return mdao.notificationlook(id);
     }
 
     @Override
     public void notifi(String id) {
          mdao.notifi(id);
+    }
+
+    @Override
+    public List<NoticeVO> notice() {
+        return mdao.notice();
+    }
+
+    @Override
+    public void noticedell(int NO) {
+        mdao.noticedell(NO);
     }
 }

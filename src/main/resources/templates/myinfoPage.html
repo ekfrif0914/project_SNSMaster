@@ -10,263 +10,78 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
+<link href="css/myinfoPage.css" rel="stylesheet">
+<script th:inline="javascript">
+    var region1 = [[${member.region1}]]
+
+    var region = [[${member.region}]]
+
+</script>
+
 <body>
-<style>
-    #field {
-        display: inline-block;
-    }
-
-    .btn {
-
-        margin-top: 380px;
-        color: #666666;
-        text-decoration: underline;
-
-    }
-
-</style>
-<h1>회원정보 수정</h1>
-<br>
-<div id="field">
-    아이디: <span th:text="${member.id}"></span>
-
+<a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
+<div id="infoChang">
+    <h1>회원정보 수정</h1>
     <br>
-    이메일:<span th:text="${member.email}"></span>
+    <div id="field">
+        아이디: <span th:text="${member.id}"></span>
 
-    <form action="updateSave" method="post">
-        <input type="hidden" th:value="${member.id}" name="id">
-        지역
-        <select class="form-select" id="sido" onchange="categoryChange(this)" name="region1">
-            <option value="광역시/특별시">광역시/특별시</option>
-            <option value="경기도">경기도</option>
-            <option value="강원도">강원도</option>
-            <option value="충청북도">충청북도</option>
-            <option value="충청남도">충청남도</option>
-            <option value="전라북도">전라북도</option>
-            <option value="전라남도">전라남도</option>
-            <option value="경상북도">경상북도</option>
-            <option value="경상남도">경상남도</option>
-            <option value="제주도">제주도</option>
-        </select>
-        <select class="form-select" name="region" id="region">
-        </select>
+        <br>
+        이메일:<span th:text="${member.email}"></span>
 
-        <br><br><!--세분화-->
+        <form action="updateSave" method="post">
+            <input type="hidden" th:value="${member.id}" name="id">
+            지역
+            <select class="form-select" id="sido" onchange="categoryChange(this)" name="region1">
+                <option value="광역시/특별시">광역시/특별시</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="제주도">제주도</option>
+            </select>
+            <select class="form-select" name="region" id="region">
+            </select>
+
+            <br><br><!--세분화-->
 
 
-        이름<input type="text" th:value="${member.name}" name="name" id="name">
-        <br><br>
-        비밀번호<input type="password" th:value="${member.pw}" id="userpw">
-        <input type="hidden" th:value="${member.pw}" id="oldpw">
-        <br><br>
-        새 비밀번호<input type="password" name="pw" id="pw" onchange="pwChk()" onkeyup="pwChk()"><br>
-        <span id="noticePw">
+            이름<input type="text" th:value="${member.name}" name="name" id="name">
+            <br><br>
+            비밀번호<input type="password" th:value="${member.pw}" id="userpw">
+            <input type="hidden" th:value="${member.pw}" id="oldpw">
+            <br><br>
+            새 비밀번호<input type="password" name="pw" id="pw" onchange="pwChk()" onkeyup="pwChk()"><br>
+            <span id="noticePw">
 
                 영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요
             </span>
-        <br>
-        새 비밀번호 확인<input type="password" id="pwchk">
-        <br>
-        <br>
-        <input type="submit" value="수정하기" onclick="return updateSave()">
-    </form>
-</div>
+            <br>
+            <br>
+            새 비밀번호 확인<input type="password" id="pwchk">
+            <br>
+            <br>
+            <input type="submit" value="수정하기" onclick="return updateSave()" class="btn btn-warning">
+        </form>
+            <form action="memberCancelPage" method="post">
+                <input type="hidden" th:value="${member.id}" name="id">
+                <input type="hidden" th:value="${member.pw}" name="pw">
+                <input type="submit" class="btn memberCancel" value="회원탈퇴">
+            </form>
 
+    </div>
 
-<div id="cancel">
-
-
-    <form action="memberCancelPage" method="post">
-        <input type="hidden" th:value="${member.id}" name="id">
-        <input type="hidden" th:value="${member.pw}" name="pw">
-        <input type="submit" class="btn" value="회원탈퇴">
-    </form>
 
 </div>
-
 </body>
-<script th:inline="javascript">
-    var region1= [[${member.region1}]]
-    $('#sido').val(region1).attr("selected", true);
-    var region = [[${member.region}]]
+<script src="js/myinfoPage.js" type="text/javascript"></script>
 
-    var metrocity = ["서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시"];
-    var gyeonggido = ["수원시", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시",
-        "남양주시", "동두천시", "부천시", "성남시", "시흥시", "안산시", "안성시", "안양시", "양주시",
-        "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시",
-        "평택시", "포천시", "하남시", "화성시"]
-
-    var Gangwondo = ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시"];
-    var Chungcheongbukdo = ["제천시", "청주시", "충주시"];
-    var Chungcheongnamdo = ["계룡시", "공주시", "논산시", "보령시", "서산시", "아산시", "천안시"];
-    var Jeollabukdo = ["군산시", "김제시", "남원시", "익산시", "전주시", "정읍시"]
-    var Jeollanamdo = ["광양시", "나주시", "목포시", "순천시", "여수시"];
-    var Gyeongsangbukdo = ["경산시", "경주시", "구미시", "김천시", "문경시", "상주시", "안동시", "영주시", "영천시", "포항시"];
-    var Gyeongsangnamdo = ["거제시", "김해시", "마산시", "밀양시", "사천시", "양산시", "진주시", "진해시", "창원시", "통영시"]
-    var jejudo = ["서귀포시", "제주시"];
-
-    var target = $('#region')
-
-    if (region1== "광역시/특별시") var sidetailOption = metrocity;
-    else if (region1== "경기도") var sidetailOption = gyeonggido;
-    else if (region1 == "강원도") var sidetailOption = Gangwondo;
-    else if (region1== "충청북도") var sidetailOption = Chungcheongbukdo;
-    else if (region1 == "충청남도") var sidetailOption = Chungcheongnamdo;
-    else if (region1 == "전라북도") var sidetailOption = Jeollabukdo;
-    else if (region1 == "전라남도") var sidetailOption = Jeollanamdo;
-    else if (region1 == "경상북도") var sidetailOption = Gyeongsangbukdo;
-    else if (region1 == "경상남도") var sidetailOption = Gyeongsangnamdo;
-    else if (region1 == "제주도") var sidetailOption = jejudo;
-
-
-    for (x in sidetailOption) {
-        var opt = document.createElement("option");
-        opt.value = sidetailOption[x];
-        opt.innerHTML = sidetailOption[x];
-        target.append(opt)
-    }
-
-
-    $('#region').val(region).attr("selected", true);
-
-</script>
-<script>
-
-    function updateSave() {
-
-        var name = $('#name').val()
-        var newpw = $('#pw').val()
-        var newpwchk = $('#pwchk').val()
-
-        if (name == "" || newpw != "" && newpwchk == "" || newpw == "" && newpwchk != "") {
-            alert("수정 항목을 입력하세요")
-            return false;
-        } else if (newpw == "" && newpwchk == "" && name != "") {
-            if (oldpwChk() && newchk()) {
-                console.log("서밋됨")
-                return true;
-            }
-        } else {
-
-            if (pwChk() && newchk() && oldpwChk()) {
-                console.log("submit 됨")
-                return true;
-            } else {
-                //console.log(pwChk() + "1")//비밀번호유효성
-                //console.log(newchk() + "2")//새 비밀번호와 확인
-                //console.log(oldpwChk() + "3")//현재 비밀번호와 일치하는지 확인
-                console.log("submit 안됨")
-                return false;
-            }
-        }
-
-    }
-
-    function newchk() {
-        var pw = $('#pw').val()
-        var pwchk = $('#pwchk').val()
-        if (pw == "" && pwchk == "") {
-            console.log("공백임")
-            var oldpw = $('#oldpw').val()
-            $('#pw').val(oldpw)
-            return true;
-        } else {
-            if (pw != pwchk) {
-                alert("새 비밀번호와 비밀번호 확인이 일치하지 않습니다")
-                return false;
-            } else {
-                // console.log("새 비밀번호 확인")
-                return true;
-            }
-        }
-    }
-
-    function oldpwChk() {
-        var oldpw = $('#oldpw').val()
-        var userpw = $('#userpw').val()
-        if (oldpw != userpw) {
-            alert("비밀번호를 정확하게 입력해주세요")
-            return false;
-        } else {
-            console.log("비밀번호 일치")
-            return true;
-        }
-
-    }
-
-    function pwChk() {
-        var pw1 = $('#pw').val()
-        var num = pw1.search(/[0-9]/g);
-        var eng = pw1.search(/[a-z]/ig);
-        var spe = pw1.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-        var noticePw = $('#noticePw')
-
-        if (pw1 == "") {
-            noticePw.text("영문+숫자+특수문자(!@#$%^&*) (4~10자리)로 작성하세요")
-            noticePw.css("color", "grey")
-            return false;
-        } else if (pw1.length < 4 || pw1.length > 10) {
-
-            noticePw.text("4자리 ~ 10자리 이내로 입력해주세요.");
-            noticePw.css("color", "red");
-            return false;
-        } else if (pw1.search(/\s/) != -1) {
-            noticePw.text("비밀번호는 공백 없이 입력해주세요.");
-            noticePw.css("color", "red");
-            return false;
-        } else if (num < 0 || eng < 0 || spe < 0) {
-            noticePw.text("영문, 숫자, 특수문자를 혼합하여 입력해주세요.");
-            noticePw.css("color", "red");
-            return false;
-
-        } else {
-            console.log("통과");
-            noticePw.text("영문+숫자+특수문자(!@#$%^&*)(4~10자리)")
-            noticePw.css("color", "green")
-            // sum()
-            return true;
-        }
-    }
-
-    function categoryChange(e) {
-        var metrocity = ["서울특별시", "인천광역시", "대전광역시", "광주광역시", "대구광역시", "울산광역시", "부산광역시"];
-        var gyeonggido = ["수원시", "고양시", "과천시", "광명시", "광주시", "구리시", "군포시", "김포시",
-            "남양주시", "동두천시", "부천시", "성남시", "시흥시", "안산시", "안성시", "안양시", "양주시",
-            "오산시", "용인시", "의왕시", "의정부시", "이천시", "파주시",
-            "평택시", "포천시", "하남시", "화성시"]
-
-        var Gangwondo = ["강릉시", "동해시", "삼척시", "속초시", "원주시", "춘천시", "태백시"];
-        var Chungcheongbukdo = ["제천시", "청주시", "충주시"];
-        var Chungcheongnamdo = ["계룡시", "공주시", "논산시", "보령시", "서산시", "아산시", "천안시"];
-        var Jeollabukdo = ["군산시", "김제시", "남원시", "익산시", "전주시", "정읍시"]
-        var Jeollanamdo = ["광양시", "나주시", "목포시", "순천시", "여수시"];
-        var Gyeongsangbukdo = ["경산시", "경주시", "구미시", "김천시", "문경시", "상주시", "안동시", "영주시", "영천시", "포항시"];
-        var Gyeongsangnamdo = ["거제시", "김해시", "마산시", "밀양시", "사천시", "양산시", "진주시", "진해시", "창원시", "통영시"]
-        var jejudo = ["서귀포시", "제주시"];
-
-        var target = $('#region')
-
-        if (e.value == "광역시/특별시") var sidetailOption = metrocity;
-        else if (e.value == "경기도") var sidetailOption = gyeonggido;
-        else if (e.value == "강원도") var sidetailOption = Gangwondo;
-        else if (e.value == "충청북도") var sidetailOption = Chungcheongbukdo;
-        else if (e.value == "충청남도") var sidetailOption = Chungcheongnamdo;
-        else if (e.value == "전라북도") var sidetailOption = Jeollabukdo;
-        else if (e.value == "전라남도") var sidetailOption = Jeollanamdo;
-        else if (e.value == "경상북도") var sidetailOption = Gyeongsangbukdo;
-        else if (e.value == "경상남도") var sidetailOption = Gyeongsangnamdo;
-        else if (e.value == "제주도") var sidetailOption = jejudo;
-
-
-        target.find("option").remove()
-
-        for (x in sidetailOption) {
-            var opt = document.createElement("option");
-            opt.value = sidetailOption[x];
-            opt.innerHTML = sidetailOption[x];
-            target.append(opt)
-        }
-    }
-
-</script>
 </html>

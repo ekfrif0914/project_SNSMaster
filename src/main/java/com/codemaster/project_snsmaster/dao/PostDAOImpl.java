@@ -16,13 +16,17 @@ public class PostDAOImpl implements IF_PostDAO{
 
     @Override
     public void insertPost(PostVO postVO) throws Exception{
-//        System.out.println(postVO.toString());
         sqlSession.insert(mapperQuery+".insertPost", postVO);
     }
 
     @Override
-    public List<PostVO> selectAll() throws Exception {
-        return sqlSession.selectList(mapperQuery+".selectAll");
+    public List<PostVO> selectLimit() throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectLimit");
+    }
+
+    @Override
+    public List<PostVO> selectLimit( HashMap<String, String> params) throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectLimitUnder", params);
     }
 
     @Override
@@ -81,6 +85,11 @@ public class PostDAOImpl implements IF_PostDAO{
     }
 
     @Override
+    public List<PostAttachVO> selectLimitFileNames() throws Exception {
+        return sqlSession.selectList(mapperQuery+".selectLimitFileNames");
+    }
+
+    @Override
     public List<PostVO> selectMyPost(String userid) throws Exception {
         return sqlSession.selectList(mapperQuery+".selectMyPost", userid);
     }
@@ -112,7 +121,6 @@ public class PostDAOImpl implements IF_PostDAO{
 
     @Override
     public List<Integer> selectMyLikeNo(String userid) throws Exception {
-        System.out.println(userid);
         return sqlSession.selectList(mapperQuery+".selectMyLikeNo", userid);
     }
 
