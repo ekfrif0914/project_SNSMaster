@@ -12,7 +12,6 @@ if (id != null) {//로그인 되어있으면
 
 } else {//로그아웃 되어있으면
     $('#logout').remove()
-    console.log(id)
     let area = document.getElementById("mmode");
     var button = document.createElement("button")
     button.id = "login"
