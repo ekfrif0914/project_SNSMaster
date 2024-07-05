@@ -1,6 +1,5 @@
 
 if (id != null) {//로그인 되어있으면
-    console.log(id)
     $("#login").remove()
     let area = document.getElementById("mmode");
     var button = document.createElement("button")
@@ -13,7 +12,6 @@ if (id != null) {//로그인 되어있으면
 
 } else {//로그아웃 되어있으면
     $('#logout').remove()
-    console.log(id)
     let area = document.getElementById("mmode");
     var button = document.createElement("button")
     button.id = "login"
@@ -26,6 +24,7 @@ if (id != null) {//로그인 되어있으면
 
 $(window).on('load', () => {
     var lcategory = 'all';
+    console.log("window on load 실행")
     loadCategory(lcategory);
 })
 
@@ -44,6 +43,7 @@ $('#m').on('click', () => {
 });
 
 $('#postSelector').on('change', (event) => {
+    console.log("postSelector on change 실행")
     var lcategory = event.target.value;
     loadCategory(lcategory);
 })
@@ -53,7 +53,7 @@ function loadCategory(category) {
         type: "get",
         async: false,
         url: "post-yourcategory",
-        data: {category: category, id: id},
+        data: {category: category, id: memberid},
         success: function (data) {
             $('#postCard').empty();
             $('#nothing').empty();
@@ -142,22 +142,22 @@ function loadCategory(category) {
 }
 
 $(".follow").on("click", (event) => {
-    var id = $("#idText").text()
+    var userid = $("#idText").text()
     var followid = event.target.previousElementSibling.innerText
-    var userid = id;
+    console.log("userid")
     $.ajax({
         type: "post",
         async: false,
         url: "following",
-        data: {userid: userid, followid: followid},
+        data: {userid: id, followid: followid},
         success: function (data) {
             if (data) {//true이면 팔로우 함
-                var content = userid + "님이 당신을 팔로우합니다!"
-                var urll = "http://localhost:8080/yourPage?id=" + userid
+                var content = id + "님이 당신을 팔로우합니다!"
+                var urll = "http://localhost:8080/yourPage?id=" + id
                 $.ajax({
                     type: "get",
                     url: "like Notification",
-                    data: {userid: id, content: content, urll: urll},
+                    data: {userid: userid, content: content, urll: urll},
                     success: function () {
                     }, error: function (error) {
                     }
@@ -172,7 +172,7 @@ $(".follow").on("click", (event) => {
 
                 var ul = event.target.nextElementSibling.nextElementSibling
                 ul.appendChild(newli)
-                $('#idme').text(userid)
+                $('#idme').text(id)
 
             } else {//false 이면 팔로우 취소
                 event.target.innerHTML = "팔로우"
