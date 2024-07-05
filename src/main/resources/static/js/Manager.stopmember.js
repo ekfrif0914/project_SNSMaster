@@ -21,7 +21,7 @@
 
     var excelHandler = {
     getExcelFileName : function(){
-    return 'table-test.xlsx';	//파일명
+    return '정지테이블.xlsx';	//파일명
 },
     getSheetName : function(){
     return 'Table Test Sheet';	//시트명

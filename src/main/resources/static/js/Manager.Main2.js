@@ -1,7 +1,7 @@
 
     $(document).ready(function () {
-    var b = ['말미잘', '바보', '쓰레기', '전민정'];
-    $('tr').each(function () {
+        const b = ['말미잘', '바보', '쓰레기', '전민정', '시발', '개새끼', '미친놈', '미친', '샹놈아', '병신', '십새끼', '아구창', '존만한', '호로색', '되질래', '새끼', '쉬발'];
+        $('tr').each(function () {
     var content = $(this).find('td:nth-child(9)').text();
     var count = 0;
     for (var i = 0; i < b.length; i++) {
@@ -91,8 +91,8 @@
     document.getElementById('good').innerText = a.post.g_like
     document.getElementById('title').innerText = a.post.g_title
     document.getElementById('vv').innerText = a.post.g_content
-    var b = ['말미잘', '바보', '쓰레기', '전민정'];
-    const w = document.querySelector('#abc').innerText
+        const b = ['말미잘', '바보', '쓰레기', '전민정', '시발', '개새끼', '미친놈', '미친', '샹놈아', '병신', '십새끼', '아구창', '존만한', '호로색', '되질래', '새끼', '쉬발'];
+        const w = document.querySelector('#abc').innerText
     let c = document.querySelector('#vv').innerText
     let ss= document.querySelector("#ss")
     let count = 0;

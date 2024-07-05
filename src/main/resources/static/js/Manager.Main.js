@@ -57,10 +57,6 @@ function s2ab(s) {
     return buf;
 }
 
-opener.document.location.href = '/managerMode';
-window.close();
-
-
 document.getElementById('chk').addEventListener('click', function () {
     var checkboxes = document.querySelectorAll('.checkbox:checked');
     var aa = [];
@@ -69,6 +65,10 @@ document.getElementById('chk').addEventListener('click', function () {
     }
     location.href = "fordelete?no=" + aa
 });
+opener.document.location.href = '/managerMode';
+window.close();
+
+
 
 
 
@@ -94,7 +94,7 @@ function look(n, i) { //글보기 눌르면 실행되는코드
             document.getElementById('good').innerText = a.post.good
             document.getElementById('title').innerText = a.post.title
             document.getElementById('vv').innerText = a.post.content
-            var b = ['말미잘', '바보', '쓰레기', '전민정'];
+            var b = ['말미잘', '바보', '쓰레기', '전민정', '시발', '개새끼', '미친놈', '미친', '샹놈아', '병신', '십새끼', '아구창', '존만한', '호로색', '되질래', '새끼', '쉬발'];
             const w = document.querySelector('#abc').innerText
             let c = document.querySelector('#vv').innerText
             let ss = document.querySelector("#ss")
