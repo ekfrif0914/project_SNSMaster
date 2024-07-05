@@ -77,13 +77,16 @@ public class GroupServiceImpl implements IF_GroupService {
 
     @Override
     public GroupPostVO modno(int g_no) throws Exception {
-
-        return gdao.modno(g_no);
+        GroupPostVO gvo = gdao.modno(g_no);
+        gvo.setG_content(gvo.getG_content().replace("<br>", "\r\n"));
+        return gvo;
     }
 
     @Override
     public G_joinVO gmjoinmod(int mo_no) throws Exception {
-        return gdao.gmjoinmod(mo_no);
+        G_joinVO gjvo = gdao.gmjoinmod(mo_no);
+        gjvo.setM_contents(gjvo.getM_contents().replace("<br>", "\r\n"));
+        return gjvo;
     }
 
     @Override

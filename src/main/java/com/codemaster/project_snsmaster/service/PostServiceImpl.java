@@ -127,6 +127,7 @@ public class PostServiceImpl implements IF_PostService {
             size = 8;
         }
         postVO.setFile_name(postDAO.selectFileNames(no).toArray(new String[size]));
+        postVO.setContent(postVO.getContent().replace("<br>", "\r\n"));
         return postVO;
     }
 
