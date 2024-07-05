@@ -252,7 +252,7 @@ public class GroupController {
         model.addAttribute("gpvo", gpvo);
         String referer = request.getHeader("Referer");
         model.addAttribute("referer", referer);
-        return "modall";
+        return "grouppostmodall";
     }
 
     @PostMapping(value = "/modnosave")//수정글 저장
@@ -354,6 +354,7 @@ public class GroupController {
     @GetMapping(value = "/grouppost")//그룹에서 게시글 자세히 보기
     public String grouppost(@RequestParam("g_no") String g_no, Model model, HttpSession session) throws Exception {
         GroupPostVO gpvo = gservice.gpselect(g_no);
+        gpvo.setG_content(gpvo.getG_content().replace("\r\n","<br>"));
         String id = (String) session.getAttribute("userid");
         model.addAttribute("id", id);
         model.addAttribute("gpvo", gpvo);
