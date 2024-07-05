@@ -4,7 +4,7 @@
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.MemberVO">
 
         insert into member
-        values (#{id}, #{email}, #{pw}, #{region}, #{name}, null, null, #{region1})
+        values (#{id}, #{email}, #{pw}, #{region1}, #{region}, #{name}, null, null)
 <!--member 순서 수정-->
     </insert>
     <select id="overlappedID" resultType="int">
