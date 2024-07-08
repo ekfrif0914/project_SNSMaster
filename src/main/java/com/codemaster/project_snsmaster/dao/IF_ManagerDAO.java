@@ -52,4 +52,10 @@ public interface IF_ManagerDAO {
   public void noticedell(int NO);
 
     List<StopMemberVO> selectstopmember(HashMap<String, String> params);
+
+   public void commentnotification(HashMap<String, Object> data);
+
+   public void groupnotification(HashMap<String, Object> data);
+
+   public void likenotification(HashMap<String, Object> data);
 }

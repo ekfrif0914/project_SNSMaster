@@ -63,7 +63,7 @@
         </foreach>
     </delete>
     <insert id="Notification" parameterType="hashmap">
-     insert into Notification values(#{userid},#{content},false,#{urll},default)
+     insert into Notification values(#{userid},#{followid},null,null,#{content},false,#{urll},default)
     </insert>
 <select id="stateNotification" parameterType="String" resultType="int">
     SELECT count(*) FROM notification WHERE id=#{id} and state=FALSE
@@ -80,4 +80,13 @@
     <select id="searchstopmember" resultType="com.codemaster.project_snsmaster.vo.StopMemberVO">
         SELECT * FROM stopmember WHERE ${searchcell} like concat('%',#{search},'%')
     </select>
+    <insert id="commentnotification" parameterType="hashmap">
+    insert into Notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
+    </insert>
+    <insert id="groupnotification" parameterType="hashmap">
+        insert into Notification values(#{userid},null,#{gno},null,#{content},false,#{urll},default)
+    </insert>
+    <insert id="likenotification" parameterType="hashmap">
+        insert into Notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
+    </insert>
 </mapper>

@@ -153,11 +153,11 @@ $(".follow").on("click", (event) => {
         success: function (data) {
             if (data) {//true이면 팔로우 함
                 var content = id + "님이 당신을 팔로우합니다!"
-                var urll = "http://localhost:8080/yourPage?id=" + id
+                var urll = "yourPage?id=" + id
                 $.ajax({
                     type: "get",
-                    url: "like Notification",
-                    data: {userid: userid, content: content, urll: urll},
+                    url: "follow Notification",
+                    data: {id:id,userid:userid, content: content, urll: urll},
                     success: function () {
                     }, error: function (error) {
                     }
