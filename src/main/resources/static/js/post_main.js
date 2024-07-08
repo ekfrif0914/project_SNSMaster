@@ -256,8 +256,13 @@ $('.title').on('scroll', function (event) {
             success: function (data) {
                 var addContent = "";
                 $(data).each(function (index, postMap) {
-                    addContent += '<div class="post" id="' + postMap.post.no + '">' +
-                        '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">';
+                    addContent += '<div class="post" id="' + postMap.post.no + '">';
+                    if (postMap.profileImgName != null){
+                        addContent += '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">';
+                    } else {
+                        addContent += '<img src="img/user.png" class="profileImg" alt="...">';
+                    }
+
                     if (id == postMap.post.id) {
                         addContent += '<a class="noLine" href="myPage"> <b class="postid">' + postMap.post.id + '</b></a>';
                     } else {
