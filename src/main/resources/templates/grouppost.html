@@ -51,9 +51,9 @@
                 <td th:if="${id==gpvo.id}"><a th:href="@{modno(g_no=${gpvo.g_no})}">
                     <img class="postImg report" src="img/mod.png">
                 </a></td>
-                <td th:if="${id==gpvo.id}"><a th:href="@{delgroup(g_no=${gpvo.g_no},gno=${gpvo.gno})}">
-                    <img class="postImg report" src="img/del.png">
-                </a></td>
+<!--                <td th:if="${id==gpvo.id}"><a th:href="@{delgroup(g_no=${gpvo.g_no},gno=${gpvo.gno})}">-->
+<!--                    <img class="postImg report" src="img/del.png">-->
+<!--                </a></td>-->
                 </tr>
                 </tbody>
             </table>
@@ -75,7 +75,9 @@
                 <input type="hidden" name="g_no" th:value="${gpvo.g_no}">
                 <input type="hidden" name="id" th:value="${gpvo.id}">
                 댓글<input type="text" name="cmt" id="cmt">
-                <input th:if="${id!=null}" type="submit" value="전송" onclick="return check()">
+                <button class="w-btn w-btn-green2" th:if="${id!=null}" type="submit" onclick="return check()">
+                    전송
+                </button>
 
             </form>
 

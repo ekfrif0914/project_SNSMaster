@@ -11,6 +11,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
+      rel="stylesheet">
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/css/gmjoinmod.css">
@@ -41,7 +46,10 @@
                     </tbody>
                 </table>
                 <input type="hidden" name="referer" th:value="${referer}">
-                <input type="submit" value="수정" onclick="return modck()">
+
+                <button class="w-btn w-btn-green2"  type="submit" onclick="return modck()">
+                    수정
+                </button>
             </form>
 
             <div id="show">
@@ -74,13 +82,11 @@
     </nav>
 </div>
 </body>
-<script type="text/javascript" src="/js/gmjoinmod.js">
 
-
-
-</script>
 
 <script th:inline="javascript">
     var id = [[${session.userid}]]
+</script>
+<script type="text/javascript" src="/js/gmjoinmod.js">
 </script>
 </html>

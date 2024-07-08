@@ -20,6 +20,22 @@ body {
 
 
 }
+.w-btn-green2 {
+    background-color: #519d9e;
+    color: #ffeee4;
+}
+.w-btn {
+    position: relative;
+    border: none;
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
+}
 .gposttable{
 
     border: 1px solid black;

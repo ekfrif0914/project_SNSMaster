@@ -200,7 +200,7 @@
                     <input th:if="${cmtFocus}" id="cmt" type="text" name="cmt" autofocus>
                     <input th:unless="${cmtFocus}" id="cmt" type="text" name="cmt">
                     <input type="hidden" id="cmtContent" name="no" th:value="${postMap['post'].no}">
-                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()">
+                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()" class="btn btn-primary">
                 </form>
             </div>
             <div id="show">
