@@ -88,7 +88,7 @@ public class ManagerController {
     @RequestMapping(value = "stopinput", method = RequestMethod.GET)
     public String stopinput2(@ModelAttribute StopMemberVO stop) throws Exception {
         manager.stopinsert(stop);
-        return "stop";
+        return  "redirect:managerMode";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
