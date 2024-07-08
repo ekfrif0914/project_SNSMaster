@@ -125,4 +125,9 @@ IF_ManagerDAO mdao;
     public void noticedell(int NO) {
         mdao.noticedell(NO);
     }
+
+    @Override
+    public List<StopMemberVO> selectStopmember(HashMap<String, String> params) {
+        return mdao.selectstopmember(params);
+    }
 }

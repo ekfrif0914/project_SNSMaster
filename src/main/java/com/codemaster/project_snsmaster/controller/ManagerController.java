@@ -114,6 +114,16 @@ public class ManagerController {
         model.addAttribute("all", allList);
         return "Manager.Main2";
     }
+    @RequestMapping(value = "/search3", method = RequestMethod.GET)
+    public String search3(@RequestParam("searchcell") String searchcell,
+                          @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<StopMemberVO> allList = manager.selectStopmember(params);
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
+    }
 
     @RequestMapping(value = "alter", method = RequestMethod.GET)
     public String alter(@RequestParam("no") int no) throws Exception {
