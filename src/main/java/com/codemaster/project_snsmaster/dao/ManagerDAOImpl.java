@@ -123,4 +123,9 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     public void noticedell(int NO) {
         sqlSession.delete(mapperQuery+".noticedell",NO);
     }
+
+    @Override
+    public List<StopMemberVO> selectstopmember(HashMap<String, String> params) {
+        return sqlSession.selectList(mapperQuery+".searchstopmember",params);
+    }
 }

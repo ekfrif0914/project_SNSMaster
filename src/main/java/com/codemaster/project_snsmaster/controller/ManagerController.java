@@ -88,7 +88,7 @@ public class ManagerController {
     @RequestMapping(value = "stopinput", method = RequestMethod.GET)
     public String stopinput2(@ModelAttribute StopMemberVO stop) throws Exception {
         manager.stopinsert(stop);
-        return "stop";
+        return  "redirect:managerMode";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -113,6 +113,16 @@ public class ManagerController {
         List<GroupPostVO> allList = manager.selectrandom2(params);
         model.addAttribute("all", allList);
         return "Manager.Main2";
+    }
+    @RequestMapping(value = "/search3", method = RequestMethod.GET)
+    public String search3(@RequestParam("searchcell") String searchcell,
+                          @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<StopMemberVO> allList = manager.selectStopmember(params);
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
     }
 
     @RequestMapping(value = "alter", method = RequestMethod.GET)

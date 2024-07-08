@@ -77,4 +77,7 @@
     <select id="notice" resultType="com.codemaster.project_snsmaster.vo.NoticeVO">
         select*from notice
     </select>
+    <select id="searchstopmember" resultType="com.codemaster.project_snsmaster.vo.StopMemberVO">
+        SELECT * FROM stopmember WHERE ${searchcell} like concat('%',#{search},'%')
+    </select>
 </mapper>
