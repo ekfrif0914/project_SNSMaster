@@ -224,7 +224,7 @@ public class ManagerController {
     public void postInput(@RequestParam String id,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("id",id);
-        data.put("userid", userid);
+        data.put("followid", userid);
         data.put("content", content);
         data.put("urll", urll);
         manager.Notification(data);

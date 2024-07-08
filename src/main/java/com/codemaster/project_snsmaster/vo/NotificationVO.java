@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class NotificationVO {
     public String id;
-    public String userid;
+    public String followid;
     public int gno;
     public int no;
     public String content;
