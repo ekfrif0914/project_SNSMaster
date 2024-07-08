@@ -28,4 +28,5 @@ public interface IF_ManagerService {
    public void notifi(String id);
    public List<NoticeVO> notice();
    public void noticedell(int NO);
+
 }

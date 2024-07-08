@@ -40,7 +40,7 @@ public class ManagerController {
     public String input(@RequestParam("s_text") String memo) throws Exception {
         System.out.println(memo.toString());
         manager.insert(memo);
-        return "review";
+        return "redirect:review";
     }
 
    @GetMapping(value="dell")
@@ -93,12 +93,14 @@ public class ManagerController {
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchcell") String searchcell,
-                         @RequestParam("search") String search, Model model) throws Exception {
+                         @RequestParam("search") String search, Model model,HttpSession session) throws Exception {
         HashMap<String, String> params = new HashMap<>();
         params.put("searchcell", searchcell);
         params.put("search", search);
         List<PostVO> allList = manager.selectrandom(params);
         model.addAttribute("all", allList);
+        String managername=(String)session.getAttribute("managername");
+        model.addAttribute("managername", managername);
         return "Manager.Main";
     }
 
