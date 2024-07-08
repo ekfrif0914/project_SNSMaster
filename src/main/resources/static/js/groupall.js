@@ -53,12 +53,12 @@ function joinck(gno) {
     url: "http://localhost:8080/groupjoin",
     data: {gno: gno},
     success: function (data) {
-    var urll = "http://localhost:8080/groupmy?gno=" + gno
+    var urll = "groupmy?gno=" + gno
     var content = userid + "님이 가입 신청을 넣었습니다"
     $.ajax({
     type: "get",
-    url: "like Notification",
-    data: {userid: id, content: content, urll: urll},
+    url: "groupinput Notification",
+    data: {gno:gno, userid: id, content: content, urll: urll},
     success: function () {
 }, error: function (error) {
 }

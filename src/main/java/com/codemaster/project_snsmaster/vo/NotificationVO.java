@@ -9,6 +9,9 @@ import lombok.ToString;
 @ToString
 public class NotificationVO {
     public String id;
+    public String userid;
+    public int gno;
+    public int no;
     public String content;
     public int state;
     public String url;

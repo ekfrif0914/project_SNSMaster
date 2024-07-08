@@ -154,11 +154,11 @@ $(document).on("click", ".likeBtn", (event) => {
                 if (data.isLike) {
                     event.target.src = "img/filledHearts.png"
                     var content = id + "님이 좋아요를 눌렀습니다!"
-                    var urll = "http://localhost:8080/postDetail?no=" + no
+                    var urll = "postDetail?no=" + no
                     $.ajax({
                         type: "get",
                         url: "like Notification",
-                        data: {userid: userid, content: content, urll: urll},
+                        data: {no:no,userid: userid, content: content, urll: urll},
                         success: function () {
 
                         }, error: function (error) {
@@ -212,11 +212,11 @@ $(document).on("click", ".follow", (event) => {
         success: function (data) {
             if (data) {//true이면 팔로우 함
                 var content= id+"님이 당신을 팔로우합니다!"
-                var urll="http://localhost:8080/yourPage?id="+ id
+                var urll="/yourPage?id="+ id
                 $.ajax({
                     type: "get",
-                    url: "like Notification",
-                    data: {userid: userid, content: content,urll:urll},
+                    url: "follow Notification",
+                    data: {id:id,userid: userid, content: content,urll:urll},
                     success: function(){
                     }, error: function (error) {
                         console.log(error)

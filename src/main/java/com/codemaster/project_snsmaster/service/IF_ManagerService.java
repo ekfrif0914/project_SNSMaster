@@ -29,4 +29,9 @@ public interface IF_ManagerService {
    public List<NoticeVO> notice();
    public void noticedell(int NO);
  public List<StopMemberVO> selectStopmember(HashMap<String, String> params);
+  public void commentNotification(HashMap<String, Object> data);
+
+   public void groupNotification(HashMap<String, Object> data);
+
+    public void likeNotification(HashMap<String, Object> data);
 }

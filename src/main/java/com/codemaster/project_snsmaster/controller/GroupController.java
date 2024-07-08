@@ -94,12 +94,13 @@ public class GroupController {
         int gno = gjvo.getGno();
         String userid = (String) session.getAttribute("userid");
         String content = userid + "님이 가입을 승인하였습니다";
-        String url = "http://localhost:8080/gpList?gno=" + gno;
+        String url = "/gpList?gno=" + gno;
         HashMap<String, Object> data = new HashMap<>();
+        data.put("gno",gno);
         data.put("userid", id);
         data.put("content", content);
         data.put("urll", url);
-        manager.Notification(data);
+        manager.groupNotification(data);
         gservice.gjminsert(gjvo);
         gservice.gjmdelete(gjvo);
         return "redirect:/groupmy?gno=" + gjvo.getGno();

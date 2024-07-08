@@ -211,8 +211,19 @@ public class ManagerController {
 
     @ResponseBody
     @GetMapping(value = "/like Notification")
-    public void postInput(@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
+    public void postInput(@RequestParam int no,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
+        data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        data.put("no", no);
+        manager.likeNotification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/follow Notification")
+    public void postInput(@RequestParam String id,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("id",id);
         data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
@@ -221,12 +232,25 @@ public class ManagerController {
 
     @ResponseBody
     @GetMapping(value = "/comment Notification")
-    public void commentInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+    public void commentInput(@RequestParam String no,@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        System.out.println(no);
+        System.out.println(urll);
         HashMap<String, Object> data = new HashMap<>();
         data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
-        manager.Notification(data);
+        data.put("no", no);
+        manager.commentNotification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/groupinput Notification")
+    public void groupInput(@RequestParam String gno,@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        data.put("gno", gno);
+        manager.groupNotification(data);
     }
 
     @ResponseBody

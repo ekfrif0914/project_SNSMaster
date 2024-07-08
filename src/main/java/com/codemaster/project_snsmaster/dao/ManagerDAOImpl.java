@@ -128,4 +128,19 @@ public class ManagerDAOImpl implements IF_ManagerDAO {
     public List<StopMemberVO> selectstopmember(HashMap<String, String> params) {
         return sqlSession.selectList(mapperQuery+".searchstopmember",params);
     }
+
+    @Override
+    public void commentnotification(HashMap<String, Object> data) {
+        sqlSession.insert(mapperQuery+".commentnotification",data);
+    }
+
+    @Override
+    public void groupnotification(HashMap<String, Object> data) {
+        sqlSession.insert(mapperQuery+".groupnotification",data);
+    }
+
+    @Override
+    public void likenotification(HashMap<String, Object> data) {
+        sqlSession.insert(mapperQuery+".likenotification",data);
+    }
 }

@@ -130,4 +130,19 @@ IF_ManagerDAO mdao;
     public List<StopMemberVO> selectStopmember(HashMap<String, String> params) {
         return mdao.selectstopmember(params);
     }
+
+    @Override
+    public void commentNotification(HashMap<String, Object> data) {
+        mdao.commentnotification(data);
+    }
+
+    @Override
+    public void groupNotification(HashMap<String, Object> data) {
+        mdao.groupnotification(data);
+    }
+
+    @Override
+    public void likeNotification(HashMap<String, Object> data) {
+        mdao.likenotification(data);
+    }
 }
