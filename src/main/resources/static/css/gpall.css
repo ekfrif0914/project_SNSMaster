@@ -42,9 +42,9 @@ body {
     -ms-overflow-style: none;
 }
 
-#change::-webkit-scrollbar {
-    display: none;
-}
+/*#change::-webkit-scrollbar {*/
+/*    display: none;*/
+/*}*/
 
 #mmode {
     position: fixed;
