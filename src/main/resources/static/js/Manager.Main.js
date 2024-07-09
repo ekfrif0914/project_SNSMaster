@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
     var b = ['말미잘', '바보', '쓰레기', '전민정', '시발', '개새끼', '미친놈', '미친', '샹놈아', '병신', '십새끼', '아구창', '존만한', '호로색', '되질래', '새끼', '쉬발'];
     $('tr').each(function () {
@@ -19,6 +17,7 @@ const excelDownload = document.querySelector('#excelDownload');
 document.addEventListener('DOMContentLoaded', () => {
     excelDownload.addEventListener('click', exportExcel);
 });
+
 function exportExcel() {
 // step 1. workbook 생성
     var wb = XLSX.utils.book_new();
@@ -50,6 +49,7 @@ var excelHandler = {
         return XLSX.utils.table_to_sheet(this.getExcelData());
     }
 }
+
 function s2ab(s) {
     var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
     var view = new Uint8Array(buf);  //create uint8array as viewer
@@ -67,11 +67,6 @@ document.getElementById('chk').addEventListener('click', function () {
 });
 opener.document.location.href = '/managerMode';
 window.close();
-
-
-
-
-
 
 
 function look(n, i) { //글보기 눌르면 실행되는코드

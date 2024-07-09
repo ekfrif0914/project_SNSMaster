@@ -20,9 +20,13 @@
         <br>
         정지 기간
         <input type="hidden" th:value="${no}" name="no">
-        <input type="date" name="finish">
-        <input type="submit" value="보내기">
+        <input type="date" name="finish" id="time">
+        <input type="submit" value="보내기" onclick="return chk()">
+        <br>
+        <span id="dd">
+        </span>
     </form>
 </div>
 </body>
+<script src="js/stop.js"></script>
 </html>
