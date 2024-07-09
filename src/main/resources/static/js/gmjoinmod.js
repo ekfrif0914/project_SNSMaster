@@ -3,9 +3,7 @@ function modck() {
 }
 
 
-
-    $('#m').on('click', () => {
-    let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+$('#m').on('click', () => {
     let openUrl = '/managerPage'
     window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 });

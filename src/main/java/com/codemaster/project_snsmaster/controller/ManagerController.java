@@ -223,8 +223,8 @@ public class ManagerController {
     @GetMapping(value = "/follow Notification")
     public void postInput(@RequestParam String id,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
-        data.put("id",id);
-        data.put("followid", userid);
+        data.put("followid",id);//팔로우 한 로그인한 사람
+        data.put("id", userid);//알림 받는 사람
         data.put("content", content);
         data.put("urll", urll);
         manager.Notification(data);

@@ -140,7 +140,6 @@ function notification() {
 
 
 $(document).on("click", ".likeBtn", (event) => {
-    console.log("몇번실행?")
     var postElement = $(event.currentTarget).closest('.post');
     var userid = postElement.find('b:eq(0)').text()
     var no = event.target.parentElement.parentElement.parentElement.id
