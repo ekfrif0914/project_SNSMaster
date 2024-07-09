@@ -11,8 +11,8 @@ body {
 .title {
     position: fixed;
     text-overflow: ellipsis;
-    overflow: scroll;
-    -ms-overflow-style: none;
+    /*overflow: scroll;*/
+    /*-ms-overflow-style: none;*/
 
 }
 

@@ -11,7 +11,7 @@ body {
 .title {
     position: fixed;
     text-overflow: ellipsis;
-    overflow: scroll;
+    /*overflow: scroll;*/
 
 }
 
