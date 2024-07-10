@@ -177,7 +177,7 @@ public class AdminController {
     public String faqPageWrite(HttpServletRequest request, Model model) throws Exception {
         String referer = request.getHeader("Referer");
         model.addAttribute("referer", referer);
-        return "memberFAQWrite";
+        return "memberFAQwrite";
     }
 
     @PostMapping("FAQInputSave")//글 작성 저장

@@ -49,7 +49,7 @@ $(document).on('click', '#gjoinck', function (event) {
     $.ajax({
         type: "get",
         async: false,
-        url: "http://localhost:8080/groupjoin",
+        url: "groupjoin",
         data: {gno: gno},
         success: function (data) {
             var urll = "groupmy?gno=" + gno

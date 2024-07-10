@@ -133,7 +133,7 @@
                 <span th:text="${post.gname}"></span>
                 <span style="font-weight: bold">지역:</span>
                 <span th:text="${post.g_region}"></span>
-                <a class="noLine" th:if="${id!=post.g_id} and ${id!=null}" th:href="@{groupjoin(gno=${post.gno})}"
+                <a class="noLine" th:if="${id!=post.g_id} and ${id!=null}"
                    id="gjoinck">
                     <button class="w-btn-outline w-btn-indigo-outline" type="button">
                         가입 하기

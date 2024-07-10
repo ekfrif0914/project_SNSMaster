@@ -3,7 +3,7 @@
 <mapper namespace="com.codemaster.project_snsmaster.dao.IF_GroupDAO">
 
     <insert id="insert" parameterType="com.codemaster.project_snsmaster.vo.GroupPostVO">
-        insert into groupPost
+        insert into grouppost
         values (null, #{gno}, #{id}, #{g_title}, #{g_content}, 0, 0,default)
     </insert>
 
@@ -206,7 +206,7 @@
     </select>
 
     <select id="reportsaveselect" parameterType="hashmap" resultType="int">
-        select count(*) from reportsave where g_no=#{g_no} and id=#{id}
+        select count(*) from reportSave where g_no=#{g_no} and id=#{id}
     </select>
 
     <select id="likeselect" parameterType="hashmap" resultType="int">
