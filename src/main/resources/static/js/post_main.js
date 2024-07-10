@@ -118,11 +118,10 @@ setInterval(() => {
 
 
 $(document).ready(function () {
-    const useridd = id;
     $.ajax({
         type: "GET",
         url: "/notification state",
-        data: {id: useridd},
+        data: {id: id},
         success: function (state) {
             if (state > 0) {
                 $('#Notification').attr('src', 'img/notification-bell.png');
@@ -136,13 +135,11 @@ $(document).ready(function () {
 
 
 function notification() {
-    let a = id;
-    location.href = "notification?id=" + a
+    location.href = "notification?id=" + id;
 }
 
 
 $(document).on("click", ".likeBtn", (event) => {
-    console.log("몇번실행?")
     var postElement = $(event.currentTarget).closest('.post');
     var userid = postElement.find('b:eq(0)').text()
     var no = event.target.parentElement.parentElement.parentElement.id
@@ -156,11 +153,11 @@ $(document).on("click", ".likeBtn", (event) => {
                 if (data.isLike) {
                     event.target.src = "img/filledHearts.png"
                     var content = id + "님이 좋아요를 눌렀습니다!"
-                    var urll = "http://localhost:8080/postDetail?no=" + no
+                    var urll = "postDetail?no=" + no
                     $.ajax({
                         type: "get",
                         url: "like Notification",
-                        data: {userid: userid, content: content, urll: urll},
+                        data: {no:no,userid: userid, content: content, urll: urll},
                         success: function () {
 
                         }, error: function (error) {
@@ -204,24 +201,22 @@ $(document).on("click", ".report", (event) => {
 
 $(document).on("click", ".follow", (event) => {
     var postElement = $(event.currentTarget).closest('.post');
-    var id = postElement.find('b:eq(0)').text()
+    var userid = postElement.find('b:eq(0)').text()
     var followid = event.target.previousElementSibling.firstElementChild.innerHTML
-    var userid = id;
     $.ajax({
         type: "post",
         async: false,
         url: "following",
-        data: {userid: userid, followid: followid},
+        data: {userid: id, followid: followid},
         success: function (data) {
             if (data) {//true이면 팔로우 함
-                var content=userid+"님이 당신을 팔로우합니다!"
-                var urll="http://localhost:8080/yourPage?id="+userid
+                var content= id+"님이 당신을 팔로우합니다!"
+                var urll="/yourPage?id="+ id
                 $.ajax({
                     type: "get",
-                    url: "like Notification",
-                    data: {userid: id, content: content,urll:urll},
+                    url: "follow Notification",
+                    data: {id:id,userid: userid, content: content,urll:urll},
                     success: function(){
-
                     }, error: function (error) {
                         console.log(error)
                     }
@@ -259,24 +254,28 @@ $('.title').on('scroll', function (event) {
             data: {lastNo: lastNo, sword: sword, region: region, category: category},
             success: function (data) {
                 var addContent = "";
-                var userid = id;
                 $(data).each(function (index, postMap) {
-                    addContent += '<div class="post" id="' + postMap.post.no + '">' +
-                        '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">';
-                    if (userid == postMap.post.id) {
+                    addContent += '<div class="post" id="' + postMap.post.no + '">';
+                    if (postMap.profileImgName != null){
+                        addContent += '<img src="download?filename=' + postMap.profileImgName + '" class="profileImg" alt="...">';
+                    } else {
+                        addContent += '<img src="img/user.png" class="profileImg" alt="...">';
+                    }
+
+                    if (id == postMap.post.id) {
                         addContent += '<a class="noLine" href="myPage"> <b class="postid">' + postMap.post.id + '</b></a>';
                     } else {
                         addContent += '<a class="noLine" href="yourPage?id=' + postMap.post.id + '"> <b class="postid noLine">' + postMap.post.id + '</b></a>';
                     }
-                    if (userid != null) {
+                    if (id != null) {
                         if (postMap.post.followstate) {
                             addContent += '<button type="button" class="follow btn btt btn-secondary">팔로우 취소</button>';
-                        } else if (userid != postMap.post.id) {
+                        } else if (id != postMap.post.id) {
                             addContent += '<button class="follow btn btt btn-secondary" type="button">팔로우</button>'
                         }
                     }
                     addContent += '<span class="right">';
-                    if (userid == postMap.post.id) {
+                    if (id == postMap.post.id) {
                         addContent +=
 
                             '<a class="noLine" href="postMod?no=' + postMap.post.no + '">수정</a>' +

@@ -14,7 +14,7 @@ function memberck(mo_no, gno) {
 }
 
 
-    if (id != null) {//로그인 되어있으면
+if (id != null) {//로그인 되어있으면
     $("#login").remove()
     let area = document.getElementById("mmode");
     var button = document.createElement("button")
@@ -37,69 +37,68 @@ function memberck(mo_no, gno) {
 }
 
 
-    $('#login').on('click', () => {
+$('#login').on('click', () => {
     location.href = 'loginForm'
 });
 
-    $('#logout').on('click', () => {
+$('#logout').on('click', () => {
     location.href = 'logout'
 });
 
-    $('#m').on('click', () => {
-    let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
+$('#m').on('click', () => {
     let openUrl = '/managerPage'
     window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 });
 
 
-    $(document).on('click', '.glck', function (event) {//좋아요
+$(document).on('click', '.glck', function (event) {//좋아요
     event.preventDefault();
     var g_no = $(this).data('g_no')
     const aa = event.target.parentElement;
     const bb = aa.parentNode;
     $.ajax({
-    type: "get",
-    async: false,
-    url: "grouplike",
-    data: {g_no: g_no},
-    success: function (data) {
-    if (data == 0) {
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-} else if (data == 1) {
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) - 1);
-} else {
-}
-},
-    error: function (request, status, error) {
-}
+        type: "get",
+        async: false,
+        url: "grouplike",
+        data: {g_no: g_no},
+        success: function (data) {
+            if (data == 0) {
+                bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
+            } else if (data == 1) {
+                bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) - 1);
+            } else {
+            }
+        },
+        error: function (request, status, error) {
+        }
+    });
 });
-});
-    $(document).on('click', '#report', function (event) {//신고
+$(document).on('click', '#report', function (event) {//신고
     event.preventDefault();
     var g_no = $(this).data('g_no')
     const aa = event.target.parentElement;
     const bb = aa.parentNode;
     $.ajax({
-    type: "get",
-    async: false,
-    url: "greport",
-    data: {g_no: g_no},
-    success: function (data) {
+        type: "get",
+        async: false,
+        url: "greport",
+        data: {g_no: g_no},
+        success: function (data) {
 
-    if (data == 0) {
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-    alert("신고 되었습니다")
-} else if (data == 1) {
-    alert("이미 신고 하셨습니다")
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
-}
-},
-    error: function (request, status, error) {
-}
-});
+            if (data == 0) {
+                bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
+                alert("신고 되었습니다")
+            } else if (data == 1) {
+                alert("이미 신고 하셨습니다")
+                bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
+            }
+        },
+        error: function (request, status, error) {
+        }
+    });
 });
 
-    $(document).on('click', '.gjoin', function (event) {
+$(document).on('click', '.gjoin', function (event) {
     event.preventDefault();
     var mo_no = $(this).data('mo_no')
     var gno = $(this).data('gno')
@@ -110,25 +109,25 @@ function memberck(mo_no, gno) {
     const cc = bb.previousElementSibling.previousElementSibling;
 
     $.ajax({
-    type: "get",
-    async: false,
-    url: "g_memberjoin",
-    data: {mo_no: mo_no, gno: gno, cnt: cnt, cont: cont},
-    success: function (data) {
-    if (bb.previousElementSibling.innerText == cc.previousElementSibling.innerText) {
-    alert("신청인원이 초과 되었습니다.")
-} else if (bb.previousElementSibling.innerText != cc.previousElementSibling.innerText) {
-    if (data == 0) {
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
-    alert("신청되었습니다")
-} else if (data == 1) {
-    alert("이미 신청 하셨습니다")
-    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
-}
-}
-},
-    error: function (request, status, error) {
-}
-});
+        type: "get",
+        async: false,
+        url: "g_memberjoin",
+        data: {mo_no: mo_no, gno: gno, cnt: cnt, cont: cont},
+        success: function (data) {
+            if (bb.previousElementSibling.innerText == cc.previousElementSibling.innerText) {
+                alert("신청인원이 초과 되었습니다.")
+            } else if (bb.previousElementSibling.innerText != cc.previousElementSibling.innerText) {
+                if (data == 0) {
+                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText) + 1);
+                    alert("신청되었습니다")
+                } else if (data == 1) {
+                    alert("이미 신청 하셨습니다")
+                    bb.previousElementSibling.innerText = (Number(bb.previousElementSibling.innerText));
+                }
+            }
+        },
+        error: function (request, status, error) {
+        }
+    });
 });
 

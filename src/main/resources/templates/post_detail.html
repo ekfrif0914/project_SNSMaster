@@ -127,7 +127,8 @@
                 </form>
             </div>
             <div class="post" th:id="${postMap['post'].no}">
-                <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
+                <img th:if="${postMap['profileImgName']} != null" th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
+                <img th:if="${postMap['profileImgName']} == null" src="img/user.png" class="profileImg" alt="...">
                 <th:block th:if="${session.userid== postMap['post'].id}">
                     <a class="noLine" href="myPage"> <b th:text="${postMap['post'].id}" class="idddd"></b></a>
                 </th:block>
@@ -188,7 +189,8 @@
                 <br>
                 <hr>
                 <span th:each="commentMap : ${commentMaps}">
-                    <img th:src="@{download(filename=${commentMap['profileImgName']})}" class="cmtProfileImg" alt="...">
+                    <img th:if="${commentMap['profileImgName']} != null" th:src="@{download(filename=${commentMap['profileImgName']})}" class="cmtProfileImg" alt="...">
+                    <img th:if="${commentMap['profileImgName']} == null" src="img/user.png" class="cmtProfileImg" alt="...">
                     <b th:text="${commentMap['comment'].id}"></b>
                     <a th:if="${session.userid == commentMap['comment'].id}"
                        th:href="@{postDeleteComment(c_no=${commentMap['comment'].c_no},no=${commentMap['comment'].no})}">삭제</a><br>
@@ -198,7 +200,7 @@
                     <input th:if="${cmtFocus}" id="cmt" type="text" name="cmt" autofocus>
                     <input th:unless="${cmtFocus}" id="cmt" type="text" name="cmt">
                     <input type="hidden" id="cmtContent" name="no" th:value="${postMap['post'].no}">
-                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()">
+                    <input id="cmtbtn" type="submit" value="댓글달기" onclick="return chkCommentAvail()" class="btn btn-primary">
                 </form>
             </div>
             <div id="show">

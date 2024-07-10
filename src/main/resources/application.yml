@@ -12,13 +12,14 @@ Spring:
     prefix: classpath:/templates/
     suffix: .html
 
-server:
+
   servlet:
     multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
       enabled: true
       location: C:/tmp
-    session:
-      timeout: 3600
+
 
 mybatis:
   mapper-locations:

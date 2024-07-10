@@ -37,11 +37,12 @@ function chkCommentAvail() {
         console.log(userid);
         let content = id + "님이 댓글을 달았습니다"
         var no = $("#cmtContent").val()
-        var urll = "http://localhost:8080/postDetail?no=" + no
+        var urll = "postDetail?no=" + no
+
         $.ajax({
             type: "get",
             url: "comment Notification",
-            data: {userid: userid, content: content, urll: urll},
+            data: {no: no, userid: userid, content: content, urll: urll},
             success: function () {
             }, error: function (error) {
                 console.log(error)
@@ -62,12 +63,12 @@ $(".likeBtn").on("click", (event) => {
             success: function (data) {
                 var userid = $('.idddd').text()
                 var no = $("#cmtContent").val()
-                var urll = "http://localhost:8080/postDetail?no=" + no
+                var urll = "postDetail?no=" + no
                 let content = id + "님이 좋아요를 눌렀습니다"
                 $.ajax({
                     type: "get",
-                    url: "comment Notification",
-                    data: {userid: userid, content: content, urll: urll},
+                    url: "like Notification",
+                    data: {no: no, userid: userid, content: content, urll: urll},
                     success: function () {
                     }, error: function (error) {
                         console.log(error)
@@ -118,24 +119,24 @@ $(".follow").on("click", (event) => {
         data: {userid: id, followid: followid},
         success: function (data) {
             if (data) {//true이면 팔로우 함
-                event.target.innerHTML = "팔로우 취소"
-
-            } else {//false 이면 팔로우 취소
-                event.target.innerHTML = "팔로우"
                 var content = id + "님이 당신을 팔로우 합니다!"
-                var urll = "http://localhost:8080/yourPage?id=" + followid
+                var urll = "yourPage?id=" + id
                 $.ajax({
                     type: "get",
-                    url: "like Notification",
-                    data: {userid: followid, content: content, urll: urll},
+                    url: "follow Notification",
+                    data: {id: id, userid: followid, content: content, urll: urll},
                     success: function () {
-                        console.log("야호")
                     }, error: function (error) {
                         console.log(error)
                     }
                 });
+                event.target.innerHTML = "팔로우 취소"
+            } else {//false 이면 팔로우 취소
+                event.target.innerHTML = "팔로우"
+
 
             }
+
         },
         error: function (request, status, error) { // 결과 에러 콜백함수
             console.log(error)
@@ -152,7 +153,6 @@ $('#logout').on('click', () => {
 });
 
 $('#m').on('click', () => {
-    let popOption = "fullscreen=yes, menubar=yes, toolbar=yes"
     let openUrl = '/managerPage'
     window.open(openUrl, '_blank', 'width=500,height=600,menubar=yes');
 });

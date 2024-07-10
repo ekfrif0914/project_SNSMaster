@@ -41,12 +41,16 @@
                 <tr>
                     <td>
                         <a th:href="@{groupjoinmember(gno=${post.gno}, id=${post.id}, wait_no=${post.wait_no})}">
-                            <button>수락</button>
+                            <button class="w-btn w-btn-green2"  type="submit">
+                                수락
+                            </button>
                         </a>
                     </td>
                     <td><a th:href="@{delgroupjoinmember(wait_no=${post.wait_no},gno=${post.gno})}"
                            onclick="return check2()">
-                        <button>거부</button>
+                        <button class="w-btn w-btn-green2"  type="submit">
+                            거부
+                        </button>
                     </a></td>
                 </tr>
                 </tbody>

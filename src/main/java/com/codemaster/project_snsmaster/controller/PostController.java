@@ -17,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
@@ -62,21 +64,34 @@ public class PostController {
         model.addAttribute("comments", postService.selectAllComment());
 
         // 공공데이터 xml을 document로 파싱
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse("https://www.cng.go.kr/country/api/cngevent.do");
-        Element root = document.getDocumentElement();
-        // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
-        int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+        String url = "https://www.cng.go.kr/country/api/cngevent.do";
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        int responseCode = connection.getResponseCode();
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        for (int i = 3; i < dataLength; i = i + 2) {
-            NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(url);
+            Element root = document.getDocumentElement();
+            // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
+            int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+            for (int i = 3; i < dataLength; i = i + 2) {
+                NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+                HashMap<String, String> festivalMap = new HashMap<>();
+                festivalMap.put("name", childNodes.item(3).getTextContent());
+                festivalMap.put("period", childNodes.item(5).getTextContent());
+                festivalMap.put("place", childNodes.item(7).getTextContent());
+                festivalMap.put("sponsor", childNodes.item(9).getTextContent());
+                festivalMap.put("content", childNodes.item(11).getTextContent());
+                festivalMapList.add(festivalMap);
+            }
+        } else {
             HashMap<String, String> festivalMap = new HashMap<>();
-            festivalMap.put("name", childNodes.item(3).getTextContent());
-            festivalMap.put("period", childNodes.item(5).getTextContent());
-            festivalMap.put("place", childNodes.item(7).getTextContent());
-            festivalMap.put("sponsor", childNodes.item(9).getTextContent());
-            festivalMap.put("content", childNodes.item(11).getTextContent());
+            festivalMap.put("name", "행사정보가 없습니다.");
+            festivalMap.put("period", "");
+            festivalMap.put("place", "");
+            festivalMap.put("sponsor", "");
+            festivalMap.put("content", "");
             festivalMapList.add(festivalMap);
         }
         model.addAttribute("festivalMapList", festivalMapList);
@@ -165,21 +180,34 @@ public class PostController {
         model.addAttribute("category", category);
 
         // 공공데이터 xml을 document로 파싱
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse("https://www.cng.go.kr/country/api/cngevent.do");
-        Element root = document.getDocumentElement();
-        // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
-        int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+        String url = "https://www.cng.go.kr/country/api/cngevent.do";
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        int responseCode = connection.getResponseCode();
         List<HashMap<String, String>> festivalMapList = new ArrayList<>();
-        for (int i = 3; i < dataLength; i = i + 2) {
-            NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document document = builder.parse(url);
+            Element root = document.getDocumentElement();
+            // 공공데이터의 모든 행사 정보를 리스트에 해시맵으로 추가
+            int dataLength = root.getChildNodes().getLength(); // 행사 정보 수
+            for (int i = 3; i < dataLength; i = i + 2) {
+                NodeList childNodes = root.getChildNodes().item(i).getChildNodes();
+                HashMap<String, String> festivalMap = new HashMap<>();
+                festivalMap.put("name", childNodes.item(3).getTextContent());
+                festivalMap.put("period", childNodes.item(5).getTextContent());
+                festivalMap.put("place", childNodes.item(7).getTextContent());
+                festivalMap.put("sponsor", childNodes.item(9).getTextContent());
+                festivalMap.put("content", childNodes.item(11).getTextContent());
+                festivalMapList.add(festivalMap);
+            }
+        } else {
             HashMap<String, String> festivalMap = new HashMap<>();
-            festivalMap.put("name", childNodes.item(3).getTextContent());
-            festivalMap.put("period", childNodes.item(5).getTextContent());
-            festivalMap.put("place", childNodes.item(7).getTextContent());
-            festivalMap.put("sponsor", childNodes.item(9).getTextContent());
-            festivalMap.put("content", childNodes.item(11).getTextContent());
+            festivalMap.put("name", "행사정보가 없습니다.");
+            festivalMap.put("period", "");
+            festivalMap.put("place", "");
+            festivalMap.put("sponsor", "");
+            festivalMap.put("content", "");
             festivalMapList.add(festivalMap);
         }
         model.addAttribute("festivalMapList", festivalMapList);

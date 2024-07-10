@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kor">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Nanum+Gothic+Coding&display=swap"
@@ -19,8 +20,11 @@
     <br>
     <br>
     정지 기간
-    <input type="date" name="finish"> <input type="submit" value="보내기">
+    <input type="date" name="finish" id="time"> <input type="submit" value="보내기" onclick="return chk()">
+        <br>
+       <span id="dd"></span>
 </form>
 </div>
 </body>
+<script src="js/stop.js"></script>
 </html>

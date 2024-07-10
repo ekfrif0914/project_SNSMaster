@@ -21,15 +21,6 @@ if (id != null) {//로그인 되어있으면
     area.appendChild(button)
 }
 
-function chkAvail() {
-    if (document.querySelector("#search").value == "") {
-        alert("검색어를 입력해주세요");
-        return false;
-    } else {
-        return true;
-    }
-}
-
 $(window).on('load', () => {
     var lCategory = 'all';
     loadCategory(lCategory);
@@ -108,7 +99,6 @@ $('#files').on('change', function () {
 });
 
 $('#postSelector').on('change', (event) => {
-    console.log("왜???????????")
     var category = event.target.value;
     loadCategory(category);
 })
@@ -239,4 +229,4 @@ function allChk() {
             checkbox.checked = false;
         }
     }
-}
+}``

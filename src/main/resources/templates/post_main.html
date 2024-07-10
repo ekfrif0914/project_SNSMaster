@@ -23,7 +23,7 @@
     <div class="all">
         <div id="logo">
             <a href="snsMaster"> <img src="img/logo.png" id="logoimg"></a>
-            <a href="#" onclick="notification()"><img src="img/bell.png" id="Notification"></a>
+            <a  onclick="notification()"><img src="img/bell.png" id="Notification"></a>
         </div>
     </div>
     <div id="change">
@@ -147,7 +147,8 @@
 
         <div id="postFrame">
             <div th:each="postMap : ${postMaps}" class="post" th:id="${postMap['post'].no}">
-                <img th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
+                <img th:if="${postMap['profileImgName'] != null}" th:src="@{download(filename=${postMap['profileImgName']})}" class="profileImg" alt="...">
+                <img th:if="${postMap['profileImgName'] == null}" src="img/user.png" class="profileImg" alt="...">
                 <th:block th:if="${session.userid==postMap['post'].id}">
                     <a href="myPage" class="noLine"> <b th:text="${postMap['post'].id}" class="postid"></b></a>
                 </th:block>

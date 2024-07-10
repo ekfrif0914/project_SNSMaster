@@ -40,7 +40,7 @@ public class ManagerController {
     public String input(@RequestParam("s_text") String memo) throws Exception {
         System.out.println(memo.toString());
         manager.insert(memo);
-        return "review";
+        return "redirect:review";
     }
 
    @GetMapping(value="dell")
@@ -88,17 +88,19 @@ public class ManagerController {
     @RequestMapping(value = "stopinput", method = RequestMethod.GET)
     public String stopinput2(@ModelAttribute StopMemberVO stop) throws Exception {
         manager.stopinsert(stop);
-        return "stop";
+        return  "redirect:managerMode";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String search(@RequestParam("searchcell") String searchcell,
-                         @RequestParam("search") String search, Model model) throws Exception {
+                         @RequestParam("search") String search, Model model,HttpSession session) throws Exception {
         HashMap<String, String> params = new HashMap<>();
         params.put("searchcell", searchcell);
         params.put("search", search);
         List<PostVO> allList = manager.selectrandom(params);
         model.addAttribute("all", allList);
+        String managername=(String)session.getAttribute("managername");
+        model.addAttribute("managername", managername);
         return "Manager.Main";
     }
 
@@ -111,6 +113,16 @@ public class ManagerController {
         List<GroupPostVO> allList = manager.selectrandom2(params);
         model.addAttribute("all", allList);
         return "Manager.Main2";
+    }
+    @RequestMapping(value = "/search3", method = RequestMethod.GET)
+    public String search3(@RequestParam("searchcell") String searchcell,
+                          @RequestParam("search") String search, Model model) throws Exception {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("searchcell", searchcell);
+        params.put("search", search);
+        List<StopMemberVO> allList = manager.selectStopmember(params);
+        model.addAttribute("all", allList);
+        return "Manager.stopmember";
     }
 
     @RequestMapping(value = "alter", method = RequestMethod.GET)
@@ -199,9 +211,20 @@ public class ManagerController {
 
     @ResponseBody
     @GetMapping(value = "/like Notification")
-    public void postInput(@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
+    public void postInput(@RequestParam int no,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
         HashMap<String, Object> data = new HashMap<>();
         data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        data.put("no", no);
+        manager.likeNotification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/follow Notification")
+    public void postInput(@RequestParam String id,@RequestParam String content, @RequestParam String userid, @RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("followid",id);//팔로우 한 로그인한 사람
+        data.put("id", userid);//알림 받는 사람
         data.put("content", content);
         data.put("urll", urll);
         manager.Notification(data);
@@ -209,12 +232,25 @@ public class ManagerController {
 
     @ResponseBody
     @GetMapping(value = "/comment Notification")
-    public void commentInput(@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+    public void commentInput(@RequestParam String no,@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        System.out.println(no);
+        System.out.println(urll);
         HashMap<String, Object> data = new HashMap<>();
         data.put("userid", userid);
         data.put("content", content);
         data.put("urll", urll);
-        manager.Notification(data);
+        data.put("no", no);
+        manager.commentNotification(data);
+    }
+    @ResponseBody
+    @GetMapping(value = "/groupinput Notification")
+    public void groupInput(@RequestParam String gno,@RequestParam String content,@RequestParam String userid,@RequestParam String urll) {
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("userid", userid);
+        data.put("content", content);
+        data.put("urll", urll);
+        data.put("gno", gno);
+        manager.groupNotification(data);
     }
 
     @ResponseBody
