@@ -100,8 +100,6 @@ function loadCategory(category) {
                     '                    <div class="col">' +
                     '                        <div class="card h-100">' +
                     '                            <div class="card-header">' +
-                    '                                <input type="checkbox" class="form-check-input gpostCheckbox chk"' +
-                    '                                       value="' + data.gposts[gpost].g_no + '">' +
                     '                                그룹게시글' +
                     '                            </div>' +
                     '                            <div class="card-body">' +
@@ -121,8 +119,6 @@ function loadCategory(category) {
                     '                    <div class="col">' +
                     '                        <div class="card h-100">' +
                     '                            <div class="card-header">' +
-                    '                                <input type="checkbox" class="form-check-input gjoinCheckbox chk"' +
-                    '                                       value="' + data.gjoins[gjoin].mo_no + '">' +
                     '                                모임모집글' +
                     '                            </div>' +
                     '                            <div class="card-body">' +

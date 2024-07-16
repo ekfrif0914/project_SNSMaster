@@ -14,19 +14,19 @@
         SELECT * FROM post WHERE report >= 1 ORDER BY report desc;
     </select>
     <select id="selectgroupPost" resultType="com.codemaster.project_snsmaster.vo.GroupPostVO">
-        select*from groupPost where g_no=#{g_no}
+        select*from grouppost where g_no=#{g_no}
     </select>
     <select id="selectpost" resultType="com.codemaster.project_snsmaster.vo.PostVO">
-        select*from Post where no=#{no}
+        select*from post where no=#{no}
     </select>
     <insert id="stopinsert" parameterType="com.codemaster.project_snsmaster.vo.StopMemberVO">
         INSERT INTO stopmember VALUES (#{id}, #{s_text},now(),#{finish})
    </insert>
     <delete id="delete" parameterType="int">
-    delete from groupPost where g_no=#{g_no}
+    delete from grouppost where g_no=#{g_no}
     </delete>
     <delete id="delete2" parameterType="int">
-        delete from Post where no=#{no}
+        delete from post where no=#{no}
     </delete>
     <select id="selectrandom" parameterType="hashmap" resultType="com.codemaster.project_snsmaster.vo.PostVO">
         SELECT * FROM post WHERE ${searchcell} like concat('%',#{search},'%')
@@ -63,7 +63,7 @@
         </foreach>
     </delete>
     <insert id="Notification" parameterType="hashmap">
-     insert into Notification values(#{id},#{followid},null,null,#{content},false,#{urll},default)
+     insert into notification values(#{id},#{followid},null,null,#{content},false,#{urll},default)
     </insert>
 <select id="stateNotification" parameterType="String" resultType="int">
     SELECT count(*) FROM notification WHERE id=#{id} and state=FALSE
@@ -81,12 +81,12 @@
         SELECT * FROM stopmember WHERE ${searchcell} like concat('%',#{search},'%')
     </select>
     <insert id="commentnotification" parameterType="hashmap">
-    insert into Notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
+    insert into notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
     </insert>
     <insert id="groupnotification" parameterType="hashmap">
-        insert into Notification values(#{userid},null,#{gno},null,#{content},false,#{urll},default)
+        insert into notification values(#{userid},null,#{gno},null,#{content},false,#{urll},default)
     </insert>
     <insert id="likenotification" parameterType="hashmap">
-        insert into Notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
+        insert into notification values(#{userid},null,null,#{no},#{content},false,#{urll},default)
     </insert>
 </mapper>
