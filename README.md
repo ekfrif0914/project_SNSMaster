@@ -12,7 +12,7 @@
 - 기획목적: SNS를 통한 지역의 관광객 유치, 여행 정보 공유, 지역 축제 알림, 지역 주민과의 모임 증진<br>
 - 기대효과: 지역 홍보 효과, 지역 경제 활성화, 지역 주민과의 관계 유대 및 지역 사회 번창<br>
 
- 🔗 여행 SNS_코드마스터_전민정.pdf
+ 🔗 https://github.com/ekfrif0914/project_SNSMaster/blob/master/%EC%97%AC%ED%96%89%20SNS_%EC%BD%94%EB%93%9C%EB%A7%88%EC%8A%A4%ED%84%B0_%EC%A0%84%EB%AF%BC%EC%A0%95.pdf
 
 
 ## 📋 프로젝트 장점
