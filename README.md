@@ -9,6 +9,9 @@
 ## 🚀 프로젝트 URL
 http://34.64.75.181:8080/snsMaster
 
+## 🚀 프로젝트 시연영상
+[snsmaster 시연영상](https://drive.google.com/file/d/1n5Ji18QNJzrBOLkvtTniDAgK9hq2F21s/view?usp=drive_link)
+
 ## 📋 프로젝트 개요
 - 기획배경: 수도권 과밀화와 지방 소멸 가속화<br>
 
